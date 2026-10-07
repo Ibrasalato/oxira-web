@@ -1,6 +1,7 @@
 ---
 // Floating AI chat. Each message goes to the n8n workflow "Oxira 4 — Website Chat Agent".
 import { t, contact, type Lang } from '../i18n/content';
+import { link } from '../lib/routes';
 import Logo from './Logo.astro';
 
 interface Props { lang: Lang }
@@ -41,7 +42,7 @@ const endpoint = import.meta.env.PUBLIC_CHAT_ENDPOINT || 'https://ibrasalato.app
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" /></svg>
       </button>
     </form>
-    <p class="ox-note">{c.disclaimer}</p>
+    <p class="ox-note">{c.disclaimer} {t[lang].legal.chatConsent} <a href={link(lang, '/privacy/')}>{t[lang].legal.privacy}</a>.</p>
   </section>
 
   <button type="button" class="ox-fab" id="ox-fab" aria-controls="ox-panel" aria-expanded="false" aria-label={c.open}>
@@ -264,6 +265,7 @@ const endpoint = import.meta.env.PUBLIC_CHAT_ENDPOINT || 'https://ibrasalato.app
   .ox-send:hover { background: var(--amber-deep); }
   .ox-send svg { fill: var(--navy); }
   html[dir='rtl'] .ox-send svg { transform: scaleX(-1); }
+  .ox-note a { color: var(--blue); }
   .ox-note { font-size: .72rem; color: var(--muted); text-align: center; padding: 0 1rem .6rem; background: var(--paper); }
 
   @media (max-width: 520px) {

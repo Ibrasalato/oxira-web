@@ -16,6 +16,8 @@
 | الشعار (SVG) والأيقونات | `src/components/Logo.astro` · `src/components/Icon.astro` |
 | لوجوهات العملاء وصور المشاريع | `public/clients/` · `public/work/` |
 | أيقونة المتصفح | `public/favicon.svg` |
+| لوجو Classti | `public/products/classti-logo-*.png` · `classti-icon.png` |
+| سياسة الخصوصية وصفحة 404 | `src/i18n/content.ts` (قسم `legal`) · `src/views/PrivacyView.astro` · `src/pages/404.astro` |
 
 ## التشغيل محلياً
 
@@ -59,3 +61,12 @@ npm run build    # ينتج مجلد dist/
 - يسجّل الطلبات وطلبات الدعم الفني في جدول **oxira_leads** (القناة: website).
 - رابط الاستقبال: `https://ibrasalato.app.n8n.cloud/webhook/oxira-website-chat` (لتغييره: متغير `CHAT_ENDPOINT`).
 - الكود: `src/components/Chat.astro`، والنصوص في `src/i18n/content.ts` (قسم `chat`).
+
+## الخطوط
+
+- العربي: **Cairo**، والإنجليزي: **IBM Plex Sans**. المتصفح يختار الخط المناسب لكل حرف تلقائياً.
+- كلمة Oxira في اللوجو بخط Cairo الأصلي.
+
+## قياس الزوار (اختياري)
+
+لتفعيل Google Analytics 4: أنشئ خاصية في Google Analytics، ثم أضف متغيراً باسم `GA_ID` (مثل `G-XXXXXXX`) في **Settings → Secrets and variables → Actions → Variables**، وأعد النشر. بدون هذا المتغير لا يُحمّل أي كود تتبع.

@@ -31,16 +31,21 @@ const firstChat = c.agents.chats[0];
 
       <div class="hero-visual" aria-hidden="true">
         <div class="hv-glow"></div>
-        <div class="hv-browser">
+        <figure class="hv-card hv-site">
+          <img src={asset('work/makkah.webp')} alt="" width="1200" height="808" />
+          <figcaption class="hv-tag">{h.heroTags.site}</figcaption>
+        </figure>
+        <figure class="hv-card hv-product">
           <div class="hv-bar"><i></i><i></i><i></i></div>
           <img src={asset('products/classti-dashboard.webp')} alt="" width="1440" height="1024" />
-        </div>
-        <div class="hv-chat">
+          <figcaption class="hv-tag hv-tag-green">{h.heroTags.product}</figcaption>
+        </figure>
+        <div class="hv-card hv-chat">
           <div class="hv-chat-head"><span class="hv-av"><Logo variant="dark" wordmark={false} /></span><strong>{c.chat.title}</strong></div>
           <p class="hv-msg hv-user">{firstChat.messages[0].text}</p>
           <p class="hv-msg hv-bot">{firstChat.messages[3].text}</p>
+          <span class="hv-tag hv-tag-navy">{h.heroTags.agent}</span>
         </div>
-        <div class="hv-mark"><Logo variant="light" wordmark={false} /></div>
       </div>
     </div>
   </section>
@@ -98,7 +103,7 @@ const firstChat = c.agents.chats[0];
   <section class="section ct" aria-labelledby="ct-title">
     <div class="wrap ct-grid">
       <div class="ct-text">
-        <p class="label" dir="ltr">{c.products.tagline}</p>
+        <img class="ct-logo" src={asset('products/classti-logo-dark.png')} alt="Classti" width="482" height="147" loading="lazy" />
         <h2 id="ct-title">{h.classtiTitle}</h2>
         <p class="ct-body">{c.products.lead}</p>
         <ul class="ct-list">
@@ -158,30 +163,40 @@ const firstChat = c.agents.chats[0];
   .hero-body { margin-top: 1.5rem; font-size: clamp(1.1rem, 1.5vw, 1.25rem); color: var(--muted); max-width: 34rem; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
 
-  .hero-visual { position: relative; padding: 2rem 0 3rem; }
-  .hv-glow { position: absolute; inset: 8% -10% 0 10%; background: radial-gradient(closest-side, rgba(0,125,180,.18), transparent); filter: blur(10px); }
-  .hv-browser { position: relative; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 50px 90px -40px rgba(10,37,62,.55), 0 0 0 1px rgba(10,37,62,.08); }
-  .hv-bar { display: flex; gap: 6px; padding: .65rem .9rem; background: #F1F4F7; border-bottom: 1px solid var(--line); direction: ltr; }
-  .hv-bar i { width: 10px; height: 10px; border-radius: 50%; background: #CBD5DE; }
-  .hv-browser img { width: 100%; height: auto; }
-  .hv-chat { position: absolute; inset-inline-start: -1.5rem; bottom: 0; width: min(290px, 70%); background: #fff; border-radius: 18px; padding: .9rem; box-shadow: 0 30px 60px -25px rgba(10,37,62,.5), 0 0 0 1px rgba(10,37,62,.06); display: grid; gap: .5rem; }
-  .hv-chat-head { display: flex; align-items: center; gap: .5rem; font-size: .9rem; }
-  .hv-av { width: 30px; height: 30px; border-radius: 9px; background: var(--navy); display: grid; place-items: center; font-size: .95rem; }
-  .hv-msg { font-size: .82rem; line-height: 1.55; padding: .5rem .7rem; border-radius: 12px; white-space: pre-line; }
-  .hv-user { background: var(--navy); color: #fff; justify-self: end; max-width: 85%; }
+  /* Decorative collage: a delivered website, the Classti product, the AI assistant */
+  .hero-visual { position: relative; direction: ltr; aspect-ratio: 1 / .86; min-width: 0; }
+  .hero-grid > * { min-width: 0; }
+  .hv-glow { position: absolute; inset: 10% 0 0 10%; background: radial-gradient(closest-side, rgba(0,125,180,.16), transparent); filter: blur(10px); }
+  .hv-card { position: absolute; margin: 0; background: #fff; border-radius: 16px; box-shadow: 0 40px 80px -36px rgba(10,37,62,.5), 0 0 0 1px rgba(10,37,62,.07); }
+  .hv-card img { display: block; width: 100%; height: auto; border-radius: inherit; }
+  .hv-site { top: 0; right: 0; width: 76%; }
+  .hv-site img { aspect-ratio: 16 / 10; object-fit: cover; }
+  .hv-product { left: 0; bottom: 12%; width: 56%; overflow: hidden; }
+  .hv-product img { border-radius: 0; }
+  .hv-bar { display: flex; gap: 5px; padding: .5rem .7rem; background: #F1F4F7; border-bottom: 1px solid var(--line); }
+  .hv-bar i { width: 8px; height: 8px; border-radius: 50%; background: #CBD5DE; }
+  .hv-chat { right: 2%; bottom: 0; width: 46%; padding: .85rem; display: grid; gap: .45rem; direction: rtl; }
+  html[lang='en'] .hv-chat { direction: ltr; }
+  .hv-chat-head { display: flex; align-items: center; gap: .5rem; font-size: .88rem; }
+  .hv-av { width: 28px; height: 28px; border-radius: 8px; background: var(--navy); display: grid; place-items: center; font-size: .9rem; }
+  .hv-msg { font-size: .78rem; line-height: 1.55; padding: .45rem .65rem; border-radius: 11px; white-space: pre-line; }
+  .hv-user { background: var(--navy); color: #fff; justify-self: end; max-width: 90%; }
   .hv-bot { background: var(--paper); }
-  .hv-mark { position: absolute; inset-inline-end: -1rem; top: 0; width: 64px; height: 64px; border-radius: 18px; background: #fff; display: grid; place-items: center; font-size: 2rem; box-shadow: 0 20px 40px -18px rgba(10,37,62,.45); }
+  .hv-tag { position: absolute; top: -14px; padding: .3rem .75rem; border-radius: 999px; background: var(--amber); color: var(--navy); font-size: .78rem; font-weight: 700; white-space: nowrap; box-shadow: 0 8px 20px -10px rgba(10,37,62,.5); }
+  .hv-site .hv-tag { right: 1rem; }
+  .hv-product .hv-tag { top: auto; bottom: .75rem; left: .75rem; }
+  .hv-tag-green { background: #2EB24B; color: #fff; }
+  .hv-chat .hv-tag { left: 1rem; }
+  html[lang='ar'] .hv-chat .hv-tag { left: auto; right: 1rem; }
+  .hv-tag-navy { background: var(--blue); color: #fff; }
   @media (prefers-reduced-motion: no-preference) {
-    .hv-browser { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; }
-    .hv-chat { animation: rise .9s .25s cubic-bezier(.2,.8,.2,1) both; }
-    .hv-mark { animation: rise .9s .4s cubic-bezier(.2,.8,.2,1) both; }
+    .hv-site { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; }
+    .hv-product { animation: rise .9s .2s cubic-bezier(.2,.8,.2,1) both; }
+    .hv-chat { animation: rise .9s .4s cubic-bezier(.2,.8,.2,1) both; }
     @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
   }
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hv-chat { inset-inline-start: .5rem; }
-    .hv-mark { inset-inline-end: .5rem; }
-  }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .hv-product .hv-tag { bottom: auto; top: 2.2rem; } .hero-visual { aspect-ratio: 1 / 1.05; } .hv-site { width: 88%; } .hv-product { width: 66%; bottom: 30%; } .hv-chat { width: 72%; } .hv-msg { font-size: .72rem; } .hv-tag { font-size: .7rem; } }
 
   .trusted { border-block: 1px solid var(--line); }
 
@@ -208,7 +223,7 @@ const firstChat = c.agents.chats[0];
   /* Classti */
   .ct-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
   .ct-text h2 { font-size: var(--s4); margin-top: .75rem; }
-  .ct-text .label { color: #2EB24B; }
+  .ct-logo { width: 190px; height: auto; margin-bottom: .5rem; }
   .ct-body { color: var(--muted); font-size: 1.12rem; margin-top: 1.25rem; }
   .ct-list { list-style: none; display: grid; gap: 1rem; margin: 2rem 0; }
   .ct-list li { display: grid; gap: .1rem; padding-inline-start: 1rem; border-inline-start: 3px solid #2EB24B; }

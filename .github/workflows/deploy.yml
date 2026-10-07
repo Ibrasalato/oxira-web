@@ -39,6 +39,7 @@ jobs:
         env:
           PUBLIC_FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
           PUBLIC_CHAT_ENDPOINT: ${{ vars.CHAT_ENDPOINT }}
+          PUBLIC_GA_ID: ${{ vars.GA_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

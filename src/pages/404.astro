@@ -1,0 +1,40 @@
+---
+// Shown by GitHub Pages for any unknown address. Arabic first, English below.
+import { t } from '../i18n/content';
+import { link } from '../lib/routes';
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+const ar = t.ar.legal.notFound;
+const en = t.en.legal.notFound;
+---
+<Base lang="ar" path="/" title={`${ar.title} | أوكسيرا`} description={ar.body}>
+  <section class="nf">
+    <div class="wrap nf-in">
+      <span class="nf-mark" aria-hidden="true"><Logo variant="light" wordmark={false} /></span>
+      <p class="nf-code">404</p>
+      <h1>{ar.title}</h1>
+      <p class="lead">{ar.body}</p>
+      <div class="nf-actions">
+        <a class="btn btn-amber" href={link('ar', '/')}>{ar.home}</a>
+        <a class="btn btn-ghost" href={link('ar', '/contact/')}>{ar.contact}</a>
+      </div>
+      <div class="nf-en" lang="en" dir="ltr">
+        <h2>{en.title}</h2>
+        <p>{en.body} <a href={link('en', '/')}>{en.home}</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: clamp(4rem, 10vw, 8rem); }
+  .nf-in { display: grid; justify-items: center; text-align: center; gap: 1rem; }
+  .nf-mark { font-size: 4.5rem; }
+  .nf-code { font-size: clamp(4rem, 12vw, 7rem); font-weight: 700; line-height: 1; color: var(--amber); }
+  .nf h1 { font-size: var(--s4); }
+  .nf .lead { color: var(--muted); font-size: 1.15rem; max-width: 34rem; }
+  .nf-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1rem; }
+  .nf-en { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); max-width: 34rem; }
+  .nf-en h2 { font-size: 1.2rem; color: var(--ink); margin-bottom: .3rem; }
+  .nf-en a { color: var(--blue); font-weight: 600; }
+</style>

@@ -16,16 +16,9 @@ const tm = p.teacher.mock;
     <!-- Classti intro -->
     <div class="classti-hero">
       <div class="ct-brand">
-        <span class="ct-logo" role="img" aria-label="Classti">
-          <svg viewBox="0 0 40 40" aria-hidden="true">
-            <rect width="40" height="40" rx="9" fill="#2EB24B" />
-            <rect x="9" y="8" width="7" height="7" rx="2" fill="#fff" />
-            <path d="M18 8h6v14a4 4 0 0 0 4 4h4v6h-6a8 8 0 0 1-8-8z" fill="#fff" />
-            <rect x="9" y="17" width="7" height="6" rx="2" fill="#fff" opacity=".85" />
-          </svg>
-          <h1 class="ct-word" id="products-title" dir="ltr">Class<b>ti</b></h1>
-        </span>
-        <p class="ct-tag" dir="ltr">{p.tagline}</p>
+        <h1 id="products-title" class="ct-h1">
+          <img src={`${base}/products/classti-logo-light.png`} alt="Classti, Smart School Network" width="482" height="147" />
+        </h1>
       </div>
       <p class="ct-lead">{p.lead}</p>
       <ul class="ct-suite" aria-label={p.suiteLabel}>
@@ -192,8 +185,8 @@ const tm = p.teacher.mock;
     background: radial-gradient(90% 120% at 15% 0%, #1E6B43 0%, var(--ct-dark) 40%, var(--ct-deep) 100%);
   }
   .ct-brand { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
-  .ct-logo { display: inline-flex; align-items: center; gap: .6rem; direction: ltr; }
-  .ct-logo svg { width: 3.2rem; height: 3.2rem; }
+  .ct-h1 { margin: 0; line-height: 0; }
+  .ct-h1 img { width: clamp(220px, 28vw, 320px); height: auto; }
   .ct-word { font-family: var(--font-logo); font-weight: 800; font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -.01em; margin: 0; }
   .ct-word b { color: var(--ct-bright); font-weight: 700; }
   .ct-tag { color: #B9D9C7; font-weight: 600; letter-spacing: .02em; }

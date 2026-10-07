@@ -5,15 +5,15 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Chat from '../components/Chat.astro';
 // Fonts are self-hosted (no request to Google from visitors' browsers).
-// IBM Plex Sans (Latin) + IBM Plex Sans Arabic
+// English: IBM Plex Sans. Arabic: Cairo. The browser picks per character.
 import '@fontsource/ibm-plex-sans/latin-400.css';
 import '@fontsource/ibm-plex-sans/latin-500.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
 import '@fontsource/ibm-plex-sans/latin-700.css';
-import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
-import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
-import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
-import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';
+import '@fontsource/cairo/arabic-400.css';
+import '@fontsource/cairo/arabic-500.css';
+import '@fontsource/cairo/arabic-600.css';
+import '@fontsource/cairo/arabic-700.css';
 // Logo wordmark only
 import '@fontsource/cairo/latin-800.css';
 
@@ -24,6 +24,8 @@ interface Props {
   description: string;
 }
 const { lang, path, title, description } = Astro.props;
+// Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
+const gaId = import.meta.env.PUBLIC_GA_ID || '';
 const c = t[lang];
 const other: Lang = lang === 'ar' ? 'en' : 'ar';
 const site = Astro.site!;
@@ -69,6 +71,8 @@ const org = {
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={asset('sitemap.xml')} />
     <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    {gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
+    {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',gaId,{anonymize_ip:true});</script>}
   </head>
   <body>
     <a class="skip" href="#main">{c.site.skip}</a>
@@ -100,7 +104,7 @@ const org = {
     --paper: #F5F7F9;
     --white: #FFFFFF;
 
-    --font: 'IBM Plex Sans', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+    --font: 'IBM Plex Sans', 'Cairo', system-ui, sans-serif;
     --font-logo: 'Cairo', 'IBM Plex Sans', sans-serif;
 
     --s-1: .875rem;

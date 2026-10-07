@@ -45,7 +45,10 @@ const other: Lang = lang === 'ar' ? 'en' : 'ar';
 
     <div class="ft-bottom">
       <p>© {new Date().getFullYear()} {c.footer.rights}</p>
-      <a href={link(other, path)} lang={other} hreflang={other}>{c.switchLabel}</a>
+      <div class="ft-legal">
+        <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
+        <a href={link(other, path)} lang={other} hreflang={other}>{c.switchLabel}</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -61,6 +64,7 @@ const other: Lang = lang === 'ar' ? 'en' : 'ar';
   .ft a:hover { color: #fff; }
   .ft-addr { line-height: 1.6; }
   .ft-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); font-size: .9rem; }
+  .ft-legal { display: flex; gap: 1.5rem; }
   @media (max-width: 900px) { .ft-top { grid-template-columns: 1fr 1fr; } .ft-brand { grid-column: 1 / -1; } }
   @media (max-width: 520px) { .ft-top { grid-template-columns: 1fr; } }
 </style>
