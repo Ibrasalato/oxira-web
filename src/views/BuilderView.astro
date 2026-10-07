@@ -1,7 +1,7 @@
 ---
 // Service page: "Build your website in minutes" (Oxira Studio).
 import type { Lang } from '../i18n/content';
-import { builderText, builderPrices, packageIds } from '../i18n/builder';
+import { builderText, plans, planIds, renewals, domainPrice } from '../i18n/builder';
 import { templateIds } from '../builder/spec';
 import { link } from '../lib/routes';
 import Base from '../layouts/Base.astro';
@@ -14,7 +14,6 @@ const b = builderText[lang];
 const p = b.page;
 const studio = link(lang, '/studio/');
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
-const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? b.packages.perMonth : b.packages.oneTime);
 ---
 <Base lang={lang} path="/website-builder/" title={p.title} description={p.description}>
   <section class="page-hero bd-hero">
@@ -23,11 +22,14 @@ const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? 
         <p class="label">{p.kicker}</p>
         <h1>{p.h1}</h1>
         <p class="lead">{p.lead}</p>
-        <div class="bd-actions">
-          <a class="btn btn-amber" href={studio}>{p.start}</a>
-          <a class="btn btn-ghost" href="#templates">{p.secondary}</a>
-        </div>
-        <p class="bd-free">{p.free}</p>
+        <form class="bd-quick" action={studio} method="get">
+          <label for="bd-q">{p.quickLabel}</label>
+          <div class="bd-quick-row">
+            <input id="bd-q" name="q" required maxlength="300" placeholder={p.quickPh} autocomplete="off" />
+            <button type="submit" class="btn btn-amber">{p.quickBtn}</button>
+          </div>
+        </form>
+        <p class="bd-free">{p.free} <a href="#templates">{p.secondary}</a></p>
       </div>
       <div class="bd-visual" aria-hidden="true">
         <div class="bd-window bd-w1">
@@ -44,6 +46,10 @@ const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? 
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="bd-trust" aria-label={p.trust[0]}>
+    <ul class="wrap">{p.trust.map((x) => <li>{x}</li>)}</ul>
   </section>
 
   <section class="section-tight bg-paper" aria-labelledby="how-title">
@@ -77,23 +83,41 @@ const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? 
     </div>
   </section>
 
-  <section class="section bg-navy" aria-labelledby="inc-title">
+  <section class="section bg-navy" id="plans" aria-labelledby="plans-title">
     <div class="wrap">
-      <div class="sh"><h2 id="inc-title">{p.includedTitle}</h2><p>{p.includedBody}</p></div>
-      <ul class="bd-pkgs">
-        {packageIds.map((id) => (
-          <li>
-            <h3>{b.packages[id].name}</h3>
-            <p>{b.packages[id].text}</p>
-            <p class="bd-price"><b>{fmt.format(builderPrices[id].price)}</b> {b.packages.sar} <small>{per(builderPrices[id].kind)}</small></p>
+      <div class="sh"><h2 id="plans-title">{b.plans.title}</h2><p>{b.plans.body}</p></div>
+      <ul class="bd-plans">
+        {planIds.map((id) => (
+          <li class={id === 'pro' ? 'is-pop' : ''}>
+            {id === 'pro' && <span class="bd-pop">{b.plans.popular}</span>}
+            <h3>{b.plans.items[id].name}</h3>
+            <p class="bd-plan-desc">{b.plans.items[id].desc}</p>
+            <p class="bd-price"><b>{fmt.format(plans[id].price)}</b> {b.packages.sar} <small>/ {b.plans.firstYear}</small></p>
+            <ul class="bd-feat">{b.plans.items[id].features.map((f) => <li>{f}</li>)}</ul>
+            <a class={`btn ${id === 'pro' ? 'btn-amber' : 'btn-ghost-light'}`} href={`${studio}?plan=${id}`}>{b.plans.choose}</a>
           </li>
         ))}
-        <li class="bd-account">
-          <h3>{p.accountTitle}</h3>
-          <p>{p.accountBody}</p>
-          <p class="bd-soon">{p.accountSoon}</p>
-        </li>
       </ul>
+      <p class="bd-renew">{b.plans.renew.replace('{hosting}', fmt.format(renewals.hosting)).replace('{domain}', fmt.format(renewals.domain))} · <a href={link(lang, '/terms/')}>{p.terms}</a></p>
+      <div class="bd-account">
+        <h3>{p.accountTitle}</h3>
+        <p>{p.accountBody}</p>
+        <span class="bd-soon">{p.accountSoon}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap bd-faq-wrap">
+      <div class="sh"><h2 id="faq-title">{p.faqTitle}</h2></div>
+      <div class="bd-faq">
+        {p.faq.map((x) => (
+          <details>
+            <summary>{x.q}</summary>
+            <p>{x.a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -142,15 +166,48 @@ const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? 
   .bd-tpl-meta small { color: var(--muted); font-size: .95rem; }
   .bd-tpl-go { padding: .4rem 1.2rem 1.1rem; color: var(--blue); font-weight: 700; font-size: .95rem; }
 
-  .bd-pkgs { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255, 255, 255, .1); border-radius: var(--radius); overflow: hidden; }
-  .bd-pkgs li { background: var(--navy); padding: 1.8rem; display: grid; gap: .5rem; align-content: start; }
-  .bd-pkgs h3 { font-size: 1.15rem; }
-  .bd-pkgs p { color: var(--muted-on-navy); }
-  .bd-pkgs .bd-price { color: #fff; margin-top: .5rem; }
-  .bd-price b { font-size: 1.6rem; color: var(--amber); }
+  .bd-quick { margin-top: 2rem; display: grid; gap: .6rem; max-width: 34rem; }
+  .bd-quick label { font-weight: 700; }
+  .bd-quick-row { display: flex; gap: .5rem; padding: .4rem; background: #fff; border: 1.5px solid var(--line); border-radius: 16px; box-shadow: 0 18px 40px -28px rgba(6, 26, 45, .45); }
+  .bd-quick-row:focus-within { border-color: var(--blue); }
+  .bd-quick input { flex: 1; min-width: 0; border: 0; outline: none; font: 400 1.05rem var(--font); padding: .7rem .8rem; background: transparent; color: var(--ink); }
+  .bd-quick .btn { white-space: nowrap; padding: .9rem 1.3rem; }
+  .bd-free a { color: var(--blue); font-weight: 600; }
+  .bd-trust { border-block: 1px solid var(--line); background: #fff; }
+  .bd-trust ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 2rem; padding-block: 1.1rem; }
+  .bd-trust li { display: flex; align-items: center; gap: .5rem; font-weight: 600; color: var(--muted); font-size: .95rem; }
+  .bd-trust li::before { content: ''; width: .5rem; height: .9rem; border-bottom: 2.5px solid #1E8E4E; border-right: 2.5px solid #1E8E4E; transform: rotate(45deg) translateY(-2px); flex: none; }
+  .bd-plans { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; align-items: stretch; }
+  .bd-plans > li { position: relative; display: flex; flex-direction: column; gap: .6rem; padding: 2rem 1.75rem; border-radius: var(--radius-lg); background: var(--navy-mid); border: 1px solid rgba(255, 255, 255, .1); }
+  .bd-plans > li.is-pop { background: #fff; color: var(--ink); border-color: var(--amber); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+  .bd-pop { position: absolute; top: -.8rem; inset-inline-start: 1.5rem; background: var(--amber); color: var(--navy); font-weight: 700; font-size: .8rem; padding: .3rem .8rem; border-radius: 999px; }
+  .bd-plans h3 { font-size: 1.35rem; }
+  .bd-plan-desc { color: var(--muted-on-navy); }
+  .is-pop .bd-plan-desc { color: var(--muted); }
+  .bd-price { margin-top: .25rem; }
+  .bd-price b { font-size: 2.3rem; color: var(--amber); line-height: 1.1; }
+  .is-pop .bd-price b { color: var(--navy); }
   .bd-price small { color: var(--muted-on-navy); }
-  .bd-account { background: var(--navy-mid) !important; }
-  .bd-soon { display: inline-block; justify-self: start; margin-top: .5rem; padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .25); color: #fff !important; font-size: .85rem; }
+  .is-pop .bd-price small { color: var(--muted); }
+  .bd-feat { list-style: none; display: grid; gap: .55rem; margin: .6rem 0 1.2rem; flex: 1; }
+  .bd-feat li { display: flex; gap: .6rem; align-items: baseline; }
+  .bd-feat li::before { content: ''; width: .45rem; height: .8rem; border-bottom: 2px solid var(--amber); border-right: 2px solid var(--amber); transform: rotate(45deg); flex: none; }
+  .is-pop .bd-feat li::before { border-color: #1E8E4E; }
+  .bd-plans .btn { width: 100%; }
+  .bd-renew { margin-top: 1.5rem; color: var(--muted-on-navy); font-size: .95rem; }
+  .bd-renew a { color: var(--amber); }
+  .bd-account { margin-top: 2.5rem; padding: 1.5rem 1.75rem; border-radius: var(--radius); border: 1px dashed rgba(255, 255, 255, .25); display: grid; gap: .4rem; }
+  .bd-account h3 { font-size: 1.1rem; }
+  .bd-account p { color: var(--muted-on-navy); }
+  .bd-soon { justify-self: start; padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .25); font-size: .85rem; }
+  .bd-faq-wrap { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; }
+  .bd-faq { display: grid; gap: .6rem; }
+  .bd-faq details { border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+  .bd-faq summary { cursor: pointer; padding: 1.1rem 1.25rem; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  .bd-faq summary::-webkit-details-marker { display: none; }
+  .bd-faq summary::after { content: '+'; color: var(--blue); font-size: 1.3rem; line-height: 1; }
+  .bd-faq details[open] summary::after { content: '−'; }
+  .bd-faq details p { padding: 0 1.25rem 1.2rem; color: var(--muted); }
 
   .bd-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-lg); background: var(--blue-soft); }
   .bd-cta h2 { font-size: var(--s3); }
@@ -160,10 +217,12 @@ const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? 
     .bd-hero-grid { grid-template-columns: 1fr; }
     .bd-visual { min-height: 0; aspect-ratio: 1.15; }
     .bd-steps { grid-template-columns: 1fr 1fr; }
-    .bd-tpls, .bd-pkgs { grid-template-columns: 1fr 1fr; }
+    .bd-tpls { grid-template-columns: 1fr 1fr; }
+    .bd-plans, .bd-faq-wrap { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
-    .bd-steps, .bd-tpls, .bd-pkgs { grid-template-columns: 1fr; }
+    .bd-steps, .bd-tpls { grid-template-columns: 1fr; }
+    .bd-quick-row { flex-direction: column; }
     .bd-chat { font-size: .85rem; }
   }
 </style>

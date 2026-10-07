@@ -39,7 +39,44 @@
     "accountSoon": "Mit dem nächsten Update verfügbar",
     "ctaTitle": "Ihre Website kann heute noch fertig sein",
     "ctaBody": "Beginnen Sie jetzt mit dem Gestalten. Kostenlos, bis Sie bestellen.",
-    "ctaButton": "Oxira Studio öffnen"
+    "ctaButton": "Oxira Studio öffnen",
+    "quickLabel": "Was ist Ihr Unternehmen?",
+    "quickPh": "z. B. eine Zahnarztpraxis in Dschidda",
+    "quickBtn": "Meine Website erstellen",
+    "trust": [
+      "Zahlung mit mada, Visa, Mastercard oder Apple Pay",
+      "Kostenloses SSL-Zertifikat",
+      "Arabisch und Englisch",
+      "Ein saudisches Unternehmen, das Sie anrufen können"
+    ],
+    "faqTitle": "Häufige Fragen",
+    "faq": [
+      {
+        "q": "Gehört die Website mir?",
+        "a": "Ja. Inhalte, Logo und Domain gehören Ihnen. Wenn Sie uns verlassen, übergeben wir Ihnen Ihre Dateien und übertragen die Domain auf Sie."
+      },
+      {
+        "q": "Brauche ich technische Kenntnisse?",
+        "a": "Nein. Sie beschreiben in Ihren eigenen Worten, was Sie möchten, und der KI-Designer erledigt den Rest. Bei Bedarf hilft Ihnen unser Team."
+      },
+      {
+        "q": "Kann ich meine Website nach dem Launch noch ändern?",
+        "a": "Ja. Sie können jederzeit in Oxira Studio zurückkehren und sie bearbeiten oder sich an unseren Support wenden."
+      },
+      {
+        "q": "Wie schnell ist meine Website online?",
+        "a": "In der Regel noch am Tag der Zahlung. Saudische .sa-Domains dauern einige Tage länger, da sie einen Handelsregistereintrag erfordern."
+      },
+      {
+        "q": "Was, wenn ich nicht zufrieden bin?",
+        "a": "Sie sehen Ihre Website, bevor Sie bezahlen – es gibt also keine Überraschungen. Details finden Sie in unseren Erstattungsrichtlinien."
+      },
+      {
+        "q": "Können Sie auch etwas Größeres umsetzen, etwa einen Shop oder eine App?",
+        "a": "Ja. Wählen Sie das Business-Paket oder kontaktieren Sie uns für ein individuelles Projekt."
+      }
+    ],
+    "terms": "AGB und Erstattungsrichtlinien"
   },
   "templates": {
     "corporate": {
@@ -201,6 +238,63 @@
     "confirmingBody": "Wenn Sie bezahlt haben, erscheint die Bestätigung gleich. Sie können uns auch per WhatsApp mit der Bestellnummer {id} schreiben.",
     "cancelTitle": "Zahlung nicht abgeschlossen",
     "cancelBody": "Ihre Bestellung {id} ist gespeichert. Sie können jetzt bezahlen oder uns kontaktieren.",
-    "payNow": "Jetzt bezahlen"
+    "payNow": "Jetzt bezahlen",
+    "images": "Logo und Fotos",
+    "imagesNote": "JPG oder PNG. Wir passen die Größe automatisch an.",
+    "logo": "Logo",
+    "heroImage": "Hauptfoto",
+    "aboutImage": "Foto für „Über uns“",
+    "gallery": "Fotogalerie",
+    "upload": "Hochladen",
+    "change": "Ändern",
+    "remove": "Entfernen",
+    "addPhotos": "Fotos hinzufügen",
+    "uploading": "Wird hochgeladen…",
+    "uploadFailed": "Das Bild konnte nicht hochgeladen werden. Versuchen Sie es mit einer JPG- oder PNG-Datei unter 10 MB."
+  },
+  "plans": {
+    "title": "Einfache Pakete, alles inklusive",
+    "body": "Ein Preis für das erste Jahr. Preise in Saudi-Riyal, zzgl. 15 % MwSt.",
+    "popular": "Am beliebtesten",
+    "choose": "Auswählen",
+    "firstYear": "erstes Jahr",
+    "renew": "Ab dem zweiten Jahr: Hosting SAR {hosting}/Jahr, Domain SAR {domain}/Jahr.",
+    "items": {
+      "starter": {
+        "name": "Starter",
+        "desc": "Eine professionelle One-Page-Website, noch heute online.",
+        "features": [
+          "Website gestaltet mit Oxira Studio",
+          "Hosting und SSL für ein Jahr",
+          "Kostenlose Adresse auf oxira.sa",
+          "Ihr Logo und Ihre Fotos",
+          "Mobiloptimiert und schnell"
+        ]
+      },
+      "pro": {
+        "name": "Professional",
+        "desc": "Eigene Domain, Logo und Support.",
+        "features": [
+          "Alles aus Starter",
+          "Eigene .com-Domain für ein Jahr",
+          "Professionelles Logo-Design",
+          "Technischer Support für 3 Monate",
+          "Einrichtung für die Google-Suche"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "desc": "Eine umfangreichere Website, umgesetzt mit unserem Team.",
+        "features": [
+          "Alles aus Professional",
+          "Bis zu 5 zusätzliche Seiten durch unser Team",
+          "Texterstellung für jede Seite",
+          "Technischer Support für 12 Monate",
+          "Einrichtung des Google-Unternehmensprofils"
+        ]
+      }
+    },
+    "domainExtra": "Eigene Domain hinzufügen (+ SAR {price}/Jahr)",
+    "included": "Inklusive"
   }
 }

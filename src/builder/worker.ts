@@ -4,9 +4,11 @@
 //   "host:<hostname>"  for custom domains and subdomains (e.g. host:alrayyan.oxira.sa)
 //   "slug:<slug>"      for https://<worker-domain>/<slug>/
 import { renderSite } from './render';
-import { mergeSpec, sampleSpec, templateIds, siteLangs, type Spec, type TemplateId, type SiteLang } from './spec';
+import { mergeSpec, sampleSpec, templateIds, siteLangs, imageIdPattern, type Spec, type TemplateId, type SiteLang } from './spec';
 
-interface Env { SITES: { get(key: string): Promise<string | null> } }
+interface Env {
+  SITES: { get(key: string): Promise<string | null>; get(key: string, type: 'arrayBuffer'): Promise<ArrayBuffer | null> };
+}
 
 const FONT_ORIGIN = 'https://ibrasalato.github.io/oxira-web/builder/fonts/';
 
@@ -45,6 +47,22 @@ export default {
       });
       ctx.waitUntil(cache.put(request, res.clone()));
       return res;
+    }
+
+    // Uploaded images (logo, photos): key "img:<id>", id ends in _j (jpeg) or _p (png).
+    if (url.pathname.startsWith('/_img/')) {
+      const id = url.pathname.slice(6);
+      if (!imageIdPattern.test(id)) return new Response('Not found', { status: 404 });
+      const data = await env.SITES.get(`img:${id}`, 'arrayBuffer');
+      if (!data) return new Response('Not found', { status: 404 });
+      return new Response(data, {
+        headers: {
+          'content-type': id.endsWith('_p') ? 'image/png' : 'image/jpeg',
+          'cache-control': 'public, max-age=31536000, immutable',
+          'access-control-allow-origin': '*',
+          'x-content-type-options': 'nosniff',
+        },
+      });
     }
 
     const host = url.hostname.toLowerCase().replace(/^www\./, '');

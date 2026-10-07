@@ -39,7 +39,44 @@
     "accountSoon": "Disponible dans la prochaine mise à jour",
     "ctaTitle": "Votre site peut être prêt aujourd'hui",
     "ctaBody": "Commencez la conception dès maintenant. C'est gratuit jusqu'à ce que vous décidiez de commander.",
-    "ctaButton": "Ouvrir Oxira Studio"
+    "ctaButton": "Ouvrir Oxira Studio",
+    "quickLabel": "Quelle est votre activité ?",
+    "quickPh": "ex. un cabinet dentaire à Djeddah",
+    "quickBtn": "Créer mon site",
+    "trust": [
+      "Paiement par mada, Visa, Mastercard ou Apple Pay",
+      "Certificat SSL gratuit",
+      "Arabe et anglais",
+      "Une entreprise saoudienne joignable par téléphone"
+    ],
+    "faqTitle": "Questions",
+    "faq": [
+      {
+        "q": "Le site m'appartient-il ?",
+        "a": "Oui. Le contenu, le logo et le domaine vous appartiennent. Si vous partez, nous vous remettons vos fichiers et vous transférons le domaine."
+      },
+      {
+        "q": "Ai-je besoin de compétences techniques ?",
+        "a": "Non. Vous décrivez ce que vous voulez avec vos propres mots et le designer IA fait le reste. Notre équipe est là si vous avez besoin d'aide."
+      },
+      {
+        "q": "Puis-je modifier mon site après sa mise en ligne ?",
+        "a": "Oui. Revenez sur Oxira Studio à tout moment pour le modifier, ou contactez notre équipe d'assistance."
+      },
+      {
+        "q": "Dans quel délai mon site sera-t-il en ligne ?",
+        "a": "Généralement le jour même du paiement. Les domaines saoudiens en .sa demandent quelques jours de plus, car ils nécessitent un registre du commerce."
+      },
+      {
+        "q": "Et si je ne suis pas satisfait ?",
+        "a": "Vous voyez votre site avant de payer : aucune mauvaise surprise. Consultez notre politique de remboursement pour les détails."
+      },
+      {
+        "q": "Pouvez-vous réaliser un projet plus important, comme une boutique ou une application ?",
+        "a": "Oui. Choisissez le forfait Business ou contactez-nous pour un projet sur mesure."
+      }
+    ],
+    "terms": "Conditions et politique de remboursement"
   },
   "templates": {
     "corporate": {
@@ -201,6 +238,63 @@
     "confirmingBody": "Si vous avez payé, la confirmation apparaîtra dans un instant. Vous pouvez aussi nous écrire sur WhatsApp avec le numéro de commande {id}.",
     "cancelTitle": "Paiement non finalisé",
     "cancelBody": "Votre commande {id} est enregistrée. Vous pouvez payer maintenant ou nous contacter.",
-    "payNow": "Finaliser le paiement"
+    "payNow": "Finaliser le paiement",
+    "images": "Logo et photos",
+    "imagesNote": "JPG ou PNG. Nous les redimensionnons automatiquement.",
+    "logo": "Logo",
+    "heroImage": "Photo principale",
+    "aboutImage": "Photo « À propos »",
+    "gallery": "Galerie photos",
+    "upload": "Importer",
+    "change": "Modifier",
+    "remove": "Supprimer",
+    "addPhotos": "Ajouter des photos",
+    "uploading": "Importation…",
+    "uploadFailed": "L'image n'a pas pu être importée. Essayez un fichier JPG ou PNG de moins de 10 Mo."
+  },
+  "plans": {
+    "title": "Des forfaits simples, tout compris",
+    "body": "Un prix unique pour la première année. Prix en riyals saoudiens, hors TVA de 15 %.",
+    "popular": "Le plus populaire",
+    "choose": "Choisir",
+    "firstYear": "première année",
+    "renew": "À partir de la deuxième année : hébergement {hosting} SAR/an, domaine {domain} SAR/an.",
+    "items": {
+      "starter": {
+        "name": "Essentiel",
+        "desc": "Un site professionnel d'une page, en ligne dès aujourd'hui.",
+        "features": [
+          "Site conçu avec Oxira Studio",
+          "Hébergement et SSL pendant un an",
+          "Adresse gratuite sur oxira.sa",
+          "Votre logo et vos photos",
+          "Rapide et adapté aux mobiles"
+        ]
+      },
+      "pro": {
+        "name": "Professionnel",
+        "desc": "Votre propre domaine, un logo et une assistance.",
+        "features": [
+          "Tout le forfait Essentiel",
+          "Votre propre domaine .com pendant un an",
+          "Création d'un logo professionnel",
+          "Assistance technique pendant 3 mois",
+          "Référencement sur Google"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "desc": "Un site plus complet, réalisé avec notre équipe.",
+        "features": [
+          "Tout le forfait Professionnel",
+          "Jusqu'à 5 pages supplémentaires réalisées par notre équipe",
+          "Rédaction du contenu de chaque page",
+          "Assistance technique pendant 12 mois",
+          "Configuration de votre fiche Google Business Profile"
+        ]
+      }
+    },
+    "domainExtra": "Ajouter votre propre domaine (+ {price} SAR/an)",
+    "included": "Inclus"
   }
 }

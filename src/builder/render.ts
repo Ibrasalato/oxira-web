@@ -1,6 +1,6 @@
 // Turns a site spec into one self-contained HTML page (no scripts).
 // Used for the live preview in the studio, the template gallery, and later for publishing.
-import type { Spec, TemplateId, FontId, SiteLang } from './spec';
+import { emptyMedia, imageIdPattern, type Spec, type TemplateId, type FontId, type SiteLang } from './spec';
 
 const esc = (s: string) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -33,12 +33,12 @@ function onColor(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.38 ? '#111418' : '#FFFFFF';
 }
 
-const words: Record<SiteLang, { rights: string; phone: string; whatsapp: string; email: string; address: string; hours: string; menu: string }> = {
-  ar: { rights: 'جميع الحقوق محفوظة', phone: 'الهاتف', whatsapp: 'واتساب', email: 'البريد', address: 'العنوان', hours: 'أوقات العمل', menu: 'القائمة' },
-  en: { rights: 'All rights reserved', phone: 'Phone', whatsapp: 'WhatsApp', email: 'Email', address: 'Address', hours: 'Hours', menu: 'Menu' },
-  de: { rights: 'Alle Rechte vorbehalten', phone: 'Telefon', whatsapp: 'WhatsApp', email: 'E-Mail', address: 'Adresse', hours: 'Öffnungszeiten', menu: 'Menü' },
-  fr: { rights: 'Tous droits réservés', phone: 'Téléphone', whatsapp: 'WhatsApp', email: 'E-mail', address: 'Adresse', hours: 'Horaires', menu: 'Menu' },
-  ru: { rights: 'Все права защищены', phone: 'Телефон', whatsapp: 'WhatsApp', email: 'Почта', address: 'Адрес', hours: 'Часы работы', menu: 'Меню' },
+const words: Record<SiteLang, { rights: string; phone: string; whatsapp: string; email: string; address: string; hours: string; menu: string; gallery: string }> = {
+  ar: { gallery: 'معرض الصور', rights: 'جميع الحقوق محفوظة', phone: 'الهاتف', whatsapp: 'واتساب', email: 'البريد', address: 'العنوان', hours: 'أوقات العمل', menu: 'القائمة' },
+  en: { gallery: 'Gallery', rights: 'All rights reserved', phone: 'Phone', whatsapp: 'WhatsApp', email: 'Email', address: 'Address', hours: 'Hours', menu: 'Menu' },
+  de: { gallery: 'Galerie', rights: 'Alle Rechte vorbehalten', phone: 'Telefon', whatsapp: 'WhatsApp', email: 'E-Mail', address: 'Adresse', hours: 'Öffnungszeiten', menu: 'Menü' },
+  fr: { gallery: 'Galerie', rights: 'Tous droits réservés', phone: 'Téléphone', whatsapp: 'WhatsApp', email: 'E-mail', address: 'Adresse', hours: 'Horaires', menu: 'Menu' },
+  ru: { gallery: 'Галерея', rights: 'Все права защищены', phone: 'Телефон', whatsapp: 'WhatsApp', email: 'Почта', address: 'Адрес', hours: 'Часы работы', menu: 'Меню' },
 };
 
 const fonts: Record<FontId, { head: string; body: string; faces: [string, string][] }> = {
@@ -124,6 +124,8 @@ function art(t: TemplateId, initial: string) {
 export interface RenderOptions {
   /** Absolute or relative URL of the folder with the font files. */
   fontBase: string;
+  /** URL prefix for uploaded images; the image id is appended. Default '/_img/' (same origin as the site). */
+  imageBase?: string;
   year?: number;
 }
 
@@ -136,6 +138,14 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
   const tel = (v: string) => v.replace(/[^\d+]/g, '');
   const wa = (v: string) => `https://wa.me/${v.replace(/\D/g, '')}`;
   const has = (id: string) => s.sections.includes(id as never);
+  const m = s.media ?? emptyMedia();
+  const src = (id: string) => (imageIdPattern.test(id) ? esc((opt.imageBase ?? '/_img/') + id) : '');
+  const mark = m.logo
+    ? `<img class="logo-img" src="${src(m.logo)}" alt="${esc(s.name)}">`
+    : `<span class="mark">${esc(initial)}</span>`;
+  const heroVisual = m.hero
+    ? `<div class="hero-photo"><img src="${src(m.hero)}" alt="" loading="eager"></div>`
+    : art(t, initial);
 
   const nav = [
     has('about') && `<a href="#about">${esc(s.about.title)}</a>`,
@@ -144,8 +154,11 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
   ].filter(Boolean).join('');
 
   const sections: Record<string, string> = {
-    about: `<section class="about" id="about"><div class="wrap about-in">
-      <h2>${esc(s.about.title)}</h2><p>${esc(s.about.text)}</p></div></section>`,
+    about: `<section class="about" id="about"><div class="wrap about-in${m.about ? ' has-img' : ''}">
+      <h2>${esc(s.about.title)}</h2><p>${esc(s.about.text)}</p>${m.about ? `<img class="about-img" src="${src(m.about)}" alt="" loading="lazy">` : ''}</div></section>`,
+    gallery: m.gallery.length ? `<section class="gallery" id="gallery"><div class="wrap">
+      <h2>${esc(m.galleryTitle || w.gallery)}</h2>
+      <div class="gal">${m.gallery.map((id) => `<img src="${src(id)}" alt="" loading="lazy">`).join('')}</div></div></section>` : '',
     services: s.services.items.length ? `<section class="services" id="services"><div class="wrap">
       <h2>${esc(s.services.title)}</h2>
       <div class="cards">${s.services.items.map((it, i) => `<article class="card">
@@ -169,7 +182,7 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
 
   const body = `
 <header class="top"><div class="wrap top-in">
-  <a class="brand" href="#"><span class="mark">${esc(initial)}</span><span>${esc(s.name)}</span></a>
+  <a class="brand" href="#">${mark}<span>${esc(s.name)}</span></a>
   <nav>${nav}</nav>
   <a class="btn btn-p small" href="#contact">${esc(s.hero.cta)}</a>
 </div></header>
@@ -180,10 +193,10 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
     <p class="sub">${esc(s.hero.subtitle)}</p>
     <div class="actions"><a class="btn btn-a" href="#contact">${esc(s.hero.cta)}</a>${has('services') ? `<a class="btn btn-ghost" href="#services">${esc(s.services.title)}</a>` : ''}</div>
   </div>
-  <div class="hero-art">${art(t, initial)}</div>
+  <div class="hero-art">${heroVisual}</div>
 </div></section>
 ${s.sections.map((id) => sections[id] ?? '').join('\n')}
-<footer class="foot"><div class="wrap foot-in"><span class="brand"><span class="mark">${esc(initial)}</span><span>${esc(s.name)}</span></span><small>© ${opt.year ?? new Date().getFullYear()} ${esc(s.name)}. ${w.rights}.</small></div></footer>`;
+<footer class="foot"><div class="wrap foot-in"><span class="brand">${mark}<span>${esc(s.name)}</span></span><small>© ${opt.year ?? new Date().getFullYear()} ${esc(s.name)}. ${w.rights}.</small></div></footer>`;
 
   const p = s.colors.primary, a = s.colors.accent;
   const css = `${fontCss(s.font, opt.fontBase)}
@@ -203,6 +216,13 @@ h1,h2,h3{font-family:var(--head);margin:0;line-height:1.2;font-weight:700}p{marg
 .sub{font-size:1.18rem;color:var(--muted);margin-top:20px;max-width:34rem}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .art{width:100%;height:auto}
 section h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:28px}
+.logo-img{height:40px;width:auto;max-width:150px;object-fit:contain;display:block}.foot .logo-img{height:32px}
+.hero-photo{border-radius:calc(var(--r) * 1.5);overflow:hidden;aspect-ratio:4/3;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}.hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.about-in.has-img{grid-template-columns:1fr 1.3fr 1fr;align-items:center}.about-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--r);display:block}
+.gallery{padding:88px 0}.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block}
+.t-personal .hero-photo{width:220px;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 10px var(--soft-a)}
+.t-restaurant .hero-photo{border-radius:999px 999px 0 0;aspect-ratio:4/5;max-width:420px;margin-inline-start:auto;box-shadow:none}
+.t-restaurant .about-in.has-img{grid-template-columns:1fr;max-width:46rem}.t-restaurant .about-img{aspect-ratio:16/9}
 .about{padding:88px 0;background:var(--soft)}.about-in{display:grid;grid-template-columns:1fr 1.6fr;gap:48px}.about-in h2{margin:0}.about p{font-size:1.15rem;color:var(--ink)}
 .services{padding:96px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
 .card{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:#fff}.card h3{font-size:1.2rem;margin:18px 0 8px}.card p{color:var(--muted)}
@@ -252,7 +272,7 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.4;letter-spacin
 
 @media (max-width:860px){
   .top nav{display:none}.top-in{justify-content:space-between}.hero{padding:56px 0}.hero-in,.about-in{grid-template-columns:1fr;gap:36px}
-  .hero-art{max-width:420px}.t-restaurant .hero-copy{padding-bottom:0}.t-restaurant .cards{grid-template-columns:1fr}
+  .hero-art{max-width:420px}.about-in.has-img{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr}.gallery{padding:64px 0}.t-restaurant .hero-copy{padding-bottom:0}.t-restaurant .cards{grid-template-columns:1fr}
   .t-personal .card{grid-template-columns:48px 1fr;}.t-personal .card p{grid-column:2}.cta-in{padding:32px}
   .services,.about,.cta{padding:64px 0}
 }

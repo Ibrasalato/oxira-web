@@ -10,15 +10,16 @@ export type BuilderDict = typeof en;
 export const builderText: Record<Lang, BuilderDict> = { ar, en, de, fr, ru };
 
 /**
- * Builder prices in SAR, before 15% VAT. Edit here and the service page, studio and order total update.
- * kind: one-time | year | month. "site" is always included.
+ * Packages in SAR, before 15% VAT. Edit here and the service page, studio and order total update.
+ * Keep in sync with the "Calculate amount" node in the n8n workflow "Oxira 7 — Website Builder Payments".
  */
-export const builderPrices = {
-  site: { price: 1499, kind: 'one-time' },
-  hosting: { price: 399, kind: 'year' },
-  domain: { price: 99, kind: 'year' },
-  support: { price: 149, kind: 'month' },
-  logo: { price: 499, kind: 'one-time' },
+export const plans = {
+  starter: { price: 1499, domainIncluded: false },
+  pro: { price: 2499, domainIncluded: true },
+  business: { price: 4999, domainIncluded: true },
 } as const;
-export type PackageId = keyof typeof builderPrices;
-export const packageIds = Object.keys(builderPrices) as PackageId[];
+export type PlanId = keyof typeof plans;
+export const planIds = Object.keys(plans) as PlanId[];
+/** Extra yearly domain for the Starter plan, and renewals from the second year. */
+export const domainPrice = 99;
+export const renewals = { hosting: 399, domain: 99 };

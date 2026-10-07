@@ -1,0 +1,62 @@
+{
+  "title": "AGB und Erstattungsrichtlinien | Oxira",
+  "h1": "Allgemeine Geschäftsbedingungen und Erstattungsrichtlinien",
+  "updated": "Zuletzt aktualisiert: 7. Oktober 2026",
+  "description": "Die Bedingungen für Websites, die über Oxira Studio bestellt werden, einschließlich Zahlung, Eigentum, Verlängerungen, Kündigung und Erstattungen.",
+  "intro": "Diese Bedingungen gelten, wenn Sie über Oxira Studio oder unsere Website eine Website, Hosting, eine Domain, ein Logo oder Support bei Oxira bestellen. Mit Ihrer Bestellung stimmen Sie ihnen zu. Sie sind in verständlicher Sprache verfasst; wenn etwas unklar ist, kontaktieren Sie uns bitte vor Ihrer Bestellung.",
+  "sections": [
+    {
+      "h": "1. Unsere Leistungen",
+      "p": ["Je nach gewähltem Paket gestalten und veröffentlichen wir Ihre Website, hosten sie mit einem SSL-Zertifikat, registrieren oder verbinden Ihre Domain, gestalten ein Logo und leisten technischen Support für den im Paket angegebenen Zeitraum."]
+    },
+    {
+      "h": "2. Preise und Zahlung",
+      "p": ["Die Preise werden in Saudi-Riyal angezeigt und verstehen sich zzgl. 15 % MwSt., die an der Kasse hinzugerechnet wird. Die Zahlung erfolgt online über Moyasar per mada, Visa, Mastercard oder Apple Pay. Kartendaten werden von Moyasar verarbeitet; Oxira sieht oder speichert sie nie. Für jede Zahlung stellen wir eine Steuerrechnung aus."]
+    },
+    {
+      "h": "3. Bereitstellung",
+      "p": ["Websites werden in der Regel noch am Tag der Zahlungsbestätigung veröffentlicht. Saudische .sa-Domains erfordern einen Handelsregistereintrag und die Freigabe durch die Registrierungsstelle und können daher einige Tage länger dauern. Zusätzliche Seiten und Inhalte im Business-Paket werden innerhalb des mit Ihnen vereinbarten Zeitrahmens geliefert."]
+    },
+    {
+      "h": "4. Ihre Inhalte",
+      "p": ["Sie sind für die von Ihnen hinzugefügten Texte, Fotos, Logos und Informationen verantwortlich und bestätigen, dass Sie zu deren Nutzung berechtigt sind und dass sie rechtmäßig und zutreffend sind. Vom KI-Designer verfasste Inhalte sind Vorschläge: Bitte prüfen Sie sie vor der Veröffentlichung, insbesondere Preise, Aussagen und Kontaktdaten."]
+    },
+    {
+      "h": "5. Eigentum",
+      "p": ["Ihre Inhalte, Ihr Logo und Ihre Domain gehören Ihnen. Die Domain wird auf Ihren Namen registriert oder auf Wunsch auf Sie übertragen. Oxira Studio, seine Vorlagen und sein Code bleiben Eigentum von Oxira. Wenn Sie uns verlassen, übergeben wir Ihnen Ihre Website-Dateien und übertragen Ihre Domain auf Sie."]
+    },
+    {
+      "h": "6. Verlängerungen",
+      "p": ["Hosting und Domains sind jährliche Leistungen. Wir erinnern Sie vor dem Verlängerungstermin. Wird eine Verlängerung nicht bezahlt, kann die Website 30 Tage nach Fälligkeit pausiert werden, und eine nicht verlängerte Domain kann gemäß den Regeln der Registrierungsstelle für andere verfügbar werden."]
+    },
+    {
+      "h": "7. Kündigung und Erstattungen",
+      "p": ["Sie sehen und genehmigen Ihre Website, bevor Sie bezahlen. Erstattungen sind daher auf die folgenden Fälle beschränkt."],
+      "list": [
+        "Volle Erstattung, wenn Sie innerhalb von 7 Tagen nach der Zahlung kündigen und wir Ihre Website noch nicht veröffentlicht oder mit den zusätzlichen Leistungen Ihres Pakets begonnen haben.",
+        "Gebühren für die Domainregistrierung können nach erfolgter Registrierung nicht erstattet werden, da die Registrierungsstellen sie nicht zurückerstatten.",
+        "Nach der Veröffentlichung Ihrer Website ist die Gebühr für Design und Launch nicht erstattungsfähig.",
+        "Hosting und Support sind nach Beginn ihrer Laufzeit nicht erstattungsfähig, Sie können jedoch jede Verlängerung jederzeit beenden.",
+        "Kündigen Sie das Business-Paket nach Arbeitsbeginn, erstatten wir den Anteil der noch nicht erbrachten Leistungen.",
+        "Können wir die bezahlte Leistung nicht erbringen, erstatten wir Ihnen den vollen Betrag."
+      ],
+      "after": "Um eine Erstattung zu beantragen, senden Sie eine E-Mail mit Ihrer Bestellnummer an info@oxira.sa. Genehmigte Erstattungen werden innerhalb von 14 Werktagen auf das ursprüngliche Zahlungsmittel zurückgebucht."
+    },
+    {
+      "h": "8. Support",
+      "p": ["Der Support umfasst die Behebung von Problemen mit Ihrer Website sowie kleine Inhaltsaktualisierungen während der in Ihrem Paket enthaltenen Supportlaufzeit. Neue Seiten, neue Funktionen oder ein Redesign werden separat angeboten."]
+    },
+    {
+      "h": "9. Zulässige Nutzung",
+      "p": ["Websites dürfen keine rechtswidrigen, irreführenden oder schädlichen Inhalte enthalten und keine Rechte Dritter verletzen. Wir können eine Website pausieren, die gegen diese Regeln oder die Gesetze des Königreichs Saudi-Arabien verstößt, und teilen Ihnen den Grund mit."]
+    },
+    {
+      "h": "10. Haftung",
+      "p": ["Wir setzen uns dafür ein, dass Ihre Website verfügbar und sicher bleibt, können jedoch keinen unterbrechungsfreien Betrieb garantieren. Soweit gesetzlich zulässig, ist unsere Haftung für jegliche Ansprüche auf den Betrag begrenzt, den Sie in den letzten 12 Monaten für die betreffende Leistung gezahlt haben."]
+    },
+    {
+      "h": "11. Anwendbares Recht und Kontakt",
+      "p": ["Diese Bedingungen unterliegen den Gesetzen des Königreichs Saudi-Arabien, einschließlich des E-Commerce-Gesetzes. Fragen: Oxira, 426 Al Sulaymaniyah, Al Urubah Rd., Riyadh. E-Mail info@oxira.sa, Telefon +966 59 669 4021."]
+    }
+  ]
+}

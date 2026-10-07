@@ -2,7 +2,7 @@
 // Oxira Studio: pick a design, give the basics, edit with the AI designer, then order.
 import type { Lang } from '../i18n/content';
 import { contact } from '../i18n/content';
-import { builderText, builderPrices, packageIds } from '../i18n/builder';
+import { builderText, plans, planIds, domainPrice } from '../i18n/builder';
 import { templateIds, siteLangs, fontIds } from '../builder/spec';
 import { languages } from '../i18n/content';
 import { link, asset } from '../lib/routes';
@@ -20,16 +20,18 @@ const builderEndpoint = import.meta.env.PUBLIC_BUILDER_ENDPOINT || 'https://ibra
 const orderEndpoint = import.meta.env.PUBLIC_ORDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-order';
 const n8nBase = 'https://ibrasalato.app.n8n.cloud/webhook';
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
-const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? b.packages.perMonth : b.packages.oneTime);
 const config = {
   lang,
   builderEndpoint,
+  uploadEndpoint: import.meta.env.PUBLIC_UPLOAD_ENDPOINT || `${n8nBase}/oxira-studio-upload`,
+  imageBase: 'https://oxira-sites.oxira-sa.workers.dev/_img/',
   orderEndpoint,
   checkoutEndpoint: import.meta.env.PUBLIC_CHECKOUT_ENDPOINT || `${n8nBase}/oxira-site-checkout`,
   statusEndpoint: import.meta.env.PUBLIC_PAYMENT_STATUS_ENDPOINT || `${n8nBase}/oxira-site-payment-status`,
   fontBase: asset('builder/fonts'),
   whatsapp: contact.whatsappHref,
-  prices: builderPrices,
+  plans,
+  domainPrice,
   text: { ...s, sar: b.packages.sar },
   numberLocale: lang === 'ar' ? 'ar-SA-u-nu-latn' : lang,
 };
@@ -120,6 +122,32 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
             </button>
           </form>
+          <details class="st-media" open>
+            <summary>{s.images}</summary>
+            <div class="st-media-in">
+              <p class="st-note">{s.imagesNote}</p>
+              {(['logo', 'hero', 'about'] as const).map((slot) => (
+                <div class="st-slot" data-slot={slot}>
+                  <span class="st-slot-thumb" data-thumb></span>
+                  <span class="st-slot-name">{slot === 'logo' ? s.logo : slot === 'hero' ? s.heroImage : s.aboutImage}</span>
+                  <label class="st-up">
+                    <input type="file" accept="image/jpeg,image/png,image/webp" data-upload={slot} hidden />
+                    <span data-up-label>{s.upload}</span>
+                  </label>
+                  <button type="button" class="st-link st-rm" data-remove={slot} hidden>{s.remove}</button>
+                </div>
+              ))}
+              <div class="st-slot st-slot-gal">
+                <span class="st-slot-name">{s.gallery}</span>
+                <label class="st-up">
+                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple data-upload="gallery" hidden />
+                  <span data-up-label>{s.addPhotos}</span>
+                </label>
+                <div class="st-gal" id="st-gal"></div>
+              </div>
+              <p class="st-status is-error" id="st-up-error" hidden>{s.uploadFailed}</p>
+            </div>
+          </details>
           <details class="st-quick">
             <summary>{s.controls}</summary>
             <div class="st-quick-in">
@@ -148,12 +176,12 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
           <h2>{s.packagesTitle}</h2>
           <ul class="st-pkgs">
-            {packageIds.map((id) => (
+            {planIds.map((id) => (
               <li>
                 <label>
-                  <input type="checkbox" name="pkg" value={id} checked={id === 'site' || id === 'hosting' || id === 'domain'} disabled={id === 'site'} />
-                  <span class="st-pkg-text"><strong>{b.packages[id].name}</strong><small>{b.packages[id].text}</small></span>
-                  <span class="st-pkg-price">{fmt.format(builderPrices[id].price)} <small>{b.packages.sar} {per(builderPrices[id].kind)}</small></span>
+                  <input type="radio" name="plan" value={id} checked={id === 'pro'} />
+                  <span class="st-pkg-text"><strong>{b.plans.items[id].name}{id === 'pro' && <em class="st-pop">{b.plans.popular}</em>}</strong><small>{b.plans.items[id].desc}</small></span>
+                  <span class="st-pkg-price">{fmt.format(plans[id].price)} <small>{b.packages.sar} · {b.plans.firstYear}</small></span>
                 </label>
               </li>
             ))}
@@ -189,7 +217,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
           </div>
           <p class="st-status" id="st-order-status" role="status" hidden></p>
           <button type="submit" class="btn btn-amber st-submit">{s.submit}</button>
-          <p class="st-consent">{s.consent} <a href={link(lang, '/privacy/')}>{legal.privacy}</a>.</p>
+          <p class="st-consent">{s.consent} <a href={link(lang, '/privacy/')}>{legal.privacy}</a> · <a href={link(lang, '/terms/')} target="_blank">{b.page.terms}</a></p>
           <button type="button" class="st-link st-back" data-goto="3">{s.back}</button>
         </form>
 
@@ -277,6 +305,20 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   if (wanted && wanted in looks && (!state.spec || state.step === 1)) {
     state = { ...blank(), step: 2, spec: sampleSpec(wanted, cfg.lang as SiteLang) };
   }
+  // Quick start from the service page: ?q=<what the business does>
+  const quick = (params.get('q') || '').trim().slice(0, 600);
+  if (quick) {
+    const guess: [RegExp, TemplateId][] = [
+      [/عياد|طبي|طبيب|أسنان|اسنان|مستشفى|صيدلي|clinic|dental|doctor|medical|klinik|arzt|clinique|médic|клиник|врач/i, 'clinic'],
+      [/مطعم|مقهى|كافيه|كوفي|مخبز|حلويات|restaurant|caf[eé]|bakery|coffee|bäckerei|ресторан|кафе/i, 'restaurant'],
+      [/متجر|محل|بيع|منتجات|ملابس|عطور|store|shop|boutique|products|laden|magasin|магазин/i, 'store'],
+      [/فعالي|مؤتمر|معرض|ملتقى|حفل|مهرجان|event|conference|expo|summit|festival|veranstalt|événement|конференц|мероприят/i, 'events'],
+      [/مصمم|مصور|مستقل|مدرب|كاتب|فنان|freelanc|designer|photograph|coach|portfolio|artist|fotograf|дизайнер|фотограф/i, 'personal'],
+    ];
+    const tpl = guess.find(([re]) => re.test(quick))?.[1] ?? 'corporate';
+    state = { ...blank(), step: 2, spec: sampleSpec(tpl, cfg.lang as SiteLang), basics: { about: quick, siteLang: cfg.lang, kind: 'company' } };
+    history.replaceState(null, '', location.pathname);
+  }
 
   // ---- Preview ----
   const frame = $<HTMLIFrameElement>('#st-frame');
@@ -288,7 +330,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     renderTimer = window.setTimeout(() => {
       const y = frame.contentWindow?.scrollY ?? 0;
       frame.onload = () => frame.contentWindow?.scrollTo(0, y);
-      frame.srcdoc = renderSite(state.spec!, { fontBase: cfg.fontBase });
+      frame.srcdoc = renderSite(state.spec!, { fontBase: cfg.fontBase, imageBase: cfg.imageBase });
     }, 60);
   }
   $$<HTMLButtonElement>('[data-device]').forEach((btn) =>
@@ -311,6 +353,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     if (step === 4) { prefillOrder(); updateTotal(); }
     save();
     window.scrollTo({ top: 0 });
+    $<HTMLElement>('.st-side').scrollTop = 0;
   }
   const maxReached = () => (!state.spec ? 1 : state.chat.length || state.step >= 3 ? 4 : 2);
   root.addEventListener('click', (e) => {
@@ -474,7 +517,83 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
   // Quick settings (work without the AI)
   const ctl = (name: string) => $<HTMLInputElement | HTMLSelectElement>(`[data-ctl="${name}"]`);
+  // ---- Images (logo, photos) ----
+  async function shrink(file: File, slot: string): Promise<Blob> {
+    const bmp = await createImageBitmap(file);
+    const max = slot === 'logo' ? 600 : 1600;
+    const scale = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale);
+    c.height = Math.round(bmp.height * scale);
+    c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+    const png = slot === 'logo' && file.type !== 'image/jpeg';
+    return new Promise((ok, fail) => c.toBlob((b) => (b ? ok(b) : fail(new Error('encode'))), png ? 'image/png' : 'image/jpeg', 0.82));
+  }
+  async function upload(file: File, slot: string): Promise<string | null> {
+    const blob = await shrink(file, slot);
+    const fd = new FormData();
+    fd.append('file', blob, blob.type === 'image/png' ? 'image.png' : 'image.jpg');
+    fd.append('sessionId', state.sessionId);
+    const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+    const data = await res.json().catch(() => ({}));
+    return data?.success && typeof data.id === 'string' ? data.id : null;
+  }
+  const upError = $<HTMLElement>('#st-up-error');
+  function drawMedia() {
+    const m = state.spec?.media;
+    if (!m) return;
+    for (const slot of ['logo', 'hero', 'about'] as const) {
+      const row = $<HTMLElement>(`[data-slot="${slot}"]`);
+      const id = m[slot];
+      row.querySelector<HTMLElement>('[data-thumb]')!.style.backgroundImage = id ? `url(${cfg.imageBase}${id})` : '';
+      row.querySelector<HTMLElement>('[data-up-label]')!.textContent = id ? T.change : T.upload;
+      row.querySelector<HTMLButtonElement>('[data-remove]')!.hidden = !id;
+    }
+    $<HTMLElement>('#st-gal').replaceChildren(...m.gallery.map((id, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'st-gal-item';
+      b.style.backgroundImage = `url(${cfg.imageBase}${id})`;
+      b.title = T.remove;
+      b.setAttribute('aria-label', `${T.remove} ${i + 1}`);
+      b.addEventListener('click', () => change((s) => ({ ...s, media: { ...s.media, gallery: s.media.gallery.filter((_, j) => j !== i) } })));
+      return b;
+    }));
+  }
+  $$<HTMLInputElement>('[data-upload]').forEach((input) =>
+    input.addEventListener('change', async () => {
+      const slot = input.dataset.upload!;
+      const files = Array.from(input.files || []).slice(0, slot === 'gallery' ? 9 : 1);
+      input.value = '';
+      if (!files.length || !state.spec) return;
+      const label = input.parentElement!.querySelector<HTMLElement>('[data-up-label]')!;
+      const before = label.textContent;
+      label.textContent = T.uploading;
+      upError.hidden = true;
+      try {
+        const ids = (await Promise.all(files.map((f) => upload(f, slot).catch(() => null)))).filter(Boolean) as string[];
+        if (!ids.length) throw new Error('upload');
+        change((s) => ({
+          ...s,
+          media: slot === 'gallery'
+            ? { ...s.media, gallery: [...s.media.gallery, ...ids].slice(0, 9) }
+            : { ...s.media, [slot]: ids[0] },
+          sections: slot === 'gallery' && !s.sections.includes('gallery')
+            ? [...s.sections.slice(0, 2), 'gallery', ...s.sections.slice(2)]
+            : s.sections,
+        }));
+      } catch {
+        upError.hidden = false;
+      } finally {
+        label.textContent = before;
+        drawMedia();
+      }
+    }));
+  $$<HTMLButtonElement>('[data-remove]').forEach((btn) =>
+    btn.addEventListener('click', () => change((s) => ({ ...s, media: { ...s.media, [btn.dataset.remove!]: '' } }))));
+
   function syncControls() {
+    drawMedia();
     if (!state.spec) return;
     ctl('template').value = state.spec.template;
     ctl('font').value = state.spec.font;
@@ -487,7 +606,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     if (!state.spec) return;
     state.history.push(structuredClone(state.spec));
     state.spec = fn(state.spec);
-    render(); drawLog(); save();
+    render(); drawLog(); drawMedia(); save();
   }
   ctl('template').addEventListener('change', (e) => {
     const id = (e.target as HTMLSelectElement).value as TemplateId;
@@ -512,19 +631,23 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   // 4. Order
   const order = $<HTMLFormElement>('#st-order');
   const fmt = new Intl.NumberFormat(cfg.numberLocale, { maximumFractionDigits: 0 });
-  const chosen = () => $$<HTMLInputElement>('input[name="pkg"]').filter((x) => x.checked || x.disabled).map((x) => x.value);
+  const plan = () => ($<HTMLInputElement>('input[name="plan"]:checked')?.value ?? 'pro') as keyof typeof cfg.plans;
+  const domainOpt = () => $<HTMLInputElement>('input[name="domainOption"]:checked')?.value ?? 'new';
+  const extraDomain = () => domainOpt() === 'new' && !cfg.plans[plan()].domainIncluded;
+  const chosen = () => [`plan:${plan()}`, ...(extraDomain() ? ['domain'] : [])];
   const fmt2 = new Intl.NumberFormat(cfg.numberLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function updateTotal() {
-    const total = chosen().reduce((sum, id) => sum + (cfg.prices[id]?.price ?? 0), 0);
+    const total = cfg.plans[plan()].price + (extraDomain() ? cfg.domainPrice : 0);
     $<HTMLElement>('#st-total').textContent = fmt.format(total);
     $<HTMLElement>('#st-total-vat').textContent = fmt2.format(Math.round(total * 115) / 100);
     return total;
   }
+  const wantedPlan = params.get('plan');
+  if (wantedPlan && wantedPlan in cfg.plans) $<HTMLInputElement>(`input[name="plan"][value="${wantedPlan}"]`).checked = true;
   const domainName = $<HTMLElement>('[data-domain-name]');
   order.addEventListener('change', (e) => {
     const el = e.target as HTMLInputElement;
     if (el.name === 'domainOption') {
-      $<HTMLInputElement>('input[name="pkg"][value="domain"]').checked = el.value === 'new';
       domainName.hidden = el.value === 'none';
     }
     updateTotal();
@@ -736,6 +859,20 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-ask textarea { flex: 1; border: 0; resize: none; font: 400 1rem/1.5 var(--font); padding: .4rem .5rem; outline: none; max-height: 140px; background: transparent; color: var(--ink); }
   .st-send { width: 40px; height: 40px; border-radius: 10px; border: 0; background: var(--amber); color: var(--navy); display: grid; place-items: center; cursor: pointer; flex: none; }
   .is-busy .st-send, .is-busy .st-sugs button { opacity: .5; pointer-events: none; }
+  .st-media { margin: .9rem 1.25rem 0; border: 1px solid var(--line); border-radius: 12px; }
+  .st-media summary { cursor: pointer; padding: .7rem .9rem; font-weight: 600; font-size: .95rem; }
+  .st-media-in { padding: 0 .9rem .8rem; display: grid; gap: .55rem; }
+  .st-slot { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+  .st-slot-thumb { width: 44px; height: 44px; border-radius: 10px; background: var(--paper) center / cover no-repeat; border: 1px solid var(--line); flex: none; }
+  .st-slot-name { flex: 1; font-weight: 600; font-size: .92rem; }
+  .st-up { cursor: pointer; border: 1.5px solid var(--line); border-radius: 999px; padding: .35rem .85rem; font-weight: 600; font-size: .85rem; background: #fff; }
+  .st-up:hover, .st-up:focus-within { border-color: var(--navy); }
+  .st-rm { color: #B42318; font-size: .85rem; }
+  .st-slot-gal { padding-top: .3rem; border-top: 1px solid var(--line); }
+  .st-gal { flex-basis: 100%; display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
+  .st-gal:empty { display: none; }
+  .st-gal :global(.st-gal-item) { height: 52px; width: 100%; padding: 0; border-radius: 8px; border: 1px solid var(--line); background: var(--paper) center / cover no-repeat; cursor: pointer; position: relative; }
+  .st-gal :global(.st-gal-item:hover)::after { content: '×'; position: absolute; inset: 0; display: grid; place-items: center; background: rgba(180,35,24,.55); color: #fff; font-size: 1.4rem; border-radius: 8px; }
   .st-quick { margin: .9rem 1.25rem 0; border: 1px solid var(--line); border-radius: 12px; }
   .st-quick summary { cursor: pointer; padding: .7rem .9rem; font-weight: 600; font-size: .95rem; }
   .st-quick-in { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .75rem; padding: 0 .9rem .6rem; }
@@ -755,6 +892,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-pkg-text strong { font-size: .97rem; }
   .st-pkg-text small { color: var(--muted); line-height: 1.5; }
   .st-pkg-price { font-weight: 700; white-space: nowrap; text-align: end; }
+  .st-pop { font-style: normal; font-size: .72rem; font-weight: 700; margin-inline-start: .45rem; padding: .15rem .5rem; border-radius: 999px; background: var(--amber); color: var(--navy); vertical-align: middle; }
   .st-pkg-price small { display: block; font-weight: 500; color: var(--muted); font-size: .78rem; }
   .st-domain { border: 0; padding: 0; margin: 0 0 .6rem; display: grid; gap: .45rem; }
   .st-domain label { display: flex; gap: .55rem; align-items: center; cursor: pointer; }

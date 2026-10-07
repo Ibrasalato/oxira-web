@@ -49,6 +49,7 @@ const c = t[lang];
       <p>© {new Date().getFullYear()} {c.footer.rights}</p>
       <div class="ft-legal">
         <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
+        <a href={link(lang, '/terms/')}>{builderText[lang].page.terms}</a>
         <LangPicker lang={lang} path={path} tone="dark" up />
       </div>
     </div>

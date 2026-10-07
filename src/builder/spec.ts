@@ -4,7 +4,7 @@
 export type TemplateId = 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events';
 export type SiteLang = 'ar' | 'en' | 'de' | 'fr' | 'ru';
 export type FontId = 'modern' | 'elegant' | 'friendly';
-export type SectionId = 'about' | 'services' | 'stats' | 'cta' | 'contact';
+export type SectionId = 'about' | 'services' | 'gallery' | 'stats' | 'cta' | 'contact';
 
 export interface Spec {
   template: TemplateId;
@@ -21,10 +21,15 @@ export interface Spec {
   ctaBand: { title: string; text: string; button: string };
   contact: { title: string; phone: string; whatsapp: string; email: string; address: string; hours: string };
   sections: SectionId[];
+  /** Uploaded images, as ids like "i_3f9a…_j" (j = jpeg, p = png). Empty string = none. */
+  media: { logo: string; hero: string; about: string; gallery: string[]; galleryTitle: string };
 }
 
+export const imageIdPattern = /^i_[a-f0-9]{20,40}_[jp]$/;
+export const emptyMedia = () => ({ logo: '', hero: '', about: '', gallery: [] as string[], galleryTitle: '' });
+
 export const templateIds: TemplateId[] = ['corporate', 'personal', 'restaurant', 'clinic', 'store', 'events'];
-export const sectionIds: SectionId[] = ['about', 'services', 'stats', 'cta', 'contact'];
+export const sectionIds: SectionId[] = ['about', 'services', 'gallery', 'stats', 'cta', 'contact'];
 export const fontIds: FontId[] = ['modern', 'elegant', 'friendly'];
 export const siteLangs: SiteLang[] = ['ar', 'en', 'de', 'fr', 'ru'];
 
@@ -38,7 +43,7 @@ export const looks: Record<TemplateId, { primary: string; accent: string; font: 
   events: { primary: '#0B1120', accent: '#B7F34B', font: 'modern' },
 };
 
-type Copy = Omit<Spec, 'template' | 'lang' | 'colors' | 'font' | 'sections'>;
+type Copy = Omit<Spec, 'template' | 'lang' | 'colors' | 'font' | 'sections' | 'media'>;
 const C = (name: string, tagline: string, hero: [string, string, string], about: [string, string],
   servicesTitle: string, items: [string, string][], stats: [string, string][], cta: [string, string, string],
   contactTitle: string, address: string, hours: string): Copy => ({
@@ -159,6 +164,7 @@ export function sampleSpec(template: TemplateId, lang: SiteLang): Spec {
     colors: { primary: look.primary, accent: look.accent },
     font: look.font,
     sections: [...sectionIds],
+    media: emptyMedia(),
     ...structuredClone(copy),
   };
 }
@@ -169,6 +175,8 @@ const str = (v: unknown, max: number, fallback = '') =>
   typeof v === 'string' ? v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').slice(0, max) : fallback;
 const color = (v: unknown, fallback: string) =>
   typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v.trim()) ? v.trim() : fallback;
+const img = (v: unknown, fallback: string) =>
+  v === '' ? '' : typeof v === 'string' && imageIdPattern.test(v) ? v : fallback;
 const pick = <T extends string>(v: unknown, list: readonly T[], fallback: T): T =>
   list.includes(v as T) ? (v as T) : fallback;
 
@@ -226,5 +234,18 @@ export function mergeSpec(base: Spec, raw: unknown): Spec {
       hours: str(o('contact').hours, 100, base.contact.hours),
     },
     sections: sections ?? base.sections,
+    media: (() => {
+      const m = o('media');
+      const bm = base.media ?? emptyMedia();
+      return {
+        logo: img(m.logo, bm.logo),
+        hero: img(m.hero, bm.hero),
+        about: img(m.about, bm.about),
+        gallery: Array.isArray(m.gallery)
+          ? m.gallery.filter((x: unknown) => typeof x === 'string' && imageIdPattern.test(x)).slice(0, 9)
+          : bm.gallery,
+        galleryTitle: str(m.galleryTitle, 60, bm.galleryTitle),
+      };
+    })(),
   };
 }

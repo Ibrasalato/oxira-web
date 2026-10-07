@@ -39,7 +39,44 @@
     "accountSoon": "Coming with the next update",
     "ctaTitle": "Your website could be ready today",
     "ctaBody": "Start designing now. It is free until you decide to order.",
-    "ctaButton": "Open Oxira Studio"
+    "ctaButton": "Open Oxira Studio",
+    "quickLabel": "What is your business?",
+    "quickPh": "e.g. a dental clinic in Jeddah",
+    "quickBtn": "Build my website",
+    "trust": [
+      "Pay with mada, Visa, Mastercard or Apple Pay",
+      "Free SSL certificate",
+      "Arabic and English",
+      "A Saudi company you can call"
+    ],
+    "faqTitle": "Questions",
+    "faq": [
+      {
+        "q": "Is the website mine?",
+        "a": "Yes. The content, logo and domain are yours. If you leave, we hand over your files and transfer the domain to you."
+      },
+      {
+        "q": "Do I need any technical skills?",
+        "a": "No. You describe what you want in your own words and the AI designer does the rest. Our team is there if you need help."
+      },
+      {
+        "q": "Can I change my website after it goes live?",
+        "a": "Yes. Come back to Oxira Studio any time to edit it, or ask our support team."
+      },
+      {
+        "q": "How long until my website is live?",
+        "a": "Usually the same day you pay. Saudi .sa domains take a few extra days because they need a commercial registration."
+      },
+      {
+        "q": "What if I am not happy?",
+        "a": "You see your website before you pay, so there are no surprises. See our refund policy for the details."
+      },
+      {
+        "q": "Can you build something bigger, like a store or an app?",
+        "a": "Yes. Choose the Business package or contact us for a custom project."
+      }
+    ],
+    "terms": "Terms and refund policy"
   },
   "templates": {
     "corporate": {
@@ -201,6 +238,63 @@
     "confirmingBody": "If you completed the payment, the confirmation will appear in a moment. You can also message us on WhatsApp with order number {id}.",
     "cancelTitle": "Payment not completed",
     "cancelBody": "Your order {id} is saved. You can complete the payment now or contact us.",
-    "payNow": "Complete payment"
+    "payNow": "Complete payment",
+    "images": "Logo and photos",
+    "imagesNote": "JPG or PNG. We resize them automatically.",
+    "logo": "Logo",
+    "heroImage": "Main photo",
+    "aboutImage": "About photo",
+    "gallery": "Photo gallery",
+    "upload": "Upload",
+    "change": "Change",
+    "remove": "Remove",
+    "addPhotos": "Add photos",
+    "uploading": "Uploading…",
+    "uploadFailed": "The image could not be uploaded. Try a JPG or PNG under 10 MB."
+  },
+  "plans": {
+    "title": "Simple packages, everything included",
+    "body": "One price for the first year. Prices are in Saudi riyals and exclude 15% VAT.",
+    "popular": "Most popular",
+    "choose": "Choose",
+    "firstYear": "first year",
+    "renew": "From the second year: hosting SAR {hosting}/year, domain SAR {domain}/year.",
+    "items": {
+      "starter": {
+        "name": "Starter",
+        "desc": "A professional one-page website, live today.",
+        "features": [
+          "Website designed with Oxira Studio",
+          "Hosting and SSL for one year",
+          "Free address on oxira.sa",
+          "Your logo and photos",
+          "Mobile-ready and fast"
+        ]
+      },
+      "pro": {
+        "name": "Professional",
+        "desc": "Your own domain, logo and support.",
+        "features": [
+          "Everything in Starter",
+          "Your own .com domain for one year",
+          "Professional logo design",
+          "Technical support for 3 months",
+          "Google search setup"
+        ]
+      },
+      "business": {
+        "name": "Business",
+        "desc": "A bigger site built with our team.",
+        "features": [
+          "Everything in Professional",
+          "Up to 5 extra pages by our team",
+          "Content writing for each page",
+          "Technical support for 12 months",
+          "Google Business Profile setup"
+        ]
+      }
+    },
+    "domainExtra": "Add your own domain (+ SAR {price}/year)",
+    "included": "Included"
   }
 }

@@ -1,0 +1,62 @@
+{
+  "title": "Conditions et politique de remboursement | Oxira",
+  "h1": "Conditions d'utilisation et politique de remboursement",
+  "updated": "Dernière mise à jour : 7 octobre 2026",
+  "description": "Les conditions applicables aux sites commandés via Oxira Studio : paiement, propriété, renouvellements, annulation et remboursements.",
+  "intro": "Ces conditions s'appliquent lorsque vous commandez auprès d'Oxira un site web, un hébergement, un domaine, un logo ou une assistance, via Oxira Studio ou notre site. En passant commande, vous les acceptez. Elles sont rédigées en termes simples ; si un point vous semble flou, contactez-nous avant de commander.",
+  "sections": [
+    {
+      "h": "1. Ce que nous fournissons",
+      "p": ["Selon le forfait choisi, nous concevons et publions votre site, l'hébergeons avec un certificat SSL, enregistrons ou connectons votre domaine, créons un logo et assurons une assistance technique pendant la durée prévue par le forfait."]
+    },
+    {
+      "h": "2. Prix et paiement",
+      "p": ["Les prix sont indiqués en riyals saoudiens, hors TVA de 15 %, ajoutée lors du paiement. Le paiement s'effectue en ligne via Moyasar, par mada, Visa, Mastercard ou Apple Pay. Les données de carte sont traitées par Moyasar ; Oxira n'y a jamais accès et ne les conserve pas. Nous émettons une facture fiscale pour chaque paiement."]
+    },
+    {
+      "h": "3. Livraison",
+      "p": ["Les sites sont généralement publiés le jour même de la confirmation du paiement. Les domaines saoudiens en .sa nécessitent un registre du commerce et l'approbation du registre des noms de domaine ; ils peuvent donc demander quelques jours de plus. Les pages et contenus supplémentaires du forfait Business sont livrés selon le calendrier convenu avec vous."]
+    },
+    {
+      "h": "4. Votre contenu",
+      "p": ["Vous êtes responsable des textes, photos, logos et informations que vous ajoutez, et vous confirmez disposer du droit de les utiliser et qu'ils sont licites et exacts. Le contenu rédigé par le designer IA est une suggestion : relisez-le avant de publier, en particulier les prix, les affirmations et les coordonnées."]
+    },
+    {
+      "h": "5. Propriété",
+      "p": ["Votre contenu, votre logo et votre domaine vous appartiennent. Le domaine est enregistré à votre nom ou vous est transféré sur demande. Oxira Studio, ses modèles et son code restent la propriété d'Oxira. Si vous partez, nous vous remettons les fichiers de votre site et vous transférons votre domaine."]
+    },
+    {
+      "h": "6. Renouvellements",
+      "p": ["L'hébergement et les domaines sont des services annuels. Nous vous prévenons avant la date de renouvellement. Si un renouvellement n'est pas réglé, le site peut être suspendu 30 jours après l'échéance, et un domaine non renouvelé peut devenir disponible pour d'autres selon les règles du registre."]
+    },
+    {
+      "h": "7. Annulation et remboursements",
+      "p": ["Vous voyez et validez votre site avant de payer ; les remboursements sont donc limités aux cas ci-dessous."],
+      "list": [
+        "Remboursement intégral si vous annulez dans les 7 jours suivant le paiement, tant que nous n'avons pas publié votre site ni commencé les travaux supplémentaires prévus par votre forfait.",
+        "Les frais d'enregistrement de domaine ne sont pas remboursables une fois le domaine enregistré, car les registres ne les remboursent pas.",
+        "Une fois votre site publié, les frais de conception et de mise en ligne ne sont pas remboursables.",
+        "L'hébergement et l'assistance ne sont pas remboursables une fois leur période commencée, mais vous pouvez arrêter tout renouvellement à tout moment.",
+        "Pour le forfait Business, si vous annulez après le début des travaux, nous remboursons la part des travaux non livrée.",
+        "Si nous ne pouvons pas fournir ce que vous avez payé, nous vous remboursons intégralement."
+      ],
+      "after": "Pour demander un remboursement, écrivez à info@oxira.sa en indiquant votre numéro de commande. Les remboursements acceptés sont versés sur le moyen de paiement initial sous 14 jours ouvrés."
+    },
+    {
+      "h": "8. Assistance",
+      "p": ["L'assistance couvre la correction des problèmes de votre site et les petites mises à jour de contenu pendant la période prévue par votre forfait. Les nouvelles pages, nouvelles fonctionnalités ou refontes font l'objet d'un devis séparé."]
+    },
+    {
+      "h": "9. Utilisation acceptable",
+      "p": ["Les sites ne doivent contenir aucun contenu illicite, trompeur ou préjudiciable, ni de contenu portant atteinte aux droits d'autrui. Nous pouvons suspendre un site qui enfreint ces règles ou les lois du Royaume d'Arabie saoudite, et nous vous en indiquerons la raison."]
+    },
+    {
+      "h": "10. Responsabilité",
+      "p": ["Nous veillons à ce que votre site reste disponible et sécurisé, mais nous ne pouvons pas garantir un service ininterrompu. Dans la mesure permise par la loi, notre responsabilité pour toute réclamation est limitée au montant que vous avez payé pour le service concerné au cours des 12 derniers mois."]
+    },
+    {
+      "h": "11. Droit applicable et contact",
+      "p": ["Ces conditions sont régies par les lois du Royaume d'Arabie saoudite, notamment la loi sur le commerce électronique du Royaume d'Arabie saoudite. Questions : Oxira, 426 Al Sulaymaniyah, Al Urubah Rd., Riyadh. E-mail info@oxira.sa, téléphone +966 59 669 4021."]
+    }
+  ]
+}
