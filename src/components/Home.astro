@@ -352,6 +352,8 @@ const net = network(1400, 800, 34, 7);
             data-msg-sending={c.contact.form.sending}
             data-msg-sent={c.contact.form.sent}
             data-msg-failed={c.contact.form.failed}
+            data-msg-pending={c.contact.form.pending}
+            data-whatsapp={contact.whatsappHref}
             data-msg-required={c.contact.form.required}
             data-label-submit={c.contact.form.submit}
             data-subject-project={c.contact.form.subjectProject}
@@ -394,7 +396,13 @@ const net = network(1400, 800, 34, 7);
         </label>
         <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <button class="btn btn-navy" type="submit">{c.contact.form.submit}</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
+        <div class="form-status" role="status" aria-live="polite">
+          <p class="fs-text"></p>
+          <div class="fs-links" hidden>
+            <a class="fs-mail" href="#">{c.contact.form.viaEmail}</a>
+            <a class="fs-wa" href="#" target="_blank" rel="noopener">{c.contact.form.viaWhatsapp}</a>
+          </div>
+        </div>
       </form>
     </div>
   </section>
@@ -454,6 +462,18 @@ const net = network(1400, 800, 34, 7);
     const detailsLabel = form.querySelector('.details-label') as HTMLElement;
     const detailsBox = form.querySelector('textarea[name=details]') as HTMLTextAreaElement;
     const d = form.dataset;
+    const fsText = status.querySelector('.fs-text') as HTMLElement;
+    const fsLinks = status.querySelector('.fs-links') as HTMLElement;
+    const show = (state: 'ok' | 'error' | '', text: string, links?: { mail: string; wa: string }) => {
+      status.dataset.state = state;
+      fsText.textContent = text;
+      fsLinks.hidden = !links;
+      if (links) {
+        (fsLinks.querySelector('.fs-mail') as HTMLAnchorElement).href = links.mail;
+        (fsLinks.querySelector('.fs-wa') as HTMLAnchorElement).href = links.wa;
+      }
+      if (state) status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
 
     // Project vs technical support: relabel the description field
     const setType = (type: string) => {
@@ -475,8 +495,10 @@ const net = network(1400, 800, 34, 7);
       delete data.company_website;
 
       if (!data.name?.trim() || !data.details?.trim() || !(data.email?.trim() || data.phone?.trim())) {
-        status.textContent = d.msgRequired!;
-        status.dataset.state = 'error';
+        show('error', d.msgRequired!);
+        const firstEmpty = [form.elements.namedItem('name'), form.elements.namedItem('email'), form.elements.namedItem('details')]
+          .find((el) => el && !(el as HTMLInputElement).value.trim()) as HTMLElement | undefined;
+        firstEmpty?.focus();
         return;
       }
 
@@ -505,7 +527,12 @@ const net = network(1400, 800, 34, 7);
 
       button.disabled = true;
       button.textContent = d.msgSending!;
-      status.textContent = '';
+      show('', '');
+      const text = Object.entries(payload).filter(([k]) => !k.startsWith('_')).map(([k, v]) => `${k}: ${v}`).join('\n');
+      const links = {
+        mail: `mailto:${d.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`,
+        wa: `${d.whatsapp}?text=${encodeURIComponent(subject + '\n\n' + text)}`,
+      };
       try {
         const res = await fetch(d.endpoint!, {
           method: 'POST',
@@ -513,17 +540,16 @@ const net = network(1400, 800, 34, 7);
           body: JSON.stringify(payload),
         });
         const out = await res.json().catch(() => ({}));
+        if (/activat/i.test(String(out.message || ''))) {
+          show('error', d.msgPending!, links);
+          return;
+        }
         if (!res.ok || String(out.success) === 'false') throw new Error(out.message || String(res.status));
         form.reset();
         setType('project');
-        status.textContent = d.msgSent!;
-        status.dataset.state = 'ok';
+        show('ok', d.msgSent!);
       } catch {
-        // Fallback: open the visitor's email app with the message filled in
-        status.textContent = d.msgFailed!;
-        status.dataset.state = 'error';
-        const body = Object.entries(payload).filter(([k]) => !k.startsWith('_')).map(([k, v]) => `${k}: ${v}`).join('\n');
-        location.href = `mailto:${d.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        show('error', d.msgFailed!, links);
       } finally {
         button.disabled = false;
         button.textContent = d.labelSubmit!;
@@ -765,9 +791,14 @@ const net = network(1400, 800, 34, 7);
   .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,125,180,.2); }
   .form .btn { width: 100%; margin-top: .25rem; }
   .form .btn:disabled { opacity: .7; cursor: progress; }
-  .form-status { min-height: 1.4em; font-weight: 600; font-size: .95rem; }
-  .form-status[data-state='error'] { color: #B42318; }
-  .form-status[data-state='ok'] { color: #067647; }
+  .form-status { font-weight: 600; font-size: .95rem; line-height: 1.6; }
+  .form-status:not([data-state='ok']):not([data-state='error']) { display: none; }
+  .form-status[data-state='error'] { color: #912018; background: #FEF3F2; border: 1px solid #FECDCA; border-radius: 10px; padding: .8rem 1rem; }
+  .form-status[data-state='ok'] { color: #05603A; background: #ECFDF3; border: 1px solid #ABEFC6; border-radius: 10px; padding: .8rem 1rem; }
+  .fs-links { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+  .fs-links[hidden] { display: none; }
+  .fs-links a { text-decoration: none; font-weight: 700; padding: .45rem .9rem; border-radius: 8px; background: var(--navy); color: #fff; font-size: .9rem; }
+  .fs-links a.fs-wa { background: #0B8A6E; }
   .hp { position: absolute; inset-inline-start: -9999px; }
 
   /* Footer */
