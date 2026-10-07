@@ -1,0 +1,403 @@
+---
+import { t, contact, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = t[lang];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const altHref = lang === 'ar' ? `${base}/en/` : `${base}/`;
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+
+// Layers in content are listed foundation-first; on screen the top layer comes first.
+const layers = c.services.layers.map((l, i) => ({ ...l, n: i + 1 }));
+const topDown = [...layers].reverse();
+
+// Colour of each stratum, foundation to top.
+const tone: Record<string, { bg: string; fg: string }> = {
+  infra: { bg: 'var(--night)', fg: 'var(--gypsum)' },
+  buildings: { bg: 'var(--sage)', fg: 'var(--night)' },
+  software: { bg: 'var(--limestone)', fg: 'var(--night)' },
+  ai: { bg: 'var(--cobalt)', fg: '#fff' },
+};
+
+// A wavy top edge for each stratum, like a cut through rock layers.
+function edge(amp: number, waves: number, phase: number) {
+  const pts: string[] = [];
+  for (let x = 0; x <= 1200; x += 12) {
+    const y = 20 + amp * Math.sin((x / 1200) * Math.PI * 2 * waves + phase)
+      + (amp / 3) * Math.sin((x / 1200) * Math.PI * 2 * (waves * 2.7) + phase * 1.9);
+    pts.push(`${x},${y.toFixed(1)}`);
+  }
+  return `M0,40 L${pts.join(' L')} L1200,40 Z`;
+}
+const edges: Record<string, string> = {
+  ai: edge(9, 1.3, 0.4),
+  software: edge(7, 1.8, 2.1),
+  buildings: edge(6, 2.4, 4.0),
+  infra: edge(8, 1.1, 5.2),
+};
+---
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href={`${base}/${lang === 'en' ? 'en/' : ''}`} aria-label={c.brand}>
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="2" y="21" width="28" height="7" rx="1.5" fill="#17242B" />
+        <rect x="5" y="14" width="22" height="5.5" rx="1.5" fill="#7D958F" />
+        <rect x="8" y="8" width="16" height="4.5" rx="1.5" fill="#C7B08A" />
+        <rect x="11" y="3" width="10" height="3.5" rx="1.5" fill="#2447D6" />
+      </svg>
+      <span>{c.brand}</span>
+    </a>
+    <nav class="nav" aria-label={lang === 'ar' ? 'القائمة الرئيسية' : 'Main'}>
+      <a href="#services">{c.nav.services}</a>
+      <a href="#work">{c.nav.work}</a>
+      <a href="#clients">{c.nav.clients}</a>
+      <a class="lang" href={altHref} hreflang={lang === 'ar' ? 'en' : 'ar'} lang={lang === 'ar' ? 'en' : 'ar'}>{c.switchLabel}</a>
+      <a class="btn btn-primary nav-cta" href="#contact">{c.nav.contact}</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <h1 id="hero-title">{c.hero.title}</h1>
+      <div class="hero-side">
+        <p class="hero-body">{c.hero.body}</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">{c.hero.cta}</a>
+          <a class="btn btn-ghost" href="#services">{c.hero.secondary}</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="strata" aria-label={c.hero.stackLabel}>
+      {topDown.map((l, i) => (
+        <a class={`stratum s-${l.id}`} href={`#layer-${l.id}`}
+           style={`--bg:${tone[l.id].bg};--fg:${tone[l.id].fg};--i:${i}`}>
+          <svg class="edge" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+            <path d={edges[l.id]} />
+          </svg>
+          <span class="wrap stratum-label">
+            <span class="stratum-n">{l.n}</span>
+            <span class="stratum-name">{l.name}</span>
+            <span class="stratum-lead">{l.lead}</span>
+          </span>
+        </a>
+      ))}
+    </nav>
+  </section>
+
+  <section id="services" class="services" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="services-title">{c.services.title}</h2>
+        <p>{c.services.body}</p>
+      </div>
+      <ol class="layers" reversed>
+        {topDown.map((l) => (
+          <li id={`layer-${l.id}`} class="layer" style={`--bg:${tone[l.id].bg}`}>
+            <div class="layer-name">
+              <span class="layer-n">{c.services.layerWord} {l.n}</span>
+              <h3>{l.name}</h3>
+            </div>
+            <p class="layer-lead">{l.lead}</p>
+            <ul class="layer-items">
+              {l.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="work" class="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="work-title">{c.work.title}</h2>
+        <p>{c.work.body}</p>
+      </div>
+      <ul class="projects">
+        {c.work.projects.map((p) => (
+          <li class="project">
+            <h3>{p.name}</h3>
+            <span class="sector">{p.sector}</span>
+            <p>{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="clients" class="clients" aria-labelledby="clients-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="clients-title">{c.clients.title}</h2>
+        <p>{c.clients.body}</p>
+      </div>
+      <ul class="client-grid">
+        {c.clients.list.map((name) => <li>{name}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-intro">
+        <h2 id="contact-title">{c.contact.title}</h2>
+        <p>{c.contact.body}</p>
+        <dl class="details">
+          <div><dt class="sr-only">{lang === 'ar' ? 'الجوال' : 'Phone'}</dt><dd><a href={contact.phoneHref} dir="ltr">{contact.phone}</a></dd></div>
+          <div><dt class="sr-only">{lang === 'ar' ? 'البريد' : 'Email'}</dt><dd><a href={`mailto:${contact.email}`}>{contact.email}</a></dd></div>
+          <div><dt class="sr-only">{lang === 'ar' ? 'العنوان' : 'Address'}</dt><dd>{c.contact.address}</dd></div>
+        </dl>
+      </div>
+
+      <form class="form" id="lead-form" novalidate
+            data-endpoint={formEndpoint}
+            data-email={contact.email}
+            data-msg-sending={c.contact.form.sending}
+            data-msg-sent={c.contact.form.sent}
+            data-msg-failed={c.contact.form.failed}
+            data-msg-required={c.contact.form.required}
+            data-label-submit={c.contact.form.submit}>
+        <label class="field">
+          <span>{c.contact.form.name}</span>
+          <input name="name" autocomplete="name" required />
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>{c.contact.form.email}</span>
+            <input name="email" type="email" autocomplete="email" dir="ltr" />
+          </label>
+          <label class="field">
+            <span>{c.contact.form.phone}</span>
+            <input name="phone" type="tel" autocomplete="tel" dir="ltr" />
+          </label>
+        </div>
+        <label class="field">
+          <span>{c.contact.form.layer}</span>
+          <select name="layer">
+            <option value="">{c.contact.form.layerAny}</option>
+            {topDown.map((l) => <option value={l.name}>{l.name}</option>)}
+          </select>
+        </label>
+        <label class="field">
+          <span>{c.contact.form.details}</span>
+          <textarea name="details" rows="5" placeholder={c.contact.form.detailsHint} required></textarea>
+        </label>
+        <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="btn btn-primary" type="submit">{c.contact.form.submit}</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-row">
+    <p>© {new Date().getFullYear()} {c.footer.rights}</p>
+    <p>{c.footer.tagline}</p>
+    <a href={altHref} lang={lang === 'ar' ? 'en' : 'ar'}>{c.switchLabel}</a>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById('lead-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.form-status') as HTMLElement;
+    const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const d = form.dataset;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (data.company_website) return; // spam bot filled the hidden field
+      delete data.company_website;
+
+      if (!data.name?.trim() || !data.details?.trim() || !(data.email?.trim() || data.phone?.trim())) {
+        status.textContent = d.msgRequired!;
+        status.dataset.state = 'error';
+        return;
+      }
+
+      // No endpoint configured yet: open the visitor's email app with the request filled in.
+      if (!d.endpoint) {
+        const body = Object.entries(data).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('\n');
+        location.href = `mailto:${d.email}?subject=${encodeURIComponent('Oxira: ' + data.name)}&body=${encodeURIComponent(body)}`;
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = d.msgSending!;
+      status.textContent = '';
+      try {
+        const res = await fetch(d.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, lang: document.documentElement.lang, page: location.href }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = d.msgSent!;
+        status.dataset.state = 'ok';
+      } catch {
+        status.textContent = d.msgFailed!;
+        status.dataset.state = 'error';
+      } finally {
+        button.disabled = false;
+        button.textContent = d.labelSubmit!;
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Header */
+  .top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--gypsum) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.25rem; }
+  .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font: 700 var(--s1)/1 var(--display); }
+  .mark { width: 2rem; height: 2rem; }
+  .nav { display: flex; align-items: center; gap: clamp(.75rem, 2vw, 1.75rem); font-weight: 400; }
+  .nav a:not(.btn) { text-decoration: none; }
+  .nav a:not(.btn):hover { text-decoration: underline; text-underline-offset: .35em; }
+  .nav .btn { padding: .65rem 1.1rem; }
+  .lang { font-size: var(--s-1); padding: .3rem .7rem; border: 1px solid var(--line); border-radius: 999px; }
+  @media (max-width: 760px) {
+    .nav a[href^='#']:not(.btn) { display: none; }
+  }
+  @media (max-width: 420px) {
+    .nav-cta { display: none; }
+  }
+
+  /* Hero */
+  .hero { padding-top: clamp(3rem, 9vw, 7rem); }
+  .hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: end; padding-bottom: clamp(3rem, 7vw, 5.5rem); }
+  .hero h1 { font-size: var(--s5); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; max-width: 12ch; text-wrap: balance; }
+  html[lang='en'] .hero h1 { line-height: 1.05; letter-spacing: -0.025em; }
+  .hero-body { font-size: var(--s1); line-height: 1.6; color: var(--dusk); max-width: 30rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-body { font-size: 1.125rem; }
+  }
+
+  /* Strata: the four service layers as a cut through rock */
+  .strata { display: flex; flex-direction: column; }
+  .strata { --edge: clamp(18px, 3vw, 36px); }
+  .stratum {
+    position: relative; display: block; text-decoration: none;
+    background: var(--bg); color: var(--fg);
+    /* bottom padding leaves room for the next layer's wavy edge */
+    padding-block: .9rem calc(var(--edge) + .6rem);
+  }
+  .stratum .edge { position: absolute; inset-inline: 0; bottom: 100%; width: 100%; height: var(--edge); margin-bottom: -1px; pointer-events: none; }
+  .stratum .edge path { fill: var(--bg); }
+  .s-software { padding-block-start: 1.2rem; }
+  .s-infra { padding-block: 1.6rem 2.6rem; }
+  .stratum-label { display: grid; grid-template-columns: 2.25rem minmax(9rem, auto) 1fr; align-items: center; gap: 1rem; }
+  .stratum-n { font: 600 var(--s0)/1 var(--display); opacity: .7; }
+  .stratum-name { font: 600 var(--s2)/1.2 var(--display); }
+  .stratum-lead { font-size: var(--s0); opacity: .85; max-width: 40rem; justify-self: end; text-align: end; text-wrap: balance; }
+  .stratum:hover .stratum-name, .stratum:focus-visible .stratum-name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .3em; }
+  .stratum:focus-visible { outline-offset: -4px; outline-color: var(--gypsum); }
+  @media (max-width: 760px) {
+    .stratum-label { grid-template-columns: 1.75rem 1fr; }
+    .stratum-lead { display: none; }
+    .stratum-name { font-size: var(--s1); }
+  }
+
+  /* One orchestrated moment: the layers settle into place on load, foundation first */
+  @media (prefers-reduced-motion: no-preference) {
+    .stratum { animation: settle .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc((3 - var(--i)) * 120ms + 150ms); }
+    @keyframes settle { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+  }
+
+  /* Section heads */
+  .section-head { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); align-items: end; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .section-head h2 { font-size: var(--s4); }
+  .section-head p { color: var(--dusk); font-size: 1.125rem; max-width: var(--measure); }
+  @media (max-width: 860px) {
+    .section-head { grid-template-columns: 1fr; }
+    .section-head h2 { font-size: var(--s3); }
+  }
+
+  /* Services */
+  .services { padding-block: clamp(4rem, 9vw, 7.5rem); }
+  .layers { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--night); }
+  .layer {
+    display: grid; grid-template-columns: 15rem 1fr 1fr; gap: clamp(1rem, 3vw, 3rem);
+    padding-block: 2rem 2.25rem; border-bottom: 1px solid var(--line);
+    position: relative; scroll-margin-top: 6rem;
+  }
+  .layer::before { content: ''; position: absolute; inset-inline-start: 0; top: -1px; width: 4.5rem; height: 5px; background: var(--bg); }
+  .layer-n { display: block; font-size: var(--s-1); color: var(--dusk); margin-bottom: .35rem; }
+  .layer h3 { font-size: var(--s2); }
+  .layer-lead { font-size: 1.125rem; font-weight: 400; max-width: 26rem; }
+  .layer-items { margin: 0; padding: 0; list-style: none; color: var(--dusk); }
+  .layer-items li { padding-block: .3rem; border-bottom: 1px dashed var(--line); }
+  .layer-items li:last-child { border-bottom: 0; }
+  @media (max-width: 860px) {
+    .layer { grid-template-columns: 1fr; gap: .9rem; }
+  }
+
+  /* Work */
+  .work { padding-block: clamp(4rem, 9vw, 7.5rem); background: var(--gypsum-deep); }
+  .projects { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--night); }
+  .project { display: grid; grid-template-columns: 1.2fr 8rem 1.6fr; gap: clamp(1rem, 3vw, 3rem); align-items: baseline; padding-block: 1.6rem; border-bottom: 1px solid var(--line); }
+  .project h3 { font-size: var(--s1); }
+  .sector { font-size: var(--s-1); color: var(--dusk); }
+  .project p { color: var(--dusk); max-width: var(--measure); }
+  @media (max-width: 860px) {
+    .project { grid-template-columns: 1fr; gap: .35rem; }
+    .sector { order: -1; }
+  }
+
+  /* Clients */
+  .clients { padding-block: clamp(4rem, 9vw, 7.5rem); }
+  .client-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); border-top: 1px solid var(--night); }
+  .client-grid li { padding: 1.4rem 1rem 1.4rem 0; border-bottom: 1px solid var(--line); font: 500 1.125rem/1.35 var(--display); }
+  html[dir='rtl'] .client-grid li { padding: 1.4rem 0 1.4rem 1rem; }
+
+  /* Contact */
+  .contact { background: var(--night); color: var(--gypsum); padding-block: clamp(4rem, 9vw, 7.5rem); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(2.5rem, 6vw, 6rem); }
+  .contact h2 { font-size: var(--s4); margin-bottom: 1.25rem; }
+  .contact-intro > p { color: #B7C2C3; font-size: 1.125rem; max-width: 28rem; }
+  .details { margin: 2.5rem 0 0; display: grid; gap: .6rem; }
+  .details dd { margin: 0; font-size: 1.125rem; }
+  .details a { text-decoration: none; border-bottom: 1px solid var(--sage); }
+  .details a:hover { border-color: var(--gypsum); }
+  html[dir='rtl'] .details a[dir='ltr'] { unicode-bidi: isolate; }
+  @media (max-width: 860px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact h2 { font-size: var(--s3); }
+  }
+
+  .form { display: grid; gap: 1.1rem; }
+  .field { display: grid; gap: .4rem; }
+  .field > span { font-size: var(--s-1); font-weight: 400; color: #B7C2C3; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
+  .field input, .field select, .field textarea {
+    font: 400 var(--s0)/1.5 var(--text); color: var(--gypsum);
+    background: #213139; border: 1px solid #3A4C55; border-radius: 6px;
+    padding: .8rem .9rem; width: 100%;
+  }
+  html[dir='rtl'] .field input[dir='ltr'] { text-align: right; }
+  .field textarea { resize: vertical; min-height: 8rem; }
+  .field textarea::placeholder { color: #7F8E92; }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--limestone); outline-offset: 1px; border-color: transparent; }
+  .form .btn { justify-self: start; margin-top: .4rem; }
+  .form .btn:disabled { opacity: .7; cursor: progress; }
+  .contact :focus-visible { outline-color: var(--limestone); }
+  .form-status { min-height: 1.5em; }
+  .form-status[data-state='error'] { color: #F2B8A8; }
+  .form-status[data-state='ok'] { color: #A9D8C4; }
+  .hp { position: absolute; inset-inline-start: -9999px; }
+
+  /* Footer */
+  .foot { background: var(--night); color: #8E9DA1; border-top: 1px solid #2A3A42; font-size: var(--s-1); }
+  .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 2rem; padding-block: 1.75rem; }
+  .foot a { color: var(--gypsum); }
+</style>
