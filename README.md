@@ -38,9 +38,12 @@ npm run build    # ينتج مجلد dist/
 
 ## نموذج التواصل والدعم الفني
 
-رسائل النموذج (طلبات المشاريع وطلبات الدعم الفني) تصل إلى **info@oxira.sa** عبر خدمة [FormSubmit](https://formsubmit.co) المجانية.
+رسائل النموذج (طلبات المشاريع وطلبات الدعم الفني) تُرسل إلى workflow في n8n اسمه **Oxira 2 — Website contact form**:
 
-- **التفعيل لمرة واحدة:** أول رسالة تُرسل من الموقع تجعل FormSubmit يرسل إيميل تفعيل إلى info@oxira.sa. افتحه واضغط **Activate Form**، ومن بعدها تصل كل الرسائل مباشرة.
-- عنوان الإيميل يوضح نوع الطلب ("طلب جديد" أو "طلب دعم فني")، وزر الرد يرد على بريد العميل مباشرة.
-- لتغيير وجهة الرسائل (مثل Webhook في n8n): أضف متغيراً باسم `FORM_ENDPOINT` في **Settings → Secrets and variables → Actions → Variables**.
-- إن تعذر الإرسال، يفتح النموذج تطبيق البريد لدى الزائر برسالة جاهزة إلى info@oxira.sa.
+1. يحفظ كل رسالة في جدول **oxira_website_messages** في n8n.
+2. يرد على الموقع بنجاح الإرسال.
+3. يرسل الرسالة بالإيميل إلى **info@oxira.sa** (عقدة **Email info@oxira.sa**، تحتاج بيانات SMTP لبريد info@oxira.sa).
+
+- رابط الاستقبال: `https://ibrasalato.app.n8n.cloud/webhook/oxira-website-contact`
+- لتغييره: أضف متغيراً باسم `FORM_ENDPOINT` في **Settings → Secrets and variables → Actions → Variables**.
+- إن تعذر الإرسال، يعرض النموذج زرين لإرسال الرسالة مباشرة عبر البريد أو واتساب.

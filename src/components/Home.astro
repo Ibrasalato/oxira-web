@@ -10,9 +10,10 @@ const c = t[lang];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const asset = (p: string) => `${base}/${p}`;
 const altHref = lang === 'ar' ? `${base}/en/` : `${base}/`;
-// Form messages are emailed to info@oxira.sa through FormSubmit (formsubmit.co).
-// Set PUBLIC_FORM_ENDPOINT to send them somewhere else (e.g. an n8n webhook).
-const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || `https://formsubmit.co/ajax/${contact.email}`;
+// Form messages go to the n8n workflow "Oxira 2 — Website contact form",
+// which saves them and emails them to info@oxira.sa.
+// Set PUBLIC_FORM_ENDPOINT to send them somewhere else.
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-website-contact';
 const other = lang === 'ar' ? 'en' : 'ar';
 
 // Wire-mesh waves, like the profile cover: two families of curves warped around a centre.
@@ -511,19 +512,14 @@ const net = network(1400, 800, 34, 7);
         return acc;
       }, {});
 
-      // Email body: readable field labels in the page language
+      // Readable copy of the message, used for the email/WhatsApp fallback links
       const payload: Record<string, string> = {
-        _subject: subject,
-        _template: 'table',
-        _captcha: 'false',
         [form.querySelector('legend')!.textContent!.trim()]: form.querySelector('input[name=type]:checked + span')!.textContent!.trim(),
       };
       for (const [k, v] of Object.entries(data)) {
         if (k === 'type' || !v) continue;
         payload[labels[k] || k] = v;
       }
-      if (data.email) payload._replyto = data.email;
-      payload[document.documentElement.lang === 'ar' ? 'الصفحة' : 'Page'] = location.href;
 
       button.disabled = true;
       button.textContent = d.msgSending!;
@@ -537,14 +533,10 @@ const net = network(1400, 800, 34, 7);
         const res = await fetch(d.endpoint!, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ ...data, lang: document.documentElement.lang, page: location.href }),
         });
         const out = await res.json().catch(() => ({}));
-        if (/activat/i.test(String(out.message || ''))) {
-          show('error', d.msgPending!, links);
-          return;
-        }
-        if (!res.ok || String(out.success) === 'false') throw new Error(out.message || String(res.status));
+        if (!res.ok || String(out.success) !== 'true') throw new Error(out.message || String(res.status));
         form.reset();
         setType('project');
         show('ok', d.msgSent!);
