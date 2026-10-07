@@ -64,6 +64,7 @@ const net = network(1400, 800, 34, 7);
     <nav class="nav" aria-label={lang === 'ar' ? 'القائمة الرئيسية' : 'Main'}>
       <a href="#about">{c.nav.about}</a>
       <a href="#services">{c.nav.services}</a>
+      <a href="#agents">{c.agents.navLabel}</a>
       <a href="#clients">{c.nav.clients}</a>
       <a href="#work">{c.nav.work}</a>
       <a class="lang" href={altHref} hreflang={other} lang={other}>{c.switchLabel}</a>
@@ -151,9 +152,96 @@ const net = network(1400, 800, 34, 7);
             <ul class="service-items">
               {s.items.map((it) => <li>{it}</li>)}
             </ul>
+            {s.icon === 'agent' && <a class="service-more" href="#agents">{c.agents.navLabel}</a>}
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <!-- AI Agent Automation -->
+  <section id="agents" class="agents" aria-labelledby="agents-title">
+    <div class="wrap">
+      <div class="agents-top">
+        <div class="agents-intro">
+          <p class="agents-kicker" lang={other}>{c.agents.kicker}</p>
+          <h2 id="agents-title">{c.agents.title}</h2>
+          <p class="agents-body">{c.agents.body}</p>
+          <ul class="caps">
+            {c.agents.capabilities.map((cap) => (
+              <li><h3>{cap.name}</h3><p>{cap.text}</p></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="demo">
+          <div class="demo-tabs" role="tablist" aria-label={c.agents.demoLabel}>
+            {c.agents.chats.map((ch, i) => (
+              <button type="button" role="tab" id={`tab-${ch.id}`} aria-controls={`chat-${ch.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{ch.tab}</button>
+            ))}
+          </div>
+          <div class="phone">
+            <div class="phone-screen">
+              {c.agents.chats.map((ch, i) => (
+                <div class="chat" role="tabpanel" id={`chat-${ch.id}`} aria-labelledby={`tab-${ch.id}`} hidden={i !== 0}>
+                  <div class="chat-head">
+                    <span class="chat-avatar"><Icon name="agent" /></span>
+                    <span><strong>{ch.name}</strong><small>{c.agents.online}</small></span>
+                  </div>
+                  <ol class="chat-body">
+                    {ch.messages.map((m) => (
+                      <li class={`msg msg-${m.from}`}>
+                        {'voice' in m && m.voice ? (
+                          <span class="voice" aria-label={`${c.agents.voice} ${m.voice}`}>
+                            <span class="voice-play" aria-hidden="true"></span>
+                            <span class="voice-wave" aria-hidden="true">{Array.from({ length: 22 }, (_, k) => <i style={`height:${4 + ((k * 7) % 13)}px`}></i>)}</span>
+                            <span class="voice-len">{m.voice}</span>
+                          </span>
+                        ) : (
+                          <span class="msg-text">{'text' in m ? m.text : ''}</span>
+                        )}
+                        <time>{m.time}{m.from === 'user' && <span class="ticks" aria-hidden="true">✓✓</span>}</time>
+                      </li>
+                    ))}
+                  </ol>
+                  <div class="chat-input" aria-hidden="true"><span>{c.agents.typeHere}</span><span class="mic"></span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sectors">
+        <div class="head">
+          <h2 class="h-sm">{c.agents.sectorsTitle}</h2>
+          <p>{c.agents.sectorsBody}</p>
+        </div>
+        <ul class="sector-grid">
+          {c.agents.sectors.map((s) => (
+            <li class="sector">
+              <h3>{s.name}</h3>
+              <p class="sector-who">{s.who}</p>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="steps-row">
+        <div>
+          <h2 class="h-sm">{c.agents.stepsTitle}</h2>
+          <ol class="steps">
+            {c.agents.steps.map((st, i) => (
+              <li><span class="step-n" aria-hidden="true">{i + 1}</span><div><h3>{st.name}</h3><p>{st.text}</p></div></li>
+            ))}
+          </ol>
+        </div>
+        <div class="pricing">
+          <p>{c.agents.pricing}</p>
+          <a class="btn btn-amber" href="#contact" data-pick-service={c.agents.serviceValue}>{c.agents.cta}</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -308,6 +396,38 @@ const net = network(1400, 800, 34, 7);
 </footer>
 
 <script>
+  // Sector tabs for the AI agent chat demo
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.demo-tabs [role=tab]'));
+  const select = (tab: HTMLButtonElement) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls')!);
+      if (panel) panel.hidden = !on;
+    });
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      const rtl = document.documentElement.dir === 'rtl';
+      const next = e.key === (rtl ? 'ArrowLeft' : 'ArrowRight');
+      const prev = e.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
+      if (!next && !prev) return;
+      e.preventDefault();
+      const t = tabs[(i + (next ? 1 : -1) + tabs.length) % tabs.length];
+      select(t); t.focus();
+    });
+  });
+
+  // Buttons that jump to the form with a service already chosen
+  document.querySelectorAll<HTMLAnchorElement>('[data-pick-service]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const sel = document.querySelector<HTMLSelectElement>('#lead-form select[name=service]');
+      if (sel) sel.value = a.dataset.pickService!;
+    });
+  });
+
   const form = document.getElementById('lead-form') as HTMLFormElement | null;
   if (form) {
     const status = form.querySelector('.form-status') as HTMLElement;
@@ -430,7 +550,7 @@ const net = network(1400, 800, 34, 7);
   .services .wrap { position: relative; }
   .service-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.25rem; }
   .service { grid-column: span 2; background: rgba(7, 27, 47, .72); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius); padding: 1.75rem 1.5rem 1.6rem; backdrop-filter: blur(2px); }
-  .service:nth-child(4) { grid-column: 2 / span 2; }
+  .service-more { display: inline-block; margin-top: 1rem; color: var(--amber); font-weight: 700; text-underline-offset: .3em; }
   .badge { position: relative; width: 92px; height: 92px; margin-bottom: 1.1rem; }
   .badge-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
   .badge :global(.badge-icon) { position: absolute; inset: 0; margin: auto; width: 42px; height: 42px; color: var(--navy); }
@@ -441,9 +561,75 @@ const net = network(1400, 800, 34, 7);
   .service-items li::before { content: ''; position: absolute; inset-inline-start: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
   @media (max-width: 980px) {
     .service-grid { grid-template-columns: 1fr 1fr; }
-    .service, .service:nth-child(4) { grid-column: auto; }
+    .service { grid-column: auto; }
   }
   @media (max-width: 620px) { .service-grid { grid-template-columns: 1fr; } }
+
+  /* AI Agent Automation */
+  .agents { padding-block: clamp(4rem, 9vw, 7rem); background: linear-gradient(180deg, #fff 0%, var(--paper) 100%); }
+  .agents-top { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .agents-kicker { color: var(--blue); font-weight: 800; font-size: 1rem; }
+  .agents h2 { font-size: var(--s4); margin-top: .3rem; }
+  .agents .h-sm { font-size: var(--s3); }
+  .agents-body { color: var(--muted); font-size: 1.15rem; margin-top: 1rem; max-width: 36rem; }
+  .caps { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+  .caps li { border-inline-start: 4px solid var(--amber); padding-inline-start: 1rem; }
+  .caps h3 { font-size: 1.1rem; }
+  .caps p { color: var(--muted); font-size: .97rem; line-height: 1.65; }
+  @media (max-width: 960px) { .agents-top { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .caps { grid-template-columns: 1fr; } }
+
+  .demo { display: grid; gap: 1rem; justify-items: center; position: sticky; top: 6rem; }
+  .demo-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; }
+  .demo-tabs button { font: 700 .95rem/1 var(--font); padding: .6rem 1rem; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+  .demo-tabs button:hover { border-color: var(--navy); }
+  .demo-tabs button[aria-selected='true'] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  @media (max-width: 960px) { .demo { position: static; } }
+
+  .phone { width: min(340px, 100%); border-radius: 44px; padding: 12px; background: var(--navy-deep); box-shadow: 0 40px 70px -35px rgba(10,37,62,.7), inset 0 0 0 2px #22384F; }
+  .phone-screen { border-radius: 34px; overflow: hidden; background: #EFE7DE; height: 560px; position: relative; }
+  .chat { display: flex; flex-direction: column; height: 100%; }
+  .chat[hidden] { display: none; }
+  .chat-head { display: flex; align-items: center; gap: .7rem; background: #0B5C4E; color: #fff; padding: 2.1rem 1rem .8rem; }
+  .chat-head strong { display: block; font-size: 1rem; line-height: 1.3; }
+  .chat-head small { display: block; font-size: .78rem; opacity: .8; line-height: 1.3; }
+  .chat-avatar { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; color: var(--navy); font-size: 22px; flex: none; }
+  .chat-body {
+    list-style: none; margin: 0; padding: 1rem .8rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; overflow: hidden;
+    background-image: radial-gradient(rgba(10,37,62,.06) 1.2px, transparent 1.2px); background-size: 16px 16px;
+  }
+  .msg { max-width: 82%; padding: .45rem .7rem .3rem; border-radius: 10px; font-size: .92rem; line-height: 1.55; box-shadow: 0 1px 1px rgba(0,0,0,.08); position: relative; }
+  .msg-user { align-self: flex-end; background: #D9FDD3; border-start-end-radius: 2px; }
+  .msg-agent { align-self: flex-start; background: #fff; border-start-start-radius: 2px; }
+  .msg-text { white-space: pre-line; display: block; }
+  .msg time { display: block; text-align: end; font-size: .68rem; color: #667781; margin-top: .1rem; }
+  .ticks { color: #53BDEB; margin-inline-start: .3rem; letter-spacing: -.25em; }
+  .voice { display: flex; align-items: center; gap: .55rem; min-width: 190px; direction: ltr; padding-top: .25rem; }
+  .voice-play { width: 0; height: 0; border-block: 7px solid transparent; border-left: 11px solid #54656F; }
+  .voice-wave { display: flex; align-items: center; gap: 2px; flex: 1; }
+  .voice-wave i { display: block; width: 3px; border-radius: 2px; background: #8AA19A; }
+  .voice-len { font-size: .72rem; color: #667781; }
+  .chat-input { display: flex; align-items: center; gap: .5rem; padding: .6rem .7rem .9rem; }
+  .chat-input span:first-child { flex: 1; background: #fff; border-radius: 999px; padding: .5rem 1rem; color: #8696A0; font-size: .9rem; }
+  .mic { width: 40px; height: 40px; border-radius: 50%; background: #0B8A6E; flex: none; }
+
+  .sectors { margin-top: clamp(4rem, 8vw, 6rem); }
+  .sector-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); gap: 1rem; }
+  .sector { background: #fff; border-radius: var(--radius); padding: 1.35rem 1.35rem 1.4rem; box-shadow: inset 0 0 0 1px var(--line); border-top: 4px solid var(--blue); }
+  .sector h3 { font-size: 1.15rem; }
+  .sector-who { color: var(--blue); font-weight: 700; font-size: .88rem; margin-top: .2rem; }
+  .sector p:last-child { color: var(--muted); font-size: .96rem; line-height: 1.7; margin-top: .55rem; }
+
+  .steps-row { margin-top: clamp(3.5rem, 7vw, 5rem); display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+  .steps { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .steps li { display: grid; gap: .6rem; align-content: start; }
+  .step-n { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--blue); color: var(--amber); font-weight: 800; font-size: 1.15rem; line-height: 1; background: #fff; }
+  .steps h3 { font-size: 1.05rem; }
+  .steps p { color: var(--muted); font-size: .93rem; line-height: 1.6; }
+  .pricing { background: var(--navy); color: #fff; border-radius: var(--radius); padding: 1.6rem; display: grid; gap: 1.1rem; border-top: 5px solid var(--amber); }
+  .pricing p { color: #C9D7E4; font-size: 1.05rem; }
+  @media (max-width: 960px) { .steps-row { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .steps { grid-template-columns: 1fr 1fr; } }
 
   /* Advantages */
   .adv {

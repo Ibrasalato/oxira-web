@@ -28,7 +28,7 @@ export const clientLogos = [
   { file: 'almajdiah.png', ar: 'المجدية ريزدنس', en: 'Almajdiah Residence' },
 ];
 
-export type ServiceIcon = 'transform' | 'software' | 'infra' | 'home' | 'ai';
+export type ServiceIcon = 'transform' | 'software' | 'infra' | 'home' | 'ai' | 'agent';
 
 export const t = {
   ar: {
@@ -59,14 +59,80 @@ export const t = {
     },
     services: {
       title: 'خدماتنا',
-      body: 'خمسة مجالات يغطيها فريق واحد، من الاستشارة حتى التشغيل.',
+      body: 'ستة مجالات يغطيها فريق واحد، من الاستشارة حتى التشغيل.',
       list: [
         { icon: 'transform', name: 'التحول الرقمي', en: 'Digital Transformation', items: ['استشارات التحول الرقمي للشركات والمؤسسات', 'تحليل وتطوير الاستراتيجيات الرقمية وتحسين الأداء', 'تنفيذ مشاريع رقمية متكاملة لتحقيق الكفاءة التشغيلية', 'تطوير منصات إدارة المحتوى والحلول الرقمية الحديثة'] },
         { icon: 'software', name: 'تطوير البرمجيات', en: 'Software Development', items: ['تصميم وتطوير البرمجيات المخصصة وفق أعلى المعايير', 'تطوير تطبيقات الهاتف المحمول وحلول الويب', 'تطبيق أحدث تقنيات الذكاء الاصطناعي والتحليل البياني', 'برمجيات الأنظمة الإدارية والتجارية والمتاجر الإلكترونية'] },
         { icon: 'infra', name: 'تطوير التقنية للبنية التحتية', en: 'Technology Infrastructure', items: ['توفير حلول الحوسبة السحابية وأمن المعلومات', 'تنفيذ شبكات الاتصالات والبنية التحتية الرقمية', 'دعم وإدارة أنظمة تقنية المعلومات', 'حلول الشبكات المنزلية والتجارية الحديثة'] },
         { icon: 'home', name: 'أنظمة المنزل الذكي', en: 'Smart Home Systems', items: ['تنفيذ أنظمة المنازل الذكية المتكاملة', 'التحكم بالأجهزة وأنظمة المنزل عن بُعد', 'تركيب أنظمة الأمان والمراقبة الحديثة', 'توفير حلول الإضاءة والتكييف الذكي'] },
         { icon: 'ai', name: 'حلول الذكاء الاصطناعي', en: 'AI Solutions', items: ['تطوير أنظمة الذكاء الاصطناعي وتحليل البيانات الكبيرة', 'حلول متقدمة لتحليل البيانات واتخاذ القرار الذكي', 'تحسين العمليات باستخدام الأتمتة وتقنيات التعلم العميق', 'تطوير حلول التعرف على الأنماط والتوقعات الذكية للأعمال'] },
+        { icon: 'agent', name: 'وكلاء الذكاء الاصطناعي والأتمتة', en: 'AI Agent Automation', items: ['وكيل ذكي على واتساب يرد على العملاء 24/7', 'يفهم الرسائل الصوتية ويتكلم بلهجة العميل', 'استقبال الحجوزات والطلبات وتسجيلها لفريقك', 'أتمتة المهام المتكررة وربط الأنظمة ببعض'] },
       ] as { icon: ServiceIcon; name: string; en: string; items: string[] }[],
+    },
+    agents: {
+      navLabel: 'وكلاء AI',
+      kicker: 'AI Agent Automation',
+      title: 'وكلاء الذكاء الاصطناعي وأتمتة الأعمال',
+      body: 'موظف ذكي يعمل على واتساب الجهة على مدار الساعة: يرد على العملاء بلهجتهم، يفهم الرسائل الصوتية، يستقبل الطلبات والحجوزات ويسجّلها لفريقك، ويحوّل المحادثة لموظف عند الحاجة. نبنيه ونشغّله لكل الجهات، من العيادة الصغيرة إلى الجهات الحكومية.',
+      demoLabel: 'أمثلة من محادثات حقيقية الشكل',
+      online: 'متصل الآن',
+      voice: 'رسالة صوتية',
+      typeHere: 'اكتب رسالة',
+      capabilities: [
+        { name: 'يرد 24/7', text: 'رد فوري في أي وقت، حتى بعد الدوام وفي الإجازات.' },
+        { name: 'يتكلم بلهجة العميل', text: 'عربي بلهجة سعودية أو مصرية، وإنجليزي.' },
+        { name: 'يفهم الرسائل الصوتية', text: 'يحوّل الصوت إلى نص ويفهم المقصود ويرد عليه.' },
+        { name: 'يسجّل الطلبات', text: 'حجوزات وطلبات وتذاكر تُسجَّل مباشرة في نظامك أو جدولك.' },
+        { name: 'يحوّل لموظف', text: 'يسلّم المحادثة لفريقك عندما يحتاج العميل إنساناً.' },
+        { name: 'تعدّل معلوماته بنفسك', text: 'لوحة لتحديث الخدمات والأسعار والأسئلة بدون مبرمج.' },
+      ],
+      chats: [
+        { id: 'clinic', tab: 'مراكز طبية', name: 'عيادة الابتسامة', messages: [
+          { from: 'user', text: 'السلام عليكم، ابي احجز موعد تنظيف أسنان', time: '9:41 م' },
+          { from: 'agent', text: 'وعليكم السلام، حيّاك الله 🌷 عندنا مواعيد متاحة بكرة الساعة 4:30 م و 6:00 م. أي وقت يناسبك؟', time: '9:41 م' },
+          { from: 'user', text: '6 تمام', time: '9:42 م' },
+          { from: 'agent', text: 'تم تسجيل حجزك ✅\nتنظيف أسنان، بكرة 6:00 م.\nبنرسل لك تذكير قبل الموعد بساعتين.', time: '9:42 م' },
+        ] },
+        { id: 'school', tab: 'مدارس', name: 'مدارس النخبة الأهلية', messages: [
+          { from: 'user', voice: '0:14', time: '7:05 م' },
+          { from: 'agent', text: 'أهلاً بك 👋 أرسلت لك تفاصيل الرسوم وخطوات التسجيل للصف الرابع 📄\nتحب أحجز لك زيارة للمدرسة؟', time: '7:05 م' },
+          { from: 'user', text: 'ايوه يوم الأحد', time: '7:06 م' },
+          { from: 'agent', text: 'تمام، سجلت طلب الزيارة يوم الأحد ✅ وبيتواصل معك قسم القبول لتأكيد الوقت.', time: '7:06 م' },
+        ] },
+        { id: 'store', tab: 'متاجر إلكترونية', name: 'متجر أناقة', messages: [
+          { from: 'user', text: 'طلبي وصل فين؟ رقم الطلب 4471', time: '11:20 ص' },
+          { from: 'agent', text: 'طلبك #4471 خرج للتوصيل اليوم 🚚 ومتوقع يوصلك قبل 9 مساءً.', time: '11:20 ص' },
+          { from: 'user', text: 'عندكم نفس الشنطة باللون الأسود؟', time: '11:21 ص' },
+          { from: 'agent', text: 'إيه متوفرة ✅ هذا رابطها باللون الأسود. أضيفها لسلتك؟', time: '11:21 ص' },
+        ] },
+        { id: 'events', tab: 'معارض وفعاليات', name: 'معرض الرياض الدولي', messages: [
+          { from: 'user', text: 'وين بوابة دخول العارضين؟', time: '7:52 ص' },
+          { from: 'agent', text: 'بوابة العارضين رقم 3 من الجهة الشمالية، وتفتح 8:00 ص 📍 أرسل لك الموقع على الخريطة؟', time: '7:52 ص' },
+          { from: 'user', text: 'فيه تسريب مويه عند جناح B12', time: '7:54 ص' },
+          { from: 'agent', text: 'تم تسجيل البلاغ ✅ رقم 1182، وأُبلغ فريق الصيانة الآن. شكراً لك.', time: '7:54 ص' },
+        ] },
+      ],
+      sectorsTitle: 'لجميع القطاعات',
+      sectorsBody: 'نجهّز الوكيل حسب طبيعة عملك ونغذّيه بمعلومات جهتك المعتمدة.',
+      sectors: [
+        { name: 'خدمة العملاء', who: 'شركات، متاجر، جهات خدمية', text: 'يرد على العملاء من معلومات الجهة المعتمدة، يفتح الطلبات والتذاكر، ويحوّل لموظف عند الحاجة.' },
+        { name: 'المراكز الطبية والعيادات', who: 'مراكز طبية، مجمعات، عيادات تجميل وأسنان', text: 'يعرّف بالخدمات والأطباء، يستقبل طلبات الحجز وتعديلها، ويذكّر المرضى بمواعيدهم.' },
+        { name: 'المعارض والفعاليات', who: 'معارض، مهرجانات، مؤتمرات', text: 'معلومات وتسجيل للزوار والعارضين، واستقبال البلاغات الميدانية وتصعيدها لفريق التشغيل.' },
+        { name: 'المدارس', who: 'مدارس أهلية ودولية، مراكز تدريب', text: 'استفسارات القبول والتسجيل والرسوم، وتوجيه طلبات أولياء الأمور للقسم المختص.' },
+        { name: 'المبيعات وتأهيل العملاء', who: 'عقار، سيارات، خدمات B2B', text: 'يستقبل العملاء من الإعلانات والموقع، يأهّلهم بأسئلة ذكية، وينبّه فريق المبيعات فوراً.' },
+        { name: 'المتاجر الإلكترونية', who: 'Shopify، سلة، زد وغيرها', text: 'حالة الطلبات، تذكير السلات المتروكة، وتقارير مبيعات يومية وأسبوعية.' },
+        { name: 'أتمتة العمليات الداخلية', who: 'كل القطاعات', text: 'ربط الأنظمة ببعض، تقارير تلقائية، وقراءة المستندات واستخراج بياناتها.' },
+      ],
+      stepsTitle: 'كيف نبدأ',
+      steps: [
+        { name: 'نفهم احتياجك', text: 'جلسة قصيرة نحدد فيها ما يجب أن يقوم به الوكيل.' },
+        { name: 'نبني الوكيل', text: 'نغذّيه بخدماتك وأسئلتك الشائعة وأسلوب جهتك.' },
+        { name: 'نربطه بقنواتك', text: 'واتساب وموقعك وأنظمتك مثل CRM والجداول.' },
+        { name: 'نشغّل ونتابع', text: 'نراقب المحادثات ونطوّر الردود باستمرار.' },
+      ],
+      pricing: 'اشتراك شهري أو سنوي حسب حجم الاستخدام والتكاملات، وعرض السعر بعد فهم احتياجك.',
+      cta: 'اطلب تجربة للوكيل',
+      serviceValue: 'وكلاء الذكاء الاصطناعي والأتمتة',
     },
     advantages: {
       title: 'مزايا أوكسيرا',
@@ -150,14 +216,80 @@ export const t = {
     },
     services: {
       title: 'Our Services',
-      body: 'Five areas covered by one team, from consultation to operation.',
+      body: 'Six areas covered by one team, from consultation to operation.',
       list: [
         { icon: 'transform', name: 'Digital Transformation', en: 'التحول الرقمي', items: ['Digital transformation consulting for companies and institutions', 'Digital strategy analysis, development and performance improvement', 'End-to-end digital projects for operational efficiency', 'Content management platforms and modern digital solutions'] },
         { icon: 'software', name: 'Software Development', en: 'تطوير البرمجيات', items: ['Custom software designed and built to the highest standards', 'Mobile apps and web solutions', 'Applied AI and data analytics', 'Management, business and e-commerce systems'] },
         { icon: 'infra', name: 'Technology Infrastructure', en: 'تطوير التقنية للبنية التحتية', items: ['Cloud computing and information security', 'Communication networks and digital infrastructure', 'IT systems support and management', 'Modern home and commercial networks'] },
         { icon: 'home', name: 'Smart Home Systems', en: 'أنظمة المنزل الذكي', items: ['Integrated smart home systems', 'Remote control of devices and home systems', 'Modern security and surveillance systems', 'Smart lighting and climate control'] },
         { icon: 'ai', name: 'AI Solutions', en: 'حلول الذكاء الاصطناعي', items: ['AI systems and big data analytics', 'Advanced analytics for smart decision-making', 'Process improvement with automation and deep learning', 'Pattern recognition and smart business forecasting'] },
+        { icon: 'agent', name: 'AI Agent Automation', en: 'وكلاء الذكاء الاصطناعي والأتمتة', items: ['A WhatsApp agent answering customers 24/7', "Understands voice notes and speaks the customer's dialect", 'Takes bookings and requests and logs them for your team', 'Automates repetitive tasks and connects your systems'] },
       ] as { icon: ServiceIcon; name: string; en: string; items: string[] }[],
+    },
+    agents: {
+      navLabel: 'AI Agents',
+      kicker: 'وكلاء الذكاء الاصطناعي',
+      title: 'AI Agent Automation',
+      body: 'A smart employee on your WhatsApp, working around the clock: it answers customers in their own dialect, understands voice notes, takes requests and bookings and logs them for your team, and hands the chat to a person when needed. We build and run it for every kind of organisation, from a small clinic to a government body.',
+      demoLabel: 'Example conversations',
+      online: 'online',
+      voice: 'Voice message',
+      typeHere: 'Message',
+      capabilities: [
+        { name: 'Answers 24/7', text: 'Instant replies at any hour, after work and on holidays.' },
+        { name: "Speaks the customer's dialect", text: 'Arabic in Saudi or Egyptian dialect, and English.' },
+        { name: 'Understands voice notes', text: 'Transcribes voice, understands the request and replies.' },
+        { name: 'Logs every request', text: 'Bookings, orders and tickets go straight into your system or sheet.' },
+        { name: 'Hands over to staff', text: 'Passes the conversation to your team when a person is needed.' },
+        { name: 'You edit what it knows', text: 'A dashboard to update services, prices and FAQs without a developer.' },
+      ],
+      chats: [
+        { id: 'clinic', tab: 'Clinics', name: 'Smile Dental Clinic', messages: [
+          { from: 'user', text: 'Hi, I want to book a teeth cleaning', time: '9:41 PM' },
+          { from: 'agent', text: 'Hello and welcome 🌷 We have slots tomorrow at 4:30 PM and 6:00 PM. Which suits you?', time: '9:41 PM' },
+          { from: 'user', text: '6 works', time: '9:42 PM' },
+          { from: 'agent', text: 'Booked ✅\nTeeth cleaning, tomorrow 6:00 PM.\nWe will send you a reminder two hours before.', time: '9:42 PM' },
+        ] },
+        { id: 'school', tab: 'Schools', name: 'Al Nukhba Private Schools', messages: [
+          { from: 'user', voice: '0:14', time: '7:05 PM' },
+          { from: 'agent', text: 'Welcome 👋 I have sent you the fees and registration steps for Grade 4 📄\nWould you like to book a school visit?', time: '7:05 PM' },
+          { from: 'user', text: 'Yes, Sunday', time: '7:06 PM' },
+          { from: 'agent', text: 'Done, your visit request for Sunday is logged ✅ Admissions will contact you to confirm the time.', time: '7:06 PM' },
+        ] },
+        { id: 'store', tab: 'Online stores', name: 'Anaqa Store', messages: [
+          { from: 'user', text: 'Where is my order? It is #4471', time: '11:20 AM' },
+          { from: 'agent', text: 'Order #4471 is out for delivery today 🚚 and should reach you before 9 PM.', time: '11:20 AM' },
+          { from: 'user', text: 'Do you have the same bag in black?', time: '11:21 AM' },
+          { from: 'agent', text: 'Yes, in stock ✅ Here is the link for the black one. Add it to your cart?', time: '11:21 AM' },
+        ] },
+        { id: 'events', tab: 'Events', name: 'Riyadh International Expo', messages: [
+          { from: 'user', text: 'Where is the exhibitors entrance?', time: '7:52 AM' },
+          { from: 'agent', text: 'Exhibitors use Gate 3 on the north side, opening at 8:00 AM 📍 Shall I send the map location?', time: '7:52 AM' },
+          { from: 'user', text: 'There is a water leak near booth B12', time: '7:54 AM' },
+          { from: 'agent', text: 'Report logged ✅ No. 1182, and maintenance has been notified. Thank you.', time: '7:54 AM' },
+        ] },
+      ],
+      sectorsTitle: 'For every sector',
+      sectorsBody: 'We shape the agent around how you work and feed it your approved information.',
+      sectors: [
+        { name: 'Customer service', who: 'Companies, stores, service providers', text: 'Answers from your approved information, opens requests and tickets, and hands over to staff when needed.' },
+        { name: 'Medical centres & clinics', who: 'Medical centres, complexes, dental and aesthetic clinics', text: 'Introduces services and doctors, takes and changes booking requests, and reminds patients of appointments.' },
+        { name: 'Exhibitions & events', who: 'Exhibitions, festivals, conferences', text: 'Information and registration for visitors and exhibitors, plus field reports escalated to operations.' },
+        { name: 'Schools', who: 'Private and international schools, training centres', text: 'Admissions, registration and fee questions, with parent requests routed to the right department.' },
+        { name: 'Sales & lead qualification', who: 'Real estate, automotive, B2B services', text: 'Receives leads from ads and your website, qualifies them, and alerts your sales team instantly.' },
+        { name: 'Online stores', who: 'Shopify, Salla, Zid and more', text: 'Order status, abandoned-cart reminders, and daily and weekly sales reports.' },
+        { name: 'Internal automation', who: 'All sectors', text: 'Connects your systems, automates reports, and reads documents to extract their data.' },
+      ],
+      stepsTitle: 'How we start',
+      steps: [
+        { name: 'Understand your needs', text: 'A short session to define what the agent should do.' },
+        { name: 'Build the agent', text: 'We feed it your services, FAQs and tone of voice.' },
+        { name: 'Connect your channels', text: 'WhatsApp, your website and systems such as CRM and sheets.' },
+        { name: 'Run and improve', text: 'We monitor conversations and keep improving the replies.' },
+      ],
+      pricing: 'Monthly or annual subscription based on usage and integrations, with a quote once we understand your needs.',
+      cta: 'Request an agent demo',
+      serviceValue: 'AI Agent Automation',
     },
     advantages: {
       title: 'Why Oxira',
