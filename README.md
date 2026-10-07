@@ -70,6 +70,8 @@ npm run build    # ينتج مجلد dist/
 - القوالب الستة ومحرّك عرض المواقع: `src/builder/spec.ts` (بيانات الموقع والنصوص التجريبية) و`src/builder/render.ts` (يحوّلها لصفحة HTML).
 - نصوص الاستوديو: `src/i18n/builder/*.json`، **والأسعار** في `src/i18n/builder.ts` (`builderPrices`).
 - المصمم الذكي: workflow في n8n اسمه **Oxira 5 — Website Builder Studio** (`/webhook/oxira-site-builder`).
+- الدفع: **Oxira 7 — Website Builder Payments (Moyasar)**: ينشئ فاتورة ميسر بالسعر من n8n، ويتأكد من الدفع، ثم ينشر الموقع.
+- النشر: **Oxira 8 — Client Sites (Cloudflare)**: Worker اسمه `oxira-sites` يعرض كل مواقع العملاء من KV (`oxira-sites`). الكود في `src/builder/worker.ts`، وبعد أي تعديل عليه: `npm run build:worker` ثم push، ثم شغّل **Run setup** في الـ workflow ليرفع النسخة الجديدة.
 - الطلبات: **Oxira 6 — Website Builder Orders** (`/webhook/oxira-site-order`) يحفظ في جدول **oxira_site_orders** ويرسل إيميل لـ info@oxira.sa.
 
 ## الخطوط
