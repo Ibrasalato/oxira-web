@@ -532,8 +532,8 @@ const net = network(1400, 800, 34, 7);
       try {
         const res = await fetch(d.endpoint!, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ ...data, lang: document.documentElement.lang, page: location.href }),
+          // Form-encoded body keeps this a "simple" cross-origin request (no CORS preflight)
+          body: new URLSearchParams({ ...data, lang: document.documentElement.lang, page: location.href }),
         });
         const out = await res.json().catch(() => ({}));
         if (!res.ok || String(out.success) !== 'true') throw new Error(out.message || String(res.status));
