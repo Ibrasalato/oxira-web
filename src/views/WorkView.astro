@@ -26,7 +26,7 @@ const pg = c.pages.work;
             <div class="p-shot"><img src={asset(`work/${p.slug}.webp`)} alt="" width="1200" height="808" loading={i === 0 ? 'eager' : 'lazy'} /></div>
             <div class="p-body">
               <div class="p-logo"><img src={asset(`work/${p.slug}-logo.png`)} alt="" loading="lazy" /></div>
-              <span class="p-sector">{p.sector}</span>
+              {p.sector && <span class="p-sector">{p.sector}</span>}
               <h2>{p.name}</h2>
               <p>{p.text}</p>
             </div>
