@@ -534,12 +534,6 @@
   "body": "Eine Auswahl an Websites und Plattformen, die wir für unsere Kunden konzipiert und entwickelt haben.",
   "projects": [
    {
-    "slug": "makkah",
-    "name": "Emirat der Region Mekka",
-    "sector": "",
-    "text": "Die offizielle Website des Gouvernements Taif: ein vollständiger, professioneller Auftritt mit aktuellen Nachrichten und E-Services für Einwohner und Organisationen."
-   },
-   {
     "slug": "perfect-choice",
     "name": "Perfect Choice",
     "sector": "Events",

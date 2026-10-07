@@ -238,7 +238,6 @@ const base = {
       title: 'من أعمالنا',
       body: 'نماذج من المواقع والمنصات التي صممناها ونفذناها لعملائنا.',
       projects: [
-        { slug: 'makkah', name: 'إمارة منطقة مكة المكرمة', sector: '', text: 'تصميم الموقع الرسمي لمحافظة الطائف بأسلوب احترافي شامل يضم أحدث الأخبار والخدمات الإلكترونية لتسهيل تواصل الأفراد والمؤسسات.' },
         { slug: 'perfect-choice', name: 'Perfect Choice', sector: 'فعاليات', text: 'شركة سعودية رائدة في تنظيم وصناعة الفعاليات الحكومية والرياضية والترفيهية، صممنا حضورها الرقمي بما يعكس جودة أعمالها.' },
         { slug: 'imtenan', name: 'شركة الامتنان المحدودة', sector: 'إنشاءات', text: 'شركة سعودية رائدة في الحلول الإنشائية تأسست عام 1992 في جدة، صممنا موقعها ليعرض مشاريعها وخبرتها.' },
         { slug: 'cordoba', name: 'عين قرطبة', sector: 'تجارة', text: 'شركة رائدة إقليمياً في منتجات السيراميك والبورسلان والتراكوتا، صممنا لها موقعاً احترافياً يعكس قوتها الرقمية ويعزز ثقة عملائها.' },
@@ -565,7 +564,6 @@ const base = {
       title: 'Our Work',
       body: 'A selection of websites and platforms we designed and built for our clients.',
       projects: [
-        { slug: 'makkah', name: 'Makkah Region Principality', sector: '', text: 'The official website of Taif Governorate: a complete, professional site with the latest news and e-services connecting residents and organisations.' },
         { slug: 'perfect-choice', name: 'Perfect Choice', sector: 'Events', text: 'A leading Saudi organiser of government, sports and entertainment events. We designed a digital presence that reflects the quality of their work.' },
         { slug: 'imtenan', name: 'Imtenan Limited Company', sector: 'Construction', text: 'A leading Saudi construction company founded in Jeddah in 1992. We designed a website that presents its projects and expertise.' },
         { slug: 'cordoba', name: 'Cordoba Eye', sector: 'Trade', text: 'A regional leader in ceramics, porcelain and terracotta. We built a professional website that strengthens its digital presence and customer trust.' },

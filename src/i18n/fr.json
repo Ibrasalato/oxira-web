@@ -534,12 +534,6 @@
   "body": "Une sélection de sites et de plateformes que nous avons conçus et développés pour nos clients.",
   "projects": [
    {
-    "slug": "makkah",
-    "name": "Émirat de la région de La Mecque",
-    "sector": "",
-    "text": "Le site officiel du gouvernorat de Taïf : un site complet et professionnel, avec l'actualité et des services en ligne reliant habitants et organisations."
-   },
-   {
     "slug": "perfect-choice",
     "name": "Perfect Choice",
     "sector": "Événementiel",
