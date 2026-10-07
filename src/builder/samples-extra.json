@@ -1,0 +1,702 @@
+{
+  "templates": {
+    "law": {
+      "ar": {
+        "name": "مكتب ميزان للمحاماة",
+        "tagline": "محاماة واستشارات قانونية",
+        "hero": {
+          "title": "حماية قانونية تمنحك الثقة",
+          "subtitle": "نقدم استشارات قانونية دقيقة وتمثيلاً قضائياً احترافياً للأفراد والشركات وفق الأنظمة السعودية.",
+          "cta": "احجز استشارة"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "مكتب محاماة سعودي يضم فريقاً من المحامين والمستشارين المرخصين بخبرة واسعة في القضايا التجارية والمدنية. نؤمن بأن الوضوح والسرية والالتزام أساس كل علاقة مع عملائنا."
+        },
+        "services": {
+          "title": "خدماتنا القانونية",
+          "items": [
+            { "title": "الاستشارات القانونية", "text": "نقدم رأياً قانونياً واضحاً يساعدك على اتخاذ القرار الصحيح قبل أي خطوة." },
+            { "title": "العقود التجارية", "text": "نصيغ العقود ونراجعها بما يحفظ حقوقك ويقلل المخاطر المستقبلية." },
+            { "title": "الترافع والتقاضي", "text": "نمثلك أمام المحاكم واللجان القضائية بخبرة ومتابعة دقيقة لكل مرحلة." }
+          ]
+        },
+        "stats": [
+          { "value": "+15", "label": "عاماً من الخبرة" },
+          { "value": "+800", "label": "قضية منجزة" },
+          { "value": "+120", "label": "عميل من الشركات" }
+        ],
+        "ctaBand": {
+          "title": "لديك مسألة قانونية؟",
+          "text": "تواصل معنا اليوم واحصل على تقييم أولي لموقفك القانوني بسرية تامة.",
+          "button": "تواصل معنا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي العليا، الرياض",
+          "hours": "الأحد - الخميس: 9 صباحاً - 5 مساءً"
+        }
+      },
+      "en": {
+        "name": "Mizan Law Firm",
+        "tagline": "Legal Counsel & Advocacy",
+        "hero": {
+          "title": "Legal protection you can trust",
+          "subtitle": "Clear legal advice and professional representation for individuals and businesses under Saudi law.",
+          "cta": "Book a consultation"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi law firm of licensed lawyers and advisors with deep experience in commercial and civil matters. We believe clarity, confidentiality and commitment are the foundation of every client relationship."
+        },
+        "services": {
+          "title": "Our practice areas",
+          "items": [
+            { "title": "Legal consultancy", "text": "Clear legal opinions that help you make the right decision before every move." },
+            { "title": "Commercial contracts", "text": "We draft and review contracts that protect your rights and reduce future risk." },
+            { "title": "Litigation", "text": "We represent you before courts and judicial committees with close follow-up at every stage." }
+          ]
+        },
+        "stats": [
+          { "value": "+15", "label": "Years of experience" },
+          { "value": "+800", "label": "Cases closed" },
+          { "value": "+120", "label": "Corporate clients" }
+        ],
+        "ctaBand": {
+          "title": "Facing a legal matter?",
+          "text": "Get in touch today for a confidential initial assessment of your position.",
+          "button": "Contact us"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Olaya, Riyadh",
+          "hours": "Sun - Thu: 9 AM - 5 PM"
+        }
+      }
+    },
+    "realestate": {
+      "ar": {
+        "name": "دار السكن العقارية",
+        "tagline": "تسويق وإدارة عقارات",
+        "hero": {
+          "title": "عقارك المناسب في المكان المناسب",
+          "subtitle": "نساعدك على البيع والشراء والتأجير بثقة، مع إدارة احترافية لعقارك من البداية حتى النهاية.",
+          "cta": "تصفح العقارات"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "وكالة عقارية مرخصة تخدم الأفراد والمستثمرين في أبرز أحياء المدينة. نجمع بين المعرفة الدقيقة بالسوق والشفافية في كل صفقة."
+        },
+        "services": {
+          "title": "ماذا نقدم",
+          "items": [
+            { "title": "بيع وشراء العقارات", "text": "نعرض عقارك على المشترين المناسبين ونرشدك لأفضل الفرص المتاحة." },
+            { "title": "التأجير", "text": "نوفر وحدات سكنية وتجارية مختارة ونتولى إجراءات العقود عبر منصة إيجار." },
+            { "title": "إدارة الأملاك", "text": "نتابع التحصيل والصيانة وشؤون المستأجرين لتستمتع بعائد مستقر دون عناء." }
+          ]
+        },
+        "stats": [
+          { "value": "+500", "label": "عقار مُسوّق" },
+          { "value": "+300", "label": "عميل راضٍ" },
+          { "value": "10", "label": "أعوام في السوق" }
+        ],
+        "ctaBand": {
+          "title": "تبحث عن عقار أو تريد تسويق عقارك؟",
+          "text": "فريقنا جاهز لمساعدتك في إيجاد الخيار الأنسب بأفضل قيمة.",
+          "button": "اطلب استشارة"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الشاطئ، جدة",
+          "hours": "السبت - الخميس: 9 صباحاً - 9 مساءً"
+        }
+      },
+      "en": {
+        "name": "Dar Al Sakan Realty",
+        "tagline": "Sales, Rentals & Property Management",
+        "hero": {
+          "title": "The right property, in the right place",
+          "subtitle": "Buy, sell and rent with confidence, backed by professional property management from start to finish.",
+          "cta": "Browse properties"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A licensed real-estate agency serving homeowners and investors across the city's most sought-after neighbourhoods. We combine deep market knowledge with full transparency in every deal."
+        },
+        "services": {
+          "title": "What we offer",
+          "items": [
+            { "title": "Buying & selling", "text": "We put your property in front of the right buyers and guide you to the best opportunities." },
+            { "title": "Rentals", "text": "Curated residential and commercial units, with leases handled through the Ejar platform." },
+            { "title": "Property management", "text": "We handle collections, maintenance and tenants so you enjoy steady returns hassle-free." }
+          ]
+        },
+        "stats": [
+          { "value": "+500", "label": "Properties marketed" },
+          { "value": "+300", "label": "Happy clients" },
+          { "value": "10", "label": "Years in the market" }
+        ],
+        "ctaBand": {
+          "title": "Looking to buy, rent or list?",
+          "text": "Our team is ready to help you find the best option at the best value.",
+          "button": "Talk to an agent"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Shati, Jeddah",
+          "hours": "Sat - Thu: 9 AM - 9 PM"
+        }
+      }
+    },
+    "beauty": {
+      "ar": {
+        "name": "صالون لمسة ورد",
+        "tagline": "صالون وسبا نسائي",
+        "hero": {
+          "title": "جمالك يستحق لحظة عناية",
+          "subtitle": "تجربة عناية متكاملة في أجواء هادئة وخاصة، بأيدي خبيرات ومنتجات عالية الجودة.",
+          "cta": "احجزي موعدك"
+        },
+        "about": {
+          "title": "عن الصالون",
+          "text": "صالون نسائي يقدم خدمات الشعر والبشرة والسبا بمعايير عالية من النظافة والخصوصية. نحرص على أن تخرج كل عميلة بإطلالة تعكس ثقتها وراحتها."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            { "title": "العناية بالشعر", "text": "قص وصبغ وعلاجات مغذية تمنح شعرك الحيوية واللمعان." },
+            { "title": "العناية بالبشرة", "text": "جلسات تنظيف ونضارة مصممة حسب نوع بشرتك واحتياجها." },
+            { "title": "السبا والمساج", "text": "جلسات استرخاء تعيد لجسمك الراحة وتخفف ضغوط اليوم." }
+          ]
+        },
+        "stats": [
+          { "value": "+5000", "label": "عميلة سعيدة" },
+          { "value": "12", "label": "خبيرة تجميل" },
+          { "value": "+40", "label": "خدمة متنوعة" }
+        ],
+        "ctaBand": {
+          "title": "امنحي نفسك يوماً مميزاً",
+          "text": "احجزي موعدك الآن واستمتعي بتجربة عناية لا تُنسى.",
+          "button": "احجزي الآن"
+        },
+        "contact": {
+          "title": "تواصلي معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي النرجس، الرياض",
+          "hours": "يومياً: 10 صباحاً - 10 مساءً"
+        }
+      },
+      "en": {
+        "name": "Lamsat Ward Salon",
+        "tagline": "Women's Salon & Spa",
+        "hero": {
+          "title": "Your beauty deserves a moment of care",
+          "subtitle": "A complete care experience in a calm, private setting, delivered by expert hands and premium products.",
+          "cta": "Book your visit"
+        },
+        "about": {
+          "title": "About the salon",
+          "text": "A women-only salon offering hair, skin and spa treatments with the highest standards of hygiene and privacy. We make sure every client leaves feeling confident, relaxed and radiant."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            { "title": "Hair care", "text": "Cuts, colour and nourishing treatments that bring back shine and vitality." },
+            { "title": "Skin care", "text": "Cleansing and glow facials tailored to your skin type and needs." },
+            { "title": "Spa & massage", "text": "Relaxing sessions that restore your body and melt away the day's stress." }
+          ]
+        },
+        "stats": [
+          { "value": "+5000", "label": "Happy clients" },
+          { "value": "12", "label": "Beauty experts" },
+          { "value": "+40", "label": "Treatments" }
+        ],
+        "ctaBand": {
+          "title": "Treat yourself to a special day",
+          "text": "Book your appointment now and enjoy a pampering experience to remember.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Narjis, Riyadh",
+          "hours": "Daily: 10 AM - 10 PM"
+        }
+      }
+    },
+    "construction": {
+      "ar": {
+        "name": "شركة أساس البناء للمقاولات",
+        "tagline": "مقاولات عامة وتشييد",
+        "hero": {
+          "title": "نبني مشاريعك على أساس متين",
+          "subtitle": "ننفذ مشاريعك السكنية والتجارية بجودة عالية والتزام بالجداول الزمنية ومعايير السلامة.",
+          "cta": "اطلب عرض سعر"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "شركة مقاولات سعودية مصنفة تعمل في تنفيذ المباني والبنية التحتية وأعمال التشطيب. نعتمد على كوادر هندسية مؤهلة وإدارة مشاريع دقيقة لتسليم كل مشروع كما خُطط له."
+        },
+        "services": {
+          "title": "مجالات عملنا",
+          "items": [
+            { "title": "الإنشاءات العامة", "text": "تنفيذ المباني السكنية والتجارية من الهيكل الإنشائي حتى التسليم." },
+            { "title": "التشطيبات", "text": "أعمال تشطيب داخلية وخارجية بخامات مختارة وتنفيذ متقن." },
+            { "title": "إدارة المشاريع", "text": "تخطيط ومتابعة وإشراف هندسي يضمن الجودة والالتزام بالميزانية." }
+          ]
+        },
+        "stats": [
+          { "value": "+200", "label": "مشروع منفذ" },
+          { "value": "+350", "label": "مهندس وفني" },
+          { "value": "20", "label": "عاماً من الإنجاز" }
+        ],
+        "ctaBand": {
+          "title": "لديك مشروع قادم؟",
+          "text": "شاركنا تفاصيل مشروعك وسيتواصل معك فريقنا الهندسي بعرض مناسب.",
+          "button": "ابدأ مشروعك"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الفيصلية، الدمام",
+          "hours": "الأحد - الخميس: 8 صباحاً - 5 مساءً"
+        }
+      },
+      "en": {
+        "name": "Asas Build Contracting",
+        "tagline": "General Contracting & Construction",
+        "hero": {
+          "title": "Building your projects on solid ground",
+          "subtitle": "We deliver residential and commercial projects with high quality, on schedule and to strict safety standards.",
+          "cta": "Request a quote"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A classified Saudi contractor delivering buildings, infrastructure and finishing works. Our qualified engineering teams and disciplined project management hand over every project as planned."
+        },
+        "services": {
+          "title": "What we build",
+          "items": [
+            { "title": "General construction", "text": "Residential and commercial buildings from structural works through to handover." },
+            { "title": "Finishing works", "text": "Interior and exterior finishing with carefully selected materials and precise execution." },
+            { "title": "Project management", "text": "Planning, supervision and engineering oversight that keep quality high and budgets on track." }
+          ]
+        },
+        "stats": [
+          { "value": "+200", "label": "Projects delivered" },
+          { "value": "+350", "label": "Engineers & technicians" },
+          { "value": "20", "label": "Years of delivery" }
+        ],
+        "ctaBand": {
+          "title": "Planning your next project?",
+          "text": "Share your project details and our engineering team will get back to you with a tailored proposal.",
+          "button": "Start your project"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Faisaliyah, Dammam",
+          "hours": "Sun - Thu: 8 AM - 5 PM"
+        }
+      }
+    },
+    "education": {
+      "ar": {
+        "name": "أكاديمية آفاق للتدريب",
+        "tagline": "تدريب وتطوير مهني",
+        "hero": {
+          "title": "طوّر مهاراتك وابنِ مستقبلك",
+          "subtitle": "برامج تدريبية معتمدة يقدمها مدربون متخصصون، حضورياً وعن بُعد، تناسب الطلاب والمهنيين.",
+          "cta": "سجّل الآن"
+        },
+        "about": {
+          "title": "عن الأكاديمية",
+          "text": "مركز تدريب خاص يقدم برامج في المهارات التقنية واللغات والتطوير الإداري. نركز على التعلم التطبيقي الذي يُحدث فرقاً حقيقياً في مسيرة المتدرب."
+        },
+        "services": {
+          "title": "برامجنا",
+          "items": [
+            { "title": "الدورات التقنية", "text": "برمجة وتحليل بيانات وتصميم بمناهج عملية مواكبة لسوق العمل." },
+            { "title": "اللغات", "text": "دورات لغة إنجليزية بمستويات متدرجة والتحضير للاختبارات الدولية." },
+            { "title": "تدريب الشركات", "text": "برامج مخصصة لتطوير فرق العمل ورفع كفاءة الموظفين." }
+          ]
+        },
+        "stats": [
+          { "value": "+3000", "label": "متدرب" },
+          { "value": "+60", "label": "برنامجاً تدريبياً" },
+          { "value": "25", "label": "مدرباً معتمداً" }
+        ],
+        "ctaBand": {
+          "title": "ابدأ رحلتك التعليمية اليوم",
+          "text": "اختر البرنامج المناسب لك وانضم إلى الدفعة القادمة.",
+          "button": "استعرض البرامج"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الملقا، الرياض",
+          "hours": "الأحد - الخميس: 8 صباحاً - 8 مساءً"
+        }
+      },
+      "en": {
+        "name": "Afaq Training Academy",
+        "tagline": "Training & Professional Development",
+        "hero": {
+          "title": "Grow your skills, shape your future",
+          "subtitle": "Accredited programmes led by specialist trainers, in person and online, for students and professionals alike.",
+          "cta": "Enrol now"
+        },
+        "about": {
+          "title": "About the academy",
+          "text": "A private training centre offering programmes in tech skills, languages and management development. We focus on hands-on learning that makes a real difference to every learner's career."
+        },
+        "services": {
+          "title": "Our programmes",
+          "items": [
+            { "title": "Tech courses", "text": "Programming, data analysis and design with practical, job-ready curricula." },
+            { "title": "Languages", "text": "Levelled English courses plus preparation for international exams." },
+            { "title": "Corporate training", "text": "Tailored programmes that upskill teams and boost staff performance." }
+          ]
+        },
+        "stats": [
+          { "value": "+3000", "label": "Learners" },
+          { "value": "+60", "label": "Programmes" },
+          { "value": "25", "label": "Certified trainers" }
+        ],
+        "ctaBand": {
+          "title": "Start your learning journey today",
+          "text": "Pick the programme that fits you and join the next intake.",
+          "button": "View programmes"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Malqa, Riyadh",
+          "hours": "Sun - Thu: 8 AM - 8 PM"
+        }
+      }
+    },
+    "fitness": {
+      "ar": {
+        "name": "كوتش فارس للياقة",
+        "tagline": "مدرب شخصي ولياقة بدنية",
+        "hero": {
+          "title": "أقوى نسخة منك تبدأ اليوم",
+          "subtitle": "برامج تدريب وتغذية مصممة لهدفك، مع متابعة شخصية تضمن لك نتائج حقيقية ومستدامة.",
+          "cta": "ابدأ التحدي"
+        },
+        "about": {
+          "title": "عن المدرب",
+          "text": "مدرب لياقة معتمد بخبرة تتجاوز عشر سنوات في خسارة الوزن وبناء العضلات وتحسين الأداء. أؤمن بأن الالتزام والخطة الصحيحة يصنعان الفرق مهما كانت نقطة البداية."
+        },
+        "services": {
+          "title": "كيف أساعدك",
+          "items": [
+            { "title": "التدريب الشخصي", "text": "جلسات فردية في النادي مع تصحيح الأداء ومتابعة التقدم أولاً بأول." },
+            { "title": "التدريب أونلاين", "text": "برنامج أسبوعي ومتابعة عن بُعد أينما كنت." },
+            { "title": "خطط التغذية", "text": "نظام غذائي عملي يناسب نمط حياتك ويدعم هدفك." }
+          ]
+        },
+        "stats": [
+          { "value": "+400", "label": "متدرب" },
+          { "value": "+10", "label": "أعوام خبرة" },
+          { "value": "+2000", "label": "كجم خسارة دهون" }
+        ],
+        "ctaBand": {
+          "title": "جاهز تغيّر حياتك؟",
+          "text": "احجز جلسة تقييم مجانية ولنضع خطتك معاً.",
+          "button": "احجز جلستك"
+        },
+        "contact": {
+          "title": "تواصل معي",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الروضة، جدة",
+          "hours": "السبت - الخميس: 6 صباحاً - 11 مساءً"
+        }
+      },
+      "en": {
+        "name": "Coach Faris Fitness",
+        "tagline": "Personal Training & Fitness",
+        "hero": {
+          "title": "Your strongest self starts today",
+          "subtitle": "Training and nutrition plans built around your goal, with personal coaching that delivers real, lasting results.",
+          "cta": "Start the challenge"
+        },
+        "about": {
+          "title": "About your coach",
+          "text": "A certified fitness coach with over ten years of experience in fat loss, muscle building and performance. I believe commitment and the right plan make the difference, wherever you start."
+        },
+        "services": {
+          "title": "How I can help",
+          "items": [
+            { "title": "Personal training", "text": "One-to-one gym sessions with form correction and progress tracking every step of the way." },
+            { "title": "Online coaching", "text": "A weekly programme and remote check-ins wherever you are." },
+            { "title": "Nutrition plans", "text": "A practical eating plan that fits your lifestyle and supports your goal." }
+          ]
+        },
+        "stats": [
+          { "value": "+400", "label": "Clients coached" },
+          { "value": "+10", "label": "Years of experience" },
+          { "value": "+2000", "label": "kg of fat lost" }
+        ],
+        "ctaBand": {
+          "title": "Ready to change your life?",
+          "text": "Book a free assessment session and let's build your plan together.",
+          "button": "Book your session"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Rawdah, Jeddah",
+          "hours": "Sat - Thu: 6 AM - 11 PM"
+        }
+      }
+    }
+  },
+  "faq": {
+    "corporate": {
+      "ar": {
+        "title": "أسئلة شائعة حول خدماتنا الاستشارية",
+        "items": [
+          { "q": "ما القطاعات التي تخدمونها؟", "a": "نعمل مع الشركات الناشئة والمتوسطة والكبيرة في قطاعات متعددة مثل التجزئة والخدمات والتقنية والصناعة." },
+          { "q": "كيف تبدأ رحلة العمل معكم؟", "a": "نبدأ باجتماع تعريفي لفهم احتياجاتك، ثم نقدم مقترحاً يوضح النطاق والمنهجية والجدول الزمني." },
+          { "q": "هل تقدمون دعماً بعد تسليم التوصيات؟", "a": "نعم، نوفر متابعة ودعماً في مرحلة التنفيذ لضمان تحقيق النتائج المرجوة." }
+        ]
+      },
+      "en": {
+        "title": "Consulting FAQs",
+        "items": [
+          { "q": "Which industries do you work with?", "a": "We support startups, SMEs and large enterprises across retail, services, technology and industry." },
+          { "q": "How does an engagement start?", "a": "We begin with a discovery meeting, then share a proposal outlining scope, approach and timeline." },
+          { "q": "Do you support implementation after recommendations?", "a": "Yes, we offer follow-up and hands-on support during implementation to make sure results are achieved." }
+        ]
+      }
+    },
+    "personal": {
+      "ar": {
+        "title": "أسئلة متكررة",
+        "items": [
+          { "q": "كم يستغرق تصميم الهوية البصرية؟", "a": "تختلف المدة حسب حجم المشروع، وعادةً ما تُنجز الهوية الكاملة خلال بضعة أسابيع." },
+          { "q": "كم عدد التعديلات المتاحة؟", "a": "تشمل كل باقة عدداً محدداً من جولات التعديل يُتفق عليه قبل البدء لضمان رضاك عن النتيجة." },
+          { "q": "ما الملفات التي سأستلمها؟", "a": "تستلم الشعار بجميع الصيغ المطلوبة للطباعة والويب، إضافة إلى دليل استخدام الهوية." }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          { "q": "How long does a brand identity take?", "a": "It depends on the scope, but a full identity is usually completed within a few weeks." },
+          { "q": "How many revisions are included?", "a": "Each package includes a set number of revision rounds, agreed before we start, so you're happy with the result." },
+          { "q": "What files will I receive?", "a": "You'll get your logo in every format needed for print and web, plus a brand guidelines document." }
+        ]
+      }
+    },
+    "restaurant": {
+      "ar": {
+        "title": "أسئلة ضيوفنا",
+        "items": [
+          { "q": "هل يلزم الحجز المسبق؟", "a": "نستقبل الضيوف دون حجز، لكننا ننصح بالحجز المسبق في عطلة نهاية الأسبوع والمناسبات." },
+          { "q": "هل تتوفر خدمة التوصيل؟", "a": "نعم، يمكنكم الطلب عبر تطبيقات التوصيل المعتمدة أو التواصل معنا مباشرة." },
+          { "q": "هل تستقبلون طلبات الولائم والمناسبات؟", "a": "بالتأكيد، نجهز قوائم خاصة للولائم والمناسبات العائلية وفعاليات الشركات." }
+        ]
+      },
+      "en": {
+        "title": "Guest questions",
+        "items": [
+          { "q": "Do I need a reservation?", "a": "Walk-ins are welcome, but we recommend booking ahead on weekends and special occasions." },
+          { "q": "Do you offer delivery?", "a": "Yes, you can order through approved delivery apps or contact us directly." },
+          { "q": "Do you cater banquets and events?", "a": "Absolutely, we prepare special menus for banquets, family gatherings and corporate events." }
+        ]
+      }
+    },
+    "clinic": {
+      "ar": {
+        "title": "أسئلة المراجعين",
+        "items": [
+          { "q": "كيف أحجز موعداً؟", "a": "يمكنك الحجز عبر الاتصال أو الواتساب أو من خلال نموذج الحجز في الموقع." },
+          { "q": "هل تقبلون التأمين الطبي؟", "a": "نتعامل مع عدد من شركات التأمين المعتمدة، ويسعدنا التحقق من تغطيتك قبل الزيارة." },
+          { "q": "هل تستقبلون الأطفال وكبار السن؟", "a": "نعم، نقدم رعاية صحية لجميع أفراد الأسرة من الأطفال حتى كبار السن." }
+        ]
+      },
+      "en": {
+        "title": "Patient questions",
+        "items": [
+          { "q": "How do I book an appointment?", "a": "You can book by phone, WhatsApp or through the booking form on our website." },
+          { "q": "Do you accept medical insurance?", "a": "We work with a number of approved insurers and are happy to check your coverage before your visit." },
+          { "q": "Do you treat children and seniors?", "a": "Yes, we provide care for the whole family, from young children to older adults." }
+        ]
+      }
+    },
+    "store": {
+      "ar": {
+        "title": "أسئلة التسوق",
+        "items": [
+          { "q": "كم تستغرق مدة التوصيل؟", "a": "يصل طلبك عادةً خلال أيام عمل قليلة حسب مدينتك، وستصلك رسالة لتتبع الشحنة." },
+          { "q": "ما طرق الدفع المتاحة؟", "a": "نوفر الدفع عبر مدى والبطاقات الائتمانية وApple Pay، إضافة إلى الدفع عند الاستلام." },
+          { "q": "هل يمكنني إرجاع المنتج أو استبداله؟", "a": "نعم، يمكنك الإرجاع أو الاستبدال خلال فترة محددة بشرط أن يكون المنتج بحالته الأصلية." }
+        ]
+      },
+      "en": {
+        "title": "Shopping FAQs",
+        "items": [
+          { "q": "How long does delivery take?", "a": "Orders usually arrive within a few business days depending on your city, and you'll receive a tracking link." },
+          { "q": "Which payment methods do you accept?", "a": "We accept mada, credit cards and Apple Pay, as well as cash on delivery." },
+          { "q": "Can I return or exchange an item?", "a": "Yes, returns and exchanges are accepted within a set period as long as the item is in its original condition." }
+        ]
+      }
+    },
+    "events": {
+      "ar": {
+        "title": "أسئلة حول القمة",
+        "items": [
+          { "q": "كيف أسجل لحضور القمة؟", "a": "يتم التسجيل عبر الموقع بتعبئة النموذج، وستصلك تذكرة إلكترونية على بريدك." },
+          { "q": "هل تُمنح شهادات حضور؟", "a": "نعم، يحصل الحضور على شهادة حضور إلكترونية بعد انتهاء الفعالية." },
+          { "q": "كيف يمكن لشركتي المشاركة كراعٍ أو عارض؟", "a": "تواصل مع فريق الشراكات لاستعراض باقات الرعاية والمساحات المتاحة للعرض." }
+        ]
+      },
+      "en": {
+        "title": "Summit FAQs",
+        "items": [
+          { "q": "How do I register to attend?", "a": "Register through the website form and your e-ticket will be sent to your email." },
+          { "q": "Will I receive a certificate of attendance?", "a": "Yes, attendees receive a digital certificate of attendance after the event." },
+          { "q": "How can my company sponsor or exhibit?", "a": "Contact our partnerships team to explore sponsorship packages and available exhibition space." }
+        ]
+      }
+    },
+    "law": {
+      "ar": {
+        "title": "أسئلة قانونية شائعة",
+        "items": [
+          { "q": "هل تُعامل استشارتي بسرية؟", "a": "نعم، جميع المعلومات التي تشاركها معنا محمية بسرية تامة وفق أخلاقيات مهنة المحاماة." },
+          { "q": "هل يمكن الحصول على استشارة عن بُعد؟", "a": "بالتأكيد، نقدم الاستشارات حضورياً أو عبر الاتصال المرئي حسب ما يناسبك." },
+          { "q": "ما المستندات المطلوبة في الاستشارة الأولى؟", "a": "يُفضل إحضار أي عقود أو مراسلات أو مستندات متعلقة بالقضية لنقدم لك تقييماً دقيقاً." }
+        ]
+      },
+      "en": {
+        "title": "Common legal questions",
+        "items": [
+          { "q": "Is my consultation confidential?", "a": "Yes, everything you share with us is kept strictly confidential in line with professional legal ethics." },
+          { "q": "Can I get a consultation remotely?", "a": "Absolutely, we offer consultations in person or by video call, whichever suits you." },
+          { "q": "What should I bring to the first consultation?", "a": "Please bring any contracts, correspondence or documents related to your matter so we can give an accurate assessment." }
+        ]
+      }
+    },
+    "realestate": {
+      "ar": {
+        "title": "أسئلة العملاء العقارية",
+        "items": [
+          { "q": "هل يتم توثيق عقود الإيجار إلكترونياً؟", "a": "نعم، نوثق جميع عقود الإيجار عبر منصة إيجار لحفظ حقوق المالك والمستأجر." },
+          { "q": "كيف تحددون قيمة العقار عند البيع؟", "a": "نعتمد على دراسة أسعار السوق والعقارات المماثلة في الحي لتقديم تقييم واقعي." },
+          { "q": "ماذا تشمل خدمة إدارة الأملاك؟", "a": "تشمل تسويق الوحدات وتحصيل الإيجارات ومتابعة الصيانة والتواصل مع المستأجرين." }
+        ]
+      },
+      "en": {
+        "title": "Property questions",
+        "items": [
+          { "q": "Are lease contracts registered electronically?", "a": "Yes, all leases are registered through the Ejar platform to protect both landlord and tenant." },
+          { "q": "How do you value a property for sale?", "a": "We study current market prices and comparable properties in the neighbourhood to give a realistic valuation." },
+          { "q": "What does property management include?", "a": "It covers marketing your units, collecting rent, handling maintenance and managing tenant communication." }
+        ]
+      }
+    },
+    "beauty": {
+      "ar": {
+        "title": "أسئلة عميلاتنا",
+        "items": [
+          { "q": "هل يلزم الحجز المسبق؟", "a": "نفضل الحجز المسبق لضمان توفر الموعد والخبيرة المناسبة، ونستقبل الحضور المباشر حسب التوفر." },
+          { "q": "ما المنتجات المستخدمة في الصالون؟", "a": "نستخدم منتجات أصلية من علامات تجارية موثوقة ومناسبة لمختلف أنواع الشعر والبشرة." },
+          { "q": "هل تقدمون خدمات تجهيز العرائس؟", "a": "نعم، لدينا باقات متكاملة لتجهيز العروس تشمل الشعر والمكياج والعناية بالبشرة." }
+        ]
+      },
+      "en": {
+        "title": "Client questions",
+        "items": [
+          { "q": "Do I need to book in advance?", "a": "We recommend booking ahead to secure your preferred time and specialist, though walk-ins are welcome when available." },
+          { "q": "Which products do you use?", "a": "We use genuine products from trusted brands, suited to every hair and skin type." },
+          { "q": "Do you offer bridal packages?", "a": "Yes, our complete bridal packages cover hair, makeup and skin preparation." }
+        ]
+      }
+    },
+    "construction": {
+      "ar": {
+        "title": "أسئلة حول مشاريعنا",
+        "items": [
+          { "q": "هل تتولون استخراج التراخيص؟", "a": "نعم، نساعد عملاءنا في إعداد المخططات واستكمال إجراءات التراخيص اللازمة للمشروع." },
+          { "q": "كيف تضمنون الالتزام بموعد التسليم؟", "a": "نضع جدولاً زمنياً مفصلاً ونرفع تقارير دورية بنسب الإنجاز طوال مدة التنفيذ." },
+          { "q": "هل تقدمون ضماناً على الأعمال؟", "a": "نعم، نقدم ضماناً على الأعمال الإنشائية والتشطيبات وفق ما ينص عليه العقد." }
+        ]
+      },
+      "en": {
+        "title": "Project questions",
+        "items": [
+          { "q": "Do you handle building permits?", "a": "Yes, we help prepare drawings and complete the permit procedures your project requires." },
+          { "q": "How do you make sure deadlines are met?", "a": "We set a detailed schedule and share regular progress reports throughout construction." },
+          { "q": "Do you offer a warranty on your work?", "a": "Yes, structural and finishing works are covered by a warranty as set out in the contract." }
+        ]
+      }
+    },
+    "education": {
+      "ar": {
+        "title": "أسئلة المتدربين",
+        "items": [
+          { "q": "هل الشهادات معتمدة؟", "a": "نعم، تُمنح شهادات معتمدة لعدد من برامجنا عند إتمام متطلبات الحضور والتقييم." },
+          { "q": "هل تتوفر دورات عن بُعد؟", "a": "نقدم معظم برامجنا حضورياً وعن بُعد عبر منصة تعليمية تفاعلية." },
+          { "q": "هل يمكن تقسيط رسوم البرامج؟", "a": "نعم، تتوفر خيارات دفع مرنة لعدد من البرامج، ويسعد فريقنا بتوضيحها لك." }
+        ]
+      },
+      "en": {
+        "title": "Learner questions",
+        "items": [
+          { "q": "Are your certificates accredited?", "a": "Yes, many of our programmes award accredited certificates once attendance and assessment requirements are met." },
+          { "q": "Do you offer online courses?", "a": "Most programmes are available both in person and online through an interactive learning platform." },
+          { "q": "Can I pay in instalments?", "a": "Yes, flexible payment options are available for many programmes, and our team is happy to explain them." }
+        ]
+      }
+    },
+    "fitness": {
+      "ar": {
+        "title": "أسئلة قبل البدء",
+        "items": [
+          { "q": "هل أحتاج لياقة مسبقة للبدء؟", "a": "لا، نبدأ من مستواك الحالي ونصمم البرنامج ليتدرج معك خطوة بخطوة." },
+          { "q": "متى تظهر النتائج؟", "a": "تختلف النتائج من شخص لآخر، لكن معظم المتدربين يلاحظون تحسناً واضحاً خلال الأسابيع الأولى مع الالتزام." },
+          { "q": "هل يشمل البرنامج نظاماً غذائياً؟", "a": "نعم، تتضمن الباقات خطة غذائية عملية تناسب هدفك ونمط حياتك." }
+        ]
+      },
+      "en": {
+        "title": "Before you start",
+        "items": [
+          { "q": "Do I need to be fit to get started?", "a": "Not at all, we start from your current level and build the programme up with you step by step." },
+          { "q": "When will I see results?", "a": "Results vary from person to person, but most clients notice clear progress within the first few weeks of consistent training." },
+          { "q": "Is a nutrition plan included?", "a": "Yes, packages include a practical nutrition plan tailored to your goal and lifestyle." }
+        ]
+      }
+    }
+  }
+}

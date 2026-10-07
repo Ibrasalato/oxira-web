@@ -3,7 +3,7 @@
 import type { Lang } from '../i18n/content';
 import { contact } from '../i18n/content';
 import { builderText, plans, planIds, domainPrice } from '../i18n/builder';
-import { templateIds, siteLangs, fontIds } from '../builder/spec';
+import { templateIds, siteLangs, fontIds, sectionIds } from '../builder/spec';
 import { languages } from '../i18n/content';
 import { link, asset } from '../lib/routes';
 import Base from '../layouts/Base.astro';
@@ -26,6 +26,7 @@ const config = {
   uploadEndpoint: import.meta.env.PUBLIC_UPLOAD_ENDPOINT || `${n8nBase}/oxira-studio-upload`,
   imageBase: 'https://oxira-sites.oxira-sa.workers.dev/_img/',
   orderEndpoint,
+  shareEndpoint: import.meta.env.PUBLIC_SHARE_ENDPOINT || `${n8nBase}/oxira-studio-share`,
   checkoutEndpoint: import.meta.env.PUBLIC_CHECKOUT_ENDPOINT || `${n8nBase}/oxira-site-checkout`,
   statusEndpoint: import.meta.env.PUBLIC_PAYMENT_STATUS_ENDPOINT || `${n8nBase}/oxira-site-payment-status`,
   fontBase: asset('builder/fonts'),
@@ -122,6 +123,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
             </button>
           </form>
+          <p class="st-hint">{s.editHint}</p>
           <details class="st-media" open>
             <summary>{s.images}</summary>
             <div class="st-media-in">
@@ -146,6 +148,55 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
                 <div class="st-gal" id="st-gal"></div>
               </div>
               <p class="st-status is-error" id="st-up-error" hidden>{s.uploadFailed}</p>
+            </div>
+          </details>
+          <details class="st-panel">
+            <summary>{s.sectionsTitle}</summary>
+            <div class="st-panel-in">
+              <div class="st-checks">
+                {sectionIds.map((id) => (
+                  <label class="st-check"><input type="checkbox" data-section={id} /><span>{s.sectionNames[id]}</span></label>
+                ))}
+              </div>
+              <h3>{s.extrasTitle}</h3>
+              <label class="st-check"><input type="checkbox" data-extra="whatsappButton" /><span>{s.waButton}</span></label>
+              <label class="st-check"><input type="checkbox" data-extra="contactForm" /><span>{s.contactForm}</span></label>
+              <label class="st-field">{s.mapUrl}<input data-map type="url" dir="ltr" maxlength="300" placeholder={s.mapPh} /></label>
+              <p class="st-status is-error" data-map-bad hidden>{s.mapBad}</p>
+            </div>
+          </details>
+          <details class="st-panel">
+            <summary>{s.reviewsTitle}</summary>
+            <div class="st-panel-in">
+              <p class="st-note">{s.reviewsNote}</p>
+              <ul class="st-items" id="st-reviews"></ul>
+              <form class="st-add" id="st-add-review">
+                <label class="st-field">{s.quote}<textarea name="quote" rows="2" maxlength="400" required></textarea></label>
+                <div class="st-two">
+                  <label class="st-field">{s.author}<input name="name" maxlength="60" required /></label>
+                  <label class="st-field">{s.role}<input name="role" maxlength="60" /></label>
+                </div>
+                <button type="submit" class="btn btn-ghost st-small">{s.add}</button>
+              </form>
+            </div>
+          </details>
+          <details class="st-panel">
+            <summary>{s.faqTitle}</summary>
+            <div class="st-panel-in">
+              <ul class="st-items" id="st-faqs"></ul>
+              <form class="st-add" id="st-add-faq">
+                <label class="st-field">{s.question}<input name="q" maxlength="160" required /></label>
+                <label class="st-field">{s.answer}<textarea name="a" rows="2" maxlength="600" required></textarea></label>
+                <button type="submit" class="btn btn-ghost st-small">{s.add}</button>
+              </form>
+            </div>
+          </details>
+          <details class="st-panel">
+            <summary>{s.versionsTitle}</summary>
+            <div class="st-panel-in">
+              <ul class="st-items" id="st-versions"></ul>
+              <p class="st-note" id="st-no-versions">{s.noVersions}</p>
+              <button type="button" class="btn btn-ghost st-small" data-save-version>{s.saveVersion}</button>
             </div>
           </details>
           <details class="st-quick">
@@ -248,6 +299,18 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
             <button type="button" data-device="desktop" aria-pressed="true">{s.desktop}</button>
             <button type="button" data-device="mobile" aria-pressed="false">{s.mobile}</button>
           </div>
+          <button type="button" class="st-share-btn" data-share>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" /><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /></svg>
+            <span>{s.share}</span>
+          </button>
+        </div>
+        <div class="st-share" id="st-share" hidden>
+          <p id="st-share-msg">{s.shareReady}</p>
+          <div class="st-share-row">
+            <input id="st-share-url" readonly dir="ltr" aria-label={s.share} />
+            <button type="button" class="btn btn-navy st-small" data-copy>{s.copy}</button>
+            <a class="btn btn-ghost st-small" id="st-share-open" target="_blank" rel="noopener">{s.open}</a>
+          </div>
         </div>
         <div class="st-frame-wrap" id="st-frame-wrap">
           <iframe id="st-frame" title={s.title} sandbox="allow-same-origin"></iframe>
@@ -264,7 +327,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
 <script>
   import { renderSite } from '../builder/render';
-  import { sampleSpec, mergeSpec, looks, type Spec, type TemplateId, type SiteLang } from '../builder/spec';
+  import { sampleSpec, mergeSpec, looks, sectionIds, type Spec, type TemplateId, type SiteLang, type SectionId } from '../builder/spec';
 
   type Msg = { from: 'ai' | 'me' | 'note'; text: string };
   interface State {
@@ -275,6 +338,8 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     basics: Record<string, string>;
     sessionId: string;
     aiUsed?: boolean;
+    versions?: { at: number; kind: 'ai' | 'saved'; spec: Spec }[];
+    draftId?: string;
   }
 
   const root = document.getElementById('studio')!;
@@ -296,7 +361,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     }
   } catch { /* storage unavailable */ }
   const save = () => {
-    try { localStorage.setItem(KEY, JSON.stringify({ ...state, history: state.history.slice(-10) })); } catch { /* ignore */ }
+    try { localStorage.setItem(KEY, JSON.stringify({ ...state, history: state.history.slice(-10), versions: (state.versions ?? []).slice(-12) })); } catch { /* ignore */ }
   };
 
   // Template chosen on the service page (?t=clinic) starts a fresh design.
@@ -309,6 +374,12 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   const quick = (params.get('q') || '').trim().slice(0, 600);
   if (quick) {
     const guess: [RegExp, TemplateId][] = [
+      [/محام|محاماة|قانون|استشارات قانونية|law|lawyer|legal|attorney|anwalt|kanzlei|avocat|juridique|юрист|адвокат/i, 'law'],
+      [/عقار|شقق|فلل|أراضي|اراضي|real ?estate|property|realtor|immobil|недвижим/i, 'realestate'],
+      [/صالون|تجميل|سبا|مكياج|أظافر|اظافر|beauty|salon|spa|makeup|nails|kosmetik|beauté|красот|салон/i, 'beauty'],
+      [/مقاول|مقاولات|بناء|إنشاء|انشاء|هندس|ترميم|construction|contractor|building|engineering|bau|btp|строител/i, 'construction'],
+      [/تعليم|مدرسة|معهد|أكاديمي|اكاديمي|دورات|تدريب|education|school|academy|institute|courses|tutor|schule|école|formation|образован|школ|курс/i, 'education'],
+      [/نادي|جيم|لياقة|رياض|كروس فت|يوغا|gym|fitness|workout|crossfit|yoga|sport|фитнес|спортзал/i, 'fitness'],
       [/عياد|طبي|طبيب|أسنان|اسنان|مستشفى|صيدلي|clinic|dental|doctor|medical|klinik|arzt|clinique|médic|клиник|врач/i, 'clinic'],
       [/مطعم|مقهى|كافيه|كوفي|مخبز|حلويات|restaurant|caf[eé]|bakery|coffee|bäckerei|ресторан|кафе/i, 'restaurant'],
       [/متجر|محل|بيع|منتجات|ملابس|عطور|store|shop|boutique|products|laden|magasin|магазин/i, 'store'],
@@ -330,9 +401,65 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     renderTimer = window.setTimeout(() => {
       const y = frame.contentWindow?.scrollY ?? 0;
       frame.onload = () => frame.contentWindow?.scrollTo(0, y);
-      frame.srcdoc = renderSite(state.spec!, { fontBase: cfg.fontBase, imageBase: cfg.imageBase });
+      frame.srcdoc = renderSite(state.spec!, { fontBase: cfg.fontBase, imageBase: cfg.imageBase, editable: true });
     }, 60);
   }
+  // ---- Inline editing: click a text in the preview and type ----
+  function setPath(target: unknown, path: string, value: string) {
+    const keys = path.split('.');
+    let o: any = target;
+    for (const k of keys.slice(0, -1)) { o = o?.[k]; if (o == null) return false; }
+    const last = keys[keys.length - 1];
+    if (typeof o?.[last] !== 'string') return false;
+    o[last] = value;
+    return true;
+  }
+  const getPath = (target: unknown, path: string) => path.split('.').reduce<any>((o, k) => o?.[k], target);
+  frame.addEventListener('load', () => {
+    const doc = frame.contentDocument;
+    if (!doc || !state.spec) return;
+    const style = doc.createElement('style');
+    style.textContent = '[data-f]{cursor:text;border-radius:4px;outline:2px dashed transparent;outline-offset:3px;transition:outline-color .15s}[data-f]:hover{outline-color:rgba(0,125,180,.55)}[data-f]:focus{outline:2px solid #007DB4;background:rgba(0,125,180,.06)}';
+    doc.head.append(style);
+    doc.querySelectorAll('details').forEach((d) => { d.open = true; });
+    doc.querySelectorAll<HTMLElement>('[data-f]').forEach((el) => {
+      el.setAttribute('contenteditable', 'plaintext-only');
+      if (el.contentEditable !== 'plaintext-only') el.setAttribute('contenteditable', 'true');
+      el.spellcheck = false;
+    });
+    doc.addEventListener('click', (e) => {
+      const t = e.target as Element;
+      if (t.closest?.('[data-f]') || t.closest?.('summary')) e.preventDefault();
+    });
+    doc.addEventListener('keydown', (e) => {
+      const el = (e.target as Element).closest?.('[data-f]') as HTMLElement | null;
+      if (!el) return;
+      if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); if (e.key === 'Escape') el.textContent = getPath(state.spec, el.dataset.f!) ?? ''; el.blur(); }
+    });
+    doc.addEventListener('paste', (e) => {
+      const el = (e.target as Element).closest?.('[data-f]');
+      if (!el) return;
+      e.preventDefault();
+      const text = (e.clipboardData?.getData('text/plain') ?? '').replace(/\s+/g, ' ');
+      doc.execCommand('insertText', false, text);
+    });
+    doc.addEventListener('focusout', (e) => {
+      const el = (e.target as Element).closest?.('[data-f]') as HTMLElement | null;
+      if (!el || !state.spec) return;
+      const path = el.dataset.f!;
+      const value = (el.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 600);
+      const before = getPath(state.spec, path);
+      if (!value) { el.textContent = before ?? ''; return; }
+      if (value === before) return;
+      const snapshot = structuredClone(state.spec);
+      if (setPath(state.spec, path, value)) {
+        state.history.push(snapshot);
+        drawLog(); save();
+        if (path === 'name') render();
+      }
+    });
+  });
+
   $$<HTMLButtonElement>('[data-device]').forEach((btn) =>
     btn.addEventListener('click', () => {
       $$<HTMLButtonElement>('[data-device]').forEach((x) => x.setAttribute('aria-pressed', String(x === btn)));
@@ -465,6 +592,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
         state.spec = mergeSpec(state.spec, data.spec);
         state.aiUsed = true;
         state.chat.push({ from: 'ai', text: data.reply || '✓' });
+        pushVersion('ai');
         render();
         syncControls();
       } else if (data?.unavailable) {
@@ -601,12 +729,13 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     ctl('accent').value = state.spec.colors.accent;
     ctl('background').value = state.spec.colors.background || '#ffffff';
     ctl('lang').value = state.spec.lang;
+    drawPanels();
   }
   function change(fn: (s: Spec) => Spec) {
     if (!state.spec) return;
     state.history.push(structuredClone(state.spec));
     state.spec = fn(state.spec);
-    render(); drawLog(); drawMedia(); save();
+    render(); drawLog(); drawMedia(); drawPanels(); save();
   }
   ctl('template').addEventListener('change', (e) => {
     const id = (e.target as HTMLSelectElement).value as TemplateId;
@@ -626,6 +755,110 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     } else {
       change((s) => ({ ...sampleSpec(s.template, l), colors: s.colors, font: s.font, name: s.name, contact: { ...sampleSpec(s.template, l).contact, phone: s.contact.phone, whatsapp: s.contact.whatsapp, email: s.contact.email } }));
     }
+  });
+
+  // ---- Sections, extras, reviews, FAQ ----
+  const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Partial<HTMLElementTagNameMap[K]> = {}, ...kids: (Node | string)[]) => {
+    const n = Object.assign(document.createElement(tag), props);
+    n.append(...kids);
+    return n;
+  };
+  const withSection = (s: Spec, id: SectionId) => (s.sections.includes(id) ? s.sections : sectionIds.filter((x) => x === id || s.sections.includes(x)));
+  const mapInput = $<HTMLInputElement>('[data-map]');
+  function drawPanels() {
+    const sp = state.spec;
+    if (!sp) return;
+    $$<HTMLInputElement>('[data-section]').forEach((x) => { x.checked = sp.sections.includes(x.dataset.section as SectionId); });
+    $$<HTMLInputElement>('[data-extra]').forEach((x) => { x.checked = !!sp.extras[x.dataset.extra as 'whatsappButton' | 'contactForm']; });
+    if (document.activeElement !== mapInput) mapInput.value = sp.extras.mapUrl;
+    $<HTMLElement>('#st-reviews').replaceChildren(...sp.testimonials.items.map((q, i) => el('li', {},
+      el('span', { dir: 'auto' }, `“${q.quote}”`, el('small', {}, [q.name, q.role].filter(Boolean).join(' · '))),
+      el('button', { type: 'button', className: 'is-del', textContent: T.delete, onclick: () => change((s) => ({ ...s, testimonials: { ...s.testimonials, items: s.testimonials.items.filter((_, j) => j !== i) } })) }),
+    )));
+    $<HTMLElement>('#st-faqs').replaceChildren(...sp.faq.items.map((x, i) => el('li', {},
+      el('span', { dir: 'auto' }, x.q, el('small', {}, x.a)),
+      el('button', { type: 'button', className: 'is-del', textContent: T.delete, onclick: () => change((s) => ({ ...s, faq: { ...s.faq, items: s.faq.items.filter((_, j) => j !== i) } })) }),
+    )));
+    const vs = state.versions ?? [];
+    const when = new Intl.DateTimeFormat(cfg.numberLocale, { hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'short' });
+    $<HTMLElement>('#st-versions').replaceChildren(...vs.slice().reverse().map((v) => el('li', {},
+      el('span', {}, v.kind === 'ai' ? T.versionAi : T.versionSaved, el('small', {}, when.format(v.at))),
+      el('button', { type: 'button', textContent: T.restore, onclick: () => { change(() => structuredClone(v.spec)); syncControls(); state.chat.push({ from: 'note', text: T.versionRestored }); drawLog(); save(); } }),
+    )));
+    $<HTMLElement>('#st-no-versions').hidden = vs.length > 0;
+  }
+  function pushVersion(kind: 'ai' | 'saved') {
+    if (!state.spec) return;
+    state.versions = [...(state.versions ?? []), { at: Date.now(), kind, spec: structuredClone(state.spec) }].slice(-12);
+    drawPanels();
+  }
+  $('[data-save-version]').addEventListener('click', () => { pushVersion('saved'); save(); });
+  $$<HTMLInputElement>('[data-section]').forEach((box) => box.addEventListener('change', () => {
+    const id = box.dataset.section as SectionId;
+    change((s) => ({ ...s, sections: box.checked ? withSection(s, id) : s.sections.filter((x) => x !== id) }));
+  }));
+  $$<HTMLInputElement>('[data-extra]').forEach((box) => box.addEventListener('change', () => {
+    change((s) => ({ ...s, extras: { ...s.extras, [box.dataset.extra!]: box.checked } }));
+  }));
+  mapInput.addEventListener('change', () => {
+    const v = mapInput.value.trim();
+    const merged = state.spec ? mergeSpec(state.spec, { extras: { mapUrl: v } }) : null;
+    const ok = merged && merged.extras.mapUrl === v;
+    $<HTMLElement>('[data-map-bad]').hidden = !!ok;
+    if (ok) change((s) => ({ ...s, extras: { ...s.extras, mapUrl: v } }));
+  });
+  $<HTMLFormElement>('#st-add-review').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+    const d = Object.fromEntries(new FormData(f)) as Record<string, string>;
+    if (!d.quote?.trim() || !d.name?.trim()) return;
+    change((s) => ({
+      ...s,
+      sections: withSection(s, 'testimonials'),
+      testimonials: { ...s.testimonials, items: [...s.testimonials.items, { quote: d.quote.trim(), name: d.name.trim(), role: (d.role || '').trim() }].slice(0, 6) },
+    }));
+    f.reset();
+  });
+  $<HTMLFormElement>('#st-add-faq').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+    const d = Object.fromEntries(new FormData(f)) as Record<string, string>;
+    if (!d.q?.trim() || !d.a?.trim()) return;
+    change((s) => ({ ...s, sections: withSection(s, 'faq'), faq: { ...s.faq, items: [...s.faq.items, { q: d.q.trim(), a: d.a.trim() }].slice(0, 8) } }));
+    f.reset();
+  });
+
+  // ---- Share a preview link ----
+  const shareBtn = $<HTMLButtonElement>('[data-share]');
+  const shareBox = $<HTMLElement>('#st-share');
+  const shareUrl = $<HTMLInputElement>('#st-share-url');
+  const shareMsg = $<HTMLElement>('#st-share-msg');
+  shareBtn.addEventListener('click', async () => {
+    if (!state.spec) return;
+    const label = shareBtn.querySelector('span')!;
+    shareBtn.disabled = true; label.textContent = T.sharing;
+    try {
+      const res = await fetch(cfg.shareEndpoint, { method: 'POST', body: new URLSearchParams({ spec: JSON.stringify(state.spec), draftId: state.draftId || '' }) });
+      const data = await res.json().catch(() => ({}));
+      if (!data?.success || typeof data.url !== 'string') throw new Error('share');
+      state.draftId = data.draftId; save();
+      shareUrl.value = data.url;
+      $<HTMLAnchorElement>('#st-share-open').href = data.url;
+      shareMsg.textContent = T.shareReady;
+      shareBox.querySelector<HTMLElement>('.st-share-row')!.hidden = false;
+    } catch {
+      shareMsg.textContent = T.shareFailed;
+      shareBox.querySelector<HTMLElement>('.st-share-row')!.hidden = true;
+    } finally {
+      shareBox.hidden = false;
+      shareBtn.disabled = false; label.textContent = T.share;
+    }
+  });
+  $('[data-copy]').addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    try { await navigator.clipboard.writeText(shareUrl.value); } catch { shareUrl.select(); document.execCommand('copy'); }
+    b.textContent = T.copied;
+    setTimeout(() => { b.textContent = T.copy; }, 1800);
   });
 
   // 4. Order
@@ -882,6 +1115,35 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-bg input { flex: 1; }
   .st-bg .st-link { color: var(--muted); font-size: .85rem; white-space: nowrap; }
   .st-to-order { margin: .9rem 1.25rem 1.25rem; }
+  .st-hint { margin: .55rem 1.25rem 0; font-size: .82rem; color: var(--muted); display: flex; gap: .4rem; align-items: center; }
+  .st-hint::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex: none; }
+  .st-panel { margin: .9rem 1.25rem 0; border: 1px solid var(--line); border-radius: 12px; }
+  .st-panel summary { cursor: pointer; padding: .7rem .9rem; font-weight: 600; font-size: .95rem; }
+  .st-panel-in { padding: 0 .9rem .9rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: .55rem; }
+  .st-panel-in > * { min-width: 0; }
+  .st-panel h3 { font-size: .88rem; margin-top: .4rem; }
+  .st-checks { display: grid; grid-template-columns: 1fr 1fr; gap: .35rem .75rem; }
+  .st-check { display: flex; gap: .5rem; align-items: center; font-size: .92rem; cursor: pointer; }
+  .st-check input { width: 1rem; height: 1rem; accent-color: var(--navy); flex: none; }
+  .st-items { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: .4rem; }
+  .st-items:empty { display: none; }
+  .st-items :global(li) { display: flex; gap: .6rem; align-items: center; padding: .5rem .7rem; border: 1px solid var(--line); border-radius: 10px; font-size: .88rem; }
+  .st-items :global(li > span) { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .st-items :global(li small) { color: var(--muted); display: block; overflow: hidden; text-overflow: ellipsis; }
+  .st-items :global(button) { border: 0; background: none; font: 600 .82rem var(--font); color: var(--blue); cursor: pointer; padding: .2rem; white-space: nowrap; }
+  .st-items :global(button.is-del) { color: #B42318; }
+  .st-add { display: grid; gap: 0; padding-top: .5rem; border-top: 1px solid var(--line); }
+  .st-small { padding: .5rem 1rem; font-size: .88rem; justify-self: start; }
+  .st-stage-bar { position: relative; }
+  .st-share-btn { position: absolute; inset-inline-end: 1.25rem; top: 50%; transform: translateY(-50%); display: inline-flex; gap: .4rem; align-items: center; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: .45rem .9rem; font: 600 .86rem var(--font); color: var(--ink); cursor: pointer; }
+  .st-share-btn:hover { border-color: var(--navy); }
+  .st-share-btn:disabled { opacity: .6; cursor: wait; }
+  .st-share-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .st-share { margin: 0 1.25rem .7rem; padding: .7rem .9rem; border-radius: 12px; background: var(--blue-soft); font-size: .88rem; }
+  .st-share[hidden] { display: none; }
+  .st-share-row { display: flex; gap: .4rem; margin-top: .45rem; flex-wrap: wrap; }
+  .st-share-row[hidden] { display: none; }
+  .st-share-row input { flex: 1; min-width: 12rem; border: 1px solid var(--line); border-radius: 10px; padding: .45rem .7rem; font: 500 .85rem var(--font); background: #fff; color: var(--ink); }
 
   /* 4. Order */
   .st-pkgs { list-style: none; display: grid; gap: .5rem; }
@@ -950,6 +1212,8 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     .st-editor { height: auto; }
     .st-log { max-height: 50vh; }
     .st-stage { height: 78vh; }
+    .st-share-btn { position: static; transform: none; margin-inline-start: .5rem; }
+    .st-stage-bar { flex-wrap: wrap; gap: .4rem; }
   }
   @media (max-width: 560px) {
     .st-tpls { grid-template-columns: 1fr; }

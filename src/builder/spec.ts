@@ -1,10 +1,12 @@
+import extra from './samples-extra.json';
+
 // Site spec: everything a client's website is made of. The studio edits it (by form or by
 // chatting with the AI), render.ts turns it into a full HTML page.
 
-export type TemplateId = 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events';
+export type TemplateId = 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events' | 'law' | 'realestate' | 'beauty' | 'construction' | 'education' | 'fitness';
 export type SiteLang = 'ar' | 'en' | 'de' | 'fr' | 'ru';
 export type FontId = 'modern' | 'elegant' | 'friendly';
-export type SectionId = 'about' | 'services' | 'gallery' | 'stats' | 'cta' | 'contact';
+export type SectionId = 'about' | 'services' | 'gallery' | 'testimonials' | 'faq' | 'stats' | 'cta' | 'contact';
 
 export interface Spec {
   template: TemplateId;
@@ -21,6 +23,11 @@ export interface Spec {
   ctaBand: { title: string; text: string; button: string };
   contact: { title: string; phone: string; whatsapp: string; email: string; address: string; hours: string };
   sections: SectionId[];
+  /** Only real quotes the client provides; never generated. */
+  testimonials: { title: string; items: { quote: string; name: string; role: string }[] };
+  faq: { title: string; items: { q: string; a: string }[] };
+  /** whatsappButton: floating chat button; contactForm: a form that emails the site owner; mapUrl: Google Maps link. */
+  extras: { whatsappButton: boolean; contactForm: boolean; mapUrl: string };
   /** Uploaded images, as ids like "i_3f9a…_j" (j = jpeg, p = png). Empty string = none. */
   media: { logo: string; hero: string; about: string; gallery: string[]; galleryTitle: string };
 }
@@ -28,8 +35,8 @@ export interface Spec {
 export const imageIdPattern = /^i_[a-f0-9]{20,40}_[jp]$/;
 export const emptyMedia = () => ({ logo: '', hero: '', about: '', gallery: [] as string[], galleryTitle: '' });
 
-export const templateIds: TemplateId[] = ['corporate', 'personal', 'restaurant', 'clinic', 'store', 'events'];
-export const sectionIds: SectionId[] = ['about', 'services', 'gallery', 'stats', 'cta', 'contact'];
+export const templateIds: TemplateId[] = ['corporate', 'personal', 'restaurant', 'clinic', 'store', 'events', 'law', 'realestate', 'beauty', 'construction', 'education', 'fitness'];
+export const sectionIds: SectionId[] = ['about', 'services', 'gallery', 'testimonials', 'faq', 'stats', 'cta', 'contact'];
 export const fontIds: FontId[] = ['modern', 'elegant', 'friendly'];
 export const siteLangs: SiteLang[] = ['ar', 'en', 'de', 'fr', 'ru'];
 
@@ -41,12 +48,25 @@ export const looks: Record<TemplateId, { primary: string; accent: string; font: 
   clinic: { primary: '#0E7490', accent: '#22A06B', font: 'friendly' },
   store: { primary: '#5B21B6', accent: '#F97316', font: 'friendly' },
   events: { primary: '#0B1120', accent: '#B7F34B', font: 'modern' },
+  law: { primary: '#1F2A44', accent: '#B08D57', font: 'elegant' },
+  realestate: { primary: '#14532D', accent: '#D4A017', font: 'modern' },
+  beauty: { primary: '#7A2E55', accent: '#E8A5B9', font: 'elegant' },
+  construction: { primary: '#1F2937', accent: '#F59E0B', font: 'modern' },
+  education: { primary: '#1E40AF', accent: '#F97316', font: 'friendly' },
+  fitness: { primary: '#111111', accent: '#EF4444', font: 'modern' },
+};
+
+/** Which base layout each template uses; the template then adds its own artwork and colours. */
+export const layoutOf: Record<TemplateId, 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events'> = {
+  corporate: 'corporate', personal: 'personal', restaurant: 'restaurant', clinic: 'clinic', store: 'store', events: 'events',
+  law: 'corporate', realestate: 'corporate', beauty: 'clinic', construction: 'corporate', education: 'clinic', fitness: 'events',
 };
 
 type Copy = Omit<Spec, 'template' | 'lang' | 'colors' | 'font' | 'sections' | 'media'>;
+
 const C = (name: string, tagline: string, hero: [string, string, string], about: [string, string],
   servicesTitle: string, items: [string, string][], stats: [string, string][], cta: [string, string, string],
-  contactTitle: string, address: string, hours: string): Copy => ({
+  contactTitle: string, address: string, hours: string): BaseCopy => ({
   name, tagline,
   hero: { title: hero[0], subtitle: hero[1], cta: hero[2] },
   about: { title: about[0], text: about[1] },
@@ -57,7 +77,8 @@ const C = (name: string, tagline: string, hero: [string, string, string], about:
 });
 
 /** Sample words for each template, so every template looks complete before the client writes anything. */
-const sample: Record<TemplateId, { ar: Copy; en: Copy }> = {
+type BaseCopy = Omit<Copy, 'testimonials' | 'faq' | 'extras'>;
+const sample: Record<string, { ar: BaseCopy; en: BaseCopy }> = {
   corporate: {
     ar: C('نكسس للاستشارات', 'استشارات أعمال وتطوير مؤسسي',
       ['نساعد شركتك على النمو بثقة', 'استشارات استراتيجية وتشغيلية تحوّل أهدافك إلى نتائج قابلة للقياس.', 'احجز استشارة'],
@@ -156,8 +177,18 @@ const sample: Record<TemplateId, { ar: Copy; en: Copy }> = {
   },
 };
 
+const testimonialsTitle: Record<SiteLang, string> = { ar: 'آراء عملائنا', en: 'What our clients say', de: 'Was unsere Kunden sagen', fr: 'Ce que disent nos clients', ru: 'Отзывы клиентов' };
+
 export function sampleSpec(template: TemplateId, lang: SiteLang): Spec {
-  const copy = sample[template][lang === 'ar' ? 'ar' : 'en'];
+  const l = lang === 'ar' ? 'ar' : 'en';
+  const base = sample[template]?.[l] ?? (extra.templates as Record<string, { ar: BaseCopy; en: BaseCopy }>)[template]?.[l] ?? sample.corporate[l];
+  const faq = (extra.faq as Record<string, { ar: Copy['faq']; en: Copy['faq'] }>)[template]?.[l] ?? { title: '', items: [] };
+  const copy: Copy = {
+    ...base,
+    testimonials: { title: testimonialsTitle[lang] ?? testimonialsTitle.en, items: [] },
+    faq,
+    extras: { whatsappButton: true, contactForm: false, mapUrl: '' },
+  };
   const look = looks[template];
   return {
     template, lang,
@@ -175,6 +206,9 @@ const str = (v: unknown, max: number, fallback = '') =>
   typeof v === 'string' ? v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').slice(0, max) : fallback;
 const color = (v: unknown, fallback: string) =>
   typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v.trim()) ? v.trim() : fallback;
+const mapUrl = (v: unknown, fallback: string) =>
+  v === '' ? '' : typeof v === 'string' && /^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|www\.google\.com\/maps|maps\.google\.com)\/[^\s"<>]{0,300}$/.test(v.trim()) ? v.trim() : fallback;
+const bool = (v: unknown, fallback: boolean) => (typeof v === 'boolean' ? v : fallback);
 const img = (v: unknown, fallback: string) =>
   v === '' ? '' : typeof v === 'string' && imageIdPattern.test(v) ? v : fallback;
 const pick = <T extends string>(v: unknown, list: readonly T[], fallback: T): T =>
@@ -234,6 +268,31 @@ export function mergeSpec(base: Spec, raw: unknown): Spec {
       hours: str(o('contact').hours, 100, base.contact.hours),
     },
     sections: sections ?? base.sections,
+    testimonials: (() => {
+      const t = o('testimonials');
+      const bt = base.testimonials ?? { title: '', items: [] };
+      return {
+        title: str(t.title, 60, bt.title),
+        items: Array.isArray(t.items)
+          ? t.items.slice(0, 6).map((it: any) => ({ quote: str(it?.quote, 400), name: str(it?.name, 60), role: str(it?.role, 60) })).filter((it: { quote: string; name: string }) => it.quote && it.name)
+          : bt.items,
+      };
+    })(),
+    faq: (() => {
+      const f = o('faq');
+      const bf = base.faq ?? { title: '', items: [] };
+      return {
+        title: str(f.title, 60, bf.title),
+        items: Array.isArray(f.items)
+          ? f.items.slice(0, 8).map((it: any) => ({ q: str(it?.q, 160), a: str(it?.a, 500) })).filter((it: { q: string; a: string }) => it.q && it.a)
+          : bf.items,
+      };
+    })(),
+    extras: (() => {
+      const e = o('extras');
+      const be = base.extras ?? { whatsappButton: true, contactForm: false, mapUrl: '' };
+      return { whatsappButton: bool(e.whatsappButton, be.whatsappButton), contactForm: bool(e.contactForm, be.contactForm), mapUrl: mapUrl(e.mapUrl, be.mapUrl) };
+    })(),
     media: (() => {
       const m = o('media');
       const bm = base.media ?? emptyMedia();

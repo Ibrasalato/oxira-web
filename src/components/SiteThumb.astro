@@ -1,13 +1,15 @@
 ---
 // A live, scaled-down preview of a builder template (rendered at build time).
 import { renderSite } from '../builder/render';
-import { sampleSpec, type TemplateId } from '../builder/spec';
+import { sampleSpec, mergeSpec, type TemplateId } from '../builder/spec';
 import type { Lang } from '../i18n/content';
 import { asset } from '../lib/routes';
 
-interface Props { template: TemplateId; lang: Lang; height?: number; class?: string }
-const { template, lang, height = 860, class: cls = '' } = Astro.props;
-const html = renderSite(sampleSpec(template, lang), { fontBase: asset('builder/fonts'), year: 2026 });
+interface Props { template: TemplateId; lang: Lang; height?: number; class?: string; colors?: { primary: string; accent: string } }
+const { template, lang, height = 860, class: cls = '', colors } = Astro.props;
+const base = sampleSpec(template, lang);
+const spec = colors ? mergeSpec(base, { colors: { ...base.colors, ...colors } }) : base;
+const html = renderSite(spec, { fontBase: asset('builder/fonts'), year: 2026 });
 ---
 <div class={`thumb ${cls}`} style={`--h:${height}`} aria-hidden="true">
   <iframe srcdoc={html} sandbox="allow-same-origin" loading="lazy" tabindex="-1" title=""></iframe>

@@ -14,7 +14,7 @@
     "steps": [
       {
         "name": "Design wählen",
-        "text": "Sechs professionelle Designs für Unternehmen, Einzelpersonen, Restaurants, Praxen, Shops und Events."
+        "text": "Zwölf professionelle Designs: von Unternehmen und Praxen bis zu Kanzleien, Immobilien, Salons, Baufirmen, Schulen und Fitnessstudios."
       },
       {
         "name": "Erzählen Sie von sich",
@@ -76,7 +76,54 @@
         "a": "Ja. Wählen Sie das Business-Paket oder kontaktieren Sie uns für ein individuelles Projekt."
       }
     ],
-    "terms": "AGB und Erstattungsrichtlinien"
+    "terms": "AGB und Erstattungsrichtlinien",
+    "demo": [
+      "Eine Website für meine Zahnarztpraxis in Dschidda",
+      "Mach die Farben Marineblau und Gold",
+      "Und jetzt eine für mein Restaurant"
+    ],
+    "demoLabel": "Live-Vorschau",
+    "compareTitle": "Oxira Studio oder ein individuelles Projekt?",
+    "compareBody": "Beides wird vom selben Oxira-Team umgesetzt und betreut. Entscheiden Sie danach, wie schnell Sie starten wollen und was die Website können muss.",
+    "compareCols": [
+      "",
+      "Oxira Studio",
+      "Individuelles Projekt"
+    ],
+    "compareRows": [
+      [
+        "Bis zum Start",
+        "Heute",
+        "2 bis 8 Wochen"
+      ],
+      [
+        "Preis",
+        "Ab 1.499 SAR",
+        "Angebot für Ihr Projekt"
+      ],
+      [
+        "Design",
+        "12 professionelle Designs, mit KI bearbeitet",
+        "Von Grund auf für Ihre Marke gestaltet"
+      ],
+      [
+        "Seiten",
+        "Eine Seite, bis zu 5 weitere mit Business",
+        "So viele Sie brauchen"
+      ],
+      [
+        "Funktionen",
+        "Kontaktformular, Karte, WhatsApp, Galerie, Bewertungen",
+        "Onlineshop, Buchungen, Dashboards, Integrationen, KI-Agenten"
+      ],
+      [
+        "Ideal für",
+        "Schnell und professionell online gehen",
+        "Unternehmen, die ein System brauchen, nicht nur eine Website"
+      ]
+    ],
+    "compareStudio": "Im Oxira Studio starten",
+    "compareCustom": "Mit unserem Team sprechen"
   },
   "templates": {
     "corporate": {
@@ -102,6 +149,30 @@
     "events": {
       "name": "Events",
       "for": "Veranstaltungen und Konferenzen"
+    },
+    "law": {
+      "name": "Kanzlei",
+      "for": "Anwälte und Rechtsberatung"
+    },
+    "realestate": {
+      "name": "Immobilien",
+      "for": "Makler und Bauträger"
+    },
+    "beauty": {
+      "name": "Beauty",
+      "for": "Salons und Kosmetikstudios"
+    },
+    "construction": {
+      "name": "Bau",
+      "for": "Bauunternehmen und Ingenieurbüros"
+    },
+    "education": {
+      "name": "Bildung",
+      "for": "Institute, Schulen und Trainer"
+    },
+    "fitness": {
+      "name": "Fitness",
+      "for": "Studios und Personal Trainer"
     }
   },
   "packages": {
@@ -250,7 +321,49 @@
     "remove": "Entfernen",
     "addPhotos": "Fotos hinzufügen",
     "uploading": "Wird hochgeladen…",
-    "uploadFailed": "Das Bild konnte nicht hochgeladen werden. Versuchen Sie es mit einer JPG- oder PNG-Datei unter 10 MB."
+    "uploadFailed": "Das Bild konnte nicht hochgeladen werden. Versuchen Sie es mit einer JPG- oder PNG-Datei unter 10 MB.",
+    "editHint": "Tipp: Klicken Sie in der Vorschau auf einen Text, um ihn direkt zu bearbeiten.",
+    "sectionsTitle": "Bereiche",
+    "sectionNames": {
+      "about": "Über uns",
+      "services": "Leistungen",
+      "gallery": "Fotogalerie",
+      "testimonials": "Kundenstimmen",
+      "faq": "Fragen",
+      "stats": "Zahlen",
+      "cta": "Handlungsaufruf",
+      "contact": "Kontakt"
+    },
+    "extrasTitle": "Extras",
+    "waButton": "Schwebender WhatsApp-Button",
+    "contactForm": "Kontaktformular (Nachrichten gehen an Ihre E-Mail)",
+    "mapUrl": "Google-Maps-Link (optional)",
+    "mapPh": "https://maps.app.goo.gl/…",
+    "mapBad": "Fügen Sie einen Link aus Google Maps ein.",
+    "reviewsTitle": "Kundenstimmen",
+    "reviewsNote": "Fügen Sie nur echte Bewertungen Ihrer Kunden hinzu. Wir erfinden keine Bewertungen.",
+    "quote": "Was der Kunde sagt",
+    "author": "Name des Kunden",
+    "role": "Funktion oder Firma (optional)",
+    "add": "Hinzufügen",
+    "delete": "Löschen",
+    "faqTitle": "Fragen und Antworten",
+    "question": "Frage",
+    "answer": "Antwort",
+    "versionsTitle": "Versionen",
+    "saveVersion": "Diese Version speichern",
+    "restore": "Wiederherstellen",
+    "noVersions": "Gespeicherte Versionen erscheinen hier. KI-Änderungen werden automatisch gespeichert.",
+    "versionAi": "KI-Änderung",
+    "versionSaved": "Von Ihnen gespeichert",
+    "versionRestored": "Version wiederhergestellt.",
+    "share": "Vorschau teilen",
+    "sharing": "Link wird erstellt…",
+    "shareReady": "Jeder mit diesem Link kann Ihr Design 30 Tage lang ansehen.",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "open": "Öffnen",
+    "shareFailed": "Der Link konnte nicht erstellt werden. Bitte erneut versuchen."
   },
   "plans": {
     "title": "Einfache Pakete, alles inklusive",

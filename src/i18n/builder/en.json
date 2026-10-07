@@ -14,7 +14,7 @@
     "steps": [
       {
         "name": "Choose a design",
-        "text": "Six professional designs for companies, individuals, restaurants, clinics, stores and events."
+        "text": "Twelve professional designs, from companies and clinics to law firms, real estate, salons, contractors, schools and gyms."
       },
       {
         "name": "Tell us about you",
@@ -76,7 +76,54 @@
         "a": "Yes. Choose the Business package or contact us for a custom project."
       }
     ],
-    "terms": "Terms and refund policy"
+    "terms": "Terms and refund policy",
+    "demo": [
+      "A website for my dental clinic in Jeddah",
+      "Make the colours navy and gold",
+      "Now one for my restaurant"
+    ],
+    "demoLabel": "Live preview",
+    "compareTitle": "Oxira Studio or a custom project?",
+    "compareBody": "Both are built and supported by the same Oxira team. Choose by how fast you need it and how much it needs to do.",
+    "compareCols": [
+      "",
+      "Oxira Studio",
+      "Custom project"
+    ],
+    "compareRows": [
+      [
+        "Time to launch",
+        "Today",
+        "2 to 8 weeks"
+      ],
+      [
+        "Price",
+        "From SAR 1,499",
+        "Quoted for your project"
+      ],
+      [
+        "Design",
+        "12 professional designs, edited with AI",
+        "Designed from scratch for your brand"
+      ],
+      [
+        "Pages",
+        "One page, up to 5 more with Business",
+        "As many as you need"
+      ],
+      [
+        "Features",
+        "Contact form, map, WhatsApp, gallery, reviews",
+        "Online store, bookings, dashboards, integrations, AI agents"
+      ],
+      [
+        "Best for",
+        "Getting online quickly and professionally",
+        "Businesses that need a system, not just a website"
+      ]
+    ],
+    "compareStudio": "Start in Oxira Studio",
+    "compareCustom": "Talk to our team"
   },
   "templates": {
     "corporate": {
@@ -102,6 +149,30 @@
     "events": {
       "name": "Events",
       "for": "Events and conferences"
+    },
+    "law": {
+      "name": "Law firm",
+      "for": "Lawyers and legal consultancies"
+    },
+    "realestate": {
+      "name": "Real estate",
+      "for": "Agencies and developers"
+    },
+    "beauty": {
+      "name": "Beauty",
+      "for": "Salons and beauty centres"
+    },
+    "construction": {
+      "name": "Construction",
+      "for": "Contractors and engineering firms"
+    },
+    "education": {
+      "name": "Education",
+      "for": "Institutes, schools and trainers"
+    },
+    "fitness": {
+      "name": "Fitness",
+      "for": "Gyms and personal trainers"
     }
   },
   "packages": {
@@ -250,7 +321,49 @@
     "remove": "Remove",
     "addPhotos": "Add photos",
     "uploading": "Uploading…",
-    "uploadFailed": "The image could not be uploaded. Try a JPG or PNG under 10 MB."
+    "uploadFailed": "The image could not be uploaded. Try a JPG or PNG under 10 MB.",
+    "editHint": "Tip: click any text in the preview to edit it directly.",
+    "sectionsTitle": "Sections",
+    "sectionNames": {
+      "about": "About",
+      "services": "Services",
+      "gallery": "Photo gallery",
+      "testimonials": "Client reviews",
+      "faq": "Questions",
+      "stats": "Numbers",
+      "cta": "Call to action",
+      "contact": "Contact"
+    },
+    "extrasTitle": "Extras",
+    "waButton": "Floating WhatsApp button",
+    "contactForm": "Contact form (messages go to your email)",
+    "mapUrl": "Google Maps link (optional)",
+    "mapPh": "https://maps.app.goo.gl/…",
+    "mapBad": "Paste a link from Google Maps.",
+    "reviewsTitle": "Client reviews",
+    "reviewsNote": "Add only real reviews from your clients. We never invent reviews.",
+    "quote": "What the client said",
+    "author": "Client name",
+    "role": "Role or company (optional)",
+    "add": "Add",
+    "delete": "Delete",
+    "faqTitle": "Questions and answers",
+    "question": "Question",
+    "answer": "Answer",
+    "versionsTitle": "Versions",
+    "saveVersion": "Save this version",
+    "restore": "Restore",
+    "noVersions": "Saved versions appear here. AI edits are saved automatically.",
+    "versionAi": "AI edit",
+    "versionSaved": "Saved by you",
+    "versionRestored": "Version restored.",
+    "share": "Share preview",
+    "sharing": "Creating link…",
+    "shareReady": "Anyone with this link can see your design for 30 days.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "open": "Open",
+    "shareFailed": "The link could not be created. Please try again."
   },
   "plans": {
     "title": "Simple packages, everything included",

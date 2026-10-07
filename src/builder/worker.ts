@@ -18,17 +18,33 @@ const page = (status: number, title: string, body: string) =>
     { status, headers: { 'content-type': 'text/html; charset=utf-8' } },
   );
 
-function build(raw: string): string | null {
+const FORM_ACTION = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-contact';
+
+function build(raw: string, siteUrl: string, preview = false): string | null {
   try {
     const data = JSON.parse(raw);
+    const order = Number(data?._order) || 0;
     const t = (templateIds as string[]).includes(data?.template) ? (data.template as TemplateId) : 'corporate';
     const l = (siteLangs as string[]).includes(data?.lang) ? (data.lang as SiteLang) : 'ar';
     const spec: Spec = mergeSpec(sampleSpec(t, l), data);
-    return renderSite(spec, { fontBase: '/_fonts' });
+    let html = renderSite(spec, { fontBase: '/_fonts', siteUrl, formAction: FORM_ACTION, siteId: order ? String(order) : '' });
+    if (preview) {
+      html = html
+        .replace('<head>', '<head><meta name="robots" content="noindex,nofollow">')
+        .replace(/<form class="cform"[\s\S]*?<\/form>/, '');
+    }
+    return html;
   } catch {
     return null;
   }
 }
+
+const securityHeaders = {
+  'content-type': 'text/html; charset=utf-8',
+  'x-content-type-options': 'nosniff',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${FORM_ACTION}; frame-ancestors 'self' https://ibrasalato.github.io https://oxira.sa https://www.oxira.sa`,
+};
 
 export default {
   async fetch(request: Request, env: Env, ctx: { waitUntil(p: Promise<unknown>): void }) {
@@ -65,7 +81,19 @@ export default {
       });
     }
 
+    // Shareable previews from Oxira Studio: /p/<id>/ (not indexed by search engines).
+    if (url.pathname.startsWith('/p/')) {
+      const id = url.pathname.split('/')[2] || '';
+      if (!/^d_[a-f0-9]{20,40}$/.test(id)) return page(404, 'الصفحة غير موجودة', 'Not found');
+      if (!url.pathname.endsWith('/') && url.pathname.split('/').filter(Boolean).length === 2) return Response.redirect(`${url.origin}/p/${id}/`, 301);
+      const draft = await env.SITES.get(`draft:${id}`);
+      const html = draft && build(draft, `${url.origin}/p/${id}/`, true);
+      if (!html) return page(404, 'المعاينة غير متاحة', 'Preview not available');
+      return new Response(html, { headers: { ...securityHeaders, 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } });
+    }
+
     const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    let siteUrl = `${url.origin}/`;
     let raw = await env.SITES.get(`host:${host}`);
     if (!raw) {
       const parts = url.pathname.split('/').filter(Boolean);
@@ -73,19 +101,12 @@ export default {
       if (slug && /^[a-z0-9-]{2,63}$/.test(slug)) {
         if (parts.length === 1 && !url.pathname.endsWith('/')) return Response.redirect(`${url.origin}/${slug}/`, 301);
         raw = await env.SITES.get(`slug:${slug}`);
+        siteUrl = `${url.origin}/${slug}/`;
       }
     }
     if (!raw) return page(404, 'الموقع غير موجود', 'Site not found · <a href="https://oxira.sa" style="color:#007DB4">oxira.sa</a>');
-    const html = build(raw);
+    const html = build(raw, siteUrl);
     if (!html) return page(500, 'حدث خطأ', 'Something went wrong');
-    return new Response(html, {
-      headers: {
-        'content-type': 'text/html; charset=utf-8',
-        'cache-control': 'public, max-age=60',
-        'x-content-type-options': 'nosniff',
-        'referrer-policy': 'strict-origin-when-cross-origin',
-        'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'",
-      },
-    });
+    return new Response(html, { headers: { ...securityHeaders, 'cache-control': 'public, max-age=60' } });
   },
 };

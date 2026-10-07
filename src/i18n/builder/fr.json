@@ -14,7 +14,7 @@
     "steps": [
       {
         "name": "Choisissez un design",
-        "text": "Six designs professionnels pour entreprises, indépendants, restaurants, cliniques, boutiques et événements."
+        "text": "Douze designs professionnels : entreprises, cliniques, avocats, immobilier, salons, BTP, écoles, salles de sport et plus."
       },
       {
         "name": "Présentez-vous",
@@ -76,7 +76,54 @@
         "a": "Oui. Choisissez le forfait Business ou contactez-nous pour un projet sur mesure."
       }
     ],
-    "terms": "Conditions et politique de remboursement"
+    "terms": "Conditions et politique de remboursement",
+    "demo": [
+      "Un site pour mon cabinet dentaire à Djeddah",
+      "Mets les couleurs en bleu marine et or",
+      "Maintenant un pour mon restaurant"
+    ],
+    "demoLabel": "Aperçu en direct",
+    "compareTitle": "Oxira Studio ou un projet sur mesure ?",
+    "compareBody": "Les deux sont réalisés et suivis par la même équipe Oxira. Choisissez selon votre délai et ce que votre site doit faire.",
+    "compareCols": [
+      "",
+      "Oxira Studio",
+      "Projet sur mesure"
+    ],
+    "compareRows": [
+      [
+        "Mise en ligne",
+        "Aujourd’hui",
+        "2 à 8 semaines"
+      ],
+      [
+        "Prix",
+        "À partir de 1 499 SAR",
+        "Devis selon votre projet"
+      ],
+      [
+        "Design",
+        "12 designs professionnels, modifiés avec l’IA",
+        "Conçu de zéro pour votre marque"
+      ],
+      [
+        "Pages",
+        "Une page, jusqu’à 5 de plus avec Business",
+        "Autant que nécessaire"
+      ],
+      [
+        "Fonctionnalités",
+        "Formulaire de contact, carte, WhatsApp, galerie, avis",
+        "Boutique en ligne, réservations, tableaux de bord, intégrations, agents IA"
+      ],
+      [
+        "Idéal pour",
+        "Être en ligne vite et de façon professionnelle",
+        "Les entreprises qui ont besoin d’un système, pas seulement d’un site"
+      ]
+    ],
+    "compareStudio": "Commencer dans Oxira Studio",
+    "compareCustom": "Parler à notre équipe"
   },
   "templates": {
     "corporate": {
@@ -102,6 +149,30 @@
     "events": {
       "name": "Événements",
       "for": "Événements et conférences"
+    },
+    "law": {
+      "name": "Cabinet d’avocats",
+      "for": "Avocats et conseil juridique"
+    },
+    "realestate": {
+      "name": "Immobilier",
+      "for": "Agences et promoteurs"
+    },
+    "beauty": {
+      "name": "Beauté",
+      "for": "Salons et instituts de beauté"
+    },
+    "construction": {
+      "name": "Construction",
+      "for": "Entreprises du BTP et d’ingénierie"
+    },
+    "education": {
+      "name": "Éducation",
+      "for": "Instituts, écoles et formateurs"
+    },
+    "fitness": {
+      "name": "Fitness",
+      "for": "Salles de sport et coachs"
     }
   },
   "packages": {
@@ -250,7 +321,49 @@
     "remove": "Supprimer",
     "addPhotos": "Ajouter des photos",
     "uploading": "Importation…",
-    "uploadFailed": "L'image n'a pas pu être importée. Essayez un fichier JPG ou PNG de moins de 10 Mo."
+    "uploadFailed": "L'image n'a pas pu être importée. Essayez un fichier JPG ou PNG de moins de 10 Mo.",
+    "editHint": "Astuce : cliquez sur un texte de l’aperçu pour le modifier directement.",
+    "sectionsTitle": "Sections",
+    "sectionNames": {
+      "about": "À propos",
+      "services": "Services",
+      "gallery": "Galerie photo",
+      "testimonials": "Avis clients",
+      "faq": "Questions",
+      "stats": "Chiffres",
+      "cta": "Appel à l’action",
+      "contact": "Contact"
+    },
+    "extrasTitle": "Options",
+    "waButton": "Bouton WhatsApp flottant",
+    "contactForm": "Formulaire de contact (messages envoyés à votre e-mail)",
+    "mapUrl": "Lien Google Maps (facultatif)",
+    "mapPh": "https://maps.app.goo.gl/…",
+    "mapBad": "Collez un lien Google Maps.",
+    "reviewsTitle": "Avis clients",
+    "reviewsNote": "Ajoutez uniquement de vrais avis de vos clients. Nous n’inventons jamais d’avis.",
+    "quote": "Ce que dit le client",
+    "author": "Nom du client",
+    "role": "Fonction ou entreprise (facultatif)",
+    "add": "Ajouter",
+    "delete": "Supprimer",
+    "faqTitle": "Questions et réponses",
+    "question": "Question",
+    "answer": "Réponse",
+    "versionsTitle": "Versions",
+    "saveVersion": "Enregistrer cette version",
+    "restore": "Restaurer",
+    "noVersions": "Les versions enregistrées apparaissent ici. Les modifications de l’IA sont enregistrées automatiquement.",
+    "versionAi": "Modification IA",
+    "versionSaved": "Enregistrée par vous",
+    "versionRestored": "Version restaurée.",
+    "share": "Partager l’aperçu",
+    "sharing": "Création du lien…",
+    "shareReady": "Toute personne disposant de ce lien peut voir votre design pendant 30 jours.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "open": "Ouvrir",
+    "shareFailed": "Le lien n’a pas pu être créé. Réessayez."
   },
   "plans": {
     "title": "Des forfaits simples, tout compris",

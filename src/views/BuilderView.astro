@@ -31,19 +31,21 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
         </form>
         <p class="bd-free">{p.free} <a href="#templates">{p.secondary}</a></p>
       </div>
-      <div class="bd-visual" aria-hidden="true">
-        <div class="bd-window bd-w1">
-          <div class="bd-bar"><i></i><i></i><i></i></div>
-          <SiteThumb template="corporate" lang={lang} height={800} />
-        </div>
-        <div class="bd-window bd-w2">
-          <div class="bd-bar"><i></i><i></i><i></i></div>
-          <SiteThumb template="restaurant" lang={lang} height={800} />
+      <div class="bd-demo" aria-hidden="true" data-demo>
+        <div class="bd-window">
+          <div class="bd-bar"><i></i><i></i><i></i><span>{p.demoLabel}</span></div>
+          <div class="bd-frames">
+            <div class="bd-frame is-on"><SiteThumb template="clinic" lang={lang} height={760} /></div>
+            <div class="bd-frame"><SiteThumb template="clinic" lang={lang} height={760} colors={{ primary: '#0A253E', accent: '#C8A24A' }} /></div>
+            <div class="bd-frame"><SiteThumb template="restaurant" lang={lang} height={760} /></div>
+          </div>
+          <div class="bd-scan"></div>
         </div>
         <div class="bd-chat">
           <span class="bd-chat-ai"><Logo variant="dark" wordmark={false} /></span>
-          <p>{b.studio.suggestions[1]}</p>
+          <p><span data-typed>{p.demo[0]}</span><i class="bd-caret"></i></p>
         </div>
+        <script type="application/json" data-demo-text set:html={JSON.stringify(p.demo)} />
       </div>
     </div>
   </section>
@@ -107,6 +109,29 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
     </div>
   </section>
 
+  <section class="section" aria-labelledby="cmp-title">
+    <div class="wrap">
+      <div class="sh"><h2 id="cmp-title">{p.compareTitle}</h2><p>{p.compareBody}</p></div>
+      <div class="bd-cmp" role="table" aria-labelledby="cmp-title">
+        <div class="bd-cmp-row bd-cmp-head" role="row">
+          {p.compareCols.map((c, i) => <span role={i === 0 ? 'cell' : 'columnheader'} class={i === 1 ? 'is-studio' : ''}>{c}</span>)}
+        </div>
+        {p.compareRows.map((r) => (
+          <div class="bd-cmp-row" role="row">
+            <span role="rowheader">{r[0]}</span>
+            <span role="cell" class="is-studio">{r[1]}</span>
+            <span role="cell">{r[2]}</span>
+          </div>
+        ))}
+        <div class="bd-cmp-row bd-cmp-foot" role="row">
+          <span role="cell"></span>
+          <span role="cell" class="is-studio"><a class="btn btn-amber" href={studio}>{p.compareStudio}</a></span>
+          <span role="cell"><a class="btn btn-ghost" href={link(lang, '/contact/')}>{p.compareCustom}</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="faq-title">
     <div class="wrap bd-faq-wrap">
       <div class="sh"><h2 id="faq-title">{p.faqTitle}</h2></div>
@@ -141,14 +166,25 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
   .bd-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
   .bd-free { margin-top: 1rem; color: var(--muted); font-size: .95rem; }
 
-  .bd-visual { position: relative; min-height: 26rem; }
-  .bd-window { position: absolute; width: 78%; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -28px rgba(6, 26, 45, .45), 0 0 0 1px rgba(10, 37, 62, .08); }
-  .bd-w1 { inset-inline-start: 0; top: 0; }
-  .bd-w2 { inset-inline-end: 0; top: 7rem; width: 62%; }
-  .bd-bar { display: flex; gap: 6px; padding: .55rem .8rem; background: #F1F4F7; border-bottom: 1px solid var(--line); }
+  .bd-demo { position: relative; padding-bottom: 2.5rem; }
+  .bd-window { position: relative; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 34px 70px -30px rgba(6, 26, 45, .5), 0 0 0 1px rgba(10, 37, 62, .08); }
+  .bd-bar { display: flex; align-items: center; gap: 6px; padding: .55rem .8rem; background: #F1F4F7; border-bottom: 1px solid var(--line); }
   .bd-bar i { width: 9px; height: 9px; border-radius: 50%; background: #CBD5DF; }
-  .bd-chat { position: absolute; inset-inline-start: 6%; bottom: 0; display: flex; align-items: center; gap: .7rem; padding: .8rem 1.1rem .8rem .8rem; background: var(--navy); color: #fff; border-radius: 16px; font-weight: 600; font-size: .95rem; box-shadow: 0 20px 40px -18px rgba(6, 26, 45, .6); max-width: 80%; }
+  .bd-bar span { margin-inline-start: auto; font-size: .75rem; font-weight: 700; color: #1E8E4E; display: flex; align-items: center; gap: .35rem; }
+  .bd-bar span::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #1E8E4E; animation: bd-pulse 1.6s ease-in-out infinite; }
+  .bd-frames { position: relative; aspect-ratio: 1280 / 760; }
+  .bd-frame { position: absolute; inset: 0; opacity: 0; transform: scale(1.015); transition: opacity .7s ease, transform .9s ease; }
+  .bd-frame.is-on { opacity: 1; transform: none; }
+  .bd-scan { position: absolute; inset: 2.1rem 0 0; background: linear-gradient(180deg, transparent, rgba(255, 196, 0, .18) 48%, rgba(255, 196, 0, .32) 50%, transparent 52%); background-size: 100% 220%; background-position: 0 120%; opacity: 0; pointer-events: none; }
+  .bd-demo.is-working .bd-scan { opacity: 1; animation: bd-scan 1.1s ease-in-out; }
+  .bd-chat { position: absolute; inset-inline-start: 6%; bottom: 0; display: flex; align-items: center; gap: .7rem; padding: .8rem 1.1rem .8rem .8rem; background: var(--navy); color: #fff; border-radius: 16px; font-weight: 600; font-size: .95rem; box-shadow: 0 20px 40px -18px rgba(6, 26, 45, .6); max-width: 88%; min-height: 3.6rem; }
   html[dir='rtl'] .bd-chat { padding: .8rem .8rem .8rem 1.1rem; }
+  .bd-chat p { min-width: 0; }
+  .bd-caret { display: inline-block; width: 2px; height: 1.05em; background: var(--amber); margin-inline-start: 3px; vertical-align: text-bottom; animation: bd-blink 1s step-end infinite; }
+  @keyframes bd-blink { 50% { opacity: 0; } }
+  @keyframes bd-pulse { 50% { opacity: .35; } }
+  @keyframes bd-scan { from { background-position: 0 120%; } to { background-position: 0 -20%; } }
+  @media (prefers-reduced-motion: reduce) { .bd-caret, .bd-bar span::before { animation: none; } .bd-frame { transition: none; } }
   .bd-chat-ai { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--navy-mid); font-size: 1.2rem; }
 
   .bd-steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
@@ -209,16 +245,32 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
   .bd-faq details[open] summary::after { content: '−'; }
   .bd-faq details p { padding: 0 1.25rem 1.2rem; color: var(--muted); }
 
+  .bd-cmp { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: #fff; }
+  .bd-cmp-row { display: grid; grid-template-columns: 1fr 1.3fr 1.3fr; border-top: 1px solid var(--line); }
+  .bd-cmp-row:first-child { border-top: 0; }
+  .bd-cmp-row > span { padding: 1rem 1.25rem; line-height: 1.6; }
+  .bd-cmp-row > span:first-child { font-weight: 700; }
+  .bd-cmp-row > span:last-child { color: var(--muted); }
+  .bd-cmp-row > .is-studio { background: var(--blue-soft); font-weight: 600; color: var(--ink); }
+  .bd-cmp-head > span { font-weight: 700; font-size: 1.1rem; color: var(--ink) !important; padding-block: 1.2rem; }
+  .bd-cmp-head > .is-studio { background: var(--navy); color: #fff !important; }
+  .bd-cmp-foot > span { padding-block: 1.25rem; }
+  .bd-cmp-foot .btn { width: 100%; }
   .bd-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-lg); background: var(--blue-soft); }
   .bd-cta h2 { font-size: var(--s3); }
   .bd-cta p { color: var(--muted); margin-top: .5rem; font-size: 1.1rem; }
 
   @media (max-width: 960px) {
     .bd-hero-grid { grid-template-columns: 1fr; }
-    .bd-visual { min-height: 0; aspect-ratio: 1.15; }
     .bd-steps { grid-template-columns: 1fr 1fr; }
     .bd-tpls { grid-template-columns: 1fr 1fr; }
     .bd-plans, .bd-faq-wrap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .bd-cmp-row { grid-template-columns: 1fr 1fr; }
+    .bd-cmp-row > span:first-child { grid-column: 1 / -1; padding-bottom: 0; }
+    .bd-cmp-head > span:first-child, .bd-cmp-foot > span:first-child { display: none; }
+    .bd-cmp-row > span { padding: .8rem 1rem; }
   }
   @media (max-width: 600px) {
     .bd-steps, .bd-tpls { grid-template-columns: 1fr; }
@@ -226,3 +278,29 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
     .bd-chat { font-size: .85rem; }
   }
 </style>
+
+<script>
+  // Hero demo: type a request, "apply" it, show the new design. Static when motion is reduced.
+  document.querySelectorAll<HTMLElement>('[data-demo]').forEach((demo) => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const lines: string[] = JSON.parse(demo.querySelector('[data-demo-text]')!.textContent || '[]');
+    const typed = demo.querySelector<HTMLElement>('[data-typed]')!;
+    const frames = Array.from(demo.querySelectorAll<HTMLElement>('.bd-frame'));
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    let i = 0;
+    const run = async () => {
+      for (;;) {
+        const line = Array.from(lines[i]);
+        typed.textContent = '';
+        for (const ch of line) { typed.textContent += ch; await wait(45 + Math.random() * 40); }
+        await wait(500);
+        demo.classList.remove('is-working'); void demo.offsetWidth; demo.classList.add('is-working');
+        await wait(550);
+        frames.forEach((f, j) => f.classList.toggle('is-on', j === i % frames.length));
+        await wait(2600);
+        i = (i + 1) % lines.length;
+      }
+    };
+    new IntersectionObserver((entries, obs) => { if (entries[0].isIntersecting) { obs.disconnect(); run(); } }).observe(demo);
+  });
+</script>
