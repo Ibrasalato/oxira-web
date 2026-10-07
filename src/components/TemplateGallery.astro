@@ -72,9 +72,9 @@ const names = Object.fromEntries(categoryIds.map((c) => [c, langCodes.map((l) =>
       const shown = items.filter((li) => (!cat || li.dataset.cat === cat) && matches(li, text));
       // Without a filter, show one design of every category first so the variety is visible.
       if (!cat && !text) shown.sort((x, y) => items.indexOf(x) % 3 - items.indexOf(y) % 3 || items.indexOf(x) - items.indexOf(y));
-      const grid = root.querySelector('.tg-grid')!;
+      // Reorder with CSS `order` instead of moving nodes: moving an iframe in the DOM reloads it.
       items.forEach((li) => { li.hidden = true; });
-      shown.forEach((li, i) => { li.hidden = i >= limit; grid.append(li); });
+      shown.forEach((li, i) => { li.hidden = i >= limit; li.style.order = String(i); });
       more.hidden = shown.length <= limit;
       empty.hidden = shown.length > 0;
     }

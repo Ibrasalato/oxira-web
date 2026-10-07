@@ -16,7 +16,9 @@ if (colors) {
 const src = srcdoc ? undefined : asset(`previews/${lang}/${template}.html`);
 ---
 <div class={`thumb ${cls}`} style={`--h:${height}`} aria-hidden="true">
-  <iframe src={src} srcdoc={srcdoc} sandbox="allow-same-origin" loading={eager ? 'eager' : 'lazy'} tabindex="-1" title=""></iframe>
+  {eager
+    ? <iframe src={src} srcdoc={srcdoc} sandbox="allow-same-origin" tabindex="-1" title=""></iframe>
+    : <iframe data-src={src} data-srcdoc={srcdoc} sandbox="allow-same-origin" tabindex="-1" title=""></iframe>}
 </div>
 
 <script>
@@ -24,6 +26,15 @@ const src = srcdoc ? undefined : asset(`previews/${lang}/${template}.html`);
   const fit = (el: HTMLElement) => el.style.setProperty('--s', String(el.clientWidth / 1280));
   const ro = new ResizeObserver((entries) => entries.forEach((e) => fit(e.target as HTMLElement)));
   document.querySelectorAll<HTMLElement>('.thumb').forEach((el) => { fit(el); ro.observe(el); });
+  // Load each preview only when its card is about to be seen; previews are full pages and cost CPU.
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const f = e.target as HTMLIFrameElement;
+    if (f.dataset.srcdoc) f.srcdoc = f.dataset.srcdoc; else if (f.dataset.src) f.src = f.dataset.src;
+    delete f.dataset.src; delete f.dataset.srcdoc;
+    io.unobserve(f);
+  }), { rootMargin: '150px 0px' });
+  document.querySelectorAll<HTMLIFrameElement>('.thumb iframe[data-src], .thumb iframe[data-srcdoc]').forEach((f) => io.observe(f));
 </script>
 
 <style>

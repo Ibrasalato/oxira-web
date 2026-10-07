@@ -9,7 +9,8 @@ const current = languages.find((l) => l.code === lang)!;
 const label: Record<Lang, string> = { ar: 'اللغة', en: 'Language', de: 'Sprache', fr: 'Langue', ru: 'Язык' };
 ---
 <details class={`lp lp-${tone}${up ? ' lp-up' : ''}`}>
-  <summary aria-label={`${label[lang]}: ${current.name}`}>
+  <summary>
+    <span class="sr-only">{label[lang]}: </span>
     <img class="lp-flag" src={asset(`flags/${current.flag}.svg`)} alt="" width="20" height="15" />
     <span class="lp-name">{current.name}</span>
     <span class="lp-code" aria-hidden="true">{current.code.toUpperCase()}</span>
