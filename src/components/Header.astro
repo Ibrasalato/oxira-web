@@ -3,10 +3,13 @@ import { t, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
+import { builderText } from '../i18n/builder';
 
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
 const c = t[lang];
+const b = builderText[lang];
+const onBuilder = path === '/website-builder/' || path === '/studio/';
 ---
 <header class="hd" id="hd">
   <div class="wrap hd-row">
@@ -19,6 +22,7 @@ const c = t[lang];
         {c.site.nav.map((n) => (
           <li><a href={link(lang, n.path)} aria-current={path === n.path ? 'page' : undefined}>{n.label}</a></li>
         ))}
+        <li><a class="hd-build" href={link(lang, '/website-builder/')} aria-current={onBuilder ? 'page' : undefined}>{b.navLabel}<span class="hd-new">{b.badge}</span></a></li>
       </ul>
       <a class="btn btn-navy hd-cta-mobile" href={link(lang, '/contact/')}>{c.site.contactCta}</a>
     </nav>
@@ -56,11 +60,13 @@ const c = t[lang];
   .hd-brand { font-size: 1.7rem; text-decoration: none; flex: none; }
 
   .hd-nav { flex: 1; }
-  .hd-nav ul { list-style: none; display: flex; gap: clamp(1rem, 2.2vw, 2rem); }
-  .hd-nav ul a { text-decoration: none; font-weight: 600; color: var(--muted); padding-block: .4rem; border-bottom: 2px solid transparent; }
+  .hd-nav ul { list-style: none; display: flex; align-items: center; gap: clamp(.9rem, 1.7vw, 1.75rem); }
+  .hd-nav ul a { white-space: nowrap; text-decoration: none; font-weight: 600; color: var(--muted); padding-block: .4rem; border-bottom: 2px solid transparent; }
   .hd-nav ul a:hover { color: var(--ink); }
   .hd-nav ul a[aria-current='page'] { color: var(--ink); border-bottom-color: var(--amber); }
   .hd-cta-mobile { display: none; }
+  .hd-nav ul a.hd-build { color: var(--ink); display: inline-flex; align-items: center; gap: .4rem; }
+  .hd-new { font-size: .68rem; font-weight: 700; line-height: 1; padding: .28rem .45rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
 
   .hd-end { display: flex; align-items: center; gap: .75rem; }
   .hd-cta { padding: .8rem 1.25rem; font-size: .95rem; }
@@ -72,7 +78,7 @@ const c = t[lang];
   .is-open .hd-menu i:first-of-type { top: 20px; transform: rotate(45deg); }
   .is-open .hd-menu i:last-of-type { top: 20px; transform: rotate(-45deg); }
 
-  @media (max-width: 1060px) {
+  @media (max-width: 1200px) {
     .hd-row { justify-content: space-between; }
     .hd-menu { display: block; }
     .hd-cta { display: none; }

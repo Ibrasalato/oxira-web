@@ -64,6 +64,14 @@ npm run build    # ينتج مجلد dist/
 - رابط الاستقبال: `https://ibrasalato.app.n8n.cloud/webhook/oxira-website-chat` (لتغييره: متغير `CHAT_ENDPOINT`).
 - الكود: `src/components/Chat.astro`، والنصوص في `src/i18n/content.ts` (قسم `chat`).
 
+## ابني موقعك (استوديو أوكسيرا)
+
+- صفحة الخدمة: `/website-builder/`، والاستوديو: `/studio/` (بكل اللغات).
+- القوالب الستة ومحرّك عرض المواقع: `src/builder/spec.ts` (بيانات الموقع والنصوص التجريبية) و`src/builder/render.ts` (يحوّلها لصفحة HTML).
+- نصوص الاستوديو: `src/i18n/builder/*.json`، **والأسعار** في `src/i18n/builder.ts` (`builderPrices`).
+- المصمم الذكي: workflow في n8n اسمه **Oxira 5 — Website Builder Studio** (`/webhook/oxira-site-builder`).
+- الطلبات: **Oxira 6 — Website Builder Orders** (`/webhook/oxira-site-order`) يحفظ في جدول **oxira_site_orders** ويرسل إيميل لـ info@oxira.sa.
+
 ## الخطوط
 
 - العربي: **Cairo**، واللاتيني والروسي: **IBM Plex Sans**. المتصفح يختار الخط المناسب لكل حرف تلقائياً.

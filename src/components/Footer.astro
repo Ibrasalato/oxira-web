@@ -3,6 +3,7 @@ import { t, contact, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
+import { builderText } from '../i18n/builder';
 
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
@@ -20,6 +21,7 @@ const c = t[lang];
         <h2>{c.site.footerCols.company}</h2>
         <ul>
           {c.site.nav.map((n) => <li><a href={link(lang, n.path)}>{n.label}</a></li>)}
+          <li><a href={link(lang, '/website-builder/')}>{builderText[lang].navLabel}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
         </ul>
       </nav>

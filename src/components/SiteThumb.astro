@@ -1,0 +1,26 @@
+---
+// A live, scaled-down preview of a builder template (rendered at build time).
+import { renderSite } from '../builder/render';
+import { sampleSpec, type TemplateId } from '../builder/spec';
+import type { Lang } from '../i18n/content';
+import { asset } from '../lib/routes';
+
+interface Props { template: TemplateId; lang: Lang; height?: number; class?: string }
+const { template, lang, height = 860, class: cls = '' } = Astro.props;
+const html = renderSite(sampleSpec(template, lang), { fontBase: asset('builder/fonts'), year: 2026 });
+---
+<div class={`thumb ${cls}`} style={`--h:${height}`} aria-hidden="true">
+  <iframe srcdoc={html} sandbox="allow-same-origin" loading="lazy" tabindex="-1" title=""></iframe>
+</div>
+
+<script>
+  // Scale the 1280px-wide page down to the card width.
+  const fit = (el: HTMLElement) => el.style.setProperty('--s', String(el.clientWidth / 1280));
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => fit(e.target as HTMLElement)));
+  document.querySelectorAll<HTMLElement>('.thumb').forEach((el) => { fit(el); ro.observe(el); });
+</script>
+
+<style>
+  .thumb { --s: .3; position: relative; overflow: hidden; aspect-ratio: 1280 / var(--h); background: #fff; }
+  .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: calc(var(--h) * 1px); border: 0; transform: scale(var(--s)); transform-origin: 0 0; pointer-events: none; }
+</style>

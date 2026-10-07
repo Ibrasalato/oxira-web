@@ -1,0 +1,169 @@
+---
+// Service page: "Build your website in minutes" (Oxira Studio).
+import type { Lang } from '../i18n/content';
+import { builderText, builderPrices, packageIds } from '../i18n/builder';
+import { templateIds } from '../builder/spec';
+import { link } from '../lib/routes';
+import Base from '../layouts/Base.astro';
+import SiteThumb from '../components/SiteThumb.astro';
+import Logo from '../components/Logo.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const b = builderText[lang];
+const p = b.page;
+const studio = link(lang, '/studio/');
+const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
+const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? b.packages.perMonth : b.packages.oneTime);
+---
+<Base lang={lang} path="/website-builder/" title={p.title} description={p.description}>
+  <section class="page-hero bd-hero">
+    <div class="wrap bd-hero-grid">
+      <div class="bd-copy">
+        <p class="label">{p.kicker}</p>
+        <h1>{p.h1}</h1>
+        <p class="lead">{p.lead}</p>
+        <div class="bd-actions">
+          <a class="btn btn-amber" href={studio}>{p.start}</a>
+          <a class="btn btn-ghost" href="#templates">{p.secondary}</a>
+        </div>
+        <p class="bd-free">{p.free}</p>
+      </div>
+      <div class="bd-visual" aria-hidden="true">
+        <div class="bd-window bd-w1">
+          <div class="bd-bar"><i></i><i></i><i></i></div>
+          <SiteThumb template="corporate" lang={lang} height={800} />
+        </div>
+        <div class="bd-window bd-w2">
+          <div class="bd-bar"><i></i><i></i><i></i></div>
+          <SiteThumb template="restaurant" lang={lang} height={800} />
+        </div>
+        <div class="bd-chat">
+          <span class="bd-chat-ai"><Logo variant="dark" wordmark={false} /></span>
+          <p>{b.studio.suggestions[1]}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="sh"><h2 id="how-title">{p.howTitle}</h2></div>
+      <ol class="bd-steps">
+        {p.steps.map((s, i) => (
+          <li><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h3>{s.name}</h3><p>{s.text}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="templates" aria-labelledby="tpl-title">
+    <div class="wrap">
+      <div class="sh"><h2 id="tpl-title">{p.templatesTitle}</h2><p>{p.templatesBody}</p></div>
+      <ul class="bd-tpls">
+        {templateIds.map((id) => (
+          <li>
+            <a href={`${studio}?t=${id}`}>
+              <SiteThumb template={id} lang={lang} height={900} class="bd-tpl-thumb" />
+              <span class="bd-tpl-meta">
+                <strong>{b.templates[id].name}</strong>
+                <small>{b.templates[id].for}</small>
+              </span>
+              <span class="bd-tpl-go">{p.useTemplate}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-navy" aria-labelledby="inc-title">
+    <div class="wrap">
+      <div class="sh"><h2 id="inc-title">{p.includedTitle}</h2><p>{p.includedBody}</p></div>
+      <ul class="bd-pkgs">
+        {packageIds.map((id) => (
+          <li>
+            <h3>{b.packages[id].name}</h3>
+            <p>{b.packages[id].text}</p>
+            <p class="bd-price"><b>{fmt.format(builderPrices[id].price)}</b> {b.packages.sar} <small>{per(builderPrices[id].kind)}</small></p>
+          </li>
+        ))}
+        <li class="bd-account">
+          <h3>{p.accountTitle}</h3>
+          <p>{p.accountBody}</p>
+          <p class="bd-soon">{p.accountSoon}</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bd-cta-title">
+    <div class="wrap">
+      <div class="bd-cta">
+        <div>
+          <h2 id="bd-cta-title">{p.ctaTitle}</h2>
+          <p>{p.ctaBody}</p>
+        </div>
+        <a class="btn btn-amber" href={studio}>{p.ctaButton}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bd-hero { overflow: hidden; }
+  .bd-hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .bd-copy h1 { max-width: 14ch; }
+  .bd-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .bd-free { margin-top: 1rem; color: var(--muted); font-size: .95rem; }
+
+  .bd-visual { position: relative; min-height: 26rem; }
+  .bd-window { position: absolute; width: 78%; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -28px rgba(6, 26, 45, .45), 0 0 0 1px rgba(10, 37, 62, .08); }
+  .bd-w1 { inset-inline-start: 0; top: 0; }
+  .bd-w2 { inset-inline-end: 0; top: 7rem; width: 62%; }
+  .bd-bar { display: flex; gap: 6px; padding: .55rem .8rem; background: #F1F4F7; border-bottom: 1px solid var(--line); }
+  .bd-bar i { width: 9px; height: 9px; border-radius: 50%; background: #CBD5DF; }
+  .bd-chat { position: absolute; inset-inline-start: 6%; bottom: 0; display: flex; align-items: center; gap: .7rem; padding: .8rem 1.1rem .8rem .8rem; background: var(--navy); color: #fff; border-radius: 16px; font-weight: 600; font-size: .95rem; box-shadow: 0 20px 40px -18px rgba(6, 26, 45, .6); max-width: 80%; }
+  html[dir='rtl'] .bd-chat { padding: .8rem .8rem .8rem 1.1rem; }
+  .bd-chat-ai { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--navy-mid); font-size: 1.2rem; }
+
+  .bd-steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .bd-steps li { display: grid; gap: .5rem; align-content: start; }
+  .bd-steps span { font-weight: 700; color: var(--amber-deep); font-size: 1.1rem; }
+  .bd-steps h3 { font-size: 1.2rem; }
+  .bd-steps p { color: var(--muted); }
+
+  .bd-tpls { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .bd-tpls a { display: grid; text-decoration: none; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .bd-tpls a:hover { border-color: var(--navy); box-shadow: 0 24px 40px -28px rgba(6, 26, 45, .5); transform: translateY(-2px); }
+  .bd-tpls :global(.bd-tpl-thumb) { border-bottom: 1px solid var(--line); }
+  .bd-tpl-meta { display: grid; padding: 1rem 1.2rem .2rem; }
+  .bd-tpl-meta strong { font-size: 1.1rem; }
+  .bd-tpl-meta small { color: var(--muted); font-size: .95rem; }
+  .bd-tpl-go { padding: .4rem 1.2rem 1.1rem; color: var(--blue); font-weight: 700; font-size: .95rem; }
+
+  .bd-pkgs { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255, 255, 255, .1); border-radius: var(--radius); overflow: hidden; }
+  .bd-pkgs li { background: var(--navy); padding: 1.8rem; display: grid; gap: .5rem; align-content: start; }
+  .bd-pkgs h3 { font-size: 1.15rem; }
+  .bd-pkgs p { color: var(--muted-on-navy); }
+  .bd-pkgs .bd-price { color: #fff; margin-top: .5rem; }
+  .bd-price b { font-size: 1.6rem; color: var(--amber); }
+  .bd-price small { color: var(--muted-on-navy); }
+  .bd-account { background: var(--navy-mid) !important; }
+  .bd-soon { display: inline-block; justify-self: start; margin-top: .5rem; padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .25); color: #fff !important; font-size: .85rem; }
+
+  .bd-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-lg); background: var(--blue-soft); }
+  .bd-cta h2 { font-size: var(--s3); }
+  .bd-cta p { color: var(--muted); margin-top: .5rem; font-size: 1.1rem; }
+
+  @media (max-width: 960px) {
+    .bd-hero-grid { grid-template-columns: 1fr; }
+    .bd-visual { min-height: 0; aspect-ratio: 1.15; }
+    .bd-steps { grid-template-columns: 1fr 1fr; }
+    .bd-tpls, .bd-pkgs { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .bd-steps, .bd-tpls, .bd-pkgs { grid-template-columns: 1fr; }
+    .bd-chat { font-size: .85rem; }
+  }
+</style>

@@ -27,8 +27,10 @@ interface Props {
   path: string;          // page path without language prefix, e.g. '/', '/services/'
   title: string;
   description: string;
+  /** App pages (the studio): no footer and no chat bubble. */
+  app?: boolean;
 }
-const { lang, path, title, description } = Astro.props;
+const { lang, path, title, description, app = false } = Astro.props;
 // Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
 const gaId = import.meta.env.PUBLIC_GA_ID || '';
 const c = t[lang];
@@ -84,8 +86,8 @@ const org = {
     <main id="main">
       <slot />
     </main>
-    <Footer lang={lang} path={path} />
-    <Chat lang={lang} />
+    {!app && <Footer lang={lang} path={path} />}
+    {!app && <Chat lang={lang} />}
   </body>
 </html>
 

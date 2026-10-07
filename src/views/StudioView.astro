@@ -1,0 +1,715 @@
+---
+// Oxira Studio: pick a design, give the basics, edit with the AI designer, then order.
+import type { Lang } from '../i18n/content';
+import { contact } from '../i18n/content';
+import { builderText, builderPrices, packageIds } from '../i18n/builder';
+import { templateIds, siteLangs, fontIds } from '../builder/spec';
+import { languages } from '../i18n/content';
+import { link, asset } from '../lib/routes';
+import Base from '../layouts/Base.astro';
+import SiteThumb from '../components/SiteThumb.astro';
+import Logo from '../components/Logo.astro';
+import { t } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const b = builderText[lang];
+const s = b.studio;
+const legal = t[lang].legal;
+const builderEndpoint = import.meta.env.PUBLIC_BUILDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-builder';
+const orderEndpoint = import.meta.env.PUBLIC_ORDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-order';
+const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
+const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? b.packages.perMonth : b.packages.oneTime);
+const config = {
+  lang,
+  builderEndpoint,
+  orderEndpoint,
+  fontBase: asset('builder/fonts'),
+  whatsapp: contact.whatsappHref,
+  prices: builderPrices,
+  text: { ...s, sar: b.packages.sar },
+  numberLocale: lang === 'ar' ? 'ar-SA-u-nu-latn' : lang,
+};
+const langName = (code: string) => languages.find((l) => l.code === code)?.name ?? code;
+---
+<Base lang={lang} path="/studio/" title={s.pageTitle} description={s.pageDescription} app>
+  <div class="st" id="studio" data-step="1" data-config={JSON.stringify(config)}>
+    <div class="st-top">
+      <div class="st-top-in">
+        <p class="st-title"><span class="st-title-mark"><Logo variant="light" wordmark={false} /></span>{s.title}</p>
+        <ol class="st-steps" aria-label={s.title}>
+          {s.steps.map((name, i) => (
+            <li><button type="button" data-goto={i + 1} disabled={i > 0}><span>{i + 1}</span>{name}</button></li>
+          ))}
+        </ol>
+      </div>
+    </div>
+
+    <!-- 1. Pick a design -->
+    <section class="st-pick" data-panel="1" aria-labelledby="pick-title">
+      <div class="wrap">
+        <div class="sh"><h1 id="pick-title">{s.pickTitle}</h1><p>{s.pickBody}</p></div>
+        <ul class="st-tpls">
+          {templateIds.map((id) => (
+            <li>
+              <button type="button" data-template={id}>
+                <SiteThumb template={id} lang={lang} height={900} />
+                <span class="st-tpl-meta"><strong>{b.templates[id].name}</strong><small>{b.templates[id].for}</small></span>
+                <span class="st-tpl-go">{s.use}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2-4. Side panel + live preview -->
+    <div class="st-work" data-panel="2 3 4">
+      <aside class="st-side">
+        <!-- 2. Basics -->
+        <form class="st-basics" id="st-basics" data-panel="2" novalidate>
+          <h1>{s.basicsTitle}</h1>
+          <p class="st-muted">{s.basicsBody}</p>
+          <fieldset class="st-kinds">
+            <legend>{s.kind}</legend>
+            {Object.entries(s.kinds).map(([k, v], i) => (
+              <label><input type="radio" name="kind" value={k} checked={i === 0} /><span>{v}</span></label>
+            ))}
+          </fieldset>
+          <label class="st-field">{s.name}<input name="name" required maxlength="60" placeholder={s.namePh} /></label>
+          <label class="st-field">{s.about}<textarea name="about" rows="4" maxlength="1200" placeholder={s.aboutPh}></textarea></label>
+          <div class="st-two">
+            <label class="st-field">{s.phone}<input name="phone" type="tel" dir="ltr" maxlength="30" /></label>
+            <label class="st-field">{s.email}<input name="email" type="email" dir="ltr" maxlength="80" /></label>
+          </div>
+          <div class="st-two">
+            <label class="st-field">{s.city}<input name="city" maxlength="60" /></label>
+            <label class="st-field">{s.siteLang}
+              <select name="siteLang">{siteLangs.map((l) => <option value={l} selected={l === lang}>{langName(l)}</option>)}</select>
+            </label>
+          </div>
+          <div class="st-actions">
+            <button type="submit" class="btn btn-amber">{s.generate}</button>
+            <button type="button" class="st-link" data-skip>{s.skip}</button>
+          </div>
+          <button type="button" class="st-link st-back" data-goto="1">{s.back}</button>
+        </form>
+
+        <!-- 3. Edit with AI -->
+        <div class="st-editor" data-panel="3">
+          <div class="st-chat-head">
+            <span class="st-ai"><Logo variant="dark" wordmark={false} /></span>
+            <div><strong>{s.chatTitle}</strong></div>
+            <div class="st-tools">
+              <button type="button" class="st-icon" data-undo disabled title={s.undo} aria-label={s.undo}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
+              </button>
+            </div>
+          </div>
+          <div class="st-log" id="st-log" aria-live="polite"></div>
+          <div class="st-sugs" id="st-sugs">
+            {s.suggestions.map((q) => <button type="button" data-suggest>{q}</button>)}
+          </div>
+          <form class="st-ask" id="st-ask">
+            <label class="sr-only" for="st-input">{s.chatPh}</label>
+            <textarea id="st-input" rows="1" maxlength="1500" placeholder={s.chatPh} dir="auto"></textarea>
+            <button type="submit" class="st-send" aria-label={s.send}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
+            </button>
+          </form>
+          <details class="st-quick">
+            <summary>{s.controls}</summary>
+            <div class="st-quick-in">
+              <label class="st-field">{s.design}
+                <select data-ctl="template">{templateIds.map((id) => <option value={id}>{b.templates[id].name}</option>)}</select>
+              </label>
+              <label class="st-field">{s.font}
+                <select data-ctl="font">{fontIds.map((f) => <option value={f}>{s.fonts[f]}</option>)}</select>
+              </label>
+              <label class="st-field st-color">{s.primary}<input type="color" data-ctl="primary" /></label>
+              <label class="st-field st-color">{s.accent}<input type="color" data-ctl="accent" /></label>
+              <label class="st-field">{s.siteLang}
+                <select data-ctl="lang">{siteLangs.map((l) => <option value={l}>{langName(l)}</option>)}</select>
+              </label>
+              <button type="button" class="st-link" data-reset>{s.reset}</button>
+            </div>
+          </details>
+          <button type="button" class="btn btn-navy st-to-order" data-goto="4">{s.toOrder}</button>
+        </div>
+
+        <!-- 4. Order -->
+        <form class="st-order" id="st-order" data-panel="4" novalidate>
+          <h1>{s.orderTitle}</h1>
+          <p class="st-muted">{s.orderBody}</p>
+
+          <h2>{s.packagesTitle}</h2>
+          <ul class="st-pkgs">
+            {packageIds.map((id) => (
+              <li>
+                <label>
+                  <input type="checkbox" name="pkg" value={id} checked={id === 'site' || id === 'hosting' || id === 'domain'} disabled={id === 'site'} />
+                  <span class="st-pkg-text"><strong>{b.packages[id].name}</strong><small>{b.packages[id].text}</small></span>
+                  <span class="st-pkg-price">{fmt.format(builderPrices[id].price)} <small>{b.packages.sar} {per(builderPrices[id].kind)}</small></span>
+                </label>
+              </li>
+            ))}
+          </ul>
+
+          <h2>{s.domainTitle}</h2>
+          <fieldset class="st-domain">
+            <legend class="sr-only">{s.domainTitle}</legend>
+            <label><input type="radio" name="domainOption" value="new" checked /> {s.domainNew}</label>
+            <label><input type="radio" name="domainOption" value="own" /> {s.domainOwn}</label>
+            <label><input type="radio" name="domainOption" value="none" /> {s.domainNone}</label>
+          </fieldset>
+          <label class="st-field" data-domain-name><span class="sr-only">{s.domainTitle}</span><input name="domainName" dir="ltr" maxlength="120" placeholder={s.domainPh} /></label>
+          <p class="st-note">{s.domainNote}</p>
+
+          <h2>{s.contactTitle}</h2>
+          <label class="st-field">{s.yourName}<input name="name" required maxlength="120" autocomplete="name" /></label>
+          <div class="st-two">
+            <label class="st-field">{s.yourPhone}<input name="phone" type="tel" dir="ltr" required maxlength="30" autocomplete="tel" /></label>
+            <label class="st-field">{s.yourEmail}<input name="email" type="email" dir="ltr" maxlength="160" autocomplete="email" /></label>
+          </div>
+          <label class="st-field">{s.notes}<textarea name="notes" rows="3" maxlength="3000" placeholder={s.notesPh}></textarea></label>
+          <input class="st-hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="st-total">
+            <span>{s.dueNow}</span>
+            <strong><b id="st-total">0</b> {b.packages.sar}</strong>
+          </div>
+          <p class="st-note">{s.vat}</p>
+          <p class="st-status" id="st-order-status" role="status" hidden></p>
+          <button type="submit" class="btn btn-amber st-submit">{s.submit}</button>
+          <p class="st-consent">{s.consent} <a href={link(lang, '/privacy/')}>{legal.privacy}</a>.</p>
+          <button type="button" class="st-link st-back" data-goto="3">{s.back}</button>
+        </form>
+
+        <!-- Done -->
+        <div class="st-done" data-panel="5">
+          <span class="st-done-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </span>
+          <h1>{s.doneTitle}</h1>
+          <p id="st-done-body"></p>
+          <h2>{s.doneNext}</h2>
+          <ol>{s.doneSteps.map((x) => <li>{x}</li>)}</ol>
+          <div class="st-actions">
+            <a class="btn btn-navy" href={link(lang, '/')}>{s.doneHome}</a>
+            <a class="btn btn-ghost" href={contact.whatsappHref} target="_blank" rel="noopener">{s.doneWhatsapp}</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="st-stage">
+        <div class="st-stage-bar">
+          <div class="st-device" role="group">
+            <button type="button" data-device="desktop" aria-pressed="true">{s.desktop}</button>
+            <button type="button" data-device="mobile" aria-pressed="false">{s.mobile}</button>
+          </div>
+        </div>
+        <div class="st-frame-wrap" id="st-frame-wrap">
+          <iframe id="st-frame" title={s.title} sandbox="allow-same-origin"></iframe>
+          <div class="st-busy" id="st-busy" hidden>
+            <span class="st-spinner" aria-hidden="true"></span>
+            <p id="st-busy-text">{s.generating}</p>
+            <small>{s.generatingNote}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { renderSite } from '../builder/render';
+  import { sampleSpec, mergeSpec, looks, type Spec, type TemplateId, type SiteLang } from '../builder/spec';
+
+  type Msg = { from: 'ai' | 'me' | 'note'; text: string };
+  interface State {
+    step: number;
+    spec: Spec | null;
+    history: Spec[];
+    chat: Msg[];
+    basics: Record<string, string>;
+    sessionId: string;
+    aiUsed?: boolean;
+  }
+
+  const root = document.getElementById('studio')!;
+  const cfg = JSON.parse(root.dataset.config!);
+  const T = cfg.text;
+  const KEY = `oxira-studio-v1-${cfg.lang}`;
+  const $ = <E extends Element>(sel: string) => root.querySelector(sel) as E;
+  const $$ = <E extends Element>(sel: string) => Array.from(root.querySelectorAll(sel)) as E[];
+
+  const newId = () => (crypto.randomUUID?.() ?? `${Date.now()}${Math.random()}`).replace(/[^a-zA-Z0-9]/g, '').slice(0, 24);
+  const blank = (): State => ({ step: 1, spec: null, history: [], chat: [], basics: {}, sessionId: newId() });
+
+  let state: State = blank();
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && saved.spec) {
+      state = { ...blank(), ...saved };
+      state.spec = mergeSpec(sampleSpec(saved.spec.template ?? 'corporate', saved.spec.lang ?? cfg.lang), saved.spec);
+    }
+  } catch { /* storage unavailable */ }
+  const save = () => {
+    try { localStorage.setItem(KEY, JSON.stringify({ ...state, history: state.history.slice(-10) })); } catch { /* ignore */ }
+  };
+
+  // Template chosen on the service page (?t=clinic) starts a fresh design.
+  const params = new URLSearchParams(location.search);
+  const wanted = params.get('t') as TemplateId | null;
+  if (wanted && wanted in looks && (!state.spec || state.step === 1)) {
+    state = { ...blank(), step: 2, spec: sampleSpec(wanted, cfg.lang as SiteLang) };
+  }
+
+  // ---- Preview ----
+  const frame = $<HTMLIFrameElement>('#st-frame');
+  const wrap = $<HTMLElement>('#st-frame-wrap');
+  let renderTimer = 0;
+  function render() {
+    if (!state.spec) return;
+    clearTimeout(renderTimer);
+    renderTimer = window.setTimeout(() => {
+      const y = frame.contentWindow?.scrollY ?? 0;
+      frame.onload = () => frame.contentWindow?.scrollTo(0, y);
+      frame.srcdoc = renderSite(state.spec!, { fontBase: cfg.fontBase });
+    }, 60);
+  }
+  $$<HTMLButtonElement>('[data-device]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      $$<HTMLButtonElement>('[data-device]').forEach((x) => x.setAttribute('aria-pressed', String(x === btn)));
+      wrap.classList.toggle('is-mobile', btn.dataset.device === 'mobile');
+    }));
+
+  // ---- Steps ----
+  function go(step: number) {
+    state.step = step;
+    root.dataset.step = String(step);
+    $$<HTMLButtonElement>('[data-goto]').forEach((x) => {
+      if (!x.closest('.st-steps')) return;
+      const n = Number(x.dataset.goto);
+      x.disabled = n > maxReached();
+      x.toggleAttribute('aria-current', n === step);
+    });
+    if (step >= 2) { render(); syncControls(); }
+    if (step === 4) { prefillOrder(); updateTotal(); }
+    save();
+    window.scrollTo({ top: 0 });
+  }
+  const maxReached = () => (!state.spec ? 1 : state.chat.length || state.step >= 3 ? 4 : 2);
+  root.addEventListener('click', (e) => {
+    const g = (e.target as Element).closest<HTMLElement>('[data-goto]');
+    if (g && !(g as HTMLButtonElement).disabled) go(Number(g.dataset.goto));
+  });
+
+  // 1. Pick
+  $$<HTMLButtonElement>('[data-template]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.template as TemplateId;
+      const keep = state.spec;
+      state.spec = sampleSpec(id, (keep?.lang ?? cfg.lang) as SiteLang);
+      if (keep && state.chat.length) {
+        // Keep the client's words, take the new look.
+        state.spec = mergeSpec(keep, { template: id, colors: looks[id], font: looks[id].font });
+      }
+      go(state.chat.length ? 3 : 2);
+    }));
+
+  // 2. Basics
+  const basics = $<HTMLFormElement>('#st-basics');
+  for (const [k, v] of Object.entries(state.basics)) {
+    const el = basics.elements.namedItem(k) as HTMLInputElement | RadioNodeList | null;
+    if (el && 'value' in el) el.value = v;
+  }
+  basics.addEventListener('input', () => {
+    if (!state.spec) return;
+    const d = Object.fromEntries(new FormData(basics)) as Record<string, string>;
+    state.basics = d;
+    const sl = (d.siteLang || cfg.lang) as SiteLang;
+    if (sl !== state.spec.lang) state.spec = { ...sampleSpec(state.spec.template, sl), colors: state.spec.colors, font: state.spec.font };
+    state.spec.name = d.name?.trim() || sampleSpec(state.spec.template, sl).name;
+    applyContact(d);
+    render(); save();
+  });
+  function applyContact(d: Record<string, string>) {
+    if (!state.spec) return;
+    if (d.phone?.trim()) { state.spec.contact.phone = d.phone.trim(); state.spec.contact.whatsapp = d.phone.trim(); }
+    if (d.email?.trim()) state.spec.contact.email = d.email.trim();
+    if (d.city?.trim()) state.spec.contact.address = d.city.trim();
+  }
+  basics.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(basics)) as Record<string, string>;
+    if (!d.name?.trim()) { (basics.elements.namedItem('name') as HTMLInputElement).focus(); return; }
+    state.basics = d;
+    const kinds = T.kinds as Record<string, string>;
+    const message = [
+      `Website for: ${kinds[d.kind] ?? d.kind}`,
+      `Name: ${d.name}`,
+      d.about && `About the business: ${d.about}`,
+      d.phone && `Phone/WhatsApp: ${d.phone}`,
+      d.email && `Email: ${d.email}`,
+      d.city && `City: ${d.city}`,
+      `Website language: ${d.siteLang}`,
+    ].filter(Boolean).join('\n');
+    go(3);
+    state.chat = [];
+    drawLog();
+    await ask(message, 'create', true);
+  });
+  $('[data-skip]').addEventListener('click', () => {
+    state.basics = Object.fromEntries(new FormData(basics)) as Record<string, string>;
+    state.chat = [{ from: 'ai', text: T.chatWelcome }];
+    drawLog();
+    go(3);
+  });
+
+  // 3. Chat with the AI designer
+  const log = $<HTMLElement>('#st-log');
+  const input = $<HTMLTextAreaElement>('#st-input');
+  const busy = $<HTMLElement>('#st-busy');
+  const busyText = $<HTMLElement>('#st-busy-text');
+  let working = false;
+
+  function drawLog() {
+    log.replaceChildren(...state.chat.map((m) => {
+      const p = document.createElement('p');
+      p.className = `st-msg st-${m.from}`;
+      p.dir = 'auto';
+      p.textContent = m.text;
+      return p;
+    }));
+    log.scrollTop = log.scrollHeight;
+    $<HTMLElement>('#st-sugs').hidden = state.chat.filter((m) => m.from === 'me').length > 1;
+    $<HTMLButtonElement>('[data-undo]').disabled = state.history.length === 0;
+  }
+
+  async function ask(text: string, action: 'create' | 'edit', silent = false) {
+    if (working || !state.spec) return;
+    working = true;
+    if (!silent) state.chat.push({ from: 'me', text });
+    drawLog();
+    busyText.textContent = action === 'create' ? T.generating : T.thinking;
+    busy.hidden = false;
+    root.classList.add('is-busy');
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 120000);
+    try {
+      const res = await fetch(cfg.builderEndpoint, {
+        method: 'POST',
+        body: new URLSearchParams({ sessionId: state.sessionId, action, message: text, spec: JSON.stringify(state.spec), lang: cfg.lang }),
+        signal: ctrl.signal,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data?.success && data.spec) {
+        state.history.push(structuredClone(state.spec));
+        state.spec = mergeSpec(state.spec, data.spec);
+        state.aiUsed = true;
+        state.chat.push({ from: 'ai', text: data.reply || '✓' });
+        render();
+        syncControls();
+      } else if (data?.reply) {
+        state.chat.push({ from: 'ai', text: data.reply });
+      } else {
+        state.chat.push({ from: 'note', text: action === 'create' ? T.aiDown : T.aiFailed });
+        if (action === 'create') $<HTMLDetailsElement>('.st-quick').open = true;
+      }
+    } catch {
+      state.chat.push({ from: 'note', text: T.aiDown });
+      $<HTMLDetailsElement>('.st-quick').open = true;
+    } finally {
+      clearTimeout(timer);
+      working = false;
+      busy.hidden = true;
+      root.classList.remove('is-busy');
+      drawLog();
+      save();
+    }
+  }
+
+  $<HTMLFormElement>('#st-ask').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = '';
+    ask(text, 'edit');
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); $<HTMLFormElement>('#st-ask').requestSubmit(); }
+  });
+  input.addEventListener('input', () => { input.style.height = ''; input.style.height = `${Math.min(input.scrollHeight, 140)}px`; });
+  $$<HTMLButtonElement>('[data-suggest]').forEach((btn) => btn.addEventListener('click', () => ask(btn.textContent!.trim(), 'edit')));
+  $<HTMLButtonElement>('[data-undo]').addEventListener('click', () => {
+    const prev = state.history.pop();
+    if (prev) { state.spec = prev; render(); syncControls(); drawLog(); save(); }
+  });
+  $('[data-reset]').addEventListener('click', () => {
+    if (!confirm(T.resetConfirm)) return;
+    try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+    state = blank();
+    basics.reset();
+    drawLog();
+    go(1);
+  });
+
+  // Quick settings (work without the AI)
+  const ctl = (name: string) => $<HTMLInputElement | HTMLSelectElement>(`[data-ctl="${name}"]`);
+  function syncControls() {
+    if (!state.spec) return;
+    ctl('template').value = state.spec.template;
+    ctl('font').value = state.spec.font;
+    ctl('primary').value = state.spec.colors.primary;
+    ctl('accent').value = state.spec.colors.accent;
+    ctl('lang').value = state.spec.lang;
+  }
+  function change(fn: (s: Spec) => Spec) {
+    if (!state.spec) return;
+    state.history.push(structuredClone(state.spec));
+    state.spec = fn(state.spec);
+    render(); drawLog(); save();
+  }
+  ctl('template').addEventListener('change', (e) => {
+    const id = (e.target as HTMLSelectElement).value as TemplateId;
+    change((s) => mergeSpec(s, { template: id, colors: looks[id], font: looks[id].font }));
+    syncControls();
+  });
+  ctl('font').addEventListener('change', (e) => change((s) => mergeSpec(s, { font: (e.target as HTMLSelectElement).value })));
+  ctl('primary').addEventListener('change', (e) => change((s) => mergeSpec(s, { colors: { ...s.colors, primary: (e.target as HTMLInputElement).value } })));
+  ctl('accent').addEventListener('change', (e) => change((s) => mergeSpec(s, { colors: { ...s.colors, accent: (e.target as HTMLInputElement).value } })));
+  ctl('lang').addEventListener('change', (e) => {
+    const l = (e.target as HTMLSelectElement).value as SiteLang;
+    if (state.aiUsed) {
+      // Ask the AI to translate the client's own text.
+      ask(`Translate the whole website into this language: ${l}.`, 'edit', true);
+    } else {
+      change((s) => ({ ...sampleSpec(s.template, l), colors: s.colors, font: s.font, name: s.name, contact: { ...sampleSpec(s.template, l).contact, phone: s.contact.phone, whatsapp: s.contact.whatsapp, email: s.contact.email } }));
+    }
+  });
+
+  // 4. Order
+  const order = $<HTMLFormElement>('#st-order');
+  const fmt = new Intl.NumberFormat(cfg.numberLocale, { maximumFractionDigits: 0 });
+  const chosen = () => $$<HTMLInputElement>('input[name="pkg"]').filter((x) => x.checked || x.disabled).map((x) => x.value);
+  function updateTotal() {
+    const total = chosen().reduce((sum, id) => sum + (cfg.prices[id]?.price ?? 0), 0);
+    $<HTMLElement>('#st-total').textContent = fmt.format(total);
+    return total;
+  }
+  const domainName = $<HTMLElement>('[data-domain-name]');
+  order.addEventListener('change', (e) => {
+    const el = e.target as HTMLInputElement;
+    if (el.name === 'domainOption') {
+      $<HTMLInputElement>('input[name="pkg"][value="domain"]').checked = el.value === 'new';
+      domainName.hidden = el.value === 'none';
+    }
+    updateTotal();
+  });
+  // Prefill contact from the basics (only empty fields).
+  function prefillOrder() {
+    for (const k of ['phone', 'email'] as const) {
+      const el = order.elements.namedItem(k) as HTMLInputElement;
+      if (!el.value && state.basics[k]) el.value = state.basics[k];
+    }
+  }
+
+  const status = $<HTMLElement>('#st-order-status');
+  order.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(order)) as Record<string, string>;
+    if (!d.name?.trim() || (d.phone || '').replace(/\D/g, '').length < 7) {
+      status.hidden = false; status.className = 'st-status is-error'; status.textContent = T.required;
+      return;
+    }
+    const btn = $<HTMLButtonElement>('.st-submit');
+    btn.disabled = true; btn.textContent = T.submitting;
+    status.hidden = true;
+    try {
+      const res = await fetch(cfg.orderEndpoint, {
+        method: 'POST',
+        body: new URLSearchParams({
+          name: d.name, phone: d.phone, email: d.email || '', notes: d.notes || '',
+          clientType: state.basics.kind || '', template: state.spec!.template, siteName: state.spec!.name, siteLang: state.spec!.lang,
+          domainOption: d.domainOption, domainName: d.domainOption === 'none' ? '' : d.domainName || '',
+          addons: chosen().join(','), total: String(updateTotal()), spec: JSON.stringify(state.spec),
+          lang: cfg.lang, page: location.pathname, company_website: d.company_website || '',
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!data?.success) throw new Error('order failed');
+      $<HTMLElement>('#st-done-body').textContent = T.doneBody.replace('{id}', `#${data.orderId}`);
+      try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+      root.dataset.step = '5';
+      window.scrollTo({ top: 0 });
+    } catch {
+      status.hidden = false; status.className = 'st-status is-error';
+      status.replaceChildren(document.createTextNode(`${T.failed} `), Object.assign(document.createElement('a'), { href: cfg.whatsapp, textContent: 'WhatsApp', target: '_blank', rel: 'noopener' }));
+    } finally {
+      btn.disabled = false; btn.textContent = T.submit;
+    }
+  });
+
+  // Start
+  if (state.step >= 3 && !state.chat.length) state.chat = [{ from: 'ai', text: T.chatWelcome }];
+  drawLog();
+  go(state.spec ? Math.max(2, Math.min(state.step, 4)) : 1);
+</script>
+
+<style>
+  .st { --top: 4.75rem; --bar: 3.6rem; background: var(--paper); min-height: calc(100vh - var(--top)); }
+  [data-panel] { display: none; }
+  .st[data-step='1'] [data-panel='1'],
+  .st[data-step='2'] .st-side > [data-panel='2'],
+  .st[data-step='3'] .st-side > [data-panel='3'],
+  .st[data-step='4'] .st-side > [data-panel='4'],
+  .st[data-step='5'] .st-side > [data-panel='5'] { display: block; }
+  .st:is([data-step='2'], [data-step='3'], [data-step='4'], [data-step='5']) .st-work { display: grid; }
+  .st[data-step='3'] .st-side > .st-editor { display: flex; }
+
+  /* Top bar with steps */
+  .st-top { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: var(--top); z-index: 20; }
+  .st-top-in { display: flex; align-items: center; gap: 1.5rem; min-height: var(--bar); padding-inline: var(--gutter); }
+  .st-title { display: flex; align-items: center; gap: .55rem; font-weight: 700; white-space: nowrap; }
+  .st-title-mark { font-size: 1.25rem; display: inline-flex; }
+  .st-steps { list-style: none; display: flex; gap: .3rem; overflow-x: auto; scrollbar-width: none; }
+  .st-steps button { display: inline-flex; align-items: center; gap: .45rem; border: 0; background: none; font: 600 .92rem/1 var(--font); color: var(--muted); padding: .55rem .7rem; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+  .st-steps button span { width: 1.45rem; height: 1.45rem; display: grid; place-items: center; border-radius: 50%; background: var(--line); color: var(--ink); font-size: .78rem; }
+  .st-steps button[aria-current] { background: var(--blue-soft); color: var(--ink); }
+  .st-steps button[aria-current] span { background: var(--navy); color: #fff; }
+  .st-steps button:disabled { opacity: .45; cursor: default; }
+
+  /* 1. Pick */
+  .st-pick { padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .st-pick h1 { font-size: var(--s3); }
+  .st-tpls { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .st-tpls button { width: 100%; display: grid; text-align: start; padding: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; cursor: pointer; font: inherit; color: inherit; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .st-tpls button:hover { border-color: var(--navy); box-shadow: 0 24px 40px -28px rgba(6, 26, 45, .5); transform: translateY(-2px); }
+  .st-tpl-meta { display: grid; padding: 1rem 1.2rem .2rem; border-top: 1px solid var(--line); }
+  .st-tpl-meta strong { font-size: 1.1rem; }
+  .st-tpl-meta small { color: var(--muted); font-size: .95rem; }
+  .st-tpl-go { padding: .4rem 1.2rem 1.1rem; color: var(--blue); font-weight: 700; font-size: .95rem; }
+
+  /* Work area */
+  .st-work { grid-template-columns: minmax(340px, 420px) 1fr; height: calc(100vh - var(--top) - var(--bar)); }
+  .st-side { background: #fff; border-inline-end: 1px solid var(--line); overflow-y: auto; }
+  .st-side > form, .st-side > .st-done { padding: 1.75rem; }
+  .st-side h1 { font-size: 1.6rem; }
+  .st-side h2 { font-size: 1.05rem; margin: 1.6rem 0 .75rem; }
+  .st-muted { color: var(--muted); margin: .4rem 0 1.25rem; }
+  .st-field { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; margin-bottom: .9rem; }
+  .st-field :is(input, textarea, select) { font: 400 1rem/1.5 var(--font); color: var(--ink); padding: .7rem .85rem; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; width: 100%; }
+  .st-field :is(input, textarea, select):focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+  .st-field textarea { resize: vertical; }
+  .st-two { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .st-kinds { border: 0; padding: 0; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .st-kinds legend { font-weight: 600; font-size: .92rem; margin-bottom: .45rem; }
+  .st-kinds label { cursor: pointer; }
+  .st-kinds input { position: absolute; opacity: 0; }
+  .st-kinds span { display: inline-block; padding: .5rem .95rem; border: 1.5px solid var(--line); border-radius: 999px; font-weight: 600; font-size: .92rem; }
+  .st-kinds input:checked + span { border-color: var(--navy); background: var(--navy); color: #fff; }
+  .st-kinds input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .st-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: .75rem; }
+  .st-link { border: 0; background: none; font: 600 .95rem var(--font); color: var(--blue); cursor: pointer; padding: .4rem 0; }
+  .st-link:hover { text-decoration: underline; }
+  .st-back { display: block; margin-top: 1rem; color: var(--muted); }
+
+  /* 3. Editor */
+  .st-editor { flex-direction: column; height: 100%; }
+  .st-chat-head { display: flex; align-items: center; gap: .7rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
+  .st-ai { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: var(--navy); font-size: 1.2rem; flex: none; }
+  .st-tools { margin-inline-start: auto; }
+  .st-icon { width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; }
+  .st-icon:disabled { opacity: .4; cursor: default; }
+  .st-icon svg, .st-send svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  html[dir='rtl'] .st-icon svg, html[dir='rtl'] .st-send svg { transform: scaleX(-1); }
+  .st-log { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: .7rem; min-height: 8rem; }
+  .st-log :global(.st-msg) { max-width: 88%; padding: .7rem .95rem; border-radius: 14px; white-space: pre-line; line-height: 1.6; font-size: .97rem; }
+  .st-log :global(.st-ai) { background: var(--paper); align-self: flex-start; border-start-start-radius: 4px; }
+  .st-log :global(.st-me) { background: var(--navy); color: #fff; align-self: flex-end; border-start-end-radius: 4px; }
+  .st-log :global(.st-note) { background: #FFF7E0; border: 1px solid #F3D88A; align-self: stretch; max-width: none; font-size: .92rem; }
+  .st-sugs { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1.25rem .75rem; }
+  .st-sugs[hidden] { display: none; }
+  .st-sugs button { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: .4rem .8rem; font: 600 .85rem var(--font); color: var(--ink); cursor: pointer; }
+  .st-sugs button:hover { border-color: var(--navy); }
+  .st-ask { display: flex; gap: .5rem; align-items: flex-end; margin: 0 1.25rem; padding: .45rem; border: 1.5px solid var(--line); border-radius: 14px; }
+  .st-ask:focus-within { border-color: var(--blue); }
+  .st-ask textarea { flex: 1; border: 0; resize: none; font: 400 1rem/1.5 var(--font); padding: .4rem .5rem; outline: none; max-height: 140px; background: transparent; color: var(--ink); }
+  .st-send { width: 40px; height: 40px; border-radius: 10px; border: 0; background: var(--amber); color: var(--navy); display: grid; place-items: center; cursor: pointer; flex: none; }
+  .is-busy .st-send, .is-busy .st-sugs button { opacity: .5; pointer-events: none; }
+  .st-quick { margin: .9rem 1.25rem 0; border: 1px solid var(--line); border-radius: 12px; }
+  .st-quick summary { cursor: pointer; padding: .7rem .9rem; font-weight: 600; font-size: .95rem; }
+  .st-quick-in { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .75rem; padding: 0 .9rem .6rem; }
+  .st-quick-in .st-link { grid-column: 1 / -1; justify-self: start; color: #B42318; }
+  .st-color input { height: 44px; padding: .25rem; cursor: pointer; }
+  .st-to-order { margin: .9rem 1.25rem 1.25rem; }
+
+  /* 4. Order */
+  .st-pkgs { list-style: none; display: grid; gap: .5rem; }
+  .st-pkgs label { display: grid; grid-template-columns: auto 1fr auto; gap: .75rem; align-items: start; padding: .85rem .95rem; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; }
+  .st-pkgs label:has(input:checked) { border-color: var(--navy); background: var(--blue-soft); }
+  .st-pkgs input { margin-top: .3rem; width: 1.05rem; height: 1.05rem; accent-color: var(--navy); }
+  .st-pkg-text { display: grid; }
+  .st-pkg-text strong { font-size: .97rem; }
+  .st-pkg-text small { color: var(--muted); line-height: 1.5; }
+  .st-pkg-price { font-weight: 700; white-space: nowrap; text-align: end; }
+  .st-pkg-price small { display: block; font-weight: 500; color: var(--muted); font-size: .78rem; }
+  .st-domain { border: 0; padding: 0; margin: 0 0 .6rem; display: grid; gap: .45rem; }
+  .st-domain label { display: flex; gap: .55rem; align-items: center; cursor: pointer; }
+  .st-domain input { accent-color: var(--navy); }
+  [data-domain-name][hidden] { display: none; }
+  .st-note { color: var(--muted); font-size: .85rem; line-height: 1.6; }
+  .st-hp { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; opacity: 0; }
+  .st-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 1.5rem; padding-top: 1rem; border-top: 1.5px solid var(--ink); font-weight: 700; }
+  .st-total b { font-size: 1.6rem; }
+  .st-submit { width: 100%; margin-top: 1rem; }
+  .st-status { margin-top: 1rem; padding: .8rem 1rem; border-radius: 10px; font-size: .92rem; }
+  .st-status.is-error { background: #FEF3F2; color: #B42318; border: 1px solid #FECDCA; }
+  .st-status a { color: inherit; font-weight: 700; }
+  .st-consent { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+  .st-consent a { color: var(--blue); }
+
+  /* Done */
+  .st-done-mark { width: 56px; height: 56px; border-radius: 50%; background: #E7F6EC; display: grid; place-items: center; margin-bottom: 1rem; }
+  .st-done-mark svg { width: 28px; height: 28px; fill: none; stroke: #1E8E4E; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .st-done p { margin-top: .6rem; color: var(--muted); }
+  .st-done ol { padding-inline-start: 1.2rem; display: grid; gap: .4rem; color: var(--muted); }
+
+  /* Stage */
+  .st-stage { display: flex; flex-direction: column; min-width: 0; }
+  .st-stage-bar { display: flex; justify-content: center; padding: .7rem; }
+  .st-device { display: inline-flex; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .st-device button { border: 0; background: none; font: 600 .88rem var(--font); padding: .45rem 1rem; border-radius: 999px; cursor: pointer; color: var(--muted); }
+  .st-device button[aria-pressed='true'] { background: var(--navy); color: #fff; }
+  .st-frame-wrap { position: relative; flex: 1; margin: 0 1.25rem 1.25rem; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 24px 48px -32px rgba(6, 26, 45, .45); transition: max-width .3s; width: calc(100% - 2.5rem); max-width: 100%; align-self: center; }
+  .st-frame-wrap.is-mobile { max-width: 390px; }
+  .st-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  .st-busy { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: .5rem; background: rgba(245, 247, 249, .82); backdrop-filter: blur(3px); text-align: center; padding: 1rem; }
+  .st-busy[hidden] { display: none; }
+  .st-busy p { font-weight: 700; font-size: 1.1rem; }
+  .st-busy small { color: var(--muted); }
+  .st-spinner { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--line); border-top-color: var(--amber); animation: st-spin 1s linear infinite; }
+  @keyframes st-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .st-spinner { animation-duration: 3s; } }
+
+  @media (max-width: 1060px) {
+    .st-tpls { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 860px) {
+    .st-title { display: none; }
+    .st-work { grid-template-columns: 1fr; height: auto; }
+    .st-side { border-inline-end: 0; border-bottom: 1px solid var(--line); overflow: visible; }
+    .st-editor { height: auto; }
+    .st-log { max-height: 50vh; }
+    .st-stage { height: 78vh; }
+  }
+  @media (max-width: 560px) {
+    .st-tpls { grid-template-columns: 1fr; }
+    .st-two { grid-template-columns: 1fr; }
+    .st-steps button { font-size: 0; gap: 0; padding: .45rem; }
+    .st-steps button span { font-size: .78rem; }
+    .st-steps button[aria-current] { font-size: .88rem; gap: .45rem; padding-inline-end: .8rem; }
+  }
+</style>
