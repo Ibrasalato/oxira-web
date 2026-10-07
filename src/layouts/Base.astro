@@ -1,5 +1,9 @@
 ---
-import { t, type Lang } from '../i18n/content';
+import { t, contact, type Lang } from '../i18n/content';
+import { link, asset } from '../lib/routes';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Chat from '../components/Chat.astro';
 // Fonts are self-hosted (no request to Google from visitors' browsers).
 import '@fontsource/cairo/400.css';
 import '@fontsource/cairo/500.css';
@@ -7,64 +11,104 @@ import '@fontsource/cairo/600.css';
 import '@fontsource/cairo/700.css';
 import '@fontsource/cairo/800.css';
 
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props {
+  lang: Lang;
+  path: string;          // page path without language prefix, e.g. '/', '/services/'
+  title: string;
+  description: string;
+}
+const { lang, path, title, description } = Astro.props;
 const c = t[lang];
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const altHref = lang === 'ar' ? `${base}/en/` : `${base}/`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const other: Lang = lang === 'ar' ? 'en' : 'ar';
+const site = Astro.site!;
+const canonical = new URL(link(lang, path), site).href;
+const altUrl = new URL(link(other, path), site).href;
+const arUrl = new URL(link('ar', path), site).href;
+const ogImage = new URL(asset(lang === 'ar' ? 'og-ar.png' : 'og-en.png'), site).href;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Oxira',
+  alternateName: 'أوكسيرا',
+  url: new URL(link('ar', '/'), site).href,
+  logo: new URL(asset('favicon.svg'), site).href,
+  email: contact.email,
+  telephone: contact.phone.replace(/\s/g, ''),
+  address: { '@type': 'PostalAddress', streetAddress: '426 Al Sulaymaniyah, Al Urubah Rd.', addressLocality: 'Riyadh', addressCountry: 'SA' },
+};
 ---
 <!doctype html>
 <html lang={lang} dir={c.dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{c.meta.title}</title>
-    <meta name="description" content={c.meta.description} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang={lang === 'ar' ? 'en' : 'ar'} href={new URL(altHref, Astro.site)} />
-    <meta property="og:title" content={c.meta.title} />
-    <meta property="og:description" content={c.meta.description} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={other} href={altUrl} />
+    <link rel="alternate" hreflang="x-default" href={arUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Oxira" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={lang === 'ar' ? 'ar_SA' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0A253E" />
-    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={asset('sitemap.xml')} />
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
   </head>
   <body>
-    <slot />
+    <a class="skip" href="#main">{c.site.skip}</a>
+    <Header lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} path={path} />
+    <Chat lang={lang} />
   </body>
 </html>
 
 <style is:global>
   :root {
-    /* Oxira brand, sampled from the company profile */
+    /* Oxira brand, from the company profile */
     --navy: #0A253E;
-    --navy-deep: #071B2F;
-    --navy-mid: #0E3354;
+    --navy-deep: #061A2D;
+    --navy-mid: #10375A;
     --amber: #F5A800;
-    --amber-deep: #D99500;
+    --amber-deep: #DB9600;
     --blue: #007DB4;
+    --blue-soft: #E6F2F8;
     --cyan: #22C7E6;
-    --paper: #F4F6F8;
-    --white: #FFFFFF;
+
     --ink: #0A253E;
-    --muted: #4E6175;
-    --muted-on-navy: #A9BCCD;
-    --line: #DCE3EA;
+    --muted: #556779;
+    --muted-on-navy: #A7B8C8;
+    --line: #E2E8EE;
+    --paper: #F5F7F9;
+    --white: #FFFFFF;
 
     --font: 'Cairo', system-ui, sans-serif;
 
-    /* Type scale: perfect fourth (1.333) */
     --s-1: .875rem;
     --s0: 1.0625rem;
-    --s1: 1.333rem;
-    --s2: 1.777rem;
-    --s3: clamp(1.9rem, 3.6vw, 2.369rem);
-    --s4: clamp(2.2rem, 5vw, 3.157rem);
-    --s5: clamp(2.5rem, 6vw, 4rem);
+    --s1: 1.25rem;
+    --s2: clamp(1.4rem, 2.2vw, 1.75rem);
+    --s3: clamp(1.8rem, 3.4vw, 2.6rem);
+    --s4: clamp(2.2rem, 4.6vw, 3.6rem);
+    --s5: clamp(2.6rem, 6.4vw, 5rem);
 
-    --gutter: clamp(1rem, 4vw, 2.5rem);
-    --page: 74rem;
-    --radius: 14px;
+    --gutter: clamp(1.25rem, 5vw, 3rem);
+    --page: 76rem;
+    --section: clamp(4.5rem, 10vw, 8.5rem);
+    --radius: 18px;
+    --radius-lg: 28px;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -80,34 +124,64 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     font-size: var(--s0);
     line-height: 1.8;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
   html[lang='en'] body { line-height: 1.65; }
 
-  h1, h2, h3 { font-weight: 800; line-height: 1.3; margin: 0; }
+  h1, h2, h3, h4 { font-weight: 800; line-height: 1.25; margin: 0; letter-spacing: -0.005em; }
+  html[lang='en'] :is(h1, h2) { letter-spacing: -0.025em; line-height: 1.1; }
   p { margin: 0; }
   a { color: inherit; }
   img, svg { display: block; max-width: 100%; }
+  ul, ol { margin: 0; padding: 0; }
 
-  :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; border-radius: 4px; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+
+  .skip { position: absolute; inset-inline-start: 1rem; top: -4rem; z-index: 100; background: var(--navy); color: #fff; padding: .6rem 1rem; border-radius: 8px; }
+  .skip:focus { top: 1rem; }
 
   .wrap { width: 100%; max-width: var(--page); margin-inline: auto; padding-inline: var(--gutter); }
+  .section { padding-block: var(--section); }
+  .section-tight { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .bg-paper { background: var(--paper); }
+  .bg-navy { background: var(--navy); color: #fff; }
 
+  /* Section heading block */
+  .sh { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .sh h2 { font-size: var(--s4); }
+  .sh p { font-size: 1.15rem; color: var(--muted); }
+  .bg-navy .sh p { color: var(--muted-on-navy); }
+  .sh-row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .sh-row .sh { margin-bottom: 0; }
+  .label { color: var(--blue); font-weight: 700; font-size: 1rem; }
+  .bg-navy .label { color: var(--amber); }
+
+  /* Buttons and links */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-    font: 700 var(--s0)/1 var(--font);
-    padding: 1rem 1.6rem;
-    border-radius: 10px;
-    text-decoration: none;
-    border: 2px solid transparent;
-    cursor: pointer;
+    font: 700 1rem/1 var(--font); padding: 1.05rem 1.6rem; border-radius: 12px;
+    text-decoration: none; border: 1.5px solid transparent; cursor: pointer;
     transition: background-color .15s, color .15s, border-color .15s;
   }
   .btn-amber { background: var(--amber); color: var(--navy); }
   .btn-amber:hover { background: var(--amber-deep); }
-  .btn-outline-light { border-color: rgba(255,255,255,.55); color: var(--white); }
-  .btn-outline-light:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
-  .btn-navy { background: var(--navy); color: var(--white); }
+  .btn-navy { background: var(--navy); color: #fff; }
   .btn-navy:hover { background: var(--navy-mid); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); background: #fff; }
+  .btn-ghost:hover { border-color: var(--navy); }
+  .btn-ghost-light { border-color: rgba(255,255,255,.35); color: #fff; }
+  .btn-ghost-light:hover { border-color: #fff; background: rgba(255,255,255,.06); }
+
+  .more { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; color: var(--blue); text-decoration: none; }
+  .more::after { content: ''; width: .5em; height: .5em; border-top: 2px solid currentColor; border-inline-end: 2px solid currentColor; transform: rotate(45deg); }
+  html[dir='rtl'] .more::after { transform: rotate(-45deg); }
+  .more:hover { text-decoration: underline; text-underline-offset: .3em; }
+  .bg-navy .more { color: var(--amber); }
+
+  /* Page hero for inner pages */
+  .page-hero { padding-block: clamp(4rem, 9vw, 7rem) clamp(2.5rem, 5vw, 4rem); }
+  .page-hero h1 { font-size: var(--s5); max-width: 18ch; text-wrap: balance; }
+  .page-hero .lead { margin-top: 1.25rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--muted); max-width: 44rem; }
 
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

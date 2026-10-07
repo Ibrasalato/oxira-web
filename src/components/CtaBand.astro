@@ -1,0 +1,35 @@
+---
+import { t, type Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import Logo from './Logo.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = t[lang];
+---
+<section class="cta" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta-box">
+      <span class="cta-mark" aria-hidden="true"><Logo variant="dark" wordmark={false} /></span>
+      <div class="cta-text">
+        <h2 id="cta-title">{c.contact.title}</h2>
+        <p>{c.cta.body}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-amber" href={link(lang, '/contact/')}>{c.cta.button}</a>
+        <a class="btn btn-ghost-light" href={`${link(lang, '/contact/')}?type=support`}>{c.contact.labels.support}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: 0 var(--section); }
+  .cta-box { position: relative; overflow: hidden; background: var(--navy); color: #fff; border-radius: var(--radius-lg); padding: clamp(2.5rem, 6vw, 4.5rem); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; }
+  .cta-mark { position: absolute; inset-inline-end: -3rem; top: -3rem; font-size: 16rem; opacity: .07; pointer-events: none; }
+  .cta-text { position: relative; max-width: 40rem; }
+  .cta h2 { font-size: var(--s4); }
+  .cta p { color: var(--muted-on-navy); font-size: 1.15rem; margin-top: 1rem; }
+  .cta-actions { position: relative; display: flex; flex-wrap: wrap; gap: .75rem; }
+  @media (max-width: 860px) { .cta-box { grid-template-columns: 1fr; } }
+</style>

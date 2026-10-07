@@ -1,0 +1,26 @@
+---
+import { clientLogos, type Lang } from '../i18n/content';
+import { asset } from '../lib/routes';
+
+interface Props { lang: Lang; title?: string; variant?: 'strip' | 'grid' }
+const { lang, title, variant = 'strip' } = Astro.props;
+---
+<div class={`cl cl-${variant}`}>
+  {title && <p class="cl-title">{title}</p>}
+  <ul>
+    {clientLogos.map((cl) => (
+      <li><img src={asset(`clients/${cl.file}`)} alt={cl[lang]} loading="lazy" decoding="async" /></li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .cl-title { text-align: center; color: var(--muted); font-weight: 600; margin-bottom: 2rem; }
+  .cl ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(1.5rem, 3.5vw, 3rem) clamp(2rem, 4.5vw, 3.75rem); }
+  .cl img { height: clamp(40px, 4.4vw, 56px); width: auto; max-width: 140px; object-fit: contain; filter: grayscale(1); opacity: .6; transition: filter .2s, opacity .2s; }
+  .cl img:hover { filter: none; opacity: 1; }
+
+  .cl-grid ul { gap: 1rem; }
+  .cl-grid li { background: #fff; display: grid; place-items: center; width: clamp(9.5rem, 15vw, 11.5rem); aspect-ratio: 4 / 3; padding: 1.25rem; border-radius: var(--radius); box-shadow: 0 0 0 1px var(--line); }
+  .cl-grid img { height: 64px; max-width: 150px; filter: none; opacity: 1; }
+</style>

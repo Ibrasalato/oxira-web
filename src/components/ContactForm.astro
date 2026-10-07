@@ -1,0 +1,200 @@
+---
+// Contact / technical-support form. Messages go to the n8n workflow
+// "Oxira 2 — Website contact form", which saves them and emails info@oxira.sa.
+import { t, contact, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = t[lang];
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-website-contact';
+---
+<form class="form" id="lead-form" novalidate
+      data-endpoint={formEndpoint}
+      data-email={contact.email}
+      data-msg-sending={c.contact.form.sending}
+      data-msg-sent={c.contact.form.sent}
+      data-msg-failed={c.contact.form.failed}
+      data-msg-pending={c.contact.form.pending}
+      data-whatsapp={contact.whatsappHref}
+      data-msg-required={c.contact.form.required}
+      data-label-submit={c.contact.form.submit}
+      data-subject-project={c.contact.form.subjectProject}
+      data-subject-support={c.contact.form.subjectSupport}
+      data-details-project={c.contact.form.details}
+      data-details-support={c.contact.form.detailsSupport}
+      data-hint-support={c.contact.form.detailsSupportHint}>
+  <h3>{c.contact.form.title}</h3>
+  <fieldset class="type-toggle">
+    <legend class="sr-only">{c.contact.form.type}</legend>
+    <label><input type="radio" name="type" value="project" checked /><span>{c.contact.form.typeProject}</span></label>
+    <label><input type="radio" name="type" value="support" /><span>{c.contact.form.typeSupport}</span></label>
+  </fieldset>
+  <label class="field">
+    <span>{c.contact.form.name}</span>
+    <input name="name" autocomplete="name" required />
+  </label>
+  <div class="field-row">
+    <label class="field">
+      <span>{c.contact.form.email}</span>
+      <input name="email" type="email" autocomplete="email" dir="ltr" />
+    </label>
+    <label class="field">
+      <span>{c.contact.form.phone}</span>
+      <input name="phone" type="tel" autocomplete="tel" dir="ltr" />
+    </label>
+  </div>
+  <label class="field">
+    <span>{c.contact.form.service}</span>
+    <select name="service">
+      <option value="">{c.contact.form.serviceAny}</option>
+      {c.services.list.map((s) => <option value={s.name}>{s.name}</option>)}
+      <option value={c.products.ctaValue}>{c.products.ctaValue}</option>
+      <option value={c.contact.form.other}>{c.contact.form.other}</option>
+    </select>
+  </label>
+  <label class="field">
+    <span class="details-label">{c.contact.form.details}</span>
+    <textarea name="details" rows="4" required></textarea>
+  </label>
+  <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <button class="btn btn-amber" type="submit">{c.contact.form.submit}</button>
+  <div class="form-status" role="status" aria-live="polite">
+    <p class="fs-text"></p>
+    <div class="fs-links" hidden>
+      <a class="fs-mail" href="#">{c.contact.form.viaEmail}</a>
+      <a class="fs-wa" href="#" target="_blank" rel="noopener">{c.contact.form.viaWhatsapp}</a>
+    </div>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('lead-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.form-status') as HTMLElement;
+    const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const detailsLabel = form.querySelector('.details-label') as HTMLElement;
+    const detailsBox = form.querySelector('textarea[name=details]') as HTMLTextAreaElement;
+    const d = form.dataset;
+    const fsText = status.querySelector('.fs-text') as HTMLElement;
+    const fsLinks = status.querySelector('.fs-links') as HTMLElement;
+    const show = (state: 'ok' | 'error' | '', text: string, links?: { mail: string; wa: string }) => {
+      status.dataset.state = state;
+      fsText.textContent = text;
+      fsLinks.hidden = !links;
+      if (links) {
+        (fsLinks.querySelector('.fs-mail') as HTMLAnchorElement).href = links.mail;
+        (fsLinks.querySelector('.fs-wa') as HTMLAnchorElement).href = links.wa;
+      }
+      if (state) status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    // Project vs technical support: relabel the description field
+    const setType = (type: string) => {
+      const radio = form.querySelector<HTMLInputElement>(`input[name=type][value=${type}]`);
+      if (radio) radio.checked = true;
+      const support = type === 'support';
+      detailsLabel.textContent = support ? d.detailsSupport! : d.detailsProject!;
+      detailsBox.placeholder = support ? d.hintSupport! : '';
+    };
+    form.querySelectorAll<HTMLInputElement>('input[name=type]').forEach((r) => r.addEventListener('change', () => setType(r.value)));
+    // Preselect from the URL: /contact/?type=support or ?service=Classti
+    const params = new URLSearchParams(location.search);
+    if (params.get('type') === 'support') setType('support');
+    const svc = params.get('service');
+    const sel = form.querySelector<HTMLSelectElement>('select[name=service]');
+    if (svc && sel && Array.from(sel.options).some((o) => o.value === svc)) sel.value = svc;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (data.company_website) return; // spam bot filled the hidden field
+      delete data.company_website;
+
+      if (!data.name?.trim() || !data.details?.trim() || !(data.email?.trim() || data.phone?.trim())) {
+        show('error', d.msgRequired!);
+        const firstEmpty = [form.elements.namedItem('name'), form.elements.namedItem('email'), form.elements.namedItem('details')]
+          .find((el) => el && !(el as HTMLInputElement).value.trim()) as HTMLElement | undefined;
+        firstEmpty?.focus();
+        return;
+      }
+
+      const support = data.type === 'support';
+      const subject = `${support ? d.subjectSupport : d.subjectProject}: ${data.name}`;
+      const labels = Array.from(form.querySelectorAll('.field')).reduce<Record<string, string>>((acc, f) => {
+        const input = f.querySelector('input, select, textarea') as HTMLInputElement | null;
+        const label = f.querySelector('span');
+        if (input && label) acc[input.name] = label.textContent!.trim();
+        return acc;
+      }, {});
+
+      // Readable copy of the message, used for the email/WhatsApp fallback links
+      const payload: Record<string, string> = {
+        [form.querySelector('legend')!.textContent!.trim()]: form.querySelector('input[name=type]:checked + span')!.textContent!.trim(),
+      };
+      for (const [k, v] of Object.entries(data)) {
+        if (k === 'type' || !v) continue;
+        payload[labels[k] || k] = v;
+      }
+
+      button.disabled = true;
+      button.textContent = d.msgSending!;
+      show('', '');
+      const text = Object.entries(payload).filter(([k]) => !k.startsWith('_')).map(([k, v]) => `${k}: ${v}`).join('\n');
+      const links = {
+        mail: `mailto:${d.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`,
+        wa: `${d.whatsapp}?text=${encodeURIComponent(subject + '\n\n' + text)}`,
+      };
+      try {
+        const res = await fetch(d.endpoint!, {
+          method: 'POST',
+          // Form-encoded body keeps this a "simple" cross-origin request (no CORS preflight)
+          body: new URLSearchParams({ ...data, lang: document.documentElement.lang, page: location.href }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok || String(out.success) !== 'true') throw new Error(out.message || String(res.status));
+        form.reset();
+        setType('project');
+        show('ok', d.msgSent!);
+      } catch {
+        show('error', d.msgFailed!, links);
+      } finally {
+        button.disabled = false;
+        button.textContent = d.labelSubmit!;
+      }
+    });
+  }
+</script>
+
+<style>
+  .form { background: #fff; color: var(--ink); border-radius: calc(var(--radius) + 4px); padding: clamp(1.5rem, 3vw, 2.2rem); display: grid; gap: 1rem; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); border-top: 5px solid var(--amber); }
+  .form h3 { font-size: 1.45rem; }
+  .type-toggle { border: 0; margin: 0; padding: 4px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--paper); border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--line); }
+  .type-toggle label { position: relative; cursor: pointer; }
+  .type-toggle input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .type-toggle span { display: block; text-align: center; padding: .6rem .5rem; border-radius: 9px; font-weight: 700; font-size: .95rem; color: var(--muted); }
+  .type-toggle input:checked + span { background: var(--navy); color: #fff; }
+  .type-toggle input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .field { display: grid; gap: .35rem; }
+  .field > span { font-size: .92rem; font-weight: 700; color: var(--ink); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
+  .field input, .field select, .field textarea {
+    font: 500 1rem/1.5 var(--font); color: var(--ink); width: 100%;
+    background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: .75rem .9rem;
+  }
+  html[dir='rtl'] .field input[dir='ltr'] { text-align: right; }
+  .field textarea { resize: vertical; min-height: 7rem; }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,125,180,.2); }
+  .form .btn { width: 100%; margin-top: .25rem; }
+  .form .btn:disabled { opacity: .7; cursor: progress; }
+  .form-status { font-weight: 600; font-size: .95rem; line-height: 1.6; }
+  .form-status:not([data-state='ok']):not([data-state='error']) { display: none; }
+  .form-status[data-state='error'] { color: #912018; background: #FEF3F2; border: 1px solid #FECDCA; border-radius: 10px; padding: .8rem 1rem; }
+  .form-status[data-state='ok'] { color: #05603A; background: #ECFDF3; border: 1px solid #ABEFC6; border-radius: 10px; padding: .8rem 1rem; }
+  .fs-links { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+  .fs-links[hidden] { display: none; }
+  .fs-links a { text-decoration: none; font-weight: 700; padding: .45rem .9rem; border-radius: 8px; background: var(--navy); color: #fff; font-size: .9rem; }
+  .fs-links a.fs-wa { background: #0B8A6E; }
+  .hp { position: absolute; inset-inline-start: -9999px; }
+
+</style>

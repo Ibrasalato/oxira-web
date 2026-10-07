@@ -1,5 +1,6 @@
 ---
 import { t, type Lang } from '../i18n/content';
+import { link } from '../lib/routes';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -11,10 +12,6 @@ const tm = p.teacher.mock;
 ---
 <section id="products" class="products" aria-labelledby="products-title">
   <div class="wrap">
-    <div class="p-head">
-      <h2 id="products-title">{p.title}</h2>
-      <p>{p.body}</p>
-    </div>
 
     <!-- Classti intro -->
     <div class="classti-hero">
@@ -26,7 +23,7 @@ const tm = p.teacher.mock;
             <path d="M18 8h6v14a4 4 0 0 0 4 4h4v6h-6a8 8 0 0 1-8-8z" fill="#fff" />
             <rect x="9" y="17" width="7" height="6" rx="2" fill="#fff" opacity=".85" />
           </svg>
-          <span class="ct-word" dir="ltr">Class<b>ti</b></span>
+          <h1 class="ct-word" id="products-title" dir="ltr">Class<b>ti</b></h1>
         </span>
         <p class="ct-tag" dir="ltr">{p.tagline}</p>
       </div>
@@ -143,7 +140,7 @@ const tm = p.teacher.mock;
     </div>
 
     <div class="ct-cta">
-      <a class="btn ct-btn" href="#contact" data-pick-service={p.ctaValue}>{p.cta}</a>
+      <a class="btn ct-btn" href={`${link(lang, '/contact/')}?service=${encodeURIComponent(p.ctaValue)}`}>{p.cta}</a>
     </div>
   </div>
 </section>
@@ -182,7 +179,7 @@ const tm = p.teacher.mock;
     --ct-bright: #2EB24B;
     --ct-soft: #4D9E7B;
     --ct-mint: #E7F4EC;
-    padding-block: clamp(4rem, 9vw, 7rem);
+    padding-block: clamp(2rem, 4vw, 3rem) var(--section);
     background: #fff;
   }
   .p-head { display: grid; gap: .75rem; max-width: 44rem; margin-bottom: clamp(2rem, 5vw, 3rem); }
@@ -197,7 +194,7 @@ const tm = p.teacher.mock;
   .ct-brand { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
   .ct-logo { display: inline-flex; align-items: center; gap: .6rem; direction: ltr; }
   .ct-logo svg { width: 3.2rem; height: 3.2rem; }
-  .ct-word { font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: -.01em; }
+  .ct-word { font-family: 'Cairo', sans-serif; font-weight: 800; font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -.01em; margin: 0; }
   .ct-word b { color: var(--ct-bright); font-weight: 800; }
   .ct-tag { color: #B9D9C7; font-weight: 600; letter-spacing: .02em; }
   .ct-lead { margin-top: 1.25rem; font-size: 1.2rem; color: #DDEDE3; max-width: 46rem; }

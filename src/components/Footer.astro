@@ -1,0 +1,66 @@
+---
+import { t, contact, type Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import Logo from './Logo.astro';
+
+interface Props { lang: Lang; path: string }
+const { lang, path } = Astro.props;
+const c = t[lang];
+const other: Lang = lang === 'ar' ? 'en' : 'ar';
+---
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <Logo variant="dark" class="ft-logo" />
+        <p>{c.site.footerTagline}</p>
+      </div>
+
+      <nav aria-label={c.site.footerCols.company}>
+        <h2>{c.site.footerCols.company}</h2>
+        <ul>
+          {c.site.nav.map((n) => <li><a href={link(lang, n.path)}>{n.label}</a></li>)}
+          <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label={c.site.footerCols.services}>
+        <h2>{c.site.footerCols.services}</h2>
+        <ul>
+          {c.services.list.map((s) => <li><a href={`${link(lang, '/services/')}#${s.icon}`}>{s.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <div>
+        <h2>{c.site.footerCols.contact}</h2>
+        <ul>
+          <li><a href={contact.phoneHref} dir="ltr">{contact.phone}</a></li>
+          <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><a href={contact.whatsappHref} target="_blank" rel="noopener">{c.contact.labels.whatsapp}</a></li>
+          <li><a href={`${link(lang, '/contact/')}?type=support`}>{c.contact.labels.support}</a></li>
+          <li class="ft-addr">{c.contact.address}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft-bottom">
+      <p>© {new Date().getFullYear()} {c.footer.rights}</p>
+      <a href={link(other, path)} lang={other} hreflang={other}>{c.switchLabel}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ft { background: var(--navy-deep); color: var(--muted-on-navy); font-size: .97rem; }
+  .ft-top { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1.3fr; gap: 2.5rem; padding-block: clamp(3.5rem, 7vw, 5rem); }
+  .ft-brand :global(.ft-logo) { font-size: 1.8rem; }
+  .ft-brand p { margin-top: 1rem; max-width: 18rem; }
+  .ft h2 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
+  .ft ul { list-style: none; display: grid; gap: .55rem; }
+  .ft a { color: var(--muted-on-navy); text-decoration: none; }
+  .ft a:hover { color: #fff; }
+  .ft-addr { line-height: 1.6; }
+  .ft-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); font-size: .9rem; }
+  @media (max-width: 900px) { .ft-top { grid-template-columns: 1fr 1fr; } .ft-brand { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .ft-top { grid-template-columns: 1fr; } }
+</style>

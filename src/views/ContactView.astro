@@ -1,0 +1,42 @@
+---
+import { t, contact, type Lang } from '../i18n/content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = t[lang];
+---
+<Base lang={lang} path="/contact/" title={c.pages.contact.title} description={c.pages.contact.description}>
+  <section class="page-hero ct-page">
+    <div class="wrap ct-grid">
+      <div class="ct-info">
+        <h1>{c.contact.title}</h1>
+        <p class="lead">{c.contact.body}</p>
+        <ul class="details">
+          <li><Icon name="phone" class="d-icon" /><div><span>{c.contact.labels.phone}</span><a href={contact.phoneHref} dir="ltr">{contact.phone}</a></div></li>
+          <li><Icon name="whatsapp" class="d-icon" /><div><span>{c.contact.labels.whatsapp}</span><a href={contact.whatsappHref} target="_blank" rel="noopener" dir="ltr">{contact.phone}</a></div></li>
+          <li><Icon name="mail" class="d-icon" /><div><span>{c.contact.labels.email}</span><a href={`mailto:${contact.email}`}>{contact.email}</a></div></li>
+          <li><Icon name="pin" class="d-icon" /><div><span>{c.contact.labels.address}</span><p>{c.contact.address}</p></div></li>
+        </ul>
+      </div>
+      <ContactForm lang={lang} />
+    </div>
+  </section>
+  <div style="height: var(--section)"></div>
+</Base>
+
+<style>
+  .ct-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+  .ct-info h1 { font-size: var(--s4); }
+  .details { list-style: none; display: grid; gap: 1.5rem; margin-top: 2.5rem; }
+  .details li { display: flex; gap: 1rem; align-items: start; }
+  .details :global(.d-icon) { width: 44px; height: 44px; padding: 10px; border-radius: 12px; background: var(--blue-soft); color: var(--blue); flex: none; }
+  .details span { display: block; color: var(--muted); font-size: .9rem; }
+  .details a, .details p { font-weight: 700; font-size: 1.1rem; text-decoration: none; }
+  .details a:hover { color: var(--blue); }
+  html[dir='rtl'] .details a[dir='ltr'] { unicode-bidi: isolate; }
+  @media (max-width: 900px) { .ct-grid { grid-template-columns: 1fr; } }
+  .ct-page :global(.form) { box-shadow: 0 40px 80px -40px rgba(10,37,62,.35), 0 0 0 1px var(--line); }
+</style>

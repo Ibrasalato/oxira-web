@@ -9,7 +9,9 @@
 | ماذا | أين |
 |---|---|
 | النصوص والخدمات والمشاريع والعملاء | `src/i18n/content.ts` |
-| تصميم الصفحة وأقسامها | `src/components/Home.astro` |
+| الصفحات (الرئيسية، الخدمات، وكلاء AI، Classti، الأعمال، من نحن، تواصل) | `src/views/*View.astro` |
+| الهيدر والفوتر والفورم والمحادثة | `src/components/` |
+| صور المشاركة على واتساب ولينكدإن | `public/og-ar.png` · `public/og-en.png` |
 | الألوان والخطوط والإعدادات العامة | `src/layouts/Base.astro` |
 | الشعار (SVG) والأيقونات | `src/components/Logo.astro` · `src/components/Icon.astro` |
 | لوجوهات العملاء وصور المشاريع | `public/clients/` · `public/work/` |
