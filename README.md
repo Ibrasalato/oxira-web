@@ -47,3 +47,13 @@ npm run build    # ينتج مجلد dist/
 - رابط الاستقبال: `https://ibrasalato.app.n8n.cloud/webhook/oxira-website-contact`
 - لتغييره: أضف متغيراً باسم `FORM_ENDPOINT` في **Settings → Secrets and variables → Actions → Variables**.
 - إن تعذر الإرسال، يعرض النموذج زرين لإرسال الرسالة مباشرة عبر البريد أو واتساب.
+
+## محادثة الموقع (AI Agent)
+
+زر "مساعد أوكسيرا" أسفل الصفحة يفتح محادثة مع وكيل ذكاء اصطناعي في n8n اسمه **Oxira 4 — Website Chat Agent**:
+
+- يعرف خدمات أوكسيرا وClassti والعملاء وبيانات التواصل (من تعليمات الوكيل)، وكتالوج وكلاء الذكاء الاصطناعي من جدولي **oxira_services** و **oxira_faq**.
+- يتذكر المحادثة لكل زائر طوال الجلسة.
+- يسجّل الطلبات وطلبات الدعم الفني في جدول **oxira_leads** (القناة: website).
+- رابط الاستقبال: `https://ibrasalato.app.n8n.cloud/webhook/oxira-website-chat` (لتغييره: متغير `CHAT_ENDPOINT`).
+- الكود: `src/components/Chat.astro`، والنصوص في `src/i18n/content.ts` (قسم `chat`).

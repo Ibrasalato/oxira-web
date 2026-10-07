@@ -38,6 +38,7 @@ jobs:
           npm run build
         env:
           PUBLIC_FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          PUBLIC_CHAT_ENDPOINT: ${{ vars.CHAT_ENDPOINT }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

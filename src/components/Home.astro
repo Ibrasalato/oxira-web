@@ -3,6 +3,7 @@ import { t, contact, clientLogos, type Lang } from '../i18n/content';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import Products from './Products.astro';
+import Chat from './Chat.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -422,6 +423,8 @@ const net = network(1400, 800, 34, 7);
     <p>© {new Date().getFullYear()} {c.footer.rights}</p>
   </div>
 </footer>
+
+<Chat lang={lang} />
 
 <script>
   // Sector tabs for the AI agent chat demo
