@@ -5,11 +5,17 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Chat from '../components/Chat.astro';
 // Fonts are self-hosted (no request to Google from visitors' browsers).
-import '@fontsource/cairo/400.css';
-import '@fontsource/cairo/500.css';
-import '@fontsource/cairo/600.css';
-import '@fontsource/cairo/700.css';
-import '@fontsource/cairo/800.css';
+// IBM Plex Sans (Latin) + IBM Plex Sans Arabic
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-sans/latin-700.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';
+// Logo wordmark only
+import '@fontsource/cairo/latin-800.css';
 
 interface Props {
   lang: Lang;
@@ -94,7 +100,8 @@ const org = {
     --paper: #F5F7F9;
     --white: #FFFFFF;
 
-    --font: 'Cairo', system-ui, sans-serif;
+    --font: 'IBM Plex Sans', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+    --font-logo: 'Cairo', 'IBM Plex Sans', sans-serif;
 
     --s-1: .875rem;
     --s0: 1.0625rem;
@@ -128,8 +135,9 @@ const org = {
   }
   html[lang='en'] body { line-height: 1.65; }
 
-  h1, h2, h3, h4 { font-weight: 800; line-height: 1.25; margin: 0; letter-spacing: -0.005em; }
-  html[lang='en'] :is(h1, h2) { letter-spacing: -0.025em; line-height: 1.1; }
+  h1, h2, h3, h4 { font-weight: 700; line-height: 1.3; margin: 0; }
+  html[lang='en'] :is(h1, h2) { letter-spacing: -0.02em; line-height: 1.12; }
+  html[lang='ar'] :is(h1, h2) { line-height: 1.35; }
   p { margin: 0; }
   a { color: inherit; }
   img, svg { display: block; max-width: 100%; }
