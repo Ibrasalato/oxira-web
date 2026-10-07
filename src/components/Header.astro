@@ -6,6 +6,7 @@ import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath } from '../i18n/products';
 import { addonIds, addonIcons } from '../builder/addons';
+import { growthText } from '../i18n/growth';
 
 interface Props { lang: Lang; path: string; langs?: Lang[] }
 const { lang, path, langs } = Astro.props;
@@ -51,6 +52,7 @@ const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? '
               <ul class="hd-other">
                 <li><a href={link(lang, '/classti/')}><b>Classti</b><small>{P.nav.classtiDesc}</small></a></li>
                 <li><a href={link(lang, '/ai-agents/')}><b>{agentsLabel}</b><small>{P.nav.agentsDesc}</small></a></li>
+                <li><a href={link(lang, '/website-audit/')}><b>{growthText[lang].audit.nav}</b><small dir="ltr">SEO · HTTPS · Mobile</small></a></li>
               </ul>
               <a class="more hd-all" href={link(lang, '/products/')}>{P.nav.all}</a>
             </div>

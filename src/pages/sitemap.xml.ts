@@ -3,7 +3,7 @@ import { langCodes, type Lang } from '../i18n/content';
 import { productSlugs } from '../i18n/products';
 import { getCollection } from 'astro:content';
 
-const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/help/', '/trust/', '/privacy/', '/terms/'];
+const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/website-audit/', '/help/', '/trust/', '/privacy/', '/terms/'];
 
 export const GET: APIRoute = async ({ site }) => {
   // Arabic-only pages (the blog): no language alternates.

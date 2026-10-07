@@ -9,6 +9,7 @@ import { productsText, productPath } from '../i18n/products';
 import Base from '../layouts/Base.astro';
 import SiteThumb from '../components/SiteThumb.astro';
 import TemplateGallery from '../components/TemplateGallery.astro';
+import Proof from '../components/Proof.astro';
 import Logo from '../components/Logo.astro';
 
 interface Props { lang: Lang }
@@ -98,6 +99,8 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
       </div>
     </div>
   </section>
+
+  <Proof lang={lang} />
 
   <section class="section" id="addons" aria-labelledby="addons-title">
     <div class="wrap">

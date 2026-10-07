@@ -1,0 +1,55 @@
+---
+// Social proof from real data only: approved client testimonials and the live number of published sites.
+// Hidden until the API returns something worth showing.
+import type { Lang } from '../i18n/content';
+import { growthText } from '../i18n/growth';
+
+interface Props { lang: Lang; minSites?: number }
+const { lang, minSites = 25 } = Astro.props;
+const P = growthText[lang].proof;
+---
+<section class="section-tight pf" hidden data-proof data-lang={lang} data-min={minSites} data-sites-label={P.sites}>
+  <div class="wrap">
+    <p class="pf-count" hidden><b></b> <span>{P.sites}</span></p>
+    <div class="pf-t" hidden>
+      <h2>{P.title}</h2>
+      <ul class="pf-list"></ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-proof]');
+  if (root) {
+    fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-proof').then((r) => r.json()).then((d) => {
+      const lang = root.dataset.lang!;
+      const esc = (s: string) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+      let any = false;
+      if (d && d.sites >= Number(root.dataset.min)) {
+        const p = root.querySelector<HTMLElement>('.pf-count')!;
+        p.querySelector('b')!.textContent = '+' + new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang).format(d.sites);
+        p.hidden = false; any = true;
+      }
+      const list: any[] = (d && d.testimonials) || [];
+      // Prefer testimonials written in the page language, then the rest.
+      const items = [...list.filter((t) => t.lang === lang), ...list.filter((t) => t.lang !== lang)].slice(0, 6);
+      if (items.length) {
+        root.querySelector('.pf-list')!.innerHTML = items.map((t) => `<li><p class="pf-stars" aria-label="${t.rating}/5">${'★'.repeat(t.rating)}</p><blockquote dir="auto">${esc(t.text)}</blockquote><p class="pf-who" dir="auto"><b>${esc(t.name)}</b>${t.role || t.company ? `<span>${esc([t.role, t.company].filter(Boolean).join(' · '))}</span>` : ''}</p></li>`).join('');
+        root.querySelector<HTMLElement>('.pf-t')!.hidden = false; any = true;
+      }
+      root.hidden = !any;
+    }).catch(() => {});
+  }
+</script>
+
+<style>
+  .pf-count { font-size: 1.15rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .pf-count b { font-size: 2.2rem; color: var(--ink); }
+  .pf-t h2 { font-size: var(--s3); margin-bottom: 1.5rem; }
+  .pf-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; padding: 0; }
+  .pf-list :global(li) { display: grid; gap: .8rem; align-content: start; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  .pf-list :global(.pf-stars) { color: var(--amber); letter-spacing: 2px; }
+  .pf-list :global(blockquote) { margin: 0; font-size: 1.05rem; }
+  .pf-list :global(.pf-who) { display: grid; }
+  .pf-list :global(.pf-who span) { color: var(--muted); font-size: .9rem; }
+</style>

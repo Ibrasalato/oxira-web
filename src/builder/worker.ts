@@ -149,6 +149,15 @@ export default {
       new Response(body, { headers: { ...securityHeaders, 'cache-control': 'public, max-age=60', ...extra } });
     rest = rest.replace(/\/+$/, '') || '/';
 
+    // Search engines: every client site gets robots.txt and a sitemap on its own address.
+    if (!base && rest === '/robots.txt') {
+      return new Response(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${siteUrl}sitemap.xml\n`, { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+    }
+    if (!base && rest === '/sitemap.xml') {
+      const pages = [siteUrl, ...(has('menu') ? [`${siteUrl}menu`] : [])];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url><loc>${p}</loc></url>`).join('\n')}\n</urlset>\n`;
+      return new Response(xml, { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+    }
     if (rest === '/menu' && has('menu')) return html(renderMenuPage(spec, pageOpts));
     if (rest === '/review' && has('reviews')) return html(renderReviewPage(spec, pageOpts, REVIEW_ACTION, String(order)));
     if (rest === '/chat' && has('chat')) {

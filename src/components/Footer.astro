@@ -5,6 +5,7 @@ import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
 import { productsText } from '../i18n/products';
+import { growthText } from '../i18n/growth';
 
 interface Props { lang: Lang; path: string; langs?: Lang[] }
 const { lang, path, langs } = Astro.props;
@@ -30,6 +31,7 @@ const c = t[lang];
           <li><a href={link(lang, '/products/')}>{productsText[lang].nav.products}</a></li>
           <li><a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a></li>
           {lang === 'ar' && <li><a href={link(lang, '/blog/')}>المدونة</a></li>}
+          <li><a href={link(lang, '/website-audit/')}>{growthText[lang].audit.nav}</a></li>
           <li><a href={link(lang, '/help/')}>{extra.help}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
         </ul>

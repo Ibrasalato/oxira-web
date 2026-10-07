@@ -1,0 +1,83 @@
+---
+// Testimonial form for real clients. Nothing is published until Oxira approves it from the email link.
+import type { Lang } from '../i18n/content';
+import { growthText } from '../i18n/growth';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const F = growthText[lang].feedback;
+const endpoint = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-testimonial';
+---
+<Base lang={lang} path="/feedback/" title={F.title} description={F.lead} noindex>
+  <section class="page-hero">
+    <div class="wrap fb-wrap">
+      <h1>{F.h1}</h1>
+      <p class="lead">{F.lead}</p>
+      <form class="fb-form" id="fb-form" data-endpoint={endpoint} data-lang={lang} data-sending={F.sending} data-done={F.done} data-failed={F.failed}>
+        <div class="fb-row">
+          <label>{F.name}<input name="name" required maxlength="80" autocomplete="name" /></label>
+          <label>{F.email}<input name="email" type="email" required maxlength="160" dir="ltr" autocomplete="email" /></label>
+        </div>
+        <div class="fb-row">
+          <label>{F.role}<input name="role" maxlength="80" autocomplete="organization-title" /></label>
+          <label>{F.company}<input name="company" maxlength="100" autocomplete="organization" /></label>
+        </div>
+        <fieldset class="fb-stars">
+          <legend>{F.rating}</legend>
+          {[5, 4, 3, 2, 1].map((n) => <><input type="radio" name="rating" id={`r${n}`} value={n} checked={n === 5} /><label for={`r${n}`} aria-label={`${n}/5`}>★</label></>)}
+        </fieldset>
+        <label>{F.text}<textarea name="text" required minlength="15" maxlength="800" rows="5" placeholder={F.textPh}></textarea></label>
+        <label class="fb-consent"><input type="checkbox" name="consent" value="yes" required /> <span>{F.consent}</span></label>
+        <input class="fb-hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="btn btn-amber">{F.submit}</button>
+        <p class="fb-status" role="status" hidden></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('fb-form') as HTMLFormElement;
+  const status = form.querySelector<HTMLElement>('.fb-status')!;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button')!;
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = form.dataset.sending!;
+    let ok = false;
+    try {
+      const fd = new FormData(form); fd.set('lang', form.dataset.lang!);
+      const res = await fetch(form.dataset.endpoint!, { method: 'POST', body: new URLSearchParams(fd as unknown as Record<string, string>) });
+      ok = !!(await res.json().catch(() => ({})))?.success;
+    } catch { ok = false; }
+    status.hidden = false;
+    status.className = `fb-status ${ok ? 'is-ok' : 'is-error'}`;
+    status.textContent = ok ? form.dataset.done! : form.dataset.failed!;
+    btn.disabled = false; btn.textContent = label;
+    if (ok) form.reset();
+  });
+</script>
+
+<style>
+  .fb-wrap { max-width: 44rem; }
+  .fb-form { display: grid; gap: 1rem; margin-top: 2rem; padding: 1.8rem; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .fb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .fb-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; }
+  .fb-form input:not([type=radio]):not([type=checkbox]), .fb-form textarea { font: 400 1rem var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .75rem .85rem; color: var(--ink); min-width: 0; }
+  .fb-form :focus { outline-color: var(--blue); }
+  .fb-stars { border: 0; padding: 0; margin: 0; display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: .2rem; }
+  html[dir='rtl'] .fb-stars { flex-direction: row-reverse; }
+  .fb-stars legend { font-weight: 600; font-size: .92rem; margin-bottom: .35rem; width: 100%; }
+  .fb-stars input { position: absolute; opacity: 0; }
+  .fb-stars label { font-size: 2rem; color: #D7DEE5; cursor: pointer; line-height: 1; }
+  .fb-stars input:checked ~ label, .fb-stars label:hover, .fb-stars label:hover ~ label { color: var(--amber); }
+  .fb-stars input:focus-visible + label { outline: 3px solid var(--amber); border-radius: 4px; }
+  .fb-consent { display: flex !important; gap: .6rem; align-items: flex-start; font-weight: 400 !important; }
+  .fb-consent input { margin-top: .35rem; width: 18px; height: 18px; flex: none; }
+  .fb-hp { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+  .fb-status { padding: .75rem 1rem; border-radius: 10px; }
+  .fb-status.is-ok { background: #E7F6EC; color: #1E6B3A; }
+  .fb-status.is-error { background: #FEF3F2; color: #B42318; }
+  @media (max-width: 600px) { .fb-row { grid-template-columns: 1fr; } }
+</style>
