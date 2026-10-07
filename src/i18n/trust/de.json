@@ -1,0 +1,55 @@
+{
+  "title": "Vertrauen & Sicherheit | Oxira",
+  "description": "So schützt Oxira Ihre Website, Zahlungen und Daten: HTTPS, DNSSEC, Zahlungen über Moyasar, Anmeldung ohne Passwort und PDPL-Konformität.",
+  "h1": "Vertrauen & Sicherheit",
+  "lead": "Ihre Website, Ihre Kunden und Ihre Zahlungen verdienen echten Schutz. Hier steht genau, was wir dafür tun – nicht mehr und nicht weniger.",
+  "items": [
+    {
+      "icon": "lock",
+      "t": "Durchgehend verschlüsselt",
+      "d": "Alle Oxira-Seiten und alle Kundenwebsites laufen über HTTPS – die Daten zwischen Besuchern und Website werden verschlüsselt übertragen."
+    },
+    {
+      "icon": "shield",
+      "t": "Geschützte Infrastruktur",
+      "d": "oxira.sa nutzt DNSSEC, um Besucher vor DNS-Spoofing zu schützen. Kundenwebsites laufen im Netzwerk von Cloudflare, das beim Schutz vor Angriffen hilft."
+    },
+    {
+      "icon": "card",
+      "t": "Sichere Zahlungen",
+      "d": "Zahlungen wickelt Moyasar ab, ein lizenzierter saudischer Zahlungsdienstleister. Kartendaten gehen direkt dorthin – Oxira sieht und speichert keine Kartennummern."
+    },
+    {
+      "icon": "key",
+      "t": "Kein Passwort, das gestohlen werden kann",
+      "d": "Sie melden sich mit einem einmaligen Link per E-Mail an statt mit einem Passwort. So gibt es kein Passwort, das abhandenkommen oder mehrfach verwendet werden kann."
+    },
+    {
+      "icon": "eye",
+      "t": "Datensparsam, kein Verkauf",
+      "d": "Wir erheben nur, was für unseren Service nötig ist. Wir verkaufen keine personenbezogenen Daten und nutzen die Besucherdaten Ihrer Website nicht für Werbung."
+    },
+    {
+      "icon": "globe",
+      "t": "Keine bösen Überraschungen",
+      "d": "Domains registrieren wir erst nach bestätigter Zahlung. Verlängerungen stellen wir rechtzeitig in Rechnung, damit Ihre Website nicht unerwartet offline geht."
+    }
+  ],
+  "pdplTitle": "Saudisches Datenschutzgesetz (PDPL)",
+  "pdplBody": "Oxira verpflichtet sich zur Einhaltung des saudischen Gesetzes zum Schutz personenbezogener Daten (PDPL). Wir verarbeiten personenbezogene Daten nur für die Zwecke, für die sie erhoben wurden, und achten Ihre Rechte.",
+  "rights": [
+    "Recht auf Auskunft über Ihre personenbezogenen Daten",
+    "Recht auf Berichtigung Ihrer personenbezogenen Daten",
+    "Recht auf Löschung Ihrer personenbezogenen Daten",
+    "Recht auf Widerruf Ihrer Einwilligung"
+  ],
+  "rightsNote": "Um eines dieser Rechte auszuüben, schreiben Sie uns an info@oxira.sa. Wir antworten innerhalb einer angemessenen Frist.",
+  "reportTitle": "Sicherheitslücke melden",
+  "reportBody": "Sie haben eine Schwachstelle gefunden? Senden Sie die Details an info@oxira.sa. Wir schätzen verantwortungsvolle Offenlegung und melden uns bei Ihnen.",
+  "companyTitle": "Unternehmensangaben",
+  "crLabel": "Handelsregisternummer",
+  "vatLabel": "USt-Nummer",
+  "addressLabel": "Anschrift",
+  "privacyLink": "Datenschutzerklärung lesen",
+  "termsLink": "Nutzungsbedingungen"
+}

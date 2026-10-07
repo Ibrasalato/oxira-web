@@ -1,10 +1,13 @@
 import type { APIRoute } from 'astro';
 import { langCodes, type Lang } from '../i18n/content';
 import { productSlugs } from '../i18n/products';
+import { getCollection } from 'astro:content';
 
-const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/privacy/', '/terms/'];
+const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/help/', '/trust/', '/privacy/', '/terms/'];
 
-export const GET: APIRoute = ({ site }) => {
+export const GET: APIRoute = async ({ site }) => {
+  // Arabic-only pages (the blog): no language alternates.
+  const arOnly = ['/blog/', ...(await getCollection('blog')).map((p) => `/blog/${p.id}/`)];
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const url = (lang: Lang, p: string) => new URL(`${base}${lang === 'ar' ? '' : '/' + lang}${p}`, site).href;
   const body = `<?xml version="1.0" encoding="UTF-8"?>
@@ -14,6 +17,7 @@ ${paths.flatMap((p) => langCodes.map((lang) => `  <url>
 ${langCodes.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
   </url>`)).join('\n')}
+${arOnly.map((p) => `  <url>\n    <loc>${url('ar', p)}</loc>\n  </url>`).join('\n')}
 </urlset>
 `;
   return new Response(body, { headers: { 'Content-Type': 'application/xml' } });

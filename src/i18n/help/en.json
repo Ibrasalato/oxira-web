@@ -1,0 +1,246 @@
+{
+  "title": "Help Center | Oxira",
+  "description": "Answers about building your site with Oxira Studio, your account, add-ons, billing, domains and the partner program.",
+  "h1": "How can we help?",
+  "lead": "Quick answers about your website, your account and Oxira's services. Can't find what you need? We're one email away.",
+  "searchPh": "Search help articles…",
+  "noResults": "No articles match your search. Try other words or contact us.",
+  "sections": [
+    {
+      "id": "start",
+      "title": "Getting started",
+      "articles": [
+        {
+          "id": "build-site",
+          "q": "How do I build my site with Oxira Studio?",
+          "a": [
+            "Open Oxira Studio at /website-builder/.",
+            "Describe your business, or pick one of 81 designs across 27 business categories.",
+            "Edit the text, colors and images, then preview your site.",
+            "When you're happy with it, choose a package and pay."
+          ]
+        },
+        {
+          "id": "packages",
+          "q": "What packages are available?",
+          "a": [
+            "There are three one-time packages: 1,499 SAR, 2,499 SAR (domain included) and 4,999 SAR.",
+            "Prices are shown before 15% VAT."
+          ]
+        },
+        {
+          "id": "after-payment",
+          "q": "What happens after I pay?",
+          "a": [
+            "Your site is published at yourname.oxira.sa.",
+            "You receive a welcome email with your site link and access to your account."
+          ]
+        },
+        {
+          "id": "languages",
+          "q": "Can my site be in Arabic or other languages?",
+          "a": [
+            "Yes. Sites support Arabic as well as other languages."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account",
+      "title": "My account",
+      "articles": [
+        {
+          "id": "sign-in",
+          "q": "How do I sign in to my account?",
+          "a": [
+            "Go to /account/ and enter your email.",
+            "We'll email you a sign-in link — there's no password to remember.",
+            "The link stays valid for 30 days."
+          ]
+        },
+        {
+          "id": "what-you-can-do",
+          "q": "What can I do in my account?",
+          "a": [
+            "See your site and your subscriptions, and add or cancel add-ons.",
+            "Edit settings such as your Google review link and booking hours, and edit your menu.",
+            "View bookings, reviews and tickets, and check in tickets using your camera."
+          ]
+        },
+        {
+          "id": "cancel-addon",
+          "q": "What happens when I cancel an add-on?",
+          "a": [
+            "The add-on keeps working until the end of the month you've already paid for.",
+            "You can resume it any time before then."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "addons",
+      "title": "Add-ons",
+      "articles": [
+        {
+          "id": "booking",
+          "q": "Online booking (99 SAR/month)",
+          "a": [
+            "Customers choose a service, date and time right on your site.",
+            "You get an email for every booking.",
+            "Set your working hours and time slots from your account.",
+            "Customers receive email reminders before their appointment."
+          ]
+        },
+        {
+          "id": "menu",
+          "q": "Digital menu (49 SAR/month)",
+          "a": [
+            "Organize your menu into categories, items and prices, and edit it anytime.",
+            "Download a QR code or print a table card for your customers."
+          ]
+        },
+        {
+          "id": "reviews",
+          "q": "Customer reviews (79 SAR/month)",
+          "a": [
+            "You get a review page and a QR card to share with customers.",
+            "Every customer sees the Google review button.",
+            "Low ratings and comments are also emailed to you.",
+            "Add your Google review link in your account settings."
+          ]
+        },
+        {
+          "id": "chat",
+          "q": "AI chat assistant (199 SAR/month)",
+          "a": [
+            "An AI assistant answers visitors using your site's information, in your site's language.",
+            "When a visitor leaves their contact details, you get an email.",
+            "Please note that AI can make mistakes."
+          ]
+        },
+        {
+          "id": "content",
+          "q": "Social media content (499 SAR/month)",
+          "a": [
+            "On the 1st of every month you get 12 ready-to-post social media posts with captions.",
+            "They're delivered by email and in your account, for you to review and post."
+          ]
+        },
+        {
+          "id": "tickets",
+          "q": "Event tickets (free to enable, 5% per paid ticket)",
+          "a": [
+            "Run free or paid events from your site.",
+            "Customers pay by card, mada or Apple Pay through Moyasar.",
+            "Each attendee receives a QR ticket by email.",
+            "Check in attendees from your account."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "billing",
+      "title": "Billing & payments",
+      "articles": [
+        {
+          "id": "prices-vat",
+          "q": "Do prices include VAT?",
+          "a": [
+            "No. All prices are in Saudi riyals (SAR) and shown before 15% VAT."
+          ]
+        },
+        {
+          "id": "payment-methods",
+          "q": "How can I pay?",
+          "a": [
+            "You can pay by card, mada or Apple Pay.",
+            "Payments are processed by Moyasar. Oxira never stores your card details.",
+            "A receipt is emailed to you after each payment."
+          ]
+        },
+        {
+          "id": "renewals",
+          "q": "What are the renewal costs?",
+          "a": [
+            "From the second year: hosting is 399 SAR/year and the domain is 99 SAR/year.",
+            "We email your renewal invoice 14 days before yearly renewals and 5 days before monthly ones, followed by reminders."
+          ]
+        },
+        {
+          "id": "unpaid",
+          "q": "What if an invoice isn't paid?",
+          "a": [
+            "If an invoice is still unpaid 7 days after its due date, the site or add-on is paused.",
+            "Once you pay, it comes back."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "domains",
+      "title": "Domains",
+      "articles": [
+        {
+          "id": "free-address",
+          "q": "Does my site get a free address?",
+          "a": [
+            "Yes. Every site gets a free address: yourname.oxira.sa."
+          ]
+        },
+        {
+          "id": "registration",
+          "q": "When is my domain registered?",
+          "a": [
+            "If your package includes a domain, we register it for you once your payment is confirmed."
+          ]
+        },
+        {
+          "id": "sa-domains",
+          "q": "Why does a .sa domain take longer?",
+          "a": [
+            ".sa domains are registered manually, so they can take longer than other domains."
+          ]
+        },
+        {
+          "id": "own-domain",
+          "q": "Can I use a domain I already own?",
+          "a": [
+            "Yes. Contact us and we'll help you connect it to your site."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "partners",
+      "title": "Partner program",
+      "articles": [
+        {
+          "id": "join",
+          "q": "How do I join the partner program?",
+          "a": [
+            "Sign up at /partners/ and you'll get your own personal link to share."
+          ]
+        },
+        {
+          "id": "commission",
+          "q": "How much do I earn?",
+          "a": [
+            "You earn 15% of the value of every website order placed through your link.",
+            "The order must be placed within 90 days of the click."
+          ]
+        },
+        {
+          "id": "statement",
+          "q": "How do I track my earnings?",
+          "a": [
+            "We send you a monthly statement by email."
+          ]
+        }
+      ]
+    }
+  ],
+  "contactTitle": "Still need help?",
+  "contactBody": "Our team is happy to help. Email us at info@oxira.sa and we'll get back to you.",
+  "contactCta": "Contact us",
+  "accountCta": "Open my account"
+}

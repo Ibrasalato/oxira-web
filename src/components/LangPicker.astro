@@ -3,8 +3,8 @@
 import { languages, type Lang } from '../i18n/content';
 import { link, asset } from '../lib/routes';
 
-interface Props { lang: Lang; path: string; tone?: 'light' | 'dark'; up?: boolean }
-const { lang, path, tone = 'light', up = false } = Astro.props;
+interface Props { lang: Lang; path: string; langs?: Lang[]; tone?: 'light' | 'dark'; up?: boolean }
+const { lang, path, langs, tone = 'light', up = false } = Astro.props;
 const current = languages.find((l) => l.code === lang)!;
 const label: Record<Lang, string> = { ar: 'اللغة', en: 'Language', de: 'Sprache', fr: 'Langue', ru: 'Язык' };
 ---
@@ -18,7 +18,7 @@ const label: Record<Lang, string> = { ar: 'اللغة', en: 'Language', de: 'Spr
   <ul class="lp-menu" role="list">
     {languages.map((l) => (
       <li>
-        <a href={link(l.code, path)} hreflang={l.code} lang={l.code} aria-current={l.code === lang ? 'true' : undefined}>
+        <a href={link(l.code, !langs || langs.includes(l.code) ? path : '/')} hreflang={l.code} lang={l.code} aria-current={l.code === lang ? 'true' : undefined}>
           <img class="lp-flag" src={asset(`flags/${l.flag}.svg`)} alt="" width="20" height="15" loading="lazy" />
           <span>{l.name}</span>
         </a>

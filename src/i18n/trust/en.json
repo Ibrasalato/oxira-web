@@ -1,0 +1,55 @@
+{
+  "title": "Trust & Security | Oxira",
+  "description": "How Oxira protects your site, your payments and your data: HTTPS, DNSSEC, Moyasar payments, password-free sign-in and PDPL commitment.",
+  "h1": "Trust & security",
+  "lead": "Your website, your customers and your payments deserve real protection. Here's exactly what we do — no more, no less.",
+  "items": [
+    {
+      "icon": "lock",
+      "t": "Encrypted everywhere",
+      "d": "Every Oxira page and every client site is served over HTTPS, so data between visitors and the site is encrypted."
+    },
+    {
+      "icon": "shield",
+      "t": "Protected infrastructure",
+      "d": "oxira.sa uses DNSSEC to protect visitors from DNS spoofing, and client sites run on Cloudflare's network, which helps protect against attacks."
+    },
+    {
+      "icon": "card",
+      "t": "Secure payments",
+      "d": "Payments are processed by Moyasar, a licensed Saudi payment provider. Card details go directly to them — Oxira never sees or stores card numbers."
+    },
+    {
+      "icon": "key",
+      "t": "No passwords to leak",
+      "d": "You sign in with a one-time link sent to your email instead of a password, so there's no password to leak or reuse."
+    },
+    {
+      "icon": "eye",
+      "t": "Minimal data, no selling",
+      "d": "We collect only what's needed to deliver the service. We don't sell personal data, and we don't use your site visitors' data for advertising."
+    },
+    {
+      "icon": "globe",
+      "t": "No surprises",
+      "d": "We register domains only after your payment is confirmed, and invoice renewals in advance so your site doesn't go down unexpectedly."
+    }
+  ],
+  "pdplTitle": "Personal Data Protection Law (PDPL)",
+  "pdplBody": "Oxira is committed to the Saudi Personal Data Protection Law. We handle personal data only for the purposes it was collected for, and we respect your rights over it.",
+  "rights": [
+    "The right to access your personal data",
+    "The right to correct your personal data",
+    "The right to have your personal data deleted",
+    "The right to withdraw your consent"
+  ],
+  "rightsNote": "To exercise any of these rights, email us at info@oxira.sa. We'll reply within a reasonable time.",
+  "reportTitle": "Report a security issue",
+  "reportBody": "Found a vulnerability? Email the details to info@oxira.sa. We appreciate responsible disclosure and will get back to you.",
+  "companyTitle": "Company information",
+  "crLabel": "Commercial registration no.",
+  "vatLabel": "VAT number",
+  "addressLabel": "Address",
+  "privacyLink": "Read our privacy policy",
+  "termsLink": "Terms of service"
+}

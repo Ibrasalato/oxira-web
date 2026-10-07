@@ -1,0 +1,102 @@
+---
+// Help center: sections of questions with a live search box.
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { helpText } from '../i18n/help';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const h = helpText[lang];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: h.sections.flatMap((s) => s.articles.map((a) => ({ '@type': 'Question', name: a.q, acceptedAnswer: { '@type': 'Answer', text: a.a.join(' ') } }))),
+};
+---
+<Base lang={lang} path="/help/" title={h.title} description={h.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero hc-hero">
+    <div class="wrap">
+      <h1>{h.h1}</h1>
+      <p class="lead">{h.lead}</p>
+      <label class="hc-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        <span class="sr-only">{h.searchPh}</span>
+        <input type="search" id="hc-q" placeholder={h.searchPh} autocomplete="off" dir="auto" />
+      </label>
+      <nav class="hc-jump">{h.sections.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}</nav>
+    </div>
+  </section>
+
+  <section class="section-tight pt0">
+    <div class="wrap hc-wrap">
+      {h.sections.map((s) => (
+        <div class="hc-sec" id={s.id}>
+          <h2>{s.title}</h2>
+          {s.articles.map((a) => (
+            <details id={`${s.id}-${a.id}`}>
+              <summary>{a.q}</summary>
+              <div class="hc-a">{a.a.length > 1 ? <ul>{a.a.map((x) => <li>{x}</li>)}</ul> : <p>{a.a[0]}</p>}</div>
+            </details>
+          ))}
+        </div>
+      ))}
+      <p class="hc-none" id="hc-none" hidden>{h.noResults}</p>
+
+      <div class="hc-contact">
+        <div><h2>{h.contactTitle}</h2><p>{h.contactBody}</p></div>
+        <div class="hc-btns">
+          <a class="btn btn-amber" href={`${link(lang, '/contact/')}?type=support`}>{h.contactCta}</a>
+          <a class="btn btn-ghost-light" href={link(lang, '/account/')}>{h.accountCta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const q = document.getElementById('hc-q') as HTMLInputElement;
+  const secs = Array.from(document.querySelectorAll<HTMLElement>('.hc-sec'));
+  const none = document.getElementById('hc-none')!;
+  // Open the question in the address (e.g. /help/#billing-renewals).
+  const target = location.hash && document.getElementById(location.hash.slice(1));
+  if (target instanceof HTMLDetailsElement) target.open = true;
+  q.addEventListener('input', () => {
+    const t = q.value.trim().toLowerCase();
+    let any = false;
+    secs.forEach((s) => {
+      let shown = 0;
+      s.querySelectorAll('details').forEach((d) => {
+        const hit = !t || d.textContent!.toLowerCase().includes(t);
+        d.hidden = !hit; d.open = !!t && hit;
+        if (hit) shown++;
+      });
+      s.hidden = shown === 0; if (shown) any = true;
+    });
+    none.hidden = any;
+  });
+</script>
+
+<style>
+  .pt0 { padding-top: 0; }
+  .hc-hero h1 { max-width: none; }
+  .hc-search { display: flex; align-items: center; gap: .6rem; max-width: 40rem; margin-top: 2rem; padding: .3rem 1rem; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; }
+  .hc-search:focus-within { border-color: var(--blue); }
+  .hc-search svg { width: 22px; height: 22px; fill: none; stroke: var(--muted); stroke-width: 2; flex: none; }
+  .hc-search input { flex: 1; border: 0; outline: 0; font: 400 1.05rem var(--font); padding: .7rem 0; background: transparent; min-width: 0; }
+  .hc-jump { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .hc-jump a { text-decoration: none; font-weight: 600; font-size: .92rem; padding: .45rem .9rem; border-radius: 999px; border: 1px solid var(--line); }
+  .hc-jump a:hover { border-color: var(--navy); }
+  .hc-wrap { max-width: 56rem; }
+  .hc-sec { scroll-margin-top: 6rem; margin-bottom: 2.5rem; }
+  .hc-sec h2 { font-size: var(--s2); margin-bottom: 1rem; }
+  .hc-sec details { border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: .6rem; scroll-margin-top: 6rem; }
+  .hc-sec summary { cursor: pointer; font-weight: 700; }
+  .hc-a { margin-top: .7rem; color: var(--muted); }
+  .hc-a ul { padding-inline-start: 1.2rem; display: grid; gap: .35rem; }
+  .hc-none { color: var(--muted); padding: 1rem 0 2rem; }
+  .hc-contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; padding: 1.75rem; border-radius: var(--radius-lg); background: var(--navy); color: #fff; margin-top: 1rem; }
+  .hc-contact h2 { font-size: var(--s2); }
+  .hc-contact p { color: var(--muted-on-navy); margin-top: .4rem; }
+  .hc-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
+</style>

@@ -1,0 +1,99 @@
+---
+// Trust & security: only facts that are true today. Company numbers come from src/lib/company.ts.
+import type { Lang } from '../i18n/content';
+import { t, contact } from '../i18n/content';
+import { link } from '../lib/routes';
+import { trustText } from '../i18n/help';
+import { company } from '../lib/company';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = trustText[lang];
+const icons: Record<string, string> = {
+  lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/>',
+  card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>',
+  eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+};
+---
+<Base lang={lang} path="/trust/" title={T.title} description={T.description}>
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>{T.h1}</h1>
+      <p class="lead">{T.lead}</p>
+    </div>
+  </section>
+
+  <section class="section-tight pt0">
+    <div class="wrap">
+      <ul class="tr-items">
+        {T.items.map((it) => (
+          <li>
+            <span class="tr-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons[it.icon]} /></span>
+            <h2>{it.t}</h2>
+            <p>{it.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper">
+    <div class="wrap tr-grid">
+      <div>
+        <h2>{T.pdplTitle}</h2>
+        <p>{T.pdplBody}</p>
+        <ul class="tr-rights">{T.rights.map((r) => <li>{r}</li>)}</ul>
+        <p class="tr-note">{T.rightsNote}</p>
+        <p class="tr-links"><a href={link(lang, '/privacy/')}>{T.privacyLink}</a> · <a href={link(lang, '/terms/')}>{T.termsLink}</a></p>
+      </div>
+      <div class="tr-side">
+        <div class="tr-card">
+          <h2>{T.reportTitle}</h2>
+          <p>{T.reportBody}</p>
+          <a class="more" href={`mailto:${contact.email}?subject=Security`}>{contact.email}</a>
+        </div>
+        <div class="tr-card">
+          <h2>{T.companyTitle}</h2>
+          <p class="tr-name">{lang === 'ar' ? company.legalName.ar : company.legalName.en}</p>
+          <dl>
+            {company.cr && <div><dt>{T.crLabel}</dt><dd dir="ltr">{company.cr}</dd></div>}
+            {company.vat && <div><dt>{T.vatLabel}</dt><dd dir="ltr">{company.vat}</dd></div>}
+            <div><dt>{T.addressLabel}</dt><dd>{t[lang].contact.address}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pt0 { padding-top: 0; }
+  .tr-items { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; padding: 0; }
+  .tr-items li { padding: 1.6rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .6rem; align-content: start; }
+  .tr-ic { width: 48px; height: 48px; border-radius: 14px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
+  .tr-ic svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .tr-items h2 { font-size: 1.15rem; }
+  .tr-items p { color: var(--muted); }
+  .tr-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 4rem); }
+  .tr-grid h2 { font-size: var(--s2); margin-bottom: .8rem; }
+  .tr-grid p { color: var(--muted); }
+  .tr-rights { list-style: none; display: grid; gap: .55rem; margin: 1.2rem 0; padding: 0; }
+  .tr-rights li { position: relative; padding-inline-start: 1.6rem; font-weight: 600; }
+  .tr-rights li::before { content: ''; position: absolute; inset-inline-start: 0; top: .55em; width: 10px; height: 10px; border-radius: 3px; background: var(--amber); }
+  .tr-note { font-size: .95rem; }
+  .tr-links { margin-top: 1rem; }
+  .tr-links a { color: var(--blue); font-weight: 600; }
+  .tr-side { display: grid; gap: 1rem; align-content: start; }
+  .tr-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; }
+  .tr-card h2 { font-size: 1.2rem !important; }
+  .tr-name { font-weight: 700; color: var(--ink) !important; margin-bottom: .8rem; }
+  .tr-card dl { display: grid; gap: .6rem; margin: 0; }
+  .tr-card dt { font-size: .85rem; color: var(--muted); }
+  .tr-card dd { margin: 0; font-weight: 600; }
+  @media (max-width: 900px) { .tr-items { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .tr-grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 600px) { .tr-items { grid-template-columns: minmax(0, 1fr); } }
+</style>

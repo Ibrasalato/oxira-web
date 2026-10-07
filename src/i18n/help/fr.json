@@ -1,0 +1,246 @@
+{
+  "title": "Centre d'aide | Oxira",
+  "description": "Réponses sur Oxira Studio, votre compte, les modules, la facturation, les domaines et le programme partenaires.",
+  "h1": "Comment pouvons-nous vous aider ?",
+  "lead": "Des réponses rapides sur votre site, votre compte et les services d'Oxira. Vous ne trouvez pas votre réponse ? Écrivez-nous.",
+  "searchPh": "Rechercher dans l'aide…",
+  "noResults": "Aucun article ne correspond à votre recherche. Essayez d'autres mots ou contactez-nous.",
+  "sections": [
+    {
+      "id": "start",
+      "title": "Bien démarrer",
+      "articles": [
+        {
+          "id": "build-site",
+          "q": "Comment créer mon site avec Oxira Studio ?",
+          "a": [
+            "Ouvrez Oxira Studio sur /website-builder/.",
+            "Décrivez votre activité ou choisissez l'un des 81 modèles répartis dans 27 secteurs d'activité.",
+            "Modifiez les textes, les couleurs et les images, puis prévisualisez votre site.",
+            "Quand le résultat vous convient, choisissez une formule et payez."
+          ]
+        },
+        {
+          "id": "packages",
+          "q": "Quelles formules proposez-vous ?",
+          "a": [
+            "Trois formules en paiement unique : 1 499 SAR, 2 499 SAR (nom de domaine inclus) et 4 999 SAR.",
+            "Les prix sont indiqués hors TVA (15 %)."
+          ]
+        },
+        {
+          "id": "after-payment",
+          "q": "Que se passe-t-il après le paiement ?",
+          "a": [
+            "Votre site est publié à l'adresse votrenom.oxira.sa.",
+            "Vous recevez un e-mail de bienvenue avec le lien de votre site et l'accès à votre compte."
+          ]
+        },
+        {
+          "id": "languages",
+          "q": "Mon site peut-il être en arabe ou dans d'autres langues ?",
+          "a": [
+            "Oui. Les sites prennent en charge l'arabe ainsi que d'autres langues."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account",
+      "title": "Mon compte",
+      "articles": [
+        {
+          "id": "sign-in",
+          "q": "Comment me connecter à mon compte ?",
+          "a": [
+            "Rendez-vous sur /account/ et saisissez votre adresse e-mail.",
+            "Nous vous envoyons un lien de connexion par e-mail : aucun mot de passe à retenir.",
+            "Le lien reste valable 30 jours."
+          ]
+        },
+        {
+          "id": "what-you-can-do",
+          "q": "Que puis-je faire depuis mon compte ?",
+          "a": [
+            "Consulter votre site et vos abonnements, ajouter ou résilier des modules.",
+            "Modifier vos paramètres, comme votre lien d'avis Google ou vos horaires de réservation, et mettre à jour votre menu.",
+            "Consulter les réservations, les avis et les billets, et valider les billets avec la caméra."
+          ]
+        },
+        {
+          "id": "cancel-addon",
+          "q": "Que se passe-t-il si je résilie un module ?",
+          "a": [
+            "Le module reste actif jusqu'à la fin du mois déjà payé.",
+            "Vous pouvez le réactiver à tout moment d'ici là."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "addons",
+      "title": "Modules",
+      "articles": [
+        {
+          "id": "booking",
+          "q": "Réservation en ligne (99 SAR/mois)",
+          "a": [
+            "Vos clients choisissent la prestation, la date et l'heure directement sur votre site.",
+            "Vous recevez un e-mail pour chaque réservation.",
+            "Définissez vos horaires et vos créneaux depuis votre compte.",
+            "Vos clients reçoivent des rappels par e-mail."
+          ]
+        },
+        {
+          "id": "menu",
+          "q": "Menu digital (49 SAR/mois)",
+          "a": [
+            "Organisez votre menu en catégories, plats et prix, modifiable à tout moment.",
+            "Téléchargez un QR code ou imprimez un chevalet de table."
+          ]
+        },
+        {
+          "id": "reviews",
+          "q": "Avis clients (79 SAR/mois)",
+          "a": [
+            "Vous disposez d'une page d'avis et d'une carte QR à partager avec vos clients.",
+            "Chaque client voit le bouton d'avis Google.",
+            "Les notes basses et les commentaires vous sont aussi envoyés par e-mail.",
+            "Ajoutez votre lien d'avis Google dans les paramètres de votre compte."
+          ]
+        },
+        {
+          "id": "chat",
+          "q": "Assistant de chat IA (199 SAR/mois)",
+          "a": [
+            "Un assistant IA répond à vos visiteurs à partir des informations de votre site, dans la langue de votre site.",
+            "Lorsqu'un visiteur laisse ses coordonnées, vous recevez un e-mail.",
+            "Attention : l'IA peut faire des erreurs."
+          ]
+        },
+        {
+          "id": "content",
+          "q": "Contenu réseaux sociaux (499 SAR/mois)",
+          "a": [
+            "Le 1er de chaque mois, vous recevez 12 publications prêtes à l'emploi, avec leurs légendes.",
+            "Elles vous sont envoyées par e-mail et disponibles dans votre compte : à vous de les relire et de les publier."
+          ]
+        },
+        {
+          "id": "tickets",
+          "q": "Billetterie (activation gratuite, 5 % par billet payant)",
+          "a": [
+            "Proposez des événements gratuits ou payants sur votre site.",
+            "Paiement par carte, mada ou Apple Pay via Moyasar.",
+            "Chaque participant reçoit un billet avec QR code par e-mail.",
+            "Contrôlez les entrées depuis votre compte."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "billing",
+      "title": "Facturation et paiement",
+      "articles": [
+        {
+          "id": "prices-vat",
+          "q": "Les prix incluent-ils la TVA ?",
+          "a": [
+            "Non. Tous les prix sont en riyals saoudiens (SAR) et s'entendent hors TVA de 15 %."
+          ]
+        },
+        {
+          "id": "payment-methods",
+          "q": "Comment puis-je payer ?",
+          "a": [
+            "Vous pouvez payer par carte, mada ou Apple Pay.",
+            "Les paiements sont traités par Moyasar. Oxira ne conserve jamais vos données de carte.",
+            "Un reçu vous est envoyé par e-mail après chaque paiement."
+          ]
+        },
+        {
+          "id": "renewals",
+          "q": "Combien coûte le renouvellement ?",
+          "a": [
+            "À partir de la deuxième année : hébergement 399 SAR/an, nom de domaine 99 SAR/an.",
+            "Nous envoyons la facture de renouvellement 14 jours avant un renouvellement annuel et 5 jours avant un renouvellement mensuel, puis des rappels."
+          ]
+        },
+        {
+          "id": "unpaid",
+          "q": "Que se passe-t-il si une facture reste impayée ?",
+          "a": [
+            "Si une facture est toujours impayée 7 jours après l'échéance, le site ou le module est suspendu.",
+            "Dès le paiement, il est réactivé."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "domains",
+      "title": "Noms de domaine",
+      "articles": [
+        {
+          "id": "free-address",
+          "q": "Mon site a-t-il une adresse gratuite ?",
+          "a": [
+            "Oui. Chaque site reçoit une adresse gratuite : votrenom.oxira.sa."
+          ]
+        },
+        {
+          "id": "registration",
+          "q": "Quand mon nom de domaine est-il enregistré ?",
+          "a": [
+            "Si votre formule inclut un nom de domaine, nous l'enregistrons pour vous une fois votre paiement confirmé."
+          ]
+        },
+        {
+          "id": "sa-domains",
+          "q": "Pourquoi un domaine en .sa prend-il plus de temps ?",
+          "a": [
+            "Les domaines en .sa sont enregistrés manuellement, ce qui peut prendre plus de temps."
+          ]
+        },
+        {
+          "id": "own-domain",
+          "q": "Puis-je utiliser un nom de domaine que je possède déjà ?",
+          "a": [
+            "Oui. Contactez-nous et nous vous aiderons à le connecter à votre site."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "partners",
+      "title": "Programme partenaires",
+      "articles": [
+        {
+          "id": "join",
+          "q": "Comment devenir partenaire ?",
+          "a": [
+            "Inscrivez-vous sur /partners/ pour obtenir votre lien personnel à partager."
+          ]
+        },
+        {
+          "id": "commission",
+          "q": "Combien puis-je gagner ?",
+          "a": [
+            "Vous touchez 15 % de la valeur de chaque commande de site passée via votre lien.",
+            "La commande doit être passée dans les 90 jours suivant le clic."
+          ]
+        },
+        {
+          "id": "statement",
+          "q": "Comment suivre mes gains ?",
+          "a": [
+            "Nous vous envoyons un relevé mensuel par e-mail."
+          ]
+        }
+      ]
+    }
+  ],
+  "contactTitle": "Besoin d'aide supplémentaire ?",
+  "contactBody": "Notre équipe est là pour vous aider. Écrivez-nous à info@oxira.sa, nous vous répondrons.",
+  "contactCta": "Nous contacter",
+  "accountCta": "Ouvrir mon compte"
+}

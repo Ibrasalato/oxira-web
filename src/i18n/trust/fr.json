@@ -1,0 +1,55 @@
+{
+  "title": "Confiance et sécurité | Oxira",
+  "description": "Comment Oxira protège votre site, vos paiements et vos données : HTTPS, DNSSEC, paiements via Moyasar, connexion sans mot de passe et respect de la PDPL.",
+  "h1": "Confiance et sécurité",
+  "lead": "Votre site, vos clients et vos paiements méritent une vraie protection. Voici précisément ce que nous faisons, ni plus ni moins.",
+  "items": [
+    {
+      "icon": "lock",
+      "t": "Chiffrement partout",
+      "d": "Toutes les pages d'Oxira et tous les sites de nos clients sont servis en HTTPS : les échanges entre visiteurs et site sont chiffrés."
+    },
+    {
+      "icon": "shield",
+      "t": "Infrastructure protégée",
+      "d": "oxira.sa utilise DNSSEC pour protéger les visiteurs contre l'usurpation DNS, et les sites clients fonctionnent sur le réseau de Cloudflare, qui aide à les protéger contre les attaques."
+    },
+    {
+      "icon": "card",
+      "t": "Paiements sécurisés",
+      "d": "Les paiements sont traités par Moyasar, prestataire de paiement saoudien agréé. Les données de carte lui sont transmises directement : Oxira ne voit ni ne conserve jamais les numéros de carte."
+    },
+    {
+      "icon": "key",
+      "t": "Aucun mot de passe à dérober",
+      "d": "Vous vous connectez grâce à un lien à usage unique envoyé par e-mail, sans mot de passe. Il n'y a donc aucun mot de passe susceptible de fuiter ou d'être réutilisé."
+    },
+    {
+      "icon": "eye",
+      "t": "Données minimales, jamais vendues",
+      "d": "Nous ne collectons que ce qui est nécessaire au service. Nous ne vendons pas de données personnelles et n'utilisons pas les données des visiteurs de vos sites à des fins publicitaires."
+    },
+    {
+      "icon": "globe",
+      "t": "Pas de mauvaise surprise",
+      "d": "Nous n'enregistrons un nom de domaine qu'après confirmation du paiement, et les renouvellements sont facturés à l'avance pour que votre site ne s'arrête pas sans prévenir."
+    }
+  ],
+  "pdplTitle": "Loi saoudienne sur la protection des données personnelles (PDPL)",
+  "pdplBody": "Oxira s'engage à respecter la loi saoudienne sur la protection des données personnelles. Nous traitons les données personnelles uniquement pour les finalités pour lesquelles elles ont été collectées et nous respectons vos droits.",
+  "rights": [
+    "Droit d'accès à vos données personnelles",
+    "Droit de rectification de vos données personnelles",
+    "Droit à l'effacement de vos données personnelles",
+    "Droit de retirer votre consentement"
+  ],
+  "rightsNote": "Pour exercer l'un de ces droits, écrivez-nous à info@oxira.sa. Nous vous répondrons dans un délai raisonnable.",
+  "reportTitle": "Signaler un problème de sécurité",
+  "reportBody": "Vous avez découvert une vulnérabilité ? Envoyez-nous les détails à info@oxira.sa. Nous apprécions la divulgation responsable et vous répondrons.",
+  "companyTitle": "Informations sur la société",
+  "crLabel": "N° de registre du commerce",
+  "vatLabel": "N° de TVA",
+  "addressLabel": "Adresse",
+  "privacyLink": "Lire notre politique de confidentialité",
+  "termsLink": "Conditions d'utilisation"
+}

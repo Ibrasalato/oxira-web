@@ -6,8 +6,12 @@ import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
 import { productsText } from '../i18n/products';
 
-interface Props { lang: Lang; path: string }
-const { lang, path } = Astro.props;
+interface Props { lang: Lang; path: string; langs?: Lang[] }
+const { lang, path, langs } = Astro.props;
+const extra = {
+  help: { ar: 'مركز المساعدة', en: 'Help center', de: 'Hilfe', fr: 'Aide', ru: 'Помощь' }[lang],
+  trust: { ar: 'الثقة والأمان', en: 'Trust & security', de: 'Vertrauen & Sicherheit', fr: 'Confiance et sécurité', ru: 'Доверие и безопасность' }[lang],
+};
 const c = t[lang];
 ---
 <footer class="ft">
@@ -25,6 +29,8 @@ const c = t[lang];
           <li><a href={link(lang, '/website-builder/')}>{builderText[lang].navLabel}</a></li>
           <li><a href={link(lang, '/products/')}>{productsText[lang].nav.products}</a></li>
           <li><a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a></li>
+          {lang === 'ar' && <li><a href={link(lang, '/blog/')}>المدونة</a></li>}
+          <li><a href={link(lang, '/help/')}>{extra.help}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
         </ul>
       </nav>
@@ -53,8 +59,9 @@ const c = t[lang];
       <div class="ft-legal">
         <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
         <a href={link(lang, '/terms/')}>{builderText[lang].page.terms}</a>
+        <a href={link(lang, '/trust/')}>{extra.trust}</a>
         <a href={link(lang, '/account/')}>{builderText[lang].account.title}</a>
-        <LangPicker lang={lang} path={path} tone="dark" up />
+        <LangPicker lang={lang} path={path} langs={langs} tone="dark" up />
       </div>
     </div>
   </div>

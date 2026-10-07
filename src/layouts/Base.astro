@@ -31,15 +31,17 @@ interface Props {
   app?: boolean;
   /** Keep out of search results (account pages). */
   noindex?: boolean;
+  /** Languages this page exists in (default: all). Others get no hreflang and the picker sends them home. */
+  langs?: Lang[];
 }
-const { lang, path, title, description, app = false, noindex = false } = Astro.props;
+const { lang, path, title, description, app = false, noindex = false, langs } = Astro.props;
 // Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
 const gaId = import.meta.env.PUBLIC_GA_ID || '';
 const c = t[lang];
 const site = Astro.site!;
 const canonical = new URL(link(lang, path), site).href;
-const alternates = languages.map((l) => ({ code: l.code, href: new URL(link(l.code, path), site).href }));
-const arUrl = alternates[0].href;
+const alternates = languages.filter((l) => !langs || langs.includes(l.code)).map((l) => ({ code: l.code, href: new URL(link(l.code, path), site).href }));
+const arUrl = new URL(link('ar', path), site).href;
 const locale = languages.find((l) => l.code === lang)!.locale;
 const ogImage = new URL(asset(`og-${lang}.png`), site).href;
 
@@ -64,7 +66,7 @@ const org = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={arUrl} />
+    {(!langs || langs.includes('ar')) && <link rel="alternate" hreflang="x-default" href={arUrl} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Oxira" />
     <meta property="og:title" content={title} />
@@ -86,11 +88,11 @@ const org = {
   </head>
   <body>
     <a class="skip" href="#main">{c.site.skip}</a>
-    <Header lang={lang} path={path} />
+    <Header lang={lang} path={path} langs={langs} />
     <main id="main">
       <slot />
     </main>
-    {!app && <Footer lang={lang} path={path} />}
+    {!app && <Footer lang={lang} path={path} langs={langs} />}
     {!app && <Chat lang={lang} />}
   </body>
 </html>
