@@ -2,6 +2,7 @@
 import { t, contact, clientLogos, type Lang } from '../i18n/content';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
+import Products from './Products.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -65,6 +66,7 @@ const net = network(1400, 800, 34, 7);
       <a href="#about">{c.nav.about}</a>
       <a href="#services">{c.nav.services}</a>
       <a href="#agents">{c.agents.navLabel}</a>
+      <a href="#products">{c.products.navLabel}</a>
       <a href="#clients">{c.nav.clients}</a>
       <a href="#work">{c.nav.work}</a>
       <a class="lang" href={altHref} hreflang={other} lang={other}>{c.switchLabel}</a>
@@ -245,6 +247,8 @@ const net = network(1400, 800, 34, 7);
     </div>
   </section>
 
+  <Products lang={lang} />
+
   <!-- Advantages -->
   <section class="adv" aria-labelledby="adv-title">
     <div class="wrap">
@@ -367,6 +371,7 @@ const net = network(1400, 800, 34, 7);
           <select name="service">
             <option value="">{c.contact.form.serviceAny}</option>
             {c.services.list.map((s) => <option value={s.name}>{s.name}</option>)}
+            <option value={c.products.ctaValue}>{c.products.ctaValue}</option>
             <option value={c.contact.form.other}>{c.contact.form.other}</option>
           </select>
         </label>
@@ -488,7 +493,7 @@ const net = network(1400, 800, 34, 7);
   .nav .btn { padding: .7rem 1.15rem; font-size: .95rem; }
   .lang { font-size: var(--s-1); padding: .25rem .8rem; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; }
   .lang:hover { border-color: var(--amber); }
-  @media (max-width: 900px) { .nav a[href^='#']:not(.btn) { display: none; } }
+  @media (max-width: 1100px) { .nav a[href^='#']:not(.btn) { display: none; } }
   @media (max-width: 440px) { .nav-cta { display: none; } }
 
   /* Shared heads and tags */

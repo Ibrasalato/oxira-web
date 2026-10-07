@@ -1,0 +1,293 @@
+---
+import { t, type Lang } from '../i18n/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const p = t[lang].products;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const other = lang === 'ar' ? 'en' : 'ar';
+const s = p.student.mock;
+const tm = p.teacher.mock;
+---
+<section id="products" class="products" aria-labelledby="products-title">
+  <div class="wrap">
+    <div class="p-head">
+      <h2 id="products-title">{p.title}</h2>
+      <p>{p.body}</p>
+    </div>
+
+    <!-- Classti intro -->
+    <div class="classti-hero">
+      <div class="ct-brand">
+        <span class="ct-logo" role="img" aria-label="Classti">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <rect width="40" height="40" rx="9" fill="#2EB24B" />
+            <rect x="9" y="8" width="7" height="7" rx="2" fill="#fff" />
+            <path d="M18 8h6v14a4 4 0 0 0 4 4h4v6h-6a8 8 0 0 1-8-8z" fill="#fff" />
+            <rect x="9" y="17" width="7" height="6" rx="2" fill="#fff" opacity=".85" />
+          </svg>
+          <span class="ct-word" dir="ltr">Class<b>ti</b></span>
+        </span>
+        <p class="ct-tag" dir="ltr">{p.tagline}</p>
+      </div>
+      <p class="ct-lead">{p.lead}</p>
+      <ul class="ct-suite" aria-label={p.suiteLabel}>
+        {p.suite.map((it) => (
+          <li><a href={`#ct-${it.key}`}><strong>{it.name}</strong><span dir="ltr">{it.en}</span><small>{it.text}</small></a></li>
+        ))}
+      </ul>
+      <p class="ct-also">{p.alsoLabel}</p>
+    </div>
+
+    <!-- School platform -->
+    <div id="ct-platform" class="ct-block">
+      <div class="ct-text">
+        <p class="ct-en" lang="en">{p.platform.en}</p>
+        <h3>{p.platform.title}</h3>
+        <p class="ct-blead">{p.platform.lead}</p>
+      </div>
+
+      <div class="shots">
+        <div class="shot-tabs" role="tablist" aria-label={p.platform.shotsLabel}>
+          {p.platform.shots.map((sh, i) => (
+            <button type="button" role="tab" id={`shot-tab-${i}`} aria-controls={`shot-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{sh.tab}</button>
+          ))}
+        </div>
+        <div class="browser">
+          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span dir="ltr">Classti · Smart School Network</span></div>
+          {p.platform.shots.map((sh, i) => (
+            <figure class="shot" role="tabpanel" id={`shot-${i}`} aria-labelledby={`shot-tab-${i}`} hidden={i !== 0}>
+              <img src={`${base}/products/${sh.file}`} alt={sh.caption} width="1440" height="1024" loading="lazy" decoding="async" />
+              <figcaption>{sh.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      <ul class="modules">
+        {p.platform.modules.map((m) => (
+          <li>
+            <h4>{m.name}</h4>
+            <ul>{m.items.map((it) => <li>{it}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Apps -->
+    <div class="apps">
+      <!-- Student app -->
+      <article id="ct-student" class="app">
+        <div class="phone-ct" aria-hidden="true">
+          <div class="pc-screen">
+            <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
+            <div class="pc-top">
+              <div class="pc-avatar">أ</div>
+              <div><strong>{s.hello}</strong><small>{s.sub}</small></div>
+            </div>
+            <div class="pc-bus">
+              <span class="pc-bus-ico">🚌</span>
+              <div><strong>{s.bus}</strong><small>{s.busSub}</small></div>
+            </div>
+            <p class="pc-label">{s.today}</p>
+            <ul class="pc-list">
+              {s.classes.map(([time, subj, who], i) => (
+                <li class={i === 0 ? 'now' : ''}><span class="pc-time">{time}</span><span><strong>{subj}</strong><small>{who}</small></span></li>
+              ))}
+            </ul>
+            <div class="pc-cards">
+              <div class="pc-card amber"><strong>{s.hw}</strong><small>{s.hwSub}</small></div>
+              <div class="pc-card mint"><strong>{s.grade}</strong></div>
+            </div>
+            <nav class="pc-nav">{s.nav.map((n, i) => <span class={i === 0 ? 'on' : ''}>{n}</span>)}</nav>
+          </div>
+        </div>
+        <div class="app-text">
+          <p class="ct-en" lang="en">{p.student.en}</p>
+          <h3>{p.student.title}</h3>
+          <p class="ct-blead">{p.student.lead}</p>
+          <ul class="checks">{p.student.features.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      </article>
+
+      <!-- Teacher app -->
+      <article id="ct-teacher" class="app app-rev">
+        <div class="phone-ct" aria-hidden="true">
+          <div class="pc-screen">
+            <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
+            <div class="pc-top">
+              <div class="pc-avatar">س</div>
+              <div><strong>{tm.hello}</strong><small>{tm.sub}</small></div>
+            </div>
+            <div class="pc-now">
+              <small>{tm.now}</small>
+              <strong>{tm.nowClass}</strong>
+            </div>
+            <p class="pc-label">{tm.attend}</p>
+            <ul class="pc-att">
+              {tm.students.map(([name, here]) => (
+                <li><span class="pc-st">{String(name).slice(0, 1)}</span><span class="pc-name">{name}</span><span class={here ? 'pill ok' : 'pill no'}>{here ? tm.present : tm.absent}</span></li>
+              ))}
+            </ul>
+            <span class="pc-save">{tm.save}</span>
+            <nav class="pc-nav">{tm.nav.map((n, i) => <span class={i === 0 ? 'on' : ''}>{n}</span>)}</nav>
+          </div>
+        </div>
+        <div class="app-text">
+          <p class="ct-en" lang="en">{p.teacher.en}</p>
+          <h3>{p.teacher.title}</h3>
+          <p class="ct-blead">{p.teacher.lead}</p>
+          <ul class="checks">{p.teacher.features.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="ct-cta">
+      <a class="btn ct-btn" href="#contact" data-pick-service={p.ctaValue}>{p.cta}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const shotTabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.shot-tabs [role=tab]'));
+  const pick = (tab: HTMLButtonElement) => {
+    shotTabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls')!);
+      if (panel) panel.hidden = !on;
+    });
+  };
+  shotTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => pick(tab));
+    tab.addEventListener('keydown', (e) => {
+      const rtl = document.documentElement.dir === 'rtl';
+      const next = e.key === (rtl ? 'ArrowLeft' : 'ArrowRight');
+      const prev = e.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
+      if (!next && !prev) return;
+      e.preventDefault();
+      const t = shotTabs[(i + (next ? 1 : -1) + shotTabs.length) % shotTabs.length];
+      pick(t); t.focus();
+    });
+  });
+</script>
+
+<style>
+  /* Classti keeps its own forest-green identity inside the Oxira page */
+  .products {
+    --ct-deep: #0F1F17;
+    --ct-dark: #12442B;
+    --ct: #00512E;
+    --ct-bright: #2EB24B;
+    --ct-soft: #4D9E7B;
+    --ct-mint: #E7F4EC;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    background: #fff;
+  }
+  .p-head { display: grid; gap: .75rem; max-width: 44rem; margin-bottom: clamp(2rem, 5vw, 3rem); }
+  .p-head h2 { font-size: var(--s4); }
+  .p-head p { color: var(--muted); font-size: 1.125rem; }
+
+  .classti-hero {
+    position: relative; overflow: hidden; border-radius: 24px; color: #fff;
+    padding: clamp(1.75rem, 5vw, 3.5rem);
+    background: radial-gradient(90% 120% at 15% 0%, #1E6B43 0%, var(--ct-dark) 40%, var(--ct-deep) 100%);
+  }
+  .ct-brand { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
+  .ct-logo { display: inline-flex; align-items: center; gap: .6rem; direction: ltr; }
+  .ct-logo svg { width: 3.2rem; height: 3.2rem; }
+  .ct-word { font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: -.01em; }
+  .ct-word b { color: var(--ct-bright); font-weight: 800; }
+  .ct-tag { color: #B9D9C7; font-weight: 600; letter-spacing: .02em; }
+  .ct-lead { margin-top: 1.25rem; font-size: 1.2rem; color: #DDEDE3; max-width: 46rem; }
+  .ct-suite { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .ct-suite a { display: grid; gap: .15rem; height: 100%; text-decoration: none; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 1.1rem 1.2rem; }
+  .ct-suite a:hover { background: rgba(255,255,255,.12); border-color: var(--ct-bright); }
+  .ct-suite strong { font-size: 1.2rem; }
+  .ct-suite span { color: var(--ct-bright); font-weight: 700; font-size: .92rem; }
+  .ct-suite small { color: #C8DED1; font-size: .95rem; margin-top: .3rem; }
+  .ct-also { margin-top: 1.25rem; color: #B9D9C7; font-size: .98rem; }
+  @media (max-width: 760px) { .ct-suite { grid-template-columns: 1fr; } }
+
+  .ct-block { margin-top: clamp(3.5rem, 7vw, 5rem); scroll-margin-top: 6rem; }
+  .ct-en { color: var(--ct-soft); font-weight: 800; font-size: .95rem; }
+  .ct-block h3, .app h3 { font-size: var(--s3); margin-top: .2rem; }
+  .ct-blead { color: var(--muted); font-size: 1.12rem; margin-top: .75rem; max-width: 40rem; }
+
+  .shots { margin-top: 1.75rem; }
+  .shot-tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+  .shot-tabs button { font: 700 .95rem/1 var(--font); padding: .65rem 1.1rem; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+  .shot-tabs button:hover { border-color: var(--ct); }
+  .shot-tabs button[aria-selected='true'] { background: var(--ct); border-color: var(--ct); color: #fff; }
+  .browser { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 40px 70px -40px rgba(15,31,23,.55); }
+  .browser-bar { display: flex; align-items: center; gap: .4rem; padding: .7rem 1rem; background: #EEF2EF; border-bottom: 1px solid var(--line); direction: ltr; }
+  .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #C9D3CD; }
+  .browser-bar span { margin-inline-start: 1rem; flex: 1; max-width: 22rem; background: #fff; border-radius: 6px; padding: .2rem .8rem; font-size: .8rem; color: #6B7B72; }
+  .shot { margin: 0; }
+  .shot img { width: 100%; height: auto; }
+  .shot figcaption { padding: 1rem 1.25rem 1.2rem; color: var(--muted); font-size: 1rem; border-top: 1px solid var(--line); }
+
+  .modules { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .modules > li { background: var(--ct-mint); border-radius: 16px; padding: 1.25rem 1.25rem 1.35rem; }
+  .modules h4 { margin: 0 0 .6rem; font-size: 1.12rem; font-weight: 800; color: var(--ct); }
+  .modules ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+  .modules ul li { position: relative; padding-inline-start: 1rem; font-size: .97rem; line-height: 1.6; color: #24372D; }
+  .modules ul li::before { content: ''; position: absolute; inset-inline-start: 0; top: .62em; width: 6px; height: 6px; border-radius: 2px; background: var(--ct-bright); }
+  @media (max-width: 980px) { .modules { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .modules { grid-template-columns: 1fr; } }
+
+  .apps { display: grid; gap: clamp(3.5rem, 7vw, 5rem); margin-top: clamp(3.5rem, 7vw, 5rem); }
+  .app { display: grid; grid-template-columns: auto 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; scroll-margin-top: 6rem; }
+  .app-rev .phone-ct { order: 2; }
+  .checks { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .7rem 1.5rem; }
+  .checks li { position: relative; padding-inline-start: 1.9rem; font-weight: 600; line-height: 1.55; }
+  .checks li::before { content: '✓'; position: absolute; inset-inline-start: 0; top: .05em; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--ct-mint); color: var(--ct); font-size: .8rem; font-weight: 800; display: grid; place-items: center; }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; justify-items: center; }
+    .app-rev .phone-ct { order: 0; }
+    .app-text { justify-self: stretch; }
+  }
+  @media (max-width: 520px) { .checks { grid-template-columns: 1fr; } }
+
+  /* Phone mockups of the Classti apps */
+  .phone-ct { width: 300px; border-radius: 42px; padding: 11px; background: #0E1A14; box-shadow: 0 40px 70px -35px rgba(15,31,23,.65), inset 0 0 0 2px #253A2E; }
+  .pc-screen { position: relative; border-radius: 32px; overflow: hidden; background: #F5F8F6; height: 590px; display: flex; flex-direction: column; font-size: .88rem; }
+  .pc-status { display: flex; justify-content: space-between; padding: .7rem 1.4rem .2rem; font-weight: 700; font-size: .75rem; background: var(--ct); color: #fff; direction: ltr; }
+  .pc-top { display: flex; align-items: center; gap: .7rem; background: var(--ct); color: #fff; padding: .7rem 1.1rem 1.6rem; }
+  .pc-top strong { display: block; font-size: 1rem; line-height: 1.35; }
+  .pc-top small { display: block; opacity: .8; font-size: .78rem; line-height: 1.35; }
+  .pc-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--ct-bright); display: grid; place-items: center; font-weight: 800; flex: none; }
+  .pc-bus, .pc-now { margin: -1rem .9rem 0; background: #fff; border-radius: 14px; padding: .75rem .9rem; box-shadow: 0 8px 20px -12px rgba(0,0,0,.35); display: flex; gap: .7rem; align-items: center; }
+  .pc-now { display: grid; gap: 0; border-inline-start: 4px solid var(--ct-bright); }
+  .pc-bus strong, .pc-now strong { display: block; font-size: .9rem; line-height: 1.4; }
+  .pc-bus small, .pc-now small { display: block; color: #6B7B72; font-size: .75rem; line-height: 1.4; }
+  .pc-bus-ico { width: 38px; height: 38px; border-radius: 10px; background: #FFF4D6; display: grid; place-items: center; font-size: 1.1rem; flex: none; }
+  .pc-label { font-weight: 800; padding: 1rem 1.1rem .4rem; font-size: .9rem; }
+  .pc-list { list-style: none; margin: 0 .9rem; padding: 0; display: grid; gap: .45rem; }
+  .pc-list li { display: flex; align-items: center; gap: .7rem; background: #fff; border-radius: 12px; padding: .5rem .7rem; }
+  .pc-list li.now { box-shadow: inset 0 0 0 1.5px var(--ct-bright); }
+  .pc-list strong { display: block; font-size: .86rem; line-height: 1.35; }
+  .pc-list small { display: block; color: #6B7B72; font-size: .72rem; line-height: 1.35; }
+  .pc-time { font-weight: 800; color: var(--ct); font-size: .8rem; min-width: 2.6rem; direction: ltr; }
+  .pc-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin: .7rem .9rem 0; }
+  .pc-card { border-radius: 12px; padding: .6rem .7rem; line-height: 1.4; }
+  .pc-card strong { display: block; font-size: .8rem; }
+  .pc-card small { display: block; font-size: .72rem; color: #6B7B72; }
+  .pc-card.amber { background: #FFF4D6; }
+  .pc-card.mint { background: var(--ct-mint); color: var(--ct); }
+  .pc-att { list-style: none; margin: 0 .9rem; padding: 0; display: grid; gap: .4rem; }
+  .pc-att li { display: flex; align-items: center; gap: .6rem; background: #fff; border-radius: 12px; padding: .45rem .6rem; }
+  .pc-st { width: 30px; height: 30px; border-radius: 50%; background: var(--ct-mint); color: var(--ct); display: grid; place-items: center; font-weight: 800; font-size: .8rem; flex: none; }
+  .pc-name { flex: 1; font-weight: 600; font-size: .84rem; }
+  .pill { font-size: .72rem; font-weight: 700; border-radius: 999px; padding: .15rem .6rem; }
+  .pill.ok { background: var(--ct-mint); color: var(--ct); }
+  .pill.no { background: #FDE8E8; color: #B42318; }
+  .pc-save { margin: .8rem .9rem 0; background: var(--ct); color: #fff; border-radius: 12px; text-align: center; padding: .6rem; font-weight: 700; }
+  .pc-nav { margin-top: auto; display: flex; justify-content: space-around; background: #fff; border-top: 1px solid #E3EAE6; padding: .65rem .4rem .95rem; font-size: .72rem; color: #8A9A91; font-weight: 600; }
+  .pc-nav .on { color: var(--ct); font-weight: 800; }
+
+  .ct-cta { margin-top: clamp(3rem, 6vw, 4rem); display: flex; justify-content: center; }
+  .ct-btn { background: var(--ct); color: #fff; }
+  .ct-btn:hover { background: var(--ct-dark); }
+</style>
