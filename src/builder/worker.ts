@@ -11,7 +11,7 @@ interface Env {
   SITES: { get(key: string): Promise<string | null>; get(key: string, type: 'arrayBuffer'): Promise<ArrayBuffer | null> };
 }
 
-const FONT_ORIGIN = 'https://ibrasalato.github.io/oxira-web/builder/fonts/';
+const FONT_ORIGIN = 'https://oxira.sa/builder/fonts/';
 
 const page = (status: number, title: string, body: string) =>
   new Response(
@@ -63,7 +63,7 @@ const securityHeaders = {
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
-  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${N8N}/; frame-ancestors 'self' https://ibrasalato.github.io https://oxira.sa https://www.oxira.sa`,
+  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${N8N}/; frame-ancestors 'self' https://oxira.sa https://www.oxira.sa https://ibrasalato.github.io`,
 };
 
 export default {
