@@ -11,7 +11,9 @@
 | النصوص والخدمات والمشاريع والعملاء | `src/i18n/content.ts` |
 | تصميم الصفحة وأقسامها | `src/components/Home.astro` |
 | الألوان والخطوط والإعدادات العامة | `src/layouts/Base.astro` |
-| الأيقونة | `public/favicon.svg` |
+| الشعار (SVG) والأيقونات | `src/components/Logo.astro` · `src/components/Icon.astro` |
+| لوجوهات العملاء وصور المشاريع | `public/clients/` · `public/work/` |
+| أيقونة المتصفح | `public/favicon.svg` |
 
 ## التشغيل محلياً
 

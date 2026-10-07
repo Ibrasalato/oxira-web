@@ -1,0 +1,27 @@
+---
+// Oxira logo: the four-piece pinwheel mark, traced from the company profile.
+// variant "light" = for light backgrounds (navy pieces), "dark" = for navy backgrounds (white pieces).
+interface Props {
+  variant?: 'light' | 'dark';
+  wordmark?: boolean;
+  class?: string;
+  label?: string;
+}
+const { variant = 'light', wordmark = true, class: cls = '', label = 'Oxira' } = Astro.props;
+const ink = variant === 'dark' ? '#FFFFFF' : '#0A253E';
+---
+<span class={`logo ${cls}`} role="img" aria-label={label}>
+  <svg class="logo-mark" viewBox="0 0 240 248" aria-hidden="true">
+    <polygon points="0,0 82,0 82,166 0,84" fill={ink} />
+    <polygon points="160,0 240,0 240,80 82,80" fill="#F5A800" />
+    <polygon points="158,82 240,164 240,248 158,248" fill={ink} />
+    <polygon points="0,168 158,168 80,248 0,248" fill="#007DB4" />
+  </svg>
+  {wordmark && <span class="logo-word" style={`color:${ink}`} aria-hidden="true">Oxira</span>}
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: .32em; direction: ltr; line-height: 1; }
+  .logo-mark { width: auto; height: 1em; flex: none; }
+  .logo-word { font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 1.12em; letter-spacing: -0.01em; transform: translateY(-.04em); }
+</style>
