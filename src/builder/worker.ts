@@ -3,7 +3,8 @@
 // KV namespace bound as SITES stores each site's spec (JSON), not HTML, so design fixes reach every site:
 //   "host:<hostname>"  for custom domains and subdomains (e.g. host:alrayyan.oxira.sa)
 //   "slug:<slug>"      for https://<slug>.oxira.sa/ and https://<worker-domain>/<slug>/
-import { renderSite } from './render';
+import { renderSite, type SiteAddons, type AddonSettings } from './render';
+import { renderMenuPage, renderReviewPage, renderChatPage, renderTicketPage, renderSuspendedPage, type TicketData } from './addons-render';
 import { mergeSpec, sampleSpec, templateIds, siteLangs, imageIdPattern, type Spec, type TemplateId, type SiteLang } from './spec';
 
 interface Env {
@@ -18,16 +19,35 @@ const page = (status: number, title: string, body: string) =>
     { status, headers: { 'content-type': 'text/html; charset=utf-8' } },
   );
 
-const FORM_ACTION = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-contact';
+const N8N = 'https://ibrasalato.app.n8n.cloud/webhook';
+const FORM_ACTION = `${N8N}/oxira-site-contact`;
+const BOOKING_ACTION = `${N8N}/oxira-site-booking`;
+const TICKET_ACTION = `${N8N}/oxira-ticket-buy`;
+const REVIEW_ACTION = `${N8N}/oxira-site-review`;
+const CHAT_API = `${N8N}/oxira-site-chat`;
 
-function build(raw: string, siteUrl: string, preview = false): string | null {
+/** Paid add-ons for a site, written by n8n to "feat:o<order id>" whenever a subscription or setting changes. */
+interface Features { suspended?: boolean; features?: string[]; settings?: AddonSettings }
+
+function parseSpec(raw: string): Spec | null {
+  try {
+    const data = JSON.parse(raw);
+    const t = (templateIds as string[]).includes(data?.template) ? (data.template as TemplateId) : 'corporate';
+    const l = (siteLangs as string[]).includes(data?.lang) ? (data.lang as SiteLang) : 'ar';
+    return mergeSpec(sampleSpec(t, l), data);
+  } catch {
+    return null;
+  }
+}
+
+function build(raw: string, siteUrl: string, preview = false, addons?: SiteAddons): string | null {
   try {
     const data = JSON.parse(raw);
     const order = Number(data?._order) || 0;
     const t = (templateIds as string[]).includes(data?.template) ? (data.template as TemplateId) : 'corporate';
     const l = (siteLangs as string[]).includes(data?.lang) ? (data.lang as SiteLang) : 'ar';
     const spec: Spec = mergeSpec(sampleSpec(t, l), data);
-    let html = renderSite(spec, { fontBase: '/_fonts', siteUrl, formAction: FORM_ACTION, siteId: order ? String(order) : '' });
+    let html = renderSite(spec, { fontBase: '/_fonts', siteUrl, formAction: FORM_ACTION, siteId: order ? String(order) : '', addons });
     if (preview) {
       html = html
         .replace('<head>', '<head><meta name="robots" content="noindex,nofollow">')
@@ -43,13 +63,14 @@ const securityHeaders = {
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
-  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${FORM_ACTION}; frame-ancestors 'self' https://ibrasalato.github.io https://oxira.sa https://www.oxira.sa`,
+  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${N8N}/; frame-ancestors 'self' https://ibrasalato.github.io https://oxira.sa https://www.oxira.sa`,
 };
 
 export default {
   async fetch(request: Request, env: Env, ctx: { waitUntil(p: Promise<unknown>): void }) {
     const url = new URL(request.url);
-    if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method not allowed', { status: 405 });
+    const isPost = request.method === 'POST';
+    if (request.method !== 'GET' && request.method !== 'HEAD' && !isPost) return new Response('Method not allowed', { status: 405 });
 
     if (url.pathname.startsWith('/_fonts/')) {
       const file = url.pathname.slice(8).replace(/[^a-z0-9.-]/gi, '');
@@ -95,6 +116,8 @@ export default {
     if (url.hostname === 'www.oxira.sa') return Response.redirect(`https://oxira.sa${url.pathname}${url.search}`, 301);
     const host = url.hostname.toLowerCase().replace(/^www\./, '');
     let siteUrl = `${url.origin}/`;
+    let base = '';
+    let rest = url.pathname;
     let raw = await env.SITES.get(`host:${host}`);
     // Free subdomains: https://<slug>.oxira.sa/
     const sub = /^([a-z0-9-]{2,63})\.oxira\.sa$/.exec(host)?.[1];
@@ -106,11 +129,68 @@ export default {
         if (parts.length === 1 && !url.pathname.endsWith('/')) return Response.redirect(`${url.origin}/${slug}/`, 301);
         raw = await env.SITES.get(`slug:${slug}`);
         siteUrl = `${url.origin}/${slug}/`;
+        base = `/${slug}`;
+        rest = url.pathname.slice(base.length) || '/';
       }
     }
     if (!raw) return page(404, 'الموقع غير موجود', 'Site not found · <a href="https://oxira.sa" style="color:#007DB4">oxira.sa</a>');
-    const html = build(raw, siteUrl);
-    if (!html) return page(500, 'حدث خطأ', 'Something went wrong');
-    return new Response(html, { headers: { ...securityHeaders, 'cache-control': 'public, max-age=60' } });
+    const spec = parseSpec(raw);
+    if (!spec) return page(500, 'حدث خطأ', 'Something went wrong');
+    const order = Number((JSON.parse(raw) as { _order?: number })._order) || 0;
+    let feat: Features = {};
+    if (order) {
+      try { feat = JSON.parse((await env.SITES.get(`feat:o${order}`)) || '{}'); } catch { feat = {}; }
+    }
+    if (feat.suspended) return new Response(renderSuspendedPage(spec.lang), { status: 503, headers: { ...securityHeaders, 'cache-control': 'no-store' } });
+    const has = (id: string) => !!feat.features?.includes(id);
+    const settings = feat.settings ?? {};
+    const pageOpts = { fontBase: '/_fonts', base };
+    const html = (body: string, extra: Record<string, string> = {}) =>
+      new Response(body, { headers: { ...securityHeaders, 'cache-control': 'public, max-age=60', ...extra } });
+    rest = rest.replace(/\/+$/, '') || '/';
+
+    if (rest === '/menu' && has('menu')) return html(renderMenuPage(spec, pageOpts));
+    if (rest === '/review' && has('reviews')) return html(renderReviewPage(spec, pageOpts, REVIEW_ACTION, String(order)));
+    if (rest === '/chat' && has('chat')) {
+      const nonce = crypto.randomUUID().replace(/-/g, '');
+      return html(renderChatPage(spec, { ...pageOpts, nonce }), {
+        'content-security-policy': securityHeaders['content-security-policy'] + `; script-src 'nonce-${nonce}'; connect-src 'self'`,
+        'cache-control': 'no-store',
+      });
+    }
+    if (rest === '/api/chat' && isPost && has('chat')) {
+      let body: { sessionId?: string; message?: string } = {};
+      try { body = await request.json(); } catch { /* empty */ }
+      const message = String(body.message || '').slice(0, 1000);
+      if (!message.trim()) return Response.json({ reply: '' }, { status: 400 });
+      try {
+        const res = await fetch(CHAT_API, {
+          method: 'POST',
+          body: new URLSearchParams({ site: String(order), sessionId: String(body.sessionId || '').slice(0, 64), message, lang: spec.lang }),
+        });
+        const data = (await res.json()) as { reply?: string };
+        return Response.json({ reply: String(data.reply || '') }, { headers: { 'cache-control': 'no-store' } });
+      } catch {
+        return Response.json({ reply: '' }, { status: 502 });
+      }
+    }
+    const tk = /^\/ticket\/([A-Z0-9]{6,16})$/.exec(rest)?.[1];
+    if (tk && has('tickets')) {
+      let t: TicketData | null = null;
+      try { t = JSON.parse((await env.SITES.get(`ticket:${tk}`)) || 'null'); } catch { t = null; }
+      if (!t) return page(404, 'التذكرة غير موجودة', 'Ticket not found');
+      return html(renderTicketPage(spec, pageOpts, t), { 'cache-control': 'no-store' });
+    }
+    if (rest !== '/' || isPost) return page(404, 'الصفحة غير موجودة', 'Not found');
+
+    const out = build(raw, siteUrl, false, {
+      features: feat.features ?? [],
+      settings,
+      base,
+      bookingAction: BOOKING_ACTION,
+      ticketAction: TICKET_ACTION,
+    });
+    if (!out) return page(500, 'حدث خطأ', 'Something went wrong');
+    return html(out);
   },
 };

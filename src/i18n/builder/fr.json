@@ -447,5 +447,211 @@
     "designN": "Design {n}",
     "count": "{n} designs",
     "categoriesLabel": "Filtrer par activité"
+  },
+  "addons": {
+    "title": "Développez votre site avec des options",
+    "body": "Faites de votre site un outil qui attire des clients. Ajoutez un service depuis votre compte à tout moment, au mois, résiliable à tout moment.",
+    "perMonth": "/ mois",
+    "free": "Gratuit",
+    "fee": "+ 5% par billet vendu",
+    "fromAccount": "Disponible dans votre compte une fois votre site en ligne.",
+    "items": {
+      "menu": {
+        "name": "Menu numérique & QR",
+        "desc": "Un menu ou une liste de prix adaptés au mobile, avec QR codes pour tables et comptoirs. Modifiez vos prix vous-même à tout moment."
+      },
+      "booking": {
+        "name": "Réservations en ligne",
+        "desc": "Vos clients réservent une prestation et un horaire sur votre site. Vous confirmez depuis votre compte et ils reçoivent des rappels par e-mail."
+      },
+      "reviews": {
+        "name": "Plus d'avis Google",
+        "desc": "Une page d'avis et une carte QR imprimable. Les clients satisfaits vont sur Google, les mécontents vous contactent en privé."
+      },
+      "chat": {
+        "name": "Assistant IA",
+        "desc": "Répond aux visiteurs 24/7 à partir du contenu de votre site et vous transmet leurs coordonnées s'ils souhaitent être rappelés."
+      },
+      "content": {
+        "name": "Contenu social mensuel",
+        "desc": "12 publications prêtes chaque mois, rédigées pour votre activité, avec des visuels à votre image à télécharger."
+      },
+      "tickets": {
+        "name": "Billetterie d'événements",
+        "desc": "Vendez des billets sur le site de votre événement avec paiement en ligne, billets QR par e-mail et contrôle à l'entrée."
+      }
+    }
+  },
+  "account": {
+    "title": "Mon compte",
+    "pageTitle": "Mon compte | Oxira",
+    "pageDescription": "Gérez votre site Oxira, vos renouvellements et vos options.",
+    "signInTitle": "Connexion à votre compte",
+    "signInBody": "Saisissez l'e-mail utilisé lors de la commande de votre site. Nous vous enverrons un lien de connexion sécurisé.",
+    "email": "E-mail",
+    "send": "Envoyer le lien de connexion",
+    "sending": "Envoi…",
+    "sent": "Si cet e-mail est associé à un compte Oxira, un lien de connexion vous a été envoyé. Vérifiez votre boîte de réception et vos spams.",
+    "noAccount": "Pas encore de site ?",
+    "buildOne": "Créez-le en quelques minutes",
+    "signOut": "Se déconnecter",
+    "loading": "Chargement de votre compte…",
+    "expired": "Votre lien de connexion a expiré. Veuillez en demander un nouveau.",
+    "failed": "Une erreur est survenue. Veuillez réessayer.",
+    "saved": "Enregistré",
+    "saving": "Enregistrement…",
+    "save": "Enregistrer",
+    "tabs": {
+      "overview": "Aperçu",
+      "addons": "Options",
+      "bookings": "Réservations",
+      "menu": "Menu",
+      "reviews": "Avis",
+      "chat": "Assistant IA",
+      "content": "Contenu",
+      "tickets": "Billets"
+    },
+    "site": "Site web",
+    "visit": "Ouvrir le site",
+    "status": {
+      "paid": "En ligne",
+      "published": "En ligne",
+      "new": "Commande reçue",
+      "awaiting_payment": "En attente de paiement"
+    },
+    "billing": "Renouvellements et abonnements",
+    "product": "Service",
+    "nextDue": "Prochain renouvellement",
+    "price": "Prix",
+    "state": {
+      "active": "Actif",
+      "pending": "En attente de paiement",
+      "past_due": "Paiement en retard",
+      "cancelling": "Prend fin au renouvellement",
+      "cancelled": "Terminé"
+    },
+    "pay": "Payer maintenant",
+    "cancel": "Résilier",
+    "cancelConfirm": "Résilier cette option ? Elle reste active jusqu'à la fin de la période payée.",
+    "keep": "La conserver",
+    "products": {
+      "hosting": "Hébergement",
+      "domain": "Nom de domaine"
+    },
+    "subscribe": "Ajouter à mon site",
+    "active": "Actif",
+    "paidNote": "Merci ! Votre paiement est en cours de confirmation. L'option s'active d'ici une minute.",
+    "vat": "Prix hors TVA de 15%.",
+    "notLive": "Les options sont disponibles dès que votre site est en ligne.",
+    "bookingsTitle": "Réservations à venir",
+    "noBookings": "Aucune réservation pour l'instant. Partagez le lien de votre site pour que vos clients puissent réserver.",
+    "confirm": "Confirmer",
+    "done": "Terminé",
+    "bstate": {
+      "new": "Nouvelle",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée",
+      "done": "Terminée"
+    },
+    "bookingSettings": "Paramètres de réservation",
+    "from": "Heure d'ouverture",
+    "to": "Heure de fermeture",
+    "slot": "Minutes par rendez-vous",
+    "capacity": "Réservations simultanées",
+    "closedDays": "Fermé le",
+    "note": "Note affichée sur le formulaire de réservation",
+    "days": [
+      "Dimanche",
+      "Lundi",
+      "Mardi",
+      "Mercredi",
+      "Jeudi",
+      "Vendredi",
+      "Samedi"
+    ],
+    "menuTitle": "Menu et prix",
+    "menuBody": "Mettez à jour votre menu ou votre liste de prix. Les modifications apparaissent immédiatement sur votre site.",
+    "menuName": "Titre",
+    "menuNote": "Note sous le titre",
+    "addCategory": "Ajouter une section",
+    "category": "Nom de la section",
+    "addItem": "Ajouter un article",
+    "itemName": "Article",
+    "itemDesc": "Description",
+    "itemPrice": "Prix",
+    "remove": "Supprimer",
+    "publish": "Publier les modifications",
+    "qrTitle": "QR codes",
+    "qrMenuBody": "Imprimez ce code sur vos tables, comptoirs ou flyers. Il ouvre votre menu sur le téléphone du client.",
+    "download": "Télécharger le PNG",
+    "print": "Imprimer la carte",
+    "menuUpsell": "Ajoutez l'option Menu numérique & QR pour obtenir une page menu mobile et des QR codes.",
+    "reviewsTitle": "Avis Google",
+    "googleUrl": "Votre lien d'avis Google",
+    "googleHelp": "Dans Google Maps, ouvrez votre établissement, choisissez \"Demander des avis\" ou \"Partager le formulaire d'avis\" et collez le lien ici.",
+    "qrReviewBody": "Placez cette carte au comptoir ou envoyez le lien après chaque visite. Les clients satisfaits vont sur Google, les autres vous contactent en privé.",
+    "reviewLink": "Page d'avis",
+    "chatTitle": "Assistant IA",
+    "chatBody": "L'assistant répond à partir de votre site. Ajoutez tout ce qu'il doit savoir d'autre : zones de livraison, moyens de paiement, conditions, offres en cours.",
+    "chatNotes": "Informations supplémentaires pour l'assistant",
+    "chatTest": "Tester l'assistant",
+    "contentTitle": "Vos publications",
+    "contentBody": "Copiez le texte et téléchargez l'image de chaque publication. De nouvelles publications arrivent au début de chaque mois.",
+    "noContent": "Vos premières publications sont en cours de rédaction. Elles arrivent ici et par e-mail d'ici quelques minutes.",
+    "copy": "Copier le texte",
+    "copied": "Copié",
+    "day": "Jour",
+    "ticketsTitle": "Billetterie d'événements",
+    "eventName": "Nom de l'événement",
+    "ticketTypes": "Types de billets",
+    "ticketName": "Nom du billet",
+    "ticketPrice": "Prix (SAR)",
+    "ticketCap": "Quantité disponible (0 = illimitée)",
+    "addType": "Ajouter un type de billet",
+    "sales": "Billets vendus",
+    "checkin": "Contrôle d'entrée",
+    "checkinPh": "Code du billet",
+    "checkinBtn": "Valider l'entrée",
+    "scan": "Scanner le QR",
+    "checkedIn": "Entrée validée",
+    "checkinErr": {
+      "not_found": "Aucun billet avec ce code.",
+      "already_used": "Ce billet a déjà été utilisé.",
+      "not_paid": "Ce billet n'est pas payé."
+    },
+    "ticketsFee": "Les recettes de billetterie vous sont versées chaque mois, déduction faite de 5% de frais de service.",
+    "partner": "Gagnez avec Oxira",
+    "partnerBody": "Recommandez Oxira à d'autres entreprises et touchez une commission sur chaque site qu'elles commandent."
+  },
+  "partners": {
+    "pageTitle": "Programme partenaire Oxira | Gagnez sur chaque site",
+    "pageDescription": "Recommandez Oxira Studio aux entreprises que vous connaissez et gagnez 15% de chaque commande de site.",
+    "kicker": "Programme partenaire",
+    "h1": "Gagnez sur chaque site que vous recommandez",
+    "lead": "Marketeurs, freelances, agences et consultants : partagez votre lien personnel et gagnez 15% de chaque site commandé par son intermédiaire.",
+    "steps": [
+      {
+        "name": "Inscription gratuite",
+        "text": "Remplissez le formulaire et recevez immédiatement votre lien personnel par e-mail."
+      },
+      {
+        "name": "Partagez votre lien",
+        "text": "Envoyez-le à vos clients, publiez-le ou intégrez-le à vos propres propositions."
+      },
+      {
+        "name": "Paiement mensuel",
+        "text": "Vous recevez un relevé le premier de chaque mois et un virement bancaire de vos commissions."
+      }
+    ],
+    "formTitle": "Rejoindre le programme partenaire",
+    "name": "Votre nom",
+    "company": "Entreprise ou agence (facultatif)",
+    "phone": "Numéro de mobile",
+    "email": "E-mail",
+    "submit": "Obtenir mon lien partenaire",
+    "sending": "Envoi…",
+    "done": "C'est fait ! Votre lien partenaire vous attend dans votre boîte mail.",
+    "failed": "Veuillez vérifier vos informations et réessayer.",
+    "terms": "La commission est versée sur le premier paiement de site des clients recommandés, hors TVA, une fois le paiement confirmé."
   }
 }

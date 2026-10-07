@@ -29,8 +29,10 @@ interface Props {
   description: string;
   /** App pages (the studio): no footer and no chat bubble. */
   app?: boolean;
+  /** Keep out of search results (account pages). */
+  noindex?: boolean;
 }
-const { lang, path, title, description, app = false } = Astro.props;
+const { lang, path, title, description, app = false, noindex = false } = Astro.props;
 // Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
 const gaId = import.meta.env.PUBLIC_GA_ID || '';
 const c = t[lang];
@@ -74,9 +76,11 @@ const org = {
     <meta property="og:locale" content={locale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0A253E" />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={asset('sitemap.xml')} />
     <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    <script is:inline>try{var r=new URLSearchParams(location.search).get('ref');if(r&&/^[a-z0-9]{3,20}$/i.test(r))localStorage.setItem('oxira-ref',JSON.stringify({c:r.toLowerCase(),t:Date.now()}))}catch(e){}</script>
     {gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
     {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',gaId,{anonymize_ip:true});</script>}
   </head>

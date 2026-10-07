@@ -7,31 +7,45 @@
   "sections": [
     {
       "h": "1. What we provide",
-      "p": ["Depending on the package you choose, we design and publish your website, host it with an SSL certificate, register or connect your domain, design a logo, and provide technical support for the period stated in the package."]
+      "p": [
+        "Depending on the package you choose, we design and publish your website, host it with an SSL certificate, register or connect your domain, design a logo, and provide technical support for the period stated in the package."
+      ]
     },
     {
       "h": "2. Prices and payment",
-      "p": ["Prices are shown in Saudi riyals and exclude 15% VAT, which is added at checkout. Payment is made online through Moyasar by mada, Visa, Mastercard or Apple Pay. Card details are handled by Moyasar; Oxira never sees or stores them. We issue a tax invoice for every payment."]
+      "p": [
+        "Prices are shown in Saudi riyals and exclude 15% VAT, which is added at checkout. Payment is made online through Moyasar by mada, Visa, Mastercard or Apple Pay. Card details are handled by Moyasar; Oxira never sees or stores them. We issue a tax invoice for every payment."
+      ]
     },
     {
       "h": "3. Delivery",
-      "p": ["Websites are usually published the same day the payment is confirmed. Saudi .sa domains need a commercial registration and approval from the registry, so they can take a few extra days. Extra pages and content in the Business package are delivered within the timeline we agree with you."]
+      "p": [
+        "Websites are usually published the same day the payment is confirmed. Saudi .sa domains need a commercial registration and approval from the registry, so they can take a few extra days. Extra pages and content in the Business package are delivered within the timeline we agree with you."
+      ]
     },
     {
       "h": "4. Your content",
-      "p": ["You are responsible for the text, photos, logos and information you add, and you confirm that you have the right to use them and that they are lawful and accurate. Content written by the AI designer is a suggestion: please review it, especially prices, claims and contact details, before you publish."]
+      "p": [
+        "You are responsible for the text, photos, logos and information you add, and you confirm that you have the right to use them and that they are lawful and accurate. Content written by the AI designer is a suggestion: please review it, especially prices, claims and contact details, before you publish."
+      ]
     },
     {
       "h": "5. Ownership",
-      "p": ["Your content, your logo and your domain belong to you. The domain is registered in your name or transferred to you on request. Oxira Studio, its templates and its code remain the property of Oxira. If you leave, we will hand over your website files and transfer your domain to you."]
+      "p": [
+        "Your content, your logo and your domain belong to you. The domain is registered in your name or transferred to you on request. Oxira Studio, its templates and its code remain the property of Oxira. If you leave, we will hand over your website files and transfer your domain to you."
+      ]
     },
     {
       "h": "6. Renewals",
-      "p": ["Hosting and domains are yearly services. We remind you before the renewal date. If a renewal is not paid, the website may be paused 30 days after the due date, and a domain that is not renewed may become available to others according to the registry's rules."]
+      "p": [
+        "Hosting and domains are yearly services. We remind you before the renewal date. If a renewal is not paid, the website may be paused 30 days after the due date, and a domain that is not renewed may become available to others according to the registry's rules."
+      ]
     },
     {
       "h": "7. Cancellation and refunds",
-      "p": ["You see and approve your website before you pay, so refunds are limited to the cases below."],
+      "p": [
+        "You see and approve your website before you pay, so refunds are limited to the cases below."
+      ],
       "list": [
         "Full refund if you cancel within 7 days of payment and we have not yet published your website or started the extra work in your package.",
         "Domain registration fees cannot be refunded once the domain has been registered, because registries do not refund them.",
@@ -44,19 +58,45 @@
     },
     {
       "h": "8. Support",
-      "p": ["Support covers fixing problems with your website and small content updates during the support period in your package. New pages, new features or a redesign are quoted separately."]
+      "p": [
+        "Support covers fixing problems with your website and small content updates during the support period in your package. New pages, new features or a redesign are quoted separately."
+      ]
     },
     {
       "h": "9. Acceptable use",
-      "p": ["Websites must not contain unlawful, misleading or harmful content, or content that infringes the rights of others. We may pause a website that breaks these rules or the laws of the Kingdom of Saudi Arabia, and we will tell you why."]
+      "p": [
+        "Websites must not contain unlawful, misleading or harmful content, or content that infringes the rights of others. We may pause a website that breaks these rules or the laws of the Kingdom of Saudi Arabia, and we will tell you why."
+      ]
     },
     {
       "h": "10. Liability",
-      "p": ["We work to keep your website available and secure, but we cannot guarantee uninterrupted service. To the extent the law allows, our liability for any claim is limited to the amount you paid for the service concerned in the last 12 months."]
+      "p": [
+        "We work to keep your website available and secure, but we cannot guarantee uninterrupted service. To the extent the law allows, our liability for any claim is limited to the amount you paid for the service concerned in the last 12 months."
+      ]
     },
     {
-      "h": "11. Law and contact",
-      "p": ["These terms are governed by the laws of the Kingdom of Saudi Arabia, including the E-Commerce Law. Questions: Oxira, 426 Al Sulaymaniyah, Al Urubah Rd., Riyadh. Email info@oxira.sa, phone +966 59 669 4021."]
+      "h": "11. Monthly add-ons",
+      "p": [
+        "Add-ons such as bookings, digital menu, Google reviews, the AI assistant and social content are monthly subscriptions, billed in advance and renewed every month until you cancel. You can cancel any time from your account; the add-on stays active until the end of the period you paid for. Monthly payments are not refunded for partial months. If a renewal is not paid within 7 days of its due date, the add-on is paused until payment."
+      ]
+    },
+    {
+      "h": "12. Event tickets",
+      "p": [
+        "When you sell tickets through your Oxira website, buyers pay Oxira through Moyasar. We transfer the ticket revenue to you monthly, minus a 5% service fee. Refunds to ticket buyers are your responsibility as the organiser and follow your own event policy; tell us and we will process them before the transfer."
+      ]
+    },
+    {
+      "h": "13. Partner program",
+      "p": [
+        "Partners earn a commission (currently 15%) on the first website payment, excluding VAT, of clients who order through their personal link, once that payment is confirmed. Commissions are paid monthly by bank transfer. Self-referrals and misleading promotion are not allowed, and we may end a partnership that breaks these rules."
+      ]
+    },
+    {
+      "h": "14. Law and contact",
+      "p": [
+        "These terms are governed by the laws of the Kingdom of Saudi Arabia, including the E-Commerce Law. Questions: Oxira, 426 Al Sulaymaniyah, Al Urubah Rd., Riyadh. Email info@oxira.sa, phone +966 59 669 4021."
+      ]
     }
   ]
 }

@@ -3,7 +3,7 @@
 import { emptyMedia, imageIdPattern, layoutOf, type Spec, type FontId, type SiteLang } from './spec';
 import { categoryOf, type CategoryId } from './catalog';
 
-const esc = (s: string) =>
+export const esc = (s: string) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** Readable text colour on top of a background colour. */
@@ -25,7 +25,7 @@ body.has-bg .card,body.has-bg .contact-grid>*,body.has-bg .btn-ghost{background:
 ${dark ? 'body.has-bg .stats{color:var(--on-p)}body.has-bg .eyebrow{color:var(--a)}' : ''}`;
 }
 
-function onColor(hex: string) {
+export function onColor(hex: string) {
   const n = parseInt(hex.slice(1), 16);
   const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
     const c = v / 255;
@@ -34,16 +34,25 @@ function onColor(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.38 ? '#111418' : '#FFFFFF';
 }
 
-type Words = { rights: string; phone: string; whatsapp: string; email: string; address: string; hours: string; menu: string; gallery: string; map: string; formTitle: string; formName: string; formPhone: string; formMessage: string; formSend: string; chat: string };
-const words: Record<SiteLang, Words> = {
-  ar: { map: 'افتح الموقع على الخريطة', formTitle: 'أرسل لنا رسالة', formName: 'الاسم', formPhone: 'رقم الجوال', formMessage: 'رسالتك', formSend: 'إرسال', chat: 'تواصل عبر واتساب', gallery: 'معرض الصور', rights: 'جميع الحقوق محفوظة', phone: 'الهاتف', whatsapp: 'واتساب', email: 'البريد', address: 'العنوان', hours: 'أوقات العمل', menu: 'القائمة' },
-  en: { map: 'Open in Google Maps', formTitle: 'Send us a message', formName: 'Name', formPhone: 'Mobile number', formMessage: 'Your message', formSend: 'Send', chat: 'Chat on WhatsApp', gallery: 'Gallery', rights: 'All rights reserved', phone: 'Phone', whatsapp: 'WhatsApp', email: 'Email', address: 'Address', hours: 'Hours', menu: 'Menu' },
-  de: { map: 'In Google Maps öffnen', formTitle: 'Schreiben Sie uns', formName: 'Name', formPhone: 'Telefonnummer', formMessage: 'Ihre Nachricht', formSend: 'Senden', chat: 'Auf WhatsApp schreiben', gallery: 'Galerie', rights: 'Alle Rechte vorbehalten', phone: 'Telefon', whatsapp: 'WhatsApp', email: 'E-Mail', address: 'Adresse', hours: 'Öffnungszeiten', menu: 'Menü' },
-  fr: { map: 'Ouvrir dans Google Maps', formTitle: 'Écrivez-nous', formName: 'Nom', formPhone: 'Téléphone', formMessage: 'Votre message', formSend: 'Envoyer', chat: 'Écrire sur WhatsApp', gallery: 'Galerie', rights: 'Tous droits réservés', phone: 'Téléphone', whatsapp: 'WhatsApp', email: 'E-mail', address: 'Adresse', hours: 'Horaires', menu: 'Menu' },
-  ru: { map: 'Открыть в Google Maps', formTitle: 'Напишите нам', formName: 'Имя', formPhone: 'Телефон', formMessage: 'Ваше сообщение', formSend: 'Отправить', chat: 'Написать в WhatsApp', gallery: 'Галерея', rights: 'Все права защищены', phone: 'Телефон', whatsapp: 'WhatsApp', email: 'Почта', address: 'Адрес', hours: 'Часы работы', menu: 'Меню' },
+type Words = { addon: AddonWords; rights: string; phone: string; whatsapp: string; email: string; address: string; hours: string; menu: string; gallery: string; map: string; formTitle: string; formName: string; formPhone: string; formMessage: string; formSend: string; chat: string };
+type AddonWords = { bookTitle: string; bookBody: string; service: string; date: string; time: string; email: string; note: string; bookSend: string; closed: string; chat: string; rate: string; menuOpen: string; tickets: string; ticketsBody: string; qty: string; buy: string; soldOut: string; price: string; free: string };
+const addonWords: Record<SiteLang, AddonWords> = {
+  ar: { bookTitle: 'احجز موعدك', bookBody: 'اختر الخدمة والوقت المناسب وسنؤكد حجزك.', service: 'الخدمة', date: 'التاريخ', time: 'الوقت', email: 'البريد (اختياري)', note: 'ملاحظات (اختياري)', bookSend: 'أرسل الحجز', closed: 'مغلق', chat: 'اسألنا الآن', rate: 'قيّم تجربتك', menuOpen: 'افتح القائمة على جوالك', tickets: 'التذاكر', ticketsBody: 'احجز تذكرتك وادفع إلكترونياً، وتصلك التذكرة برمز QR على بريدك.', qty: 'العدد', buy: 'اشترِ التذكرة', soldOut: 'نفدت', price: 'السعر', free: 'مجاني' },
+  en: { bookTitle: 'Book an appointment', bookBody: 'Choose a service and a time and we will confirm your booking.', service: 'Service', date: 'Date', time: 'Time', email: 'Email (optional)', note: 'Notes (optional)', bookSend: 'Send booking', closed: 'Closed', chat: 'Ask us now', rate: 'Rate your visit', menuOpen: 'Open the menu on your phone', tickets: 'Tickets', ticketsBody: 'Book your ticket and pay online. Your QR ticket arrives by email.', qty: 'Quantity', buy: 'Buy tickets', soldOut: 'Sold out', price: 'Price', free: 'Free' },
+  de: { bookTitle: 'Termin buchen', bookBody: 'Wählen Sie Leistung und Uhrzeit, wir bestätigen Ihre Buchung.', service: 'Leistung', date: 'Datum', time: 'Uhrzeit', email: 'E-Mail (optional)', note: 'Hinweise (optional)', bookSend: 'Buchung senden', closed: 'Geschlossen', chat: 'Jetzt fragen', rate: 'Besuch bewerten', menuOpen: 'Menü auf dem Handy öffnen', tickets: 'Tickets', ticketsBody: 'Ticket buchen und online bezahlen. Ihr QR-Ticket kommt per E-Mail.', qty: 'Anzahl', buy: 'Tickets kaufen', soldOut: 'Ausverkauft', price: 'Preis', free: 'Kostenlos' },
+  fr: { bookTitle: 'Prendre rendez-vous', bookBody: 'Choisissez un service et un horaire, nous confirmerons votre réservation.', service: 'Service', date: 'Date', time: 'Heure', email: 'E-mail (facultatif)', note: 'Remarques (facultatif)', bookSend: 'Envoyer la réservation', closed: 'Fermé', chat: 'Posez votre question', rate: 'Notez votre visite', menuOpen: 'Ouvrir le menu sur votre téléphone', tickets: 'Billets', ticketsBody: 'Réservez et payez en ligne. Votre billet QR arrive par e-mail.', qty: 'Quantité', buy: 'Acheter', soldOut: 'Complet', price: 'Prix', free: 'Gratuit' },
+  ru: { bookTitle: 'Записаться', bookBody: 'Выберите услугу и время, мы подтвердим запись.', service: 'Услуга', date: 'Дата', time: 'Время', email: 'Почта (необязательно)', note: 'Комментарий (необязательно)', bookSend: 'Отправить', closed: 'Выходной', chat: 'Задать вопрос', rate: 'Оценить визит', menuOpen: 'Открыть меню на телефоне', tickets: 'Билеты', ticketsBody: 'Забронируйте и оплатите онлайн. QR-билет придёт на почту.', qty: 'Количество', buy: 'Купить билеты', soldOut: 'Распродано', price: 'Цена', free: 'Бесплатно' },
 };
 
-const fonts: Record<FontId, { head: string; body: string; faces: [string, string][] }> = {
+export const words: Record<SiteLang, Words> = {
+  ar: { addon: addonWords.ar, map: 'افتح الموقع على الخريطة', formTitle: 'أرسل لنا رسالة', formName: 'الاسم', formPhone: 'رقم الجوال', formMessage: 'رسالتك', formSend: 'إرسال', chat: 'تواصل عبر واتساب', gallery: 'معرض الصور', rights: 'جميع الحقوق محفوظة', phone: 'الهاتف', whatsapp: 'واتساب', email: 'البريد', address: 'العنوان', hours: 'أوقات العمل', menu: 'القائمة' },
+  en: { addon: addonWords.en, map: 'Open in Google Maps', formTitle: 'Send us a message', formName: 'Name', formPhone: 'Mobile number', formMessage: 'Your message', formSend: 'Send', chat: 'Chat on WhatsApp', gallery: 'Gallery', rights: 'All rights reserved', phone: 'Phone', whatsapp: 'WhatsApp', email: 'Email', address: 'Address', hours: 'Hours', menu: 'Menu' },
+  de: { addon: addonWords.de, map: 'In Google Maps öffnen', formTitle: 'Schreiben Sie uns', formName: 'Name', formPhone: 'Telefonnummer', formMessage: 'Ihre Nachricht', formSend: 'Senden', chat: 'Auf WhatsApp schreiben', gallery: 'Galerie', rights: 'Alle Rechte vorbehalten', phone: 'Telefon', whatsapp: 'WhatsApp', email: 'E-Mail', address: 'Adresse', hours: 'Öffnungszeiten', menu: 'Menü' },
+  fr: { addon: addonWords.fr, map: 'Ouvrir dans Google Maps', formTitle: 'Écrivez-nous', formName: 'Nom', formPhone: 'Téléphone', formMessage: 'Votre message', formSend: 'Envoyer', chat: 'Écrire sur WhatsApp', gallery: 'Galerie', rights: 'Tous droits réservés', phone: 'Téléphone', whatsapp: 'WhatsApp', email: 'E-mail', address: 'Adresse', hours: 'Horaires', menu: 'Menu' },
+  ru: { addon: addonWords.ru, map: 'Открыть в Google Maps', formTitle: 'Напишите нам', formName: 'Имя', formPhone: 'Телефон', formMessage: 'Ваше сообщение', formSend: 'Отправить', chat: 'Написать в WhatsApp', gallery: 'Галерея', rights: 'Все права защищены', phone: 'Телефон', whatsapp: 'WhatsApp', email: 'Почта', address: 'Адрес', hours: 'Часы работы', menu: 'Меню' },
+};
+
+export const fonts: Record<FontId, { head: string; body: string; faces: [string, string][] }> = {
   modern: {
     head: "'IBM Plex Sans','Plex Cyr','Cairo',system-ui,sans-serif",
     body: "'IBM Plex Sans','Plex Cyr','Cairo',system-ui,sans-serif",
@@ -61,7 +70,7 @@ const fonts: Record<FontId, { head: string; body: string; faces: [string, string
   },
 };
 
-const fontCss = (font: FontId, base: string) =>
+export const fontCss = (font: FontId, base: string) =>
   [...fonts[font].faces, ['Plex Cyr', 'ibm-plex-sans-cyrillic'] as [string, string]]
     .flatMap(([family, file]) => [400, 700].map((w) =>
       `@font-face{font-family:'${family}';font-weight:${w};font-display:swap;src:url(${base}/${file}-${w}-normal.woff2) format('woff2')}`))
@@ -333,12 +342,43 @@ export interface RenderOptions {
   /** Where the contact form posts, and the id that tells the server which site it came from. */
   formAction?: string;
   siteId?: string;
+  /** Paid add-ons that are active for this site, and their settings (from the client's account). */
+  addons?: SiteAddons;
+}
+
+export interface TicketType { id: string; name: string; price: number; capacity: number }
+export interface AddonSettings {
+  googleReviewUrl?: string;
+  bookingFrom?: string; bookingTo?: string; slotMinutes?: number; closedDays?: number[]; bookingNote?: string;
+  chatNotes?: string;
+  tickets?: TicketType[]; ticketsSold?: Record<string, number>;
+}
+export interface SiteAddons {
+  features: string[];
+  settings: AddonSettings;
+  /** Path prefix of the site ('' on its own domain, '/<slug>' on the shared address). */
+  base: string;
+  /** Where the booking and ticket forms post. */
+  bookingAction: string;
+  ticketAction: string;
+}
+
+/** Time slots between two HH:MM times. */
+export function slots(from = '09:00', to = '21:00', step = 30) {
+  const toMin = (t: string) => { const [h, m] = t.split(':').map(Number); return (h || 0) * 60 + (m || 0); };
+  const out: string[] = [];
+  for (let t = toMin(from); t + step <= toMin(to) && out.length < 96; t += Math.max(10, step)) out.push(`${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`);
+  return out;
 }
 
 export function renderSite(s: Spec, opt: RenderOptions): string {
   const layout = layoutOf[s.template] ?? 'corporate';
   const t = categoryOf(s.template);
   const ed = (path: string) => (opt.editable ? ` data-f="${path}"` : '');
+  const ad = opt.addons;
+  const feat = (id: string) => !!ad?.features.includes(id);
+  const base = ad?.base ?? '';
+  const st = ad?.settings ?? {};
   const rtl = s.lang === 'ar';
   const w = words[s.lang] ?? words.en;
   const f = fonts[s.font];
@@ -358,12 +398,49 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
   const nav = [
     has('about') && `<a href="#about">${esc(s.about.title)}</a>`,
     has('services') && `<a href="#services">${esc(s.services.title)}</a>`,
+    has('menu') && s.menu?.categories?.length && `<a href="#menu">${esc(s.menu.title)}</a>`,
+    feat('booking') && `<a href="#booking">${w.addon.bookTitle}</a>`,
     has('contact') && `<a href="#contact">${esc(s.contact.title)}</a>`,
   ].filter(Boolean).join('');
+
+  const bookingHtml = feat('booking') ? `<section class="booking" id="booking"><div class="wrap booking-in">
+    <div><h2>${w.addon.bookTitle}</h2><p>${esc(st.bookingNote || w.addon.bookBody)}</p></div>
+    <form class="cform" method="post" action="${esc(ad!.bookingAction)}">
+      <input type="hidden" name="site" value="${esc(opt.siteId || '')}"><input type="hidden" name="lang" value="${s.lang}">
+      <label class="wide">${w.addon.service}<select name="service" required>${s.services.items.map((it) => `<option>${esc(it.title)}</option>`).join('')}</select></label>
+      <label>${w.addon.date}<input name="date" type="date" required></label>
+      <label>${w.addon.time}<select name="time" required>${slots(st.bookingFrom, st.bookingTo, st.slotMinutes).map((t) => `<option>${t}</option>`).join('')}</select></label>
+      <label>${w.formName}<input name="name" required maxlength="120"></label>
+      <label>${w.formPhone}<input name="phone" type="tel" dir="ltr" required maxlength="30"></label>
+      <label class="wide">${w.addon.email}<input name="email" type="email" dir="ltr" maxlength="160"></label>
+      <label class="wide">${w.addon.note}<textarea name="note" rows="2" maxlength="600"></textarea></label>
+      <input class="hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-p" type="submit">${w.addon.bookSend}</button>
+    </form></div></section>` : '';
+  const tickets = (st.tickets ?? []).filter((x) => x.name);
+  const ticketsHtml = feat('tickets') && tickets.length ? `<section class="tickets" id="tickets"><div class="wrap">
+    <h2>${w.addon.tickets}</h2><p class="tickets-body">${w.addon.ticketsBody}</p>
+    <div class="ticket-types">${tickets.map((x) => {
+      const left = Math.max(0, (x.capacity || 0) - (st.ticketsSold?.[x.id] ?? 0));
+      const soldOut = x.capacity > 0 && left === 0;
+      return `<form class="ticket-type" method="post" action="${esc(ad!.ticketAction)}">
+        <input type="hidden" name="site" value="${esc(opt.siteId || '')}"><input type="hidden" name="lang" value="${s.lang}"><input type="hidden" name="type" value="${esc(x.id)}">
+        <h3>${esc(x.name)}</h3><p class="tprice">${x.price > 0 ? `${x.price} SAR` : w.addon.free}</p>
+        ${soldOut ? `<p class="sold">${w.addon.soldOut}</p>` : `<label>${w.formName}<input name="name" required maxlength="120"></label>
+        <label>${w.formPhone}<input name="phone" type="tel" dir="ltr" required maxlength="30"></label>
+        <label>${w.email}<input name="email" type="email" dir="ltr" required maxlength="160"></label>
+        <label>${w.addon.qty}<select name="qty">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter((n) => !x.capacity || n <= left).map((n) => `<option>${n}</option>`).join('')}</select></label>
+        <input class="hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-a" type="submit">${w.addon.buy}</button>`}
+      </form>`;
+    }).join('')}</div></div></section>` : '';
 
   const sections: Record<string, string> = {
     about: `<section class="about" id="about"><div class="wrap about-in${m.about ? ' has-img' : ''}">
       <h2${ed('about.title')}>${esc(s.about.title)}</h2><p${ed('about.text')}>${esc(s.about.text)}</p>${m.about ? `<img class="about-img" src="${src(m.about)}" alt="" loading="lazy">` : ''}</div></section>`,
+    menu: s.menu?.categories?.length ? `<section class="menu" id="menu"><div class="wrap">
+      <div class="menu-head"><h2${ed('menu.title')}>${esc(s.menu.title)}</h2>${s.menu.note ? `<p${ed('menu.note')}>${esc(s.menu.note)}</p>` : ''}${feat('menu') ? `<a class="btn btn-ghost small" href="${base}/menu">${w.addon.menuOpen}</a>` : ''}</div>
+      <div class="menu-cats">${s.menu.categories.map((c, ci) => `<div class="menu-cat"><h3${ed(`menu.categories.${ci}.name`)}>${esc(c.name)}</h3><ul>${c.items.map((it, ii) => `<li><div><b${ed(`menu.categories.${ci}.items.${ii}.name`)}>${esc(it.name)}</b>${it.desc ? `<small${ed(`menu.categories.${ci}.items.${ii}.desc`)}>${esc(it.desc)}</small>` : ''}</div>${it.price ? `<span class="price"${ed(`menu.categories.${ci}.items.${ii}.price`)}>${esc(it.price)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}</div></div></section>` : '',
     gallery: m.gallery.length ? `<section class="gallery" id="gallery"><div class="wrap">
       <h2>${esc(m.galleryTitle || w.gallery)}</h2>
       <div class="gal">${m.gallery.map((id) => `<img src="${src(id)}" alt="" loading="lazy">`).join('')}</div></div></section>` : '',
@@ -423,9 +500,10 @@ export function renderSite(s: Spec, opt: RenderOptions): string {
   </div>
   <div class="hero-art">${heroVisual}</div>
 </div></section>
-${s.sections.map((id) => sections[id] ?? '').join('\n')}
+${s.sections.map((id) => (id === 'contact' ? ticketsHtml + bookingHtml : '') + (sections[id] ?? '')).join('\n')}${s.sections.includes('contact') ? '' : ticketsHtml + bookingHtml}
 ${s.extras.whatsappButton && s.contact.whatsapp ? `<a class="wa-float" href="${esc(wa(s.contact.whatsapp))}" target="_blank" rel="noopener" aria-label="${w.chat}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" fill="#fff"/><path d="M9.2 7.8c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.1.1-.2.3 0 .5.6 1 1.4 1.8 2.5 2.4.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4 0 .6-.3 1.4-1.1 1.8-.7.3-1.6.4-3.4-.4-2.1-1-3.6-3.1-3.8-3.4-.3-.4-.9-1.3-.9-2.4 0-1 .5-1.5.7-1.7z" fill="#25D366"/></svg></a>` : ''}
-<footer class="foot"><div class="wrap foot-in"><span class="brand">${mark}<span>${esc(s.name)}</span></span><small>© ${opt.year ?? new Date().getFullYear()} ${esc(s.name)}. ${w.rights}.</small></div></footer>`;
+${feat('chat') ? `<a class="chat-float" href="${base}/chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>${w.addon.chat}</span></a>` : ''}
+<footer class="foot"><div class="wrap foot-in"><span class="brand">${mark}<span>${esc(s.name)}</span></span>${feat('reviews') ? `<a class="rate-link" href="${base}/review">★ ${w.addon.rate}</a>` : ''}<small>© ${opt.year ?? new Date().getFullYear()} ${esc(s.name)}. ${w.rights}.</small></div></footer>`;
 
   const p = s.colors.primary, a = s.colors.accent;
   const css = `${fontCss(s.font, opt.fontBase)}
@@ -475,6 +553,16 @@ section h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:28px}
 .tt-beauty{--bg:#FFF9FB}.tt-beauty .btn{border-radius:999px}
 .tt-education .card{border-top:4px solid var(--p)}
 .tt-fitness h1{text-transform:uppercase;letter-spacing:.02em}.tt-fitness .btn{border-radius:6px}
+.menu{padding:88px 0}.menu-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 24px;margin-bottom:28px}.menu-head h2{margin:0}.menu-head p{color:var(--muted)}.menu-head .btn{margin-inline-start:auto}
+.menu-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px 48px}.menu-cat h3{font-size:1.2rem;color:var(--p);padding-bottom:10px;border-bottom:2px solid var(--a);margin-bottom:6px}
+.menu-cat ul{list-style:none;margin:0;padding:0}.menu-cat li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px dashed var(--line)}.menu-cat li div{display:grid}.menu-cat small{color:var(--muted)}.menu-cat .price{font-weight:700;white-space:nowrap;color:var(--p)}
+.booking{padding:72px 0;background:var(--soft)}.booking-in{display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:start}.booking h2{margin-bottom:12px}.booking p{color:var(--muted)}.booking .cform{margin:0}
+.cform select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;width:100%}
+.tickets{padding:72px 0}.tickets-body{color:var(--muted);margin:-16px 0 24px}.ticket-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,380px));gap:18px}
+.ticket-type{display:grid;gap:10px;padding:24px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--card,#fff)}.ticket-type h3{font-size:1.2rem}.tprice{font-weight:700;font-size:1.4rem;color:var(--p)}.ticket-type label{display:grid;gap:4px;font-weight:600;font-size:.9rem}
+.ticket-type input,.ticket-type select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}.ticket-type .hp{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0)}.sold{color:#B42318;font-weight:700}
+.chat-float{position:fixed;bottom:92px;inset-inline-end:22px;display:flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;background:var(--p);color:var(--on-p);font-weight:700;box-shadow:0 12px 28px -8px rgba(0,0,0,.4);z-index:20}.chat-float svg{width:20px;height:20px}
+.rate-link{color:var(--p);font-weight:700}
 .gallery{padding:88px 0}.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block}
 .t-personal .hero-photo{width:220px;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 10px var(--soft-a)}
 .t-restaurant .hero-photo{border-radius:999px 999px 0 0;aspect-ratio:4/5;max-width:420px;margin-inline-start:auto;box-shadow:none}
@@ -528,6 +616,7 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.4;letter-spacin
 
 @media (max-width:860px){
   .top nav{display:none}.top-in{justify-content:space-between}.hero{padding:56px 0}.hero-in,.about-in{grid-template-columns:1fr;gap:36px}
+  .booking-in{grid-template-columns:1fr}.chat-float span{display:none}.chat-float{padding:14px}
   .hero-art{max-width:420px}.t-clinic .hero-art{order:0}.t-store .hero-in{padding:32px 24px;border-radius:24px}.faq-in{grid-template-columns:1fr}.cform{grid-template-columns:1fr}.quotes,.faq{padding:64px 0}.about-in.has-img{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr}.gallery{padding:64px 0}.t-restaurant .hero-copy{padding-bottom:0}.t-restaurant .cards{grid-template-columns:1fr}
   .t-personal .card{grid-template-columns:48px 1fr;}.t-personal .card p{grid-column:2}.cta-in{padding:32px}
   .services,.about,.cta{padding:64px 0}

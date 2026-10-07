@@ -447,5 +447,211 @@
     "designN": "Design {n}",
     "count": "{n} designs",
     "categoriesLabel": "Filter by business"
+  },
+  "addons": {
+    "title": "Grow your website with add-ons",
+    "body": "Turn your website into a tool that brings customers. Add any service from your account at any time, monthly, cancel anytime.",
+    "perMonth": "/ month",
+    "free": "Free",
+    "fee": "+ 5% per ticket sold",
+    "fromAccount": "Available from your account after your website is live.",
+    "items": {
+      "menu": {
+        "name": "Digital menu & QR",
+        "desc": "A phone-friendly menu or price list with QR codes for tables and counters. Update prices yourself any time."
+      },
+      "booking": {
+        "name": "Online bookings",
+        "desc": "Customers book a service and time from your website. You confirm from your account and they get email reminders."
+      },
+      "reviews": {
+        "name": "More Google reviews",
+        "desc": "A review page and printable QR card. Happy customers go to Google, unhappy ones reach you privately."
+      },
+      "chat": {
+        "name": "AI assistant",
+        "desc": "Answers visitors 24/7 from your website content and sends you their contact details when they want a call."
+      },
+      "content": {
+        "name": "Monthly social content",
+        "desc": "12 ready posts every month, written for your business, with branded images to download."
+      },
+      "tickets": {
+        "name": "Event tickets",
+        "desc": "Sell tickets on your event website with online payment, QR tickets by email and check-in at the door."
+      }
+    }
+  },
+  "account": {
+    "title": "My account",
+    "pageTitle": "My account | Oxira",
+    "pageDescription": "Manage your Oxira website, renewals and add-ons.",
+    "signInTitle": "Sign in to your account",
+    "signInBody": "Enter the email you used when ordering your website. We will send you a secure sign-in link.",
+    "email": "Email",
+    "send": "Send sign-in link",
+    "sending": "Sending…",
+    "sent": "If this email has an Oxira account, a sign-in link is on its way. Check your inbox and spam folder.",
+    "noAccount": "No website yet?",
+    "buildOne": "Build one in minutes",
+    "signOut": "Sign out",
+    "loading": "Loading your account…",
+    "expired": "Your sign-in link has expired. Please request a new one.",
+    "failed": "Something went wrong. Please try again.",
+    "saved": "Saved",
+    "saving": "Saving…",
+    "save": "Save",
+    "tabs": {
+      "overview": "Overview",
+      "addons": "Add-ons",
+      "bookings": "Bookings",
+      "menu": "Menu",
+      "reviews": "Reviews",
+      "chat": "AI assistant",
+      "content": "Content",
+      "tickets": "Tickets"
+    },
+    "site": "Website",
+    "visit": "Open website",
+    "status": {
+      "paid": "Live",
+      "published": "Live",
+      "new": "Order received",
+      "awaiting_payment": "Awaiting payment"
+    },
+    "billing": "Renewals and subscriptions",
+    "product": "Service",
+    "nextDue": "Next renewal",
+    "price": "Price",
+    "state": {
+      "active": "Active",
+      "pending": "Awaiting payment",
+      "past_due": "Payment overdue",
+      "cancelling": "Ends on renewal date",
+      "cancelled": "Ended"
+    },
+    "pay": "Pay now",
+    "cancel": "Cancel",
+    "cancelConfirm": "Cancel this add-on? It stays active until the end of the paid period.",
+    "keep": "Keep it",
+    "products": {
+      "hosting": "Hosting",
+      "domain": "Domain"
+    },
+    "subscribe": "Add to my website",
+    "active": "Active",
+    "paidNote": "Thank you! Your payment is being confirmed. The add-on turns on within a minute.",
+    "vat": "Prices exclude 15% VAT.",
+    "notLive": "Add-ons are available once your website is live.",
+    "bookingsTitle": "Upcoming bookings",
+    "noBookings": "No bookings yet. Share your website link so customers can book.",
+    "confirm": "Confirm",
+    "done": "Done",
+    "bstate": {
+      "new": "New",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "done": "Done"
+    },
+    "bookingSettings": "Booking settings",
+    "from": "Opening time",
+    "to": "Closing time",
+    "slot": "Minutes per appointment",
+    "capacity": "Bookings at the same time",
+    "closedDays": "Closed on",
+    "note": "Note shown on the booking form",
+    "days": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "menuTitle": "Menu and prices",
+    "menuBody": "Update your menu or price list. Changes appear on your website straight away.",
+    "menuName": "Title",
+    "menuNote": "Note under the title",
+    "addCategory": "Add a section",
+    "category": "Section name",
+    "addItem": "Add an item",
+    "itemName": "Item",
+    "itemDesc": "Description",
+    "itemPrice": "Price",
+    "remove": "Remove",
+    "publish": "Publish changes",
+    "qrTitle": "QR codes",
+    "qrMenuBody": "Print this code on tables, counters or flyers. It opens your menu on the customer's phone.",
+    "download": "Download PNG",
+    "print": "Print card",
+    "menuUpsell": "Add the Digital menu & QR add-on to get a phone menu page and QR codes.",
+    "reviewsTitle": "Google reviews",
+    "googleUrl": "Your Google review link",
+    "googleHelp": "In Google Maps open your business, choose \"Ask for reviews\" or \"Share review form\" and paste the link here.",
+    "qrReviewBody": "Put this card at the counter or send the link after each visit. Happy customers go to Google, others reach you privately.",
+    "reviewLink": "Review page",
+    "chatTitle": "AI assistant",
+    "chatBody": "The assistant answers from your website. Add anything else it should know: delivery areas, payment methods, policies, offers that are running now.",
+    "chatNotes": "Extra information for the assistant",
+    "chatTest": "Try the assistant",
+    "contentTitle": "Your posts",
+    "contentBody": "Copy the text and download the image for each post. New posts arrive at the start of every month.",
+    "noContent": "Your first posts are being written. They arrive here and by email within a few minutes.",
+    "copy": "Copy text",
+    "copied": "Copied",
+    "day": "Day",
+    "ticketsTitle": "Event tickets",
+    "eventName": "Event name",
+    "ticketTypes": "Ticket types",
+    "ticketName": "Ticket name",
+    "ticketPrice": "Price (SAR)",
+    "ticketCap": "Number available (0 = unlimited)",
+    "addType": "Add a ticket type",
+    "sales": "Tickets sold",
+    "checkin": "Check in",
+    "checkinPh": "Ticket code",
+    "checkinBtn": "Check in",
+    "scan": "Scan QR",
+    "checkedIn": "Checked in",
+    "checkinErr": {
+      "not_found": "No ticket with this code.",
+      "already_used": "This ticket was already used.",
+      "not_paid": "This ticket is not paid."
+    },
+    "ticketsFee": "Ticket money is transferred to you monthly, minus a 5% service fee.",
+    "partner": "Earn with Oxira",
+    "partnerBody": "Recommend Oxira to other businesses and earn a commission on every website they order."
+  },
+  "partners": {
+    "pageTitle": "Oxira partner program | Earn with every website",
+    "pageDescription": "Recommend Oxira Studio to businesses you know and earn 15% of every website order.",
+    "kicker": "Partner program",
+    "h1": "Earn with every website you recommend",
+    "lead": "Marketers, freelancers, agencies and business consultants: share your personal link and earn 15% of every website ordered through it.",
+    "steps": [
+      {
+        "name": "Join for free",
+        "text": "Fill in the form and get your personal link by email right away."
+      },
+      {
+        "name": "Share your link",
+        "text": "Send it to clients, post it, or use it in your own proposals."
+      },
+      {
+        "name": "Get paid monthly",
+        "text": "You get a statement on the first of every month and a bank transfer for your commissions."
+      }
+    ],
+    "formTitle": "Join the partner program",
+    "name": "Your name",
+    "company": "Company or agency (optional)",
+    "phone": "Mobile number",
+    "email": "Email",
+    "submit": "Get my partner link",
+    "sending": "Sending…",
+    "done": "Done! Your partner link is in your email.",
+    "failed": "Please check your details and try again.",
+    "terms": "Commission is paid on the first website payment of referred clients, excluding VAT, once the payment is confirmed."
   }
 }

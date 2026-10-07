@@ -447,5 +447,211 @@
     "designN": "Design {n}",
     "count": "{n} Designs",
     "categoriesLabel": "Nach Branche filtern"
+  },
+  "addons": {
+    "title": "Erweitern Sie Ihre Website mit Add-ons",
+    "body": "Machen Sie Ihre Website zu einem Werkzeug, das Kunden bringt. Fügen Sie jederzeit Dienste in Ihrem Konto hinzu, monatlich und jederzeit kündbar.",
+    "perMonth": "/ Monat",
+    "free": "Kostenlos",
+    "fee": "+ 5% pro verkauftem Ticket",
+    "fromAccount": "In Ihrem Konto verfügbar, sobald Ihre Website online ist.",
+    "items": {
+      "menu": {
+        "name": "Digitale Speisekarte & QR",
+        "desc": "Eine handyfreundliche Speisekarte oder Preisliste mit QR-Codes für Tische und Theken. Preise jederzeit selbst ändern."
+      },
+      "booking": {
+        "name": "Online-Buchungen",
+        "desc": "Kunden buchen Leistung und Uhrzeit auf Ihrer Website. Sie bestätigen in Ihrem Konto, Kunden erhalten Erinnerungen per E-Mail."
+      },
+      "reviews": {
+        "name": "Mehr Google-Bewertungen",
+        "desc": "Eine Bewertungsseite und eine druckbare QR-Karte. Zufriedene Kunden gehen zu Google, unzufriedene erreichen Sie privat."
+      },
+      "chat": {
+        "name": "KI-Assistent",
+        "desc": "Beantwortet Besucherfragen 24/7 anhand Ihrer Website und sendet Ihnen deren Kontaktdaten, wenn sie einen Rückruf wünschen."
+      },
+      "content": {
+        "name": "Monatliche Social-Media-Inhalte",
+        "desc": "12 fertige Beiträge pro Monat, für Ihr Unternehmen geschrieben, mit Bildern in Ihrem Design zum Herunterladen."
+      },
+      "tickets": {
+        "name": "Veranstaltungstickets",
+        "desc": "Verkaufen Sie Tickets auf Ihrer Event-Website mit Online-Zahlung, QR-Tickets per E-Mail und Einlasskontrolle."
+      }
+    }
+  },
+  "account": {
+    "title": "Mein Konto",
+    "pageTitle": "Mein Konto | Oxira",
+    "pageDescription": "Verwalten Sie Ihre Oxira-Website, Verlängerungen und Add-ons.",
+    "signInTitle": "In Ihrem Konto anmelden",
+    "signInBody": "Geben Sie die E-Mail-Adresse ein, die Sie bei der Bestellung verwendet haben. Wir senden Ihnen einen sicheren Anmeldelink.",
+    "email": "E-Mail",
+    "send": "Anmeldelink senden",
+    "sending": "Wird gesendet…",
+    "sent": "Falls zu dieser E-Mail-Adresse ein Oxira-Konto existiert, ist ein Anmeldelink unterwegs. Prüfen Sie Posteingang und Spam-Ordner.",
+    "noAccount": "Noch keine Website?",
+    "buildOne": "In wenigen Minuten erstellen",
+    "signOut": "Abmelden",
+    "loading": "Ihr Konto wird geladen…",
+    "expired": "Ihr Anmeldelink ist abgelaufen. Bitte fordern Sie einen neuen an.",
+    "failed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "saved": "Gespeichert",
+    "saving": "Wird gespeichert…",
+    "save": "Speichern",
+    "tabs": {
+      "overview": "Übersicht",
+      "addons": "Add-ons",
+      "bookings": "Buchungen",
+      "menu": "Speisekarte",
+      "reviews": "Bewertungen",
+      "chat": "KI-Assistent",
+      "content": "Inhalte",
+      "tickets": "Tickets"
+    },
+    "site": "Website",
+    "visit": "Website öffnen",
+    "status": {
+      "paid": "Online",
+      "published": "Online",
+      "new": "Bestellung erhalten",
+      "awaiting_payment": "Zahlung ausstehend"
+    },
+    "billing": "Verlängerungen und Abonnements",
+    "product": "Leistung",
+    "nextDue": "Nächste Verlängerung",
+    "price": "Preis",
+    "state": {
+      "active": "Aktiv",
+      "pending": "Zahlung ausstehend",
+      "past_due": "Zahlung überfällig",
+      "cancelling": "Endet zum Verlängerungsdatum",
+      "cancelled": "Beendet"
+    },
+    "pay": "Jetzt bezahlen",
+    "cancel": "Kündigen",
+    "cancelConfirm": "Dieses Add-on kündigen? Es bleibt bis zum Ende des bezahlten Zeitraums aktiv.",
+    "keep": "Behalten",
+    "products": {
+      "hosting": "Hosting",
+      "domain": "Domain"
+    },
+    "subscribe": "Zu meiner Website hinzufügen",
+    "active": "Aktiv",
+    "paidNote": "Vielen Dank! Ihre Zahlung wird bestätigt. Das Add-on wird innerhalb einer Minute aktiviert.",
+    "vat": "Preise zzgl. 15% MwSt.",
+    "notLive": "Add-ons sind verfügbar, sobald Ihre Website online ist.",
+    "bookingsTitle": "Anstehende Buchungen",
+    "noBookings": "Noch keine Buchungen. Teilen Sie Ihren Website-Link, damit Kunden buchen können.",
+    "confirm": "Bestätigen",
+    "done": "Erledigt",
+    "bstate": {
+      "new": "Neu",
+      "confirmed": "Bestätigt",
+      "cancelled": "Storniert",
+      "done": "Erledigt"
+    },
+    "bookingSettings": "Buchungseinstellungen",
+    "from": "Öffnungszeit",
+    "to": "Schließzeit",
+    "slot": "Minuten pro Termin",
+    "capacity": "Gleichzeitige Buchungen",
+    "closedDays": "Geschlossen am",
+    "note": "Hinweis im Buchungsformular",
+    "days": [
+      "Sonntag",
+      "Montag",
+      "Dienstag",
+      "Mittwoch",
+      "Donnerstag",
+      "Freitag",
+      "Samstag"
+    ],
+    "menuTitle": "Speisekarte und Preise",
+    "menuBody": "Aktualisieren Sie Ihre Speisekarte oder Preisliste. Änderungen erscheinen sofort auf Ihrer Website.",
+    "menuName": "Titel",
+    "menuNote": "Hinweis unter dem Titel",
+    "addCategory": "Abschnitt hinzufügen",
+    "category": "Name des Abschnitts",
+    "addItem": "Eintrag hinzufügen",
+    "itemName": "Eintrag",
+    "itemDesc": "Beschreibung",
+    "itemPrice": "Preis",
+    "remove": "Entfernen",
+    "publish": "Änderungen veröffentlichen",
+    "qrTitle": "QR-Codes",
+    "qrMenuBody": "Drucken Sie diesen Code auf Tische, Theken oder Flyer. Er öffnet Ihre Speisekarte auf dem Handy des Kunden.",
+    "download": "PNG herunterladen",
+    "print": "Karte drucken",
+    "menuUpsell": "Buchen Sie das Add-on Digitale Speisekarte & QR für eine mobile Speisekarte und QR-Codes.",
+    "reviewsTitle": "Google-Bewertungen",
+    "googleUrl": "Ihr Google-Bewertungslink",
+    "googleHelp": "Öffnen Sie Ihr Unternehmen in Google Maps, wählen Sie \"Um Rezensionen bitten\" oder \"Rezensionsformular teilen\" und fügen Sie den Link hier ein.",
+    "qrReviewBody": "Stellen Sie diese Karte an die Theke oder senden Sie den Link nach jedem Besuch. Zufriedene Kunden gehen zu Google, andere erreichen Sie privat.",
+    "reviewLink": "Bewertungsseite",
+    "chatTitle": "KI-Assistent",
+    "chatBody": "Der Assistent antwortet anhand Ihrer Website. Ergänzen Sie, was er sonst wissen sollte: Liefergebiete, Zahlungsarten, Richtlinien, aktuelle Angebote.",
+    "chatNotes": "Zusätzliche Informationen für den Assistenten",
+    "chatTest": "Assistenten testen",
+    "contentTitle": "Ihre Beiträge",
+    "contentBody": "Kopieren Sie den Text und laden Sie das Bild zu jedem Beitrag herunter. Neue Beiträge kommen zu Beginn jedes Monats.",
+    "noContent": "Ihre ersten Beiträge werden gerade geschrieben. Sie erscheinen in wenigen Minuten hier und per E-Mail.",
+    "copy": "Text kopieren",
+    "copied": "Kopiert",
+    "day": "Tag",
+    "ticketsTitle": "Veranstaltungstickets",
+    "eventName": "Name der Veranstaltung",
+    "ticketTypes": "Ticketarten",
+    "ticketName": "Ticketname",
+    "ticketPrice": "Preis (SAR)",
+    "ticketCap": "Verfügbare Anzahl (0 = unbegrenzt)",
+    "addType": "Ticketart hinzufügen",
+    "sales": "Verkaufte Tickets",
+    "checkin": "Einlass",
+    "checkinPh": "Ticketcode",
+    "checkinBtn": "Einchecken",
+    "scan": "QR scannen",
+    "checkedIn": "Eingecheckt",
+    "checkinErr": {
+      "not_found": "Kein Ticket mit diesem Code.",
+      "already_used": "Dieses Ticket wurde bereits verwendet.",
+      "not_paid": "Dieses Ticket ist nicht bezahlt."
+    },
+    "ticketsFee": "Ticketerlöse werden monatlich an Sie überwiesen, abzüglich 5% Servicegebühr.",
+    "partner": "Mit Oxira verdienen",
+    "partnerBody": "Empfehlen Sie Oxira anderen Unternehmen und erhalten Sie eine Provision für jede bestellte Website."
+  },
+  "partners": {
+    "pageTitle": "Oxira Partnerprogramm | Verdienen Sie an jeder Website",
+    "pageDescription": "Empfehlen Sie Oxira Studio Unternehmen, die Sie kennen, und erhalten Sie 15% jeder Website-Bestellung.",
+    "kicker": "Partnerprogramm",
+    "h1": "Verdienen Sie an jeder Website, die Sie empfehlen",
+    "lead": "Marketer, Freelancer, Agenturen und Unternehmensberater: Teilen Sie Ihren persönlichen Link und erhalten Sie 15% jeder darüber bestellten Website.",
+    "steps": [
+      {
+        "name": "Kostenlos beitreten",
+        "text": "Füllen Sie das Formular aus und erhalten Sie Ihren persönlichen Link sofort per E-Mail."
+      },
+      {
+        "name": "Link teilen",
+        "text": "Senden Sie ihn an Kunden, posten Sie ihn oder nutzen Sie ihn in Ihren Angeboten."
+      },
+      {
+        "name": "Monatlich bezahlt werden",
+        "text": "Sie erhalten am Ersten jedes Monats eine Abrechnung und eine Banküberweisung Ihrer Provisionen."
+      }
+    ],
+    "formTitle": "Am Partnerprogramm teilnehmen",
+    "name": "Ihr Name",
+    "company": "Unternehmen oder Agentur (optional)",
+    "phone": "Mobilnummer",
+    "email": "E-Mail",
+    "submit": "Partnerlink anfordern",
+    "sending": "Wird gesendet…",
+    "done": "Fertig! Ihr Partnerlink ist in Ihrem Posteingang.",
+    "failed": "Bitte prüfen Sie Ihre Angaben und versuchen Sie es erneut.",
+    "terms": "Die Provision wird auf die erste Website-Zahlung geworbener Kunden gezahlt, ohne MwSt., sobald die Zahlung bestätigt ist."
   }
 }

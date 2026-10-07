@@ -1,0 +1,606 @@
+---
+// Client account: sign in with an emailed link, then manage the website, renewals and add-ons.
+import type { Lang } from '../i18n/content';
+import { builderText } from '../i18n/builder';
+import { link } from '../lib/routes';
+import { addonIds, addonPrices, addonIcons } from '../builder/addons';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const b = builderText[lang];
+const a = b.account;
+const n8n = 'https://ibrasalato.app.n8n.cloud/webhook';
+const config = {
+  lang,
+  loginEndpoint: `${n8n}/oxira-portal-login`,
+  apiEndpoint: `${n8n}/oxira-portal`,
+  numberLocale: lang === 'ar' ? 'ar-SA-u-nu-latn' : lang,
+  text: a,
+  addons: b.addons,
+  sar: b.packages.sar,
+  prices: addonPrices,
+  icons: addonIcons,
+  addonIds,
+  partnersUrl: link(lang, '/partners/'),
+};
+---
+<Base lang={lang} path="/account/" title={a.pageTitle} description={a.pageDescription} noindex>
+  <div class="ac" id="account" data-config={JSON.stringify(config)} data-state="loading">
+    <section class="ac-signin wrap" data-show="signin">
+      <div class="ac-card ac-signin-card">
+        <h1>{a.signInTitle}</h1>
+        <p class="ac-muted">{a.signInBody}</p>
+        <form id="ac-login">
+          <label class="ac-field">{a.email}<input name="email" type="email" dir="ltr" required maxlength="160" autocomplete="email" /></label>
+          <button type="submit" class="btn btn-amber">{a.send}</button>
+        </form>
+        <p class="ac-status" id="ac-login-status" role="status" hidden></p>
+        <p class="ac-muted ac-small">{a.noAccount} <a href={link(lang, '/website-builder/')}>{a.buildOne}</a></p>
+      </div>
+    </section>
+
+    <div class="ac-loading wrap" data-show="loading"><span class="ac-spinner" aria-hidden="true"></span><p>{a.loading}</p></div>
+
+    <div class="ac-app wrap" data-show="app">
+      <header class="ac-head">
+        <div><h1>{a.title}</h1><p class="ac-muted" id="ac-email" dir="ltr"></p></div>
+        <div class="ac-head-tools">
+          <select id="ac-site" aria-label={a.site}></select>
+          <button type="button" class="btn btn-ghost ac-small-btn" id="ac-signout">{a.signOut}</button>
+        </div>
+      </header>
+      <p class="ac-note" id="ac-flash" hidden></p>
+      <nav class="ac-tabs" id="ac-tabs" role="tablist"></nav>
+      <main id="ac-panel" class="ac-panel"></main>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import qrcode from 'qrcode-generator';
+
+  type Sub = { id: number; order_id: number; product: string; price: number; period: string; status: string; next_due: string; invoice_url: string };
+  type Site = { order_id: number; name: string; url: string; status: string; plan: string; domain: string; spec: any; settings: any };
+  type Booking = { id: number; order_id: number; name: string; phone: string; email: string; service: string; date: string; time: string; note: string; status: string };
+  type Ticket = { id: number; order_id: number; code: string; type: string; qty: number; amount: number; name: string; phone: string; email: string; status: string; checked_in: string };
+  type View = { success: boolean; reason?: string; email: string; sites: Site[]; subs: Sub[]; bookings: Booking[]; tickets: Ticket[]; content: { order_id: number; month: string; posts: any[] }[]; payUrl?: string };
+
+  const root = document.getElementById('account')!;
+  const cfg = JSON.parse(root.dataset.config!);
+  const T = cfg.text;
+  const KEY = 'oxira-portal-k';
+  const SITE_KEY = 'oxira-portal-site';
+  const $ = <E extends Element>(s: string) => root.querySelector(s) as E;
+  const esc = (s: unknown) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const fmt = new Intl.NumberFormat(cfg.numberLocale, { maximumFractionDigits: 2 });
+  const store = {
+    get: (k: string) => { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
+    set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } },
+    del: (k: string) => { try { localStorage.removeItem(k); } catch { /* ignore */ } },
+  };
+  const show = (state: string) => { root.dataset.state = state; };
+
+  // ---- Sign in ----
+  const params = new URLSearchParams(location.search);
+  const fromLink = params.get('k');
+  if (fromLink && /^[a-f0-9]{40}$/.test(fromLink)) store.set(KEY, fromLink);
+  const justPaid = params.has('paid');
+  if (fromLink || justPaid) history.replaceState(null, '', location.pathname + location.hash);
+  let token = store.get(KEY);
+
+  $<HTMLFormElement>('#ac-login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const btn = form.querySelector('button')!;
+    const status = $<HTMLElement>('#ac-login-status');
+    btn.disabled = true; btn.textContent = T.sending;
+    try {
+      await fetch(cfg.loginEndpoint, { method: 'POST', body: new URLSearchParams({ email: (form.elements.namedItem('email') as HTMLInputElement).value, lang: cfg.lang }) });
+      status.textContent = T.sent; status.className = 'ac-status is-ok';
+    } catch {
+      status.textContent = T.failed; status.className = 'ac-status is-error';
+    }
+    status.hidden = false; btn.disabled = false; btn.textContent = T.send;
+  });
+
+  async function api(action: string, data: Record<string, unknown> = {}): Promise<any> {
+    const res = await fetch(cfg.apiEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, data: JSON.stringify(data) }) });
+    const json = await res.json().catch(() => ({ success: false }));
+    if (json?.reason === 'session') { signOut(T.expired); throw new Error('session'); }
+    return json;
+  }
+  function signOut(message = '') {
+    store.del(KEY); token = '';
+    show('signin');
+    if (message) { const s = $<HTMLElement>('#ac-login-status'); s.textContent = message; s.className = 'ac-status is-error'; s.hidden = false; }
+  }
+  $('#ac-signout').addEventListener('click', () => signOut());
+
+  // ---- Data ----
+  let view: View | null = null;
+  let siteId = Number(store.get(SITE_KEY)) || 0;
+  let tab = (location.hash.slice(1) || 'overview');
+  const site = () => view?.sites.find((s) => s.order_id === siteId) ?? view?.sites[0];
+  const subsOf = (id: number) => (view?.subs ?? []).filter((s) => s.order_id === id);
+  const has = (product: string) => subsOf(site()!.order_id).some((s) => s.product === product && (s.status === 'active' || s.status === 'cancelling'));
+  const isLive = (s: Site) => s.status === 'paid' || s.status === 'published';
+
+  async function load() {
+    if (!token) { show('signin'); return; }
+    show('loading');
+    try {
+      const v = await api('load');
+      if (!v?.success) throw new Error('load');
+      view = v as View;
+      if (!view.sites.length) { signOut(); return; }
+      if (!view.sites.some((s) => s.order_id === siteId)) siteId = view.sites[0].order_id;
+      $<HTMLElement>('#ac-email').textContent = view.email;
+      const sel = $<HTMLSelectElement>('#ac-site');
+      sel.replaceChildren(...view.sites.map((s) => new Option(`${s.name || '#' + s.order_id}`, String(s.order_id), false, s.order_id === siteId)));
+      sel.hidden = view.sites.length < 2;
+      show('app');
+      draw();
+      if (justPaid) flash(T.paidNote);
+    } catch (e) {
+      if ((e as Error).message !== 'session') { show('signin'); flash(''); const s = $<HTMLElement>('#ac-login-status'); s.textContent = T.failed; s.className = 'ac-status is-error'; s.hidden = false; }
+    }
+  }
+  $<HTMLSelectElement>('#ac-site').addEventListener('change', (e) => { siteId = Number((e.target as HTMLSelectElement).value); store.set(SITE_KEY, String(siteId)); draw(); });
+
+  function flash(text: string) {
+    const f = $<HTMLElement>('#ac-flash');
+    f.textContent = text; f.hidden = !text;
+  }
+
+  // ---- Tabs ----
+  const tabs = () => {
+    const list = ['overview', 'addons'];
+    if (has('booking')) list.push('bookings');
+    list.push('menu');
+    if (has('reviews')) list.push('reviews');
+    if (has('chat')) list.push('chat');
+    if (has('content')) list.push('content');
+    if (has('tickets')) list.push('tickets');
+    return list;
+  };
+  function draw() {
+    const list = tabs();
+    if (!list.includes(tab)) tab = 'overview';
+    $<HTMLElement>('#ac-tabs').innerHTML = list.map((t) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${t === tab}">${esc(T.tabs[t])}</button>`).join('');
+    const panel = $<HTMLElement>('#ac-panel');
+    const s = site()!;
+    panel.innerHTML = ({ overview, addons, bookings, menu, reviews, chat, content, tickets } as Record<string, (s: Site) => string>)[tab](s);
+    bind[tab]?.(s);
+  }
+  $('#ac-tabs').addEventListener('click', (e) => {
+    const b = (e.target as Element).closest<HTMLButtonElement>('[data-tab]');
+    if (!b) return;
+    tab = b.dataset.tab!;
+    history.replaceState(null, '', '#' + tab);
+    flash('');
+    draw();
+  });
+
+  const productName = (p: string) => T.products[p] || cfg.addons.items[p]?.name || p;
+  const money = (n: number) => `${fmt.format(n)} ${cfg.sar}`;
+  const card = (inner: string, cls = '') => `<section class="ac-card ${cls}">${inner}</section>`;
+  const busy = async (btn: HTMLButtonElement, fn: () => Promise<void>) => {
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = T.saving;
+    try { await fn(); } finally { btn.disabled = false; btn.textContent = label; }
+  };
+  async function save(action: string, data: Record<string, unknown>, btn?: HTMLButtonElement) {
+    const run = async () => {
+      const r = await api(action, data);
+      if (!r?.success) { flash(T.failed); return; }
+      flash(T.saved);
+      await reload();
+    };
+    if (btn) await busy(btn, run); else await run();
+  }
+  async function reload() {
+    const v = await api('load');
+    if (v?.success) { view = v; draw(); }
+  }
+
+  // ---- Overview ----
+  function overview(s: Site) {
+    const subs = subsOf(s.order_id);
+    const rows = subs.length ? subs.map((x) => `<tr>
+      <td>${esc(productName(x.product))}</td>
+      <td><span class="ac-chip st-${esc(x.status)}">${esc(T.state[x.status] || x.status)}</span></td>
+      <td dir="ltr">${x.next_due && x.next_due < '2070' ? esc(x.next_due) : '—'}</td>
+      <td>${x.price ? money(x.price) + (x.period === 'month' ? ' ' + esc(cfg.addons.perMonth) : '') : esc(cfg.addons.free)}</td>
+      <td class="ac-actions">${x.invoice_url ? `<a class="btn btn-amber ac-small-btn" href="${esc(x.invoice_url)}">${esc(T.pay)}</a>` : ''}${x.status === 'active' && !['hosting', 'domain'].includes(x.product) ? `<button type="button" class="ac-link is-danger" data-cancel="${x.id}">${esc(T.cancel)}</button>` : ''}${x.status === 'cancelling' ? `<button type="button" class="ac-link" data-keep="${x.order_id}:${esc(x.product)}">${esc(T.keep)}</button>` : ''}</td>
+    </tr>`).join('') : '';
+    return card(`<div class="ac-site">
+        <div><p class="ac-kicker">${esc(T.site)}</p><h2>${esc(s.name || '#' + s.order_id)}</h2>
+        <p><span class="ac-chip st-${isLive(s) ? 'active' : 'pending'}">${esc(T.status[s.status] || s.status)}</span>${s.url ? ` <a href="${esc(s.url)}" target="_blank" rel="noopener" dir="ltr" class="ac-url">${esc(s.url.replace(/^https:\/\//, '').replace(/\/$/, ''))}</a>` : ''}</p></div>
+        ${s.url ? `<a class="btn btn-navy" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(T.visit)}</a>` : ''}
+      </div>`)
+      + (rows ? card(`<h2>${esc(T.billing)}</h2><div class="ac-table-wrap"><table class="ac-table"><thead><tr><th>${esc(T.product)}</th><th></th><th>${esc(T.nextDue)}</th><th>${esc(T.price)}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div><p class="ac-muted ac-small">${esc(T.vat)}</p>`) : '')
+      + card(`<h2>${esc(T.partner)}</h2><p class="ac-muted">${esc(T.partnerBody)}</p><p><a class="ac-link" href="${esc(cfg.partnersUrl)}">${esc(T.partner)} →</a></p>`, 'ac-soft');
+  }
+
+  // ---- Add-ons ----
+  function addons(s: Site) {
+    const live = isLive(s);
+    return `<div class="ac-intro"><h2>${esc(cfg.addons.title)}</h2><p class="ac-muted">${esc(cfg.addons.body)}</p>${live ? '' : `<p class="ac-note">${esc(T.notLive)}</p>`}</div>
+      <div class="ac-addons">${cfg.addonIds.map((id: string) => {
+        const p = cfg.prices[id];
+        const sub = subsOf(s.order_id).find((x) => x.product === id);
+        const on = sub && (sub.status === 'active' || sub.status === 'cancelling');
+        return `<article class="ac-addon${on ? ' is-on' : ''}">
+          <span class="ac-addon-ic"><svg viewBox="0 0 24 24" aria-hidden="true">${cfg.icons[id]}</svg></span>
+          <h3>${esc(cfg.addons.items[id].name)}</h3>
+          <p class="ac-muted">${esc(cfg.addons.items[id].desc)}</p>
+          <p class="ac-price">${p.price ? `<b>${money(p.price)}</b> ${esc(cfg.addons.perMonth)}` : `<b>${esc(cfg.addons.free)}</b>`}${p.feePercent ? ` <small>${esc(cfg.addons.fee)}</small>` : ''}</p>
+          ${on ? `<span class="ac-chip st-active">${esc(T.active)}</span>` : sub?.invoice_url && sub.status === 'pending' ? `<a class="btn btn-amber" href="${esc(sub.invoice_url)}">${esc(T.pay)}</a>` : `<button type="button" class="btn btn-navy" data-subscribe="${id}" ${live ? '' : 'disabled'}>${esc(T.subscribe)}</button>`}
+        </article>`;
+      }).join('')}</div><p class="ac-muted ac-small">${esc(T.vat)}</p>`;
+  }
+
+  // ---- Bookings ----
+  function bookings(s: Site) {
+    const list = (view?.bookings ?? []).filter((x) => x.order_id === s.order_id);
+    const st = s.settings || {};
+    const days = (st.closedDays || []) as number[];
+    return card(`<h2>${esc(T.bookingsTitle)}</h2>${list.length ? `<div class="ac-table-wrap"><table class="ac-table"><tbody>${list.map((x) => `<tr>
+        <td dir="ltr"><b>${esc(x.date)}</b> ${esc(x.time)}</td>
+        <td><b>${esc(x.name)}</b><br><a href="tel:${esc(x.phone)}" dir="ltr">${esc(x.phone)}</a></td>
+        <td>${esc(x.service)}${x.note ? `<br><small class="ac-muted">${esc(x.note)}</small>` : ''}</td>
+        <td><span class="ac-chip b-${esc(x.status)}">${esc(T.bstate[x.status] || x.status)}</span></td>
+        <td class="ac-actions">${x.status === 'new' ? `<button type="button" class="btn btn-navy ac-small-btn" data-bk="${x.id}:confirmed">${esc(T.confirm)}</button>` : ''}${x.status !== 'cancelled' && x.status !== 'done' ? `<button type="button" class="ac-link" data-bk="${x.id}:done">${esc(T.done)}</button><button type="button" class="ac-link is-danger" data-bk="${x.id}:cancelled">${esc(T.cancel)}</button>` : ''}</td>
+      </tr>`).join('')}</tbody></table></div>` : `<p class="ac-muted">${esc(T.noBookings)}</p>`}`)
+      + card(`<h2>${esc(T.bookingSettings)}</h2><form id="ac-bset" class="ac-grid">
+        <label class="ac-field">${esc(T.from)}<input type="time" name="bookingFrom" value="${esc(st.bookingFrom || '09:00')}"></label>
+        <label class="ac-field">${esc(T.to)}<input type="time" name="bookingTo" value="${esc(st.bookingTo || '21:00')}"></label>
+        <label class="ac-field">${esc(T.slot)}<input type="number" name="slotMinutes" min="10" max="240" step="5" value="${esc(st.slotMinutes || 30)}"></label>
+        <label class="ac-field">${esc(T.capacity)}<input type="number" name="capacity" min="1" max="50" value="${esc(st.capacity || 1)}"></label>
+        <fieldset class="ac-days"><legend>${esc(T.closedDays)}</legend>${T.days.map((d: string, i: number) => `<label><input type="checkbox" name="closed" value="${i}" ${days.includes(i) ? 'checked' : ''}> ${esc(d)}</label>`).join('')}</fieldset>
+        <label class="ac-field ac-wide">${esc(T.note)}<input name="bookingNote" maxlength="300" value="${esc(st.bookingNote || '')}"></label>
+        <button type="submit" class="btn btn-amber">${esc(T.save)}</button></form>`);
+  }
+
+  // ---- Menu ----
+  let menuDraft: any = null;
+  function menu(s: Site) {
+    menuDraft = structuredClone(s.spec.menu || { title: '', note: '', categories: [] });
+    if (!menuDraft.categories?.length) menuDraft.categories = [{ name: '', items: [{ name: '', desc: '', price: '' }] }];
+    const qr = has('menu') && s.url ? qrCard(s.url + 'menu', T.qrMenuBody, 'menu') : card(`<p class="ac-muted">${esc(T.menuUpsell)}</p><button type="button" class="btn btn-navy" data-goto-addons>${esc(cfg.addons.items.menu.name)}</button>`, 'ac-soft');
+    return card(`<h2>${esc(T.menuTitle)}</h2><p class="ac-muted">${esc(T.menuBody)}</p><div id="ac-menu"></div>
+      <div class="ac-row"><button type="button" class="btn btn-ghost" data-add-cat>${esc(T.addCategory)}</button><button type="button" class="btn btn-amber" data-publish-menu>${esc(T.publish)}</button></div>`) + qr;
+  }
+  function drawMenu() {
+    const box = root.querySelector<HTMLElement>('#ac-menu');
+    if (!box) return;
+    box.innerHTML = `<div class="ac-grid"><label class="ac-field">${esc(T.menuName)}<input data-m="title" maxlength="60" value="${esc(menuDraft.title)}"></label><label class="ac-field">${esc(T.menuNote)}<input data-m="note" maxlength="200" value="${esc(menuDraft.note)}"></label></div>`
+      + menuDraft.categories.map((c: any, ci: number) => `<div class="ac-cat"><div class="ac-cat-head"><input data-m="c.${ci}.name" placeholder="${esc(T.category)}" maxlength="60" value="${esc(c.name)}"><button type="button" class="ac-link is-danger" data-del-cat="${ci}">${esc(T.remove)}</button></div>
+        ${c.items.map((it: any, ii: number) => `<div class="ac-item"><input data-m="c.${ci}.i.${ii}.name" placeholder="${esc(T.itemName)}" maxlength="80" value="${esc(it.name)}"><input data-m="c.${ci}.i.${ii}.desc" placeholder="${esc(T.itemDesc)}" maxlength="200" value="${esc(it.desc)}"><input data-m="c.${ci}.i.${ii}.price" placeholder="${esc(T.itemPrice)}" maxlength="24" value="${esc(it.price)}" class="ac-price-in"><button type="button" class="ac-x" data-del-item="${ci}.${ii}" aria-label="${esc(T.remove)}">×</button></div>`).join('')}
+        <button type="button" class="ac-link" data-add-item="${ci}">+ ${esc(T.addItem)}</button></div>`).join('');
+  }
+
+  // ---- QR helpers ----
+  function qrSvg(text: string) {
+    const q = qrcode(0, 'M'); q.addData(text); q.make();
+    const n = q.getModuleCount(); let d = '';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c + 4} ${r + 4}h1v1h-1z`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n + 8} ${n + 8}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+  }
+  function qrCard(url: string, body: string, kind: string) {
+    return card(`<h2>${esc(T.qrTitle)}</h2><div class="ac-qr"><div class="ac-qr-img">${qrSvg(url)}</div><div><p class="ac-muted">${esc(body)}</p><p><a href="${esc(url)}" target="_blank" rel="noopener" dir="ltr" class="ac-url">${esc(url.replace(/^https:\/\//, ''))}</a></p>
+      <div class="ac-row"><button type="button" class="btn btn-navy ac-small-btn" data-qr-png="${esc(url)}" data-qr-name="${kind}">${esc(T.download)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-qr-print="${esc(url)}" data-qr-kind="${kind}">${esc(T.print)}</button></div></div></div>`);
+  }
+  async function svgToPng(svg: string, size: number, name: string) {
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    await img.decode();
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const ctx = c.getContext('2d')!; ctx.imageSmoothingEnabled = false; ctx.drawImage(img, 0, 0, size, size);
+    downloadCanvas(c, name);
+  }
+  function downloadCanvas(c: HTMLCanvasElement, name: string) {
+    c.toBlob((blob) => { if (!blob) return; const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name + '.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }, 'image/png');
+  }
+  function printCard(url: string, kind: string) {
+    const s = site()!;
+    const title = kind === 'review' ? T.reviewsTitle : (s.spec.menu?.title || T.tabs.menu);
+    const w = window.open('', '_blank');
+    if (!w) return;
+    w.document.write(`<!doctype html><html dir="${cfg.lang === 'ar' ? 'rtl' : 'ltr'}"><meta charset="utf-8"><title>${esc(s.name)}</title><style>body{font-family:system-ui,Tahoma,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0}.c{width:9cm;padding:1cm;border:2px solid ${esc(s.spec.colors?.primary || '#0A253E')};border-radius:16px;text-align:center}.c h1{margin:0 0 .3cm;font-size:22px}.c h2{margin:0 0 .4cm;font-size:16px;color:#555}.c svg{width:6cm;height:6cm}@media print{@page{margin:0}}</style><div class="c"><h1>${esc(s.name)}</h1><h2>${esc(title)}</h2>${qrSvg(url)}</div><script>setTimeout(()=>print(),300)<\/script>`);
+    w.document.close();
+  }
+
+  // ---- Reviews ----
+  function reviews(s: Site) {
+    const st = s.settings || {};
+    return card(`<h2>${esc(T.reviewsTitle)}</h2><form id="ac-rev" class="ac-grid"><label class="ac-field ac-wide">${esc(T.googleUrl)}<input name="googleReviewUrl" type="url" dir="ltr" placeholder="https://g.page/r/…/review" value="${esc(st.googleReviewUrl || '')}"></label><p class="ac-muted ac-small ac-wide">${esc(T.googleHelp)}</p><button type="submit" class="btn btn-amber">${esc(T.save)}</button></form>`)
+      + (s.url ? qrCard(s.url + 'review', T.qrReviewBody, 'review') : '');
+  }
+
+  // ---- AI assistant ----
+  function chat(s: Site) {
+    const st = s.settings || {};
+    return card(`<h2>${esc(T.chatTitle)}</h2><p class="ac-muted">${esc(T.chatBody)}</p><form id="ac-chat"><label class="ac-field">${esc(T.chatNotes)}<textarea name="chatNotes" rows="7" maxlength="3000" dir="auto">${esc(st.chatNotes || '')}</textarea></label><div class="ac-row"><button type="submit" class="btn btn-amber">${esc(T.save)}</button>${s.url ? `<a class="btn btn-ghost" href="${esc(s.url)}chat" target="_blank" rel="noopener">${esc(T.chatTest)}</a>` : ''}</div></form>`);
+  }
+
+  // ---- Content ----
+  function content(s: Site) {
+    const packs = (view?.content ?? []).filter((c) => c.order_id === s.order_id);
+    if (!packs.length) return card(`<h2>${esc(T.contentTitle)}</h2><p class="ac-muted">${esc(T.noContent)}</p>`);
+    return `<div class="ac-intro"><h2>${esc(T.contentTitle)}</h2><p class="ac-muted">${esc(T.contentBody)}</p></div>` + packs.map((p, pi) => `<h3 class="ac-month" dir="ltr">${esc(p.month)}</h3><div class="ac-posts">${p.posts.map((x: any, i: number) => `<article class="ac-post">
+      <canvas width="1080" height="1080" data-post="${pi}.${i}"></canvas>
+      <p class="ac-kicker">${esc(T.day)} ${esc(x.day)}</p>
+      <p class="ac-caption" dir="auto">${esc(x.caption)}</p><p class="ac-tags" dir="auto">${esc(x.hashtags)}</p>
+      ${x.idea ? `<p class="ac-muted ac-small" dir="auto">💡 ${esc(x.idea)}</p>` : ''}
+      <div class="ac-row"><button type="button" class="ac-link" data-copy="${pi}.${i}">${esc(T.copy)}</button><button type="button" class="ac-link" data-png="${pi}.${i}">${esc(T.download)}</button></div>
+    </article>`).join('')}</div>`).join('');
+  }
+  function paintPost(c: HTMLCanvasElement, s: Site, post: any) {
+    const ctx = c.getContext('2d')!;
+    const p = s.spec.colors?.primary || '#0A253E', a = s.spec.colors?.accent || '#FFC400';
+    const rtl = (s.spec.lang || 'ar') === 'ar';
+    ctx.fillStyle = p; ctx.fillRect(0, 0, 1080, 1080);
+    ctx.fillStyle = a; ctx.globalAlpha = .9; ctx.beginPath(); ctx.arc(rtl ? 120 : 960, 120, 260, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.fillRect(90, 760, 160, 14);
+    const light = (() => { const n = parseInt(p.slice(1), 16); return ((n >> 16 & 255) * 299 + (n >> 8 & 255) * 587 + (n & 255) * 114) / 1000 > 150; })();
+    ctx.fillStyle = light ? '#14171C' : '#FFFFFF';
+    ctx.direction = rtl ? 'rtl' : 'ltr'; ctx.textAlign = rtl ? 'right' : 'left';
+    const x = rtl ? 990 : 90;
+    ctx.font = `700 88px ${getComputedStyle(document.body).fontFamily}`;
+    const words = String(post.title || '').split(/\s+/); const lines: string[] = []; let line = '';
+    for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > 900 && line) { lines.push(line); line = w; } else line = t; }
+    if (line) lines.push(line);
+    lines.slice(0, 4).forEach((l, i) => ctx.fillText(l, x, 470 + i * 110 - (lines.length - 1) * 40));
+    ctx.font = `600 40px ${getComputedStyle(document.body).fontFamily}`;
+    ctx.globalAlpha = .85; ctx.fillText(s.name || '', x, 960); ctx.globalAlpha = 1;
+  }
+
+  // ---- Tickets ----
+  function tickets(s: Site) {
+    const st = s.settings || {};
+    const types = (st.tickets || []) as any[];
+    const sold = (view?.tickets ?? []).filter((t) => t.order_id === s.order_id);
+    return card(`<h2>${esc(T.ticketsTitle)}</h2><form id="ac-tk"><label class="ac-field">${esc(T.eventName)}<input name="eventName" maxlength="120" value="${esc(st.eventName || '')}"></label>
+      <h3>${esc(T.ticketTypes)}</h3><div class="ac-item ac-type ac-type-head" aria-hidden="true"><span>${esc(T.ticketName)}</span><span>${esc(T.ticketPrice)}</span><span>${esc(T.ticketCap)}</span><span></span></div><div id="ac-types">${(types.length ? types : [{ name: '', price: 0, capacity: 0 }]).map((t, i) => typeRow(t, i)).join('')}</div>
+      <div class="ac-row"><button type="button" class="btn btn-ghost" data-add-type>${esc(T.addType)}</button><button type="submit" class="btn btn-amber">${esc(T.save)}</button></div>
+      <p class="ac-muted ac-small">${esc(T.ticketsFee)}</p></form>`)
+      + card(`<h2>${esc(T.checkin)}</h2><form id="ac-checkin" class="ac-row"><input name="code" dir="ltr" maxlength="16" placeholder="${esc(T.checkinPh)}" class="ac-code" autocomplete="off" required><button type="submit" class="btn btn-navy">${esc(T.checkinBtn)}</button>${'BarcodeDetector' in window ? `<button type="button" class="btn btn-ghost" data-scan>${esc(T.scan)}</button>` : ''}</form><video id="ac-cam" playsinline hidden></video><p class="ac-status" id="ac-checkin-status" hidden></p>`)
+      + card(`<h2>${esc(T.sales)} (${sold.reduce((n, t) => n + (t.qty || 0), 0)})</h2>${sold.length ? `<div class="ac-table-wrap"><table class="ac-table"><tbody>${sold.map((t) => `<tr><td dir="ltr"><b>${esc(t.code)}</b></td><td>${esc((types.find((x) => x.id === t.type) || {}).name || t.type)} × ${esc(t.qty)}</td><td>${esc(t.name)}<br><small dir="ltr">${esc(t.phone)}</small></td><td>${t.amount ? money(t.amount) : esc(cfg.addons.free)}</td><td>${t.checked_in ? `<span class="ac-chip st-active">${esc(T.checkedIn)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>` : '<p class="ac-muted">—</p>'}`);
+  }
+  const typeRow = (t: any, i: number) => `<div class="ac-item ac-type" data-type-row><input type="hidden" name="tid" value="${esc(t.id || '')}"><input name="tname" placeholder="${esc(T.ticketName)}" maxlength="80" value="${esc(t.name || '')}"><input name="tprice" type="number" min="0" placeholder="${esc(T.ticketPrice)}" value="${esc(t.price ?? 0)}" title="${esc(T.ticketPrice)}"><input name="tcap" type="number" min="0" placeholder="${esc(T.ticketCap)}" value="${esc(t.capacity ?? 0)}" title="${esc(T.ticketCap)}"><button type="button" class="ac-x" data-del-type aria-label="${esc(T.remove)}">×</button></div>`;
+
+  // ---- Event wiring per tab ----
+  const bind: Record<string, (s: Site) => void> = {
+    overview: () => undefined,
+    addons: () => undefined,
+    menu: () => drawMenu(),
+    content: (s) => {
+      const packs = (view?.content ?? []).filter((c) => c.order_id === s.order_id);
+      root.querySelectorAll<HTMLCanvasElement>('canvas[data-post]').forEach((c) => {
+        const [pi, i] = c.dataset.post!.split('.').map(Number);
+        paintPost(c, s, packs[pi].posts[i]);
+      });
+    },
+  };
+
+  const panel = $<HTMLElement>('#ac-panel');
+  panel.addEventListener('click', async (e) => {
+    const t = e.target as HTMLElement;
+    const s = site()!;
+    const btn = t.closest<HTMLButtonElement>('button');
+    if (!btn) return;
+    if (btn.dataset.subscribe) {
+      await busy(btn, async () => {
+        const r = await api('subscribe', { order_id: s.order_id, product: btn.dataset.subscribe });
+        if (r?.payUrl) { location.href = r.payUrl; return; }
+        if (r?.success) { flash(T.saved); await reload(); } else flash(r?.reason === 'gateway' ? T.failed : T.failed);
+      });
+    } else if (btn.dataset.cancel) {
+      if (confirm(T.cancelConfirm)) await save('cancel', { sub_id: Number(btn.dataset.cancel) }, btn);
+    } else if (btn.dataset.keep) {
+      const [order_id, product] = btn.dataset.keep.split(':');
+      await save('subscribe', { order_id: Number(order_id), product }, btn);
+    } else if (btn.dataset.bk) {
+      const [id, status] = btn.dataset.bk.split(':');
+      await save('booking', { booking_id: Number(id), status }, btn);
+    } else if ('gotoAddons' in btn.dataset) {
+      tab = 'addons'; draw();
+    } else if ('addCat' in btn.dataset) {
+      menuDraft.categories.push({ name: '', items: [{ name: '', desc: '', price: '' }] }); drawMenu();
+    } else if (btn.dataset.delCat) {
+      menuDraft.categories.splice(Number(btn.dataset.delCat), 1); drawMenu();
+    } else if (btn.dataset.addItem) {
+      menuDraft.categories[Number(btn.dataset.addItem)].items.push({ name: '', desc: '', price: '' }); drawMenu();
+    } else if (btn.dataset.delItem) {
+      const [ci, ii] = btn.dataset.delItem.split('.').map(Number); menuDraft.categories[ci].items.splice(ii, 1); drawMenu();
+    } else if ('publishMenu' in btn.dataset) {
+      await save('menu', { order_id: s.order_id, menu: menuDraft }, btn);
+    } else if (btn.dataset.qrPng) {
+      await svgToPng(qrSvg(btn.dataset.qrPng), 1200, `${btn.dataset.qrName}-qr`);
+    } else if (btn.dataset.qrPrint) {
+      printCard(btn.dataset.qrPrint, btn.dataset.qrKind || '');
+    } else if (btn.dataset.copy) {
+      const [pi, i] = btn.dataset.copy.split('.').map(Number);
+      const post = (view?.content ?? []).filter((c) => c.order_id === s.order_id)[pi].posts[i];
+      try { await navigator.clipboard.writeText(`${post.caption}\n\n${post.hashtags}`); btn.textContent = T.copied; setTimeout(() => { btn.textContent = T.copy; }, 1500); } catch { /* ignore */ }
+    } else if (btn.dataset.png) {
+      const c = root.querySelector<HTMLCanvasElement>(`canvas[data-post="${btn.dataset.png}"]`);
+      if (c) downloadCanvas(c, `post-${btn.dataset.png}`);
+    } else if ('addType' in btn.dataset) {
+      const box = root.querySelector('#ac-types')!;
+      box.insertAdjacentHTML('beforeend', typeRow({ name: '', price: 0, capacity: 0 }, box.children.length));
+    } else if ('delType' in btn.dataset) {
+      btn.closest('[data-type-row]')?.remove();
+    } else if ('scan' in btn.dataset) {
+      scan();
+    }
+  });
+  panel.addEventListener('input', (e) => {
+    const el = e.target as HTMLInputElement;
+    const path = el.dataset.m;
+    if (!path || !menuDraft) return;
+    const p = path.split('.');
+    if (p[0] === 'title' || p[0] === 'note') menuDraft[p[0]] = el.value;
+    else if (p.length === 3) menuDraft.categories[Number(p[1])].name = el.value;
+    else menuDraft.categories[Number(p[1])].items[Number(p[3])][p[4]] = el.value;
+  });
+  panel.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const s = site()!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const fd = new FormData(form);
+    if (form.id === 'ac-bset') {
+      await save('settings', { order_id: s.order_id, settings: { bookingFrom: fd.get('bookingFrom'), bookingTo: fd.get('bookingTo'), slotMinutes: Number(fd.get('slotMinutes')), capacity: Number(fd.get('capacity')), closedDays: fd.getAll('closed').map(Number), bookingNote: fd.get('bookingNote') } }, btn);
+    } else if (form.id === 'ac-rev') {
+      await save('settings', { order_id: s.order_id, settings: { googleReviewUrl: String(fd.get('googleReviewUrl') || '').trim() } }, btn);
+    } else if (form.id === 'ac-chat') {
+      await save('settings', { order_id: s.order_id, settings: { chatNotes: fd.get('chatNotes') } }, btn);
+    } else if (form.id === 'ac-tk') {
+      const rows = Array.from(form.querySelectorAll('[data-type-row]')).map((r, i) => ({
+        id: (r.querySelector<HTMLInputElement>('[name="tid"]')!.value) || `t${Date.now().toString(36)}${i}`,
+        name: r.querySelector<HTMLInputElement>('[name="tname"]')!.value,
+        price: Number(r.querySelector<HTMLInputElement>('[name="tprice"]')!.value) || 0,
+        capacity: Number(r.querySelector<HTMLInputElement>('[name="tcap"]')!.value) || 0,
+      })).filter((x) => x.name.trim());
+      await save('settings', { order_id: s.order_id, settings: { eventName: fd.get('eventName'), tickets: rows } }, btn);
+    } else if (form.id === 'ac-checkin') {
+      await checkin(String(fd.get('code') || ''), btn);
+      form.reset();
+    }
+  });
+  async function checkin(code: string, btn?: HTMLButtonElement) {
+    const status = root.querySelector<HTMLElement>('#ac-checkin-status')!;
+    const run = async () => {
+      const r = await api('checkin', { code: code.trim().toUpperCase() });
+      status.hidden = false;
+      if (r?.success && r.ticket) { status.className = 'ac-status is-ok'; status.textContent = `✓ ${T.checkedIn}: ${r.ticket.name} · ${r.ticket.type} × ${r.ticket.qty}`; }
+      else { status.className = 'ac-status is-error'; status.textContent = T.checkinErr[r?.reason] || T.failed; }
+    };
+    if (btn) await busy(btn, run); else await run();
+  }
+  async function scan() {
+    const video = root.querySelector<HTMLVideoElement>('#ac-cam')!;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream; video.hidden = false; await video.play();
+      const detector = new (window as any).BarcodeDetector({ formats: ['qr_code'] });
+      const tick = async () => {
+        if (video.hidden) return;
+        const codes = await detector.detect(video).catch(() => []);
+        const value = codes[0]?.rawValue as string | undefined;
+        if (value) {
+          stream.getTracks().forEach((t) => t.stop()); video.hidden = true;
+          await checkin(value.split('/').pop() || value);
+          return;
+        }
+        requestAnimationFrame(tick);
+      };
+      tick();
+    } catch { /* camera not available */ }
+  }
+
+  load();
+</script>
+
+<style is:global>
+  .ac { min-height: 70vh; padding: 2.5rem 0 4rem; background: var(--paper); }
+  .ac [data-show] { display: none; }
+  .ac[data-state='signin'] [data-show='signin'], .ac[data-state='loading'] [data-show='loading'], .ac[data-state='app'] [data-show='app'] { display: block; }
+  .ac-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius, 16px); padding: 1.5rem 1.6rem; margin-bottom: 1.1rem; }
+  .ac-card h2 { font-size: 1.25rem; margin-bottom: .6rem; }
+  .ac-card h3 { font-size: 1rem; margin: 1rem 0 .5rem; }
+  .ac-soft { background: var(--blue-soft); border-color: transparent; }
+  .ac-signin-card { max-width: 30rem; margin: 2rem auto; display: grid; gap: .8rem; }
+  .ac-signin-card form { display: grid; gap: .8rem; }
+  .ac-muted { color: var(--muted); }
+  .ac-small { font-size: .88rem; }
+  .ac-signin-card a, .ac-link, .ac-url { color: var(--blue); font-weight: 600; }
+  .ac-link { background: none; border: 0; padding: .25rem .35rem; font: 600 .9rem var(--font); cursor: pointer; }
+  .ac-link.is-danger { color: #B42318; }
+  .ac-field { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; }
+  .ac-field input, .ac-field textarea, .ac-field select, .ac-item input, .ac-cat-head input, .ac-code, #ac-site { font: 400 1rem var(--font); color: var(--ink); background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: .65rem .8rem; width: 100%; }
+  .ac-field input:focus, .ac-field textarea:focus, .ac-item input:focus { outline: none; border-color: var(--blue); }
+  .ac-status { padding: .75rem 1rem; border-radius: 10px; font-size: .92rem; margin-top: .6rem; }
+  .ac-status.is-ok { background: #E7F6EC; color: #1E6B3A; }
+  .ac-status.is-error { background: #FEF3F2; color: #B42318; }
+  .ac-note { background: #FFF7E0; border: 1px solid #F3D88A; padding: .7rem 1rem; border-radius: 10px; margin-bottom: 1rem; }
+  .ac-loading { text-align: center; padding: 4rem 0; color: var(--muted); }
+  .ac-spinner { display: inline-block; width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--line); border-top-color: var(--amber); animation: ac-spin 1s linear infinite; margin-bottom: .6rem; }
+  @keyframes ac-spin { to { transform: rotate(360deg); } }
+  .ac-head { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; justify-content: space-between; margin-bottom: 1.2rem; }
+  .ac-head h1 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+  .ac-head-tools { display: flex; gap: .6rem; align-items: center; }
+  #ac-site { width: auto; min-width: 12rem; }
+  #ac-site[hidden] { display: none; }
+  .ac-small-btn { padding: .5rem .95rem; font-size: .88rem; }
+  .ac-tabs { display: flex; gap: .3rem; overflow-x: auto; border-bottom: 1px solid var(--line); margin-bottom: 1.4rem; scrollbar-width: none; }
+  .ac-tabs button { flex: none; border: 0; background: none; padding: .75rem 1rem; font: 600 .95rem var(--font); color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; }
+  .ac-tabs button[aria-selected='true'] { color: var(--navy); border-bottom-color: var(--amber); }
+  .ac-site { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+  .ac-site h2 { font-size: 1.5rem; margin: .1rem 0 .4rem; }
+  .ac-kicker { color: var(--blue); font-weight: 700; font-size: .85rem; }
+  .ac-chip { display: inline-block; padding: .2rem .65rem; border-radius: 999px; font-size: .8rem; font-weight: 700; background: var(--paper); color: var(--muted); white-space: nowrap; }
+  .st-active, .b-confirmed, .b-done { background: #E7F6EC; color: #1E6B3A; }
+  .st-pending, .b-new { background: #FFF4E5; color: #B54708; }
+  .st-past_due, .b-cancelled { background: #FEF3F2; color: #B42318; }
+  .st-cancelling { background: #EEF2F6; color: #475467; }
+  .ac-table-wrap { overflow-x: auto; }
+  .ac-table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  .ac-table th { text-align: start; color: var(--muted); font-weight: 600; font-size: .82rem; padding: .5rem .6rem; }
+  .ac-table td { padding: .7rem .6rem; border-top: 1px solid var(--line); vertical-align: middle; }
+  .ac-actions { white-space: nowrap; text-align: end; }
+  .ac-intro { margin-bottom: 1.1rem; }
+  .ac-intro h2 { font-size: 1.4rem; margin-bottom: .3rem; }
+  .ac-addons { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: .8rem; }
+  .ac-addon { display: flex; flex-direction: column; gap: .55rem; background: #fff; border: 1.5px solid var(--line); border-radius: 16px; padding: 1.3rem; }
+  .ac-addon.is-on { border-color: #A6E3B8; }
+  .ac-addon h3 { font-size: 1.1rem; }
+  .ac-addon .ac-muted { flex: 1; font-size: .93rem; line-height: 1.6; }
+  .ac-addon .btn, .ac-addon .ac-chip { align-self: flex-start; }
+  .ac-addon-ic { width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); color: var(--navy); display: grid; place-items: center; }
+  .ac-addon-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ac-price b { font-size: 1.25rem; color: var(--navy); }
+  .ac-price small { color: var(--muted); }
+  .ac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; align-items: end; }
+  .ac-wide { grid-column: 1 / -1; }
+  .ac-grid .btn { justify-self: start; }
+  .ac-days { grid-column: 1 / -1; border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .4rem 1rem; }
+  .ac-days legend { font-weight: 600; font-size: .92rem; margin-bottom: .4rem; }
+  .ac-days label { display: flex; gap: .35rem; align-items: center; font-size: .92rem; }
+  .ac-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-top: .8rem; }
+  .ac-cat { border: 1px solid var(--line); border-radius: 12px; padding: .9rem; margin-top: .9rem; display: grid; gap: .5rem; }
+  .ac-cat-head { display: flex; gap: .5rem; }
+  .ac-cat-head input { font-weight: 700; }
+  .ac-item { display: grid; grid-template-columns: 1.2fr 1.6fr .6fr auto; gap: .45rem; align-items: center; }
+  .ac-x { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: #B42318; font-size: 1.2rem; cursor: pointer; }
+  .ac-qr { display: flex; flex-wrap: wrap; gap: 1.4rem; align-items: center; }
+  .ac-qr-img { width: 170px; height: 170px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  .ac-qr-img svg { width: 100%; height: 100%; display: block; }
+  .ac-qr > div:last-child { flex: 1; min-width: 14rem; }
+  .ac-month { margin: 1.4rem 0 .7rem; color: var(--muted); }
+  .ac-posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .ac-post { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: .9rem; display: flex; flex-direction: column; gap: .5rem; }
+  .ac-post canvas { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; display: block; }
+  .ac-caption { white-space: pre-line; font-size: .93rem; line-height: 1.65; flex: 1; }
+  .ac-tags { color: var(--blue); font-size: .85rem; }
+  .ac-type { grid-template-columns: 1.6fr .8fr .8fr auto; margin-bottom: .45rem; }
+  .ac-type-head span { font-size: .8rem; font-weight: 600; color: var(--muted); }
+  .ac-code { max-width: 14rem; text-transform: uppercase; letter-spacing: .08em; }
+  #ac-cam { width: 100%; max-width: 360px; border-radius: 12px; margin-top: .8rem; }
+  #ac-cam[hidden] { display: none; }
+  @media (max-width: 700px) {
+    .ac-grid { grid-template-columns: 1fr; }
+    .ac-item, .ac-type { grid-template-columns: 1fr 1fr; }
+    .ac-type-head { display: none; }
+    .ac-item input:nth-child(2) { grid-column: 1 / -1; order: 3; }
+    .ac-card { padding: 1.2rem; }
+    .ac-table thead { display: none; }
+    .ac-table tr { display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; padding: .7rem 0; border-top: 1px solid var(--line); }
+    .ac-table td { border: 0; padding: .1rem 0; }
+    .ac-table td.ac-actions { grid-column: 1 / -1; text-align: start; }
+    .ac-head-tools { width: 100%; justify-content: space-between; }
+  }
+</style>

@@ -50,6 +50,8 @@ const c = t[lang];
       <div class="ft-legal">
         <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
         <a href={link(lang, '/terms/')}>{builderText[lang].page.terms}</a>
+        <a href={link(lang, '/account/')}>{builderText[lang].account.title}</a>
+        <a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a>
         <LangPicker lang={lang} path={path} tone="dark" up />
       </div>
     </div>
@@ -67,7 +69,7 @@ const c = t[lang];
   .ft a:hover { color: #fff; }
   .ft-addr { line-height: 1.6; }
   .ft-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 6.5rem; border-top: 1px solid rgba(255,255,255,.08); font-size: .9rem; }
-  .ft-legal { display: flex; align-items: center; gap: 1.5rem; }
+  .ft-legal { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.5rem; min-width: 0; }
   @media (max-width: 900px) { .ft-top { grid-template-columns: 1fr 1fr; } .ft-brand { grid-column: 1 / -1; } }
   @media (max-width: 520px) { .ft-top { grid-template-columns: 1fr; } }
 </style>

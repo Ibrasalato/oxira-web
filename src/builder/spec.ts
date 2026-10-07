@@ -9,7 +9,7 @@ import { catalog, templateById, categoryOf, type FontId as CatFont, type Layout 
 export type TemplateId = string;
 export type SiteLang = 'ar' | 'en' | 'de' | 'fr' | 'ru';
 export type FontId = CatFont;
-export type SectionId = 'about' | 'services' | 'gallery' | 'testimonials' | 'faq' | 'stats' | 'cta' | 'contact';
+export type SectionId = 'about' | 'services' | 'menu' | 'gallery' | 'testimonials' | 'faq' | 'stats' | 'cta' | 'contact';
 
 export interface Spec {
   template: TemplateId;
@@ -29,6 +29,8 @@ export interface Spec {
   /** Only real quotes the client provides; never generated. */
   testimonials: { title: string; items: { quote: string; name: string; role: string }[] };
   faq: { title: string; items: { q: string; a: string }[] };
+  /** Menu or price list: restaurants, cafés, salons… Prices are text ("25", "from 120"). */
+  menu: { title: string; note: string; categories: { name: string; items: { name: string; desc: string; price: string }[] }[] };
   /** whatsappButton: floating chat button; contactForm: a form that emails the site owner; mapUrl: Google Maps link. */
   extras: { whatsappButton: boolean; contactForm: boolean; mapUrl: string };
   /** Uploaded images, as ids like "i_3f9a…_j" (j = jpeg, p = png). Empty string = none. */
@@ -39,7 +41,7 @@ export const imageIdPattern = /^i_[a-f0-9]{20,40}_[jp]$/;
 export const emptyMedia = () => ({ logo: '', hero: '', about: '', gallery: [] as string[], galleryTitle: '' });
 
 export const templateIds: TemplateId[] = catalog.map((t) => t.id);
-export const sectionIds: SectionId[] = ['about', 'services', 'gallery', 'testimonials', 'faq', 'stats', 'cta', 'contact'];
+export const sectionIds: SectionId[] = ['about', 'services', 'menu', 'gallery', 'testimonials', 'faq', 'stats', 'cta', 'contact'];
 export const fontIds: FontId[] = ['modern', 'elegant', 'friendly'];
 export const siteLangs: SiteLang[] = ['ar', 'en', 'de', 'fr', 'ru'];
 
@@ -65,7 +67,7 @@ const C = (name: string, tagline: string, hero: [string, string, string], about:
 });
 
 /** Sample words for each template, so every template looks complete before the client writes anything. */
-type BaseCopy = Omit<Copy, 'testimonials' | 'faq' | 'extras'>;
+type BaseCopy = Omit<Copy, 'testimonials' | 'faq' | 'extras' | 'menu'>;
 const sample: Record<string, { ar: BaseCopy; en: BaseCopy }> = {
   corporate: {
     ar: C('نكسس للاستشارات', 'استشارات أعمال وتطوير مؤسسي',
@@ -165,6 +167,24 @@ const sample: Record<string, { ar: BaseCopy; en: BaseCopy }> = {
   },
 };
 
+const M = (name: string, items: [string, string, string][]) => ({ name, items: items.map(([n, d, p]) => ({ name: n, desc: d, price: p })) });
+/** Sample menus so food designs look complete; other businesses start with an empty price list. */
+const sampleMenus: Record<string, { ar: Copy['menu']; en: Copy['menu'] }> = {
+  restaurant: {
+    ar: { title: 'قائمة الطعام', note: 'الأسعار بالريال وتشمل الضريبة.', categories: [M('الأطباق الرئيسية', [['مندي لحم', 'لحم مطهو ببطء على أرز بخاري', '68'], ['مشاوي مشكلة', 'كباب وشيش طاووق وريش', '75'], ['دجاج مضغوط', 'نصف دجاج بالأرز والصلصة الحارة', '38']]), M('الحلى', [['أم علي', 'بالمكسرات والقشطة', '22'], ['كنافة', 'بالجبن، تقدم ساخنة', '25']])] },
+    en: { title: 'Our menu', note: 'Prices in SAR, VAT included.', categories: [M('Mains', [['Lamb mandi', 'Slow-cooked lamb on fragrant rice', '68'], ['Mixed grill', 'Kebab, shish tawook and lamb chops', '75'], ['Pressure-cooked chicken', 'Half chicken with rice and hot sauce', '38']]), M('Desserts', [['Om Ali', 'With nuts and cream', '22'], ['Kunafa', 'With cheese, served hot', '25']])] },
+  },
+  cafe: {
+    ar: { title: 'المنيو', note: 'الأسعار بالريال وتشمل الضريبة.', categories: [M('القهوة', [['إسبريسو', 'محصول اليوم', '12'], ['لاتيه', 'حليب طازج ورغوة ناعمة', '18'], ['V60', 'تقطير يدوي لمحاصيل مختارة', '22']]), M('الحلى', [['كرواسون زبدة', 'يخبز يومياً', '12'], ['تشيز كيك', 'بصوص التوت', '24']])] },
+    en: { title: 'Menu', note: 'Prices in SAR, VAT included.', categories: [M('Coffee', [['Espresso', 'Today’s roast', '12'], ['Latte', 'Fresh milk, silky foam', '18'], ['V60', 'Hand-brewed single origin', '22']]), M('Sweets', [['Butter croissant', 'Baked every morning', '12'], ['Cheesecake', 'With berry sauce', '24']])] },
+  },
+  bakery: {
+    ar: { title: 'منتجاتنا', note: 'الأسعار بالريال. الطلبات الخاصة قبل يومين.', categories: [M('الكيك', [['كيكة شوكولاتة', 'تكفي 10 أشخاص', '120'], ['كيكة الفانيلا والتوت', 'تكفي 8 أشخاص', '110']]), M('المعجنات', [['كرواسون', 'زبدة فرنسية', '8'], ['فطائر مشكلة', 'جبن وزعتر وسبانخ، 12 حبة', '30']])] },
+    en: { title: 'Our bakes', note: 'Prices in SAR. Custom orders two days ahead.', categories: [M('Cakes', [['Chocolate cake', 'Serves 10', '120'], ['Vanilla berry cake', 'Serves 8', '110']]), M('Pastries', [['Croissant', 'French butter', '8'], ['Mixed pies', 'Cheese, zaatar and spinach, 12 pieces', '30']])] },
+  },
+};
+const priceListTitle: Record<SiteLang, string> = { ar: 'الأسعار', en: 'Prices', de: 'Preise', fr: 'Tarifs', ru: 'Цены' };
+
 const testimonialsTitle: Record<SiteLang, string> = { ar: 'آراء عملائنا', en: 'What our clients say', de: 'Was unsere Kunden sagen', fr: 'Ce que disent nos clients', ru: 'Отзывы клиентов' };
 
 export function sampleSpec(template: TemplateId, lang: SiteLang): Spec {
@@ -179,6 +199,7 @@ export function sampleSpec(template: TemplateId, lang: SiteLang): Spec {
     ...base,
     testimonials: { title: testimonialsTitle[lang] ?? testimonialsTitle.en, items: [] },
     faq,
+    menu: sampleMenus[cat]?.[l] ?? { title: priceListTitle[lang] ?? priceListTitle.en, note: '', categories: [] },
     extras: { whatsappButton: true, contactForm: false, mapUrl: '' },
   };
   const look = looks[template];
@@ -278,6 +299,22 @@ export function mergeSpec(base: Spec, raw: unknown): Spec {
         items: Array.isArray(f.items)
           ? f.items.slice(0, 8).map((it: any) => ({ q: str(it?.q, 160), a: str(it?.a, 500) })).filter((it: { q: string; a: string }) => it.q && it.a)
           : bf.items,
+      };
+    })(),
+    menu: (() => {
+      const mm = o('menu');
+      const bm = base.menu ?? { title: '', note: '', categories: [] };
+      return {
+        title: str(mm.title, 60, bm.title),
+        note: str(mm.note, 200, bm.note),
+        categories: Array.isArray(mm.categories)
+          ? mm.categories.slice(0, 12).map((c: any) => ({
+              name: str(c?.name, 60),
+              items: Array.isArray(c?.items)
+                ? c.items.slice(0, 40).map((it: any) => ({ name: str(it?.name, 80), desc: str(it?.desc, 200), price: str(it?.price, 24) })).filter((it: { name: string }) => it.name)
+                : [],
+            })).filter((c: { items: unknown[] }) => c.items.length)
+          : bm.categories,
       };
     })(),
     extras: (() => {

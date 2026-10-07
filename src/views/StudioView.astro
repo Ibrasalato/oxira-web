@@ -892,6 +892,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
           domainOption: d.domainOption, domainName: d.domainOption === 'none' ? '' : d.domainName || '',
           addons: chosen().join(','), total: String(updateTotal()), spec: JSON.stringify(state.spec),
           lang: cfg.lang, page: location.pathname, company_website: d.company_website || '',
+          ref: (() => { try { const r = JSON.parse(localStorage.getItem('oxira-ref') || 'null'); return r && Date.now() - r.t < 90 * 864e5 ? r.c : ''; } catch { return ''; } })(),
         }),
       });
       const data = await res.json().catch(() => ({}));
