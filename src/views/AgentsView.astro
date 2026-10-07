@@ -16,7 +16,7 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
   <section class="page-hero ag-hero">
     <div class="wrap ag-hero-grid">
       <div>
-        <p class="label" lang={other}>{a.kicker}</p>
+        <p class="label" lang={lang === 'ar' ? 'en' : undefined}>{a.kicker}</p>
         <h1>{a.title}</h1>
         <p class="lead">{a.body}</p>
         <div class="ag-actions">

@@ -85,7 +85,7 @@ const firstChat = c.agents.chats[0];
   <section class="section bg-navy agents" aria-labelledby="ag-title">
     <div class="wrap ag-grid">
       <div class="ag-text">
-        <p class="label" lang={lang === 'ar' ? 'en' : 'ar'}>{c.agents.kicker}</p>
+        <p class="label" lang={lang === 'ar' ? 'en' : undefined}>{c.agents.kicker}</p>
         <h2 id="ag-title">{c.agents.title}</h2>
         <p class="ag-body">{h.agentsBody}</p>
         <ul class="ag-caps">

@@ -398,7 +398,7 @@ export const t = {
     },
     agents: {
       navLabel: 'AI Agents',
-      kicker: 'وكلاء الذكاء الاصطناعي',
+      kicker: 'WhatsApp and website agents',
       title: 'AI Agent Automation',
       body: 'A smart employee on your WhatsApp, working around the clock: it answers customers in their own dialect, understands voice notes, takes requests and bookings and logs them for your team, and hands the chat to a person when needed. We build and run it for every kind of organisation, from a small clinic to a government body.',
       demoLabel: 'Example conversations',

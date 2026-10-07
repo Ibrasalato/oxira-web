@@ -30,7 +30,7 @@ const other = lang === 'ar' ? 'en' : 'ar';
             <div class="svc-name">
               <span class="svc-icon"><Icon name={s.icon} /></span>
               <h2>{s.name}</h2>
-              <p class="svc-alt" lang={other}>{s.en}</p>
+              {lang === 'ar' && <p class="svc-alt" lang="en">{s.en}</p>}
             </div>
             <ul class="svc-items">
               {s.items.map((it) => <li>{it}</li>)}
