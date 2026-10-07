@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "build:worker": "esbuild src/builder/worker.ts --bundle --format=esm --minify --target=es2022 --outfile=public/cloudflare/sites-worker.js"
   },
   "dependencies": {
     "@fontsource/cairo": "^5.3.0",
