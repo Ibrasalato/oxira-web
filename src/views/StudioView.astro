@@ -18,12 +18,15 @@ const s = b.studio;
 const legal = t[lang].legal;
 const builderEndpoint = import.meta.env.PUBLIC_BUILDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-builder';
 const orderEndpoint = import.meta.env.PUBLIC_ORDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-order';
+const n8nBase = 'https://ibrasalato.app.n8n.cloud/webhook';
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
 const per = (k: string) => (k === 'year' ? b.packages.perYear : k === 'month' ? b.packages.perMonth : b.packages.oneTime);
 const config = {
   lang,
   builderEndpoint,
   orderEndpoint,
+  checkoutEndpoint: import.meta.env.PUBLIC_CHECKOUT_ENDPOINT || `${n8nBase}/oxira-site-checkout`,
+  statusEndpoint: import.meta.env.PUBLIC_PAYMENT_STATUS_ENDPOINT || `${n8nBase}/oxira-site-payment-status`,
   fontBase: asset('builder/fonts'),
   whatsapp: contact.whatsappHref,
   prices: builderPrices,
@@ -180,6 +183,10 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
             <strong><b id="st-total">0</b> {b.packages.sar}</strong>
           </div>
           <p class="st-note">{s.vat}</p>
+          <div class="st-total st-total-vat">
+            <span>{s.withVat}</span>
+            <strong><b id="st-total-vat">0</b> {b.packages.sar}</strong>
+          </div>
           <p class="st-status" id="st-order-status" role="status" hidden></p>
           <button type="submit" class="btn btn-amber st-submit">{s.submit}</button>
           <p class="st-consent">{s.consent} <a href={link(lang, '/privacy/')}>{legal.privacy}</a>.</p>
@@ -187,15 +194,20 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
         </form>
 
         <!-- Done -->
-        <div class="st-done" data-panel="5">
+        <div class="st-done" data-panel="5" id="st-done" data-state="ordered">
           <span class="st-done-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            <svg class="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            <span class="i-wait"></span>
+            <svg class="i-warn" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5" /></svg>
           </span>
-          <h1>{s.doneTitle}</h1>
+          <h1 id="st-done-title">{s.doneTitle}</h1>
           <p id="st-done-body"></p>
-          <h2>{s.doneNext}</h2>
-          <ol>{s.doneSteps.map((x) => <li>{x}</li>)}</ol>
+          <div class="st-done-steps">
+            <h2>{s.doneNext}</h2>
+            <ol>{s.doneSteps.map((x) => <li>{x}</li>)}</ol>
+          </div>
           <div class="st-actions">
+            <button type="button" class="btn btn-amber" id="st-pay-now" hidden>{s.payNow}</button>
             <a class="btn btn-navy" href={link(lang, '/')}>{s.doneHome}</a>
             <a class="btn btn-ghost" href={contact.whatsappHref} target="_blank" rel="noopener">{s.doneWhatsapp}</a>
           </div>
@@ -501,9 +513,11 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   const order = $<HTMLFormElement>('#st-order');
   const fmt = new Intl.NumberFormat(cfg.numberLocale, { maximumFractionDigits: 0 });
   const chosen = () => $$<HTMLInputElement>('input[name="pkg"]').filter((x) => x.checked || x.disabled).map((x) => x.value);
+  const fmt2 = new Intl.NumberFormat(cfg.numberLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function updateTotal() {
     const total = chosen().reduce((sum, id) => sum + (cfg.prices[id]?.price ?? 0), 0);
     $<HTMLElement>('#st-total').textContent = fmt.format(total);
+    $<HTMLElement>('#st-total-vat').textContent = fmt2.format(Math.round(total * 115) / 100);
     return total;
   }
   const domainName = $<HTMLElement>('[data-domain-name]');
@@ -547,10 +561,11 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
       });
       const data = await res.json().catch(() => ({}));
       if (!data?.success) throw new Error('order failed');
-      $<HTMLElement>('#st-done-body').textContent = T.doneBody.replace('{id}', `#${data.orderId}`);
-      try { localStorage.removeItem(KEY); } catch { /* ignore */ }
-      root.dataset.step = '5';
-      window.scrollTo({ top: 0 });
+      try { localStorage.setItem(`${KEY}-last`, JSON.stringify(state.spec)); localStorage.removeItem(KEY); } catch { /* ignore */ }
+      btn.textContent = T.redirecting;
+      const paying = await checkout(data.orderId);
+      if (!paying) showDone('ordered', data.orderId);
+      return;
     } catch {
       status.hidden = false; status.className = 'st-status is-error';
       status.replaceChildren(document.createTextNode(`${T.failed} `), Object.assign(document.createElement('a'), { href: cfg.whatsapp, textContent: 'WhatsApp', target: '_blank', rel: 'noopener' }));
@@ -559,10 +574,85 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     }
   });
 
+  // ---- Payment (Moyasar) ----
+  /** Ask n8n for a Moyasar payment page; returns true when the browser is being sent there. */
+  async function checkout(orderId: number | string) {
+    try {
+      const res = await fetch(cfg.checkoutEndpoint, {
+        method: 'POST',
+        body: new URLSearchParams({ orderId: String(orderId), returnUrl: location.origin + location.pathname }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data?.success && typeof data.payUrl === 'string' && data.payUrl.startsWith('https://')) {
+        location.href = data.payUrl;
+        return true;
+      }
+    } catch { /* fall back to a payment link from the team */ }
+    return false;
+  }
+
+  const done = $<HTMLElement>('#st-done');
+  const payNow = $<HTMLButtonElement>('#st-pay-now');
+  let doneOrder = '';
+  function showDone(kind: 'ordered' | 'paid' | 'confirming' | 'cancelled', id: number | string) {
+    const n = `#${id}`;
+    doneOrder = String(id);
+    const copy = {
+      ordered: [T.doneTitle, T.doneBody],
+      paid: [T.paidTitle, T.paidBody],
+      confirming: [T.confirming, T.confirmingBody],
+      cancelled: [T.cancelTitle, T.cancelBody],
+    }[kind];
+    done.dataset.state = kind;
+    $<HTMLElement>('#st-done-title').textContent = copy[0];
+    $<HTMLElement>('#st-done-body').textContent = copy[1].replace('{id}', n);
+    payNow.hidden = kind !== 'cancelled';
+    if (!state.spec) {
+      try {
+        const last = JSON.parse(localStorage.getItem(`${KEY}-last`) || 'null');
+        if (last) state.spec = mergeSpec(sampleSpec(last.template ?? 'corporate', last.lang ?? cfg.lang), last);
+      } catch { /* ignore */ }
+    }
+    render();
+    root.dataset.step = '5';
+    window.scrollTo({ top: 0 });
+  }
+  payNow.addEventListener('click', async () => {
+    payNow.disabled = true;
+    payNow.textContent = T.redirecting;
+    if (!(await checkout(doneOrder))) { payNow.disabled = false; payNow.textContent = T.payNow; showDone('ordered', doneOrder); }
+  });
+
+  async function confirmPayment(id: string) {
+    showDone('confirming', id);
+    for (let i = 0; i < 6; i++) {
+      try {
+        const res = await fetch(cfg.statusEndpoint, { method: 'POST', body: new URLSearchParams({ orderId: id }) });
+        const data = await res.json().catch(() => ({}));
+        if (data?.status === 'paid') {
+          showDone('paid', id);
+          try { localStorage.removeItem(`${KEY}-last`); } catch { /* ignore */ }
+          return;
+        }
+      } catch { /* retry */ }
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  }
+
   // Start
   if (state.step >= 3 && !state.chat.length) state.chat = [{ from: 'ai', text: T.chatWelcome }];
   drawLog();
-  go(state.spec ? Math.max(2, Math.min(state.step, 4)) : 1);
+  const paidId = params.get('paid');
+  const cancelId = params.get('cancel');
+  if (paidId && /^\d+$/.test(paidId)) {
+    history.replaceState(null, '', location.pathname);
+    confirmPayment(paidId);
+  } else if (cancelId && /^\d+$/.test(cancelId)) {
+    history.replaceState(null, '', location.pathname);
+    showDone('cancelled', cancelId);
+  } else {
+    go(state.spec ? Math.max(2, Math.min(state.step, 4)) : 1);
+  }
 </script>
 
 <style>
@@ -674,6 +764,8 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-hp { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; opacity: 0; }
   .st-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 1.5rem; padding-top: 1rem; border-top: 1.5px solid var(--ink); font-weight: 700; }
   .st-total b { font-size: 1.6rem; }
+  .st-total-vat { margin-top: .6rem; padding-top: .6rem; border-top-width: 1px; border-top-color: var(--line); }
+  .st-total-vat b { font-size: 1.25rem; }
   .st-submit { width: 100%; margin-top: 1rem; }
   .st-status { margin-top: 1rem; padding: .8rem 1rem; border-radius: 10px; font-size: .92rem; }
   .st-status.is-error { background: #FEF3F2; color: #B42318; border: 1px solid #FECDCA; }
@@ -684,6 +776,12 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   /* Done */
   .st-done-mark { width: 56px; height: 56px; border-radius: 50%; background: #E7F6EC; display: grid; place-items: center; margin-bottom: 1rem; }
   .st-done-mark svg { width: 28px; height: 28px; fill: none; stroke: #1E8E4E; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .st-done-mark > * { display: none; }
+  .st-done[data-state='ordered'] .i-ok, .st-done[data-state='paid'] .i-ok { display: block; }
+  .st-done[data-state='confirming'] .i-wait { display: block; width: 26px; height: 26px; border-radius: 50%; border: 3px solid #CFE9D8; border-top-color: #1E8E4E; animation: st-spin 1s linear infinite; }
+  .st-done[data-state='cancelled'] .st-done-mark { background: #FFF4E5; }
+  .st-done[data-state='cancelled'] .i-warn { display: block; stroke: #B54708; }
+  .st-done:not([data-state='ordered']) .st-done-steps { display: none; }
   .st-done p { margin-top: .6rem; color: var(--muted); }
   .st-done ol { padding-inline-start: 1.2rem; display: grid; gap: .4rem; color: var(--muted); }
 

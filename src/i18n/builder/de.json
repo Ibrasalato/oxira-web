@@ -161,7 +161,7 @@
     "resetConfirm": "Eine neue Website beginnen? Ihr aktuelles Design wird gelöscht.",
     "toOrder": "Passt so, weiter zur Bestellung",
     "orderTitle": "Bestellung abschließen",
-    "orderBody": "Wählen Sie, was Sie brauchen, und wie wir Sie erreichen können. Es wird jetzt nichts berechnet: Unser Team bestätigt Ihre Bestellung und sendet Ihnen einen sicheren Zahlungslink.",
+    "orderBody": "Wählen Sie, was Sie brauchen und wie wir Sie erreichen, und bezahlen Sie dann sicher über Moyasar (mada, Visa, Mastercard, Apple Pay).",
     "packagesTitle": "Ihr Paket",
     "domainTitle": "Domain",
     "domainNew": "Ich brauche eine neue Domain",
@@ -178,7 +178,7 @@
     "summary": "Bestellübersicht",
     "dueNow": "Erste Zahlung",
     "vat": "Preise zzgl. 15 % MwSt.",
-    "submit": "Jetzt bestellen",
+    "submit": "Weiter zur Zahlung",
     "submitting": "Ihre Bestellung wird gesendet…",
     "required": "Bitte geben Sie Ihren Namen und eine gültige Mobilnummer ein.",
     "failed": "Ihre Bestellung konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie uns auf WhatsApp.",
@@ -192,6 +192,15 @@
     ],
     "doneHome": "Zurück zu Oxira",
     "doneWhatsapp": "Schreiben Sie uns auf WhatsApp",
-    "consent": "Mit Ihrer Bestellung akzeptieren Sie die Verarbeitung Ihrer Daten gemäß unserer"
+    "consent": "Mit Ihrer Bestellung akzeptieren Sie die Verarbeitung Ihrer Daten gemäß unserer",
+    "withVat": "Gesamt inkl. MwSt.",
+    "redirecting": "Sie werden zur sicheren Zahlungsseite weitergeleitet…",
+    "paidTitle": "Zahlung erhalten",
+    "paidBody": "Vielen Dank! Wir haben Ihre Zahlung für Bestellung {id} erhalten. Unser Team beginnt mit Ihrer Website und meldet sich in Kürze mit den Details.",
+    "confirming": "Ihre Zahlung wird bestätigt…",
+    "confirmingBody": "Wenn Sie bezahlt haben, erscheint die Bestätigung gleich. Sie können uns auch per WhatsApp mit der Bestellnummer {id} schreiben.",
+    "cancelTitle": "Zahlung nicht abgeschlossen",
+    "cancelBody": "Ihre Bestellung {id} ist gespeichert. Sie können jetzt bezahlen oder uns kontaktieren.",
+    "payNow": "Jetzt bezahlen"
   }
 }

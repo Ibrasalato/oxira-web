@@ -161,7 +161,7 @@
     "resetConfirm": "Créer un nouveau site ? Votre design actuel sera effacé.",
     "toOrder": "C'est parfait, passer à la commande",
     "orderTitle": "Finalisez votre commande",
-    "orderBody": "Choisissez ce dont vous avez besoin et comment vous joindre. Aucun paiement n'est prélevé maintenant : notre équipe confirme votre commande et vous envoie un lien de paiement sécurisé.",
+    "orderBody": "Choisissez ce dont vous avez besoin et comment vous joindre, puis payez en toute sécurité via Moyasar (mada, Visa, Mastercard, Apple Pay).",
     "packagesTitle": "Votre formule",
     "domainTitle": "Domaine",
     "domainNew": "J'ai besoin d'un nouveau domaine",
@@ -178,7 +178,7 @@
     "summary": "Récapitulatif de la commande",
     "dueNow": "Premier paiement",
     "vat": "Prix hors TVA de 15 %.",
-    "submit": "Passer ma commande",
+    "submit": "Passer au paiement",
     "submitting": "Envoi de votre commande…",
     "required": "Veuillez saisir votre nom et un numéro de mobile valide.",
     "failed": "Votre commande n'a pas pu être envoyée. Veuillez réessayer ou nous écrire sur WhatsApp.",
@@ -192,6 +192,15 @@
     ],
     "doneHome": "Retour à Oxira",
     "doneWhatsapp": "Nous écrire sur WhatsApp",
-    "consent": "En passant commande, vous acceptez le traitement de vos données conformément à notre"
+    "consent": "En passant commande, vous acceptez le traitement de vos données conformément à notre",
+    "withVat": "Total TVA incluse",
+    "redirecting": "Redirection vers la page de paiement sécurisée…",
+    "paidTitle": "Paiement reçu",
+    "paidBody": "Merci ! Nous avons reçu votre paiement pour la commande {id}. Notre équipe commence votre site et vous enverra les détails très bientôt.",
+    "confirming": "Confirmation de votre paiement…",
+    "confirmingBody": "Si vous avez payé, la confirmation apparaîtra dans un instant. Vous pouvez aussi nous écrire sur WhatsApp avec le numéro de commande {id}.",
+    "cancelTitle": "Paiement non finalisé",
+    "cancelBody": "Votre commande {id} est enregistrée. Vous pouvez payer maintenant ou nous contacter.",
+    "payNow": "Finaliser le paiement"
   }
 }

@@ -161,7 +161,7 @@
     "resetConfirm": "Start a new website? Your current design will be cleared.",
     "toOrder": "I'm happy, continue to order",
     "orderTitle": "Complete your order",
-    "orderBody": "Choose what you need and how we can reach you. You will not be charged now: our team confirms your order and sends you a secure payment link.",
+    "orderBody": "Choose what you need and how we can reach you, then pay securely through Moyasar (mada, Visa, Mastercard, Apple Pay).",
     "packagesTitle": "Your package",
     "domainTitle": "Domain",
     "domainNew": "I need a new domain",
@@ -178,7 +178,7 @@
     "summary": "Order summary",
     "dueNow": "First payment",
     "vat": "Prices exclude 15% VAT.",
-    "submit": "Place my order",
+    "submit": "Continue to payment",
     "submitting": "Sending your order…",
     "required": "Please enter your name and a valid mobile number.",
     "failed": "Your order could not be sent. Please try again or message us on WhatsApp.",
@@ -192,6 +192,15 @@
     ],
     "doneHome": "Back to Oxira",
     "doneWhatsapp": "Message us on WhatsApp",
-    "consent": "By placing your order you agree to the processing of your data under our"
+    "consent": "By placing your order you agree to the processing of your data under our",
+    "withVat": "Total including VAT",
+    "redirecting": "Taking you to the secure payment page…",
+    "paidTitle": "Payment received",
+    "paidBody": "Thank you! We received your payment for order {id}. Our team is starting on your website and will send you the details shortly.",
+    "confirming": "Confirming your payment…",
+    "confirmingBody": "If you completed the payment, the confirmation will appear in a moment. You can also message us on WhatsApp with order number {id}.",
+    "cancelTitle": "Payment not completed",
+    "cancelBody": "Your order {id} is saved. You can complete the payment now or contact us.",
+    "payNow": "Complete payment"
   }
 }
