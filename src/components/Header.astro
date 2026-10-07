@@ -2,11 +2,11 @@
 import { t, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import Logo from './Logo.astro';
+import LangPicker from './LangPicker.astro';
 
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
 const c = t[lang];
-const other: Lang = lang === 'ar' ? 'en' : 'ar';
 ---
 <header class="hd" id="hd">
   <div class="wrap hd-row">
@@ -24,7 +24,7 @@ const other: Lang = lang === 'ar' ? 'en' : 'ar';
     </nav>
 
     <div class="hd-end">
-      <a class="hd-lang" href={link(other, path)} hreflang={other} lang={other}>{c.switchLabel}</a>
+      <LangPicker lang={lang} path={path} />
       <a class="btn btn-navy hd-cta" href={link(lang, '/contact/')} aria-current={path === '/contact/' ? 'page' : undefined}>{c.site.contactCta}</a>
       <button type="button" class="hd-menu" id="hd-menu" aria-controls="hd-nav" aria-expanded="false">
         <span class="sr-only">{c.site.menu}</span>
@@ -62,9 +62,7 @@ const other: Lang = lang === 'ar' ? 'en' : 'ar';
   .hd-nav ul a[aria-current='page'] { color: var(--ink); border-bottom-color: var(--amber); }
   .hd-cta-mobile { display: none; }
 
-  .hd-end { display: flex; align-items: center; gap: 1rem; }
-  .hd-lang { font-weight: 600; font-size: .95rem; text-decoration: none; color: var(--muted); }
-  .hd-lang:hover { color: var(--ink); }
+  .hd-end { display: flex; align-items: center; gap: .75rem; }
   .hd-cta { padding: .8rem 1.25rem; font-size: .95rem; }
 
   .hd-menu { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; position: relative; }

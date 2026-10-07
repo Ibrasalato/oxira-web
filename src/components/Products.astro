@@ -72,7 +72,7 @@ const tm = p.teacher.mock;
           <div class="pc-screen">
             <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
             <div class="pc-top">
-              <div class="pc-avatar">{lang === 'ar' ? 'أ' : 'A'}</div>
+              <div class="pc-avatar">{lang === 'ar' ? 'أ' : lang === 'ru' ? 'А' : 'A'}</div>
               <div><strong>{s.hello}</strong><small>{s.sub}</small></div>
             </div>
             <div class="pc-bus">
@@ -106,7 +106,7 @@ const tm = p.teacher.mock;
           <div class="pc-screen">
             <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
             <div class="pc-top">
-              <div class="pc-avatar">{lang === 'ar' ? 'س' : 'S'}</div>
+              <div class="pc-avatar">{lang === 'ar' ? 'س' : lang === 'ru' ? 'С' : 'S'}</div>
               <div><strong>{tm.hello}</strong><small>{tm.sub}</small></div>
             </div>
             <div class="pc-now">

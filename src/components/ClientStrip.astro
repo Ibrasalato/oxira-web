@@ -9,7 +9,7 @@ const { lang, title, variant = 'strip' } = Astro.props;
   {title && <p class="cl-title">{title}</p>}
   <ul>
     {clientLogos.map((cl) => (
-      <li><img src={asset(`clients/${cl.file}`)} alt={cl[lang]} loading="lazy" decoding="async" /></li>
+      <li><img src={asset(`clients/${cl.file}`)} alt={lang === 'ar' ? cl.ar : cl.en} loading="lazy" decoding="async" /></li>
     ))}
   </ul>
 </div>

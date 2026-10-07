@@ -160,6 +160,7 @@ const firstChat = c.agents.chats[0];
   .hero { padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(2rem, 5vw, 4rem); overflow: hidden; }
   .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
   .hero h1 { font-size: clamp(2.6rem, 5.2vw, 4.4rem); margin-top: 1rem; text-wrap: balance; }
+  html:is([lang='de'], [lang='fr'], [lang='ru']) .hero h1 { font-size: clamp(2.3rem, 4.2vw, 3.6rem); }
   .hero-body { margin-top: 1.5rem; font-size: clamp(1.1rem, 1.5vw, 1.25rem); color: var(--muted); max-width: 34rem; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
 
@@ -176,7 +177,7 @@ const firstChat = c.agents.chats[0];
   .hv-bar { display: flex; gap: 5px; padding: .5rem .7rem; background: #F1F4F7; border-bottom: 1px solid var(--line); }
   .hv-bar i { width: 8px; height: 8px; border-radius: 50%; background: #CBD5DE; }
   .hv-chat { right: 2%; bottom: 0; width: 46%; padding: .85rem; display: grid; gap: .45rem; direction: rtl; }
-  html[lang='en'] .hv-chat { direction: ltr; }
+  html[dir='ltr'] .hv-chat { direction: ltr; }
   .hv-chat-head { display: flex; align-items: center; gap: .5rem; font-size: .88rem; }
   .hv-av { width: 28px; height: 28px; border-radius: 8px; background: var(--navy); display: grid; place-items: center; font-size: .9rem; }
   .hv-msg { font-size: .78rem; line-height: 1.55; padding: .45rem .65rem; border-radius: 11px; white-space: pre-line; }

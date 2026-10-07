@@ -1,0 +1,835 @@
+{
+ "dir": "ltr",
+ "meta": {
+  "title": "Oxira | Digitale Transformation & IT",
+  "description": "Oxira ist ein saudisches Unternehmen für integrierte Technologielösungen: Softwareentwicklung, Infrastruktur, digitale Transformation, Smart-Home-Systeme und KI."
+ },
+ "nav": {
+  "about": "Über uns",
+  "services": "Leistungen",
+  "clients": "Kunden",
+  "work": "Referenzen",
+  "contact": "Kontakt"
+ },
+ "switchLabel": "العربية",
+ "hero": {
+  "kicker": "Ein saudischer Komplettanbieter für Technologie",
+  "title": "Oxira für digitale Transformation & IT",
+  "body": "Integrierte Lösungen in Softwareentwicklung, Infrastruktur und künstlicher Intelligenz – für Behörden und private Unternehmen in ganz Saudi-Arabien.",
+  "cta": "Kostenlose Beratung buchen",
+  "secondary": "Unsere Leistungen entdecken"
+ },
+ "about": {
+  "introTitle": "Einführung",
+  "introEn": "مقدمة",
+  "intro": "Oxira liefert integrierte Technologielösungen in den Bereichen Softwareentwicklung, Infrastruktur und digitale Transformation. Unser Team fördert Unternehmenswachstum und technologische Innovation, und wir schaffen Mehrwert für die Branche durch kluge strategische Planung und die konsequente Einhaltung internationaler Qualitätsstandards.",
+  "visionTitle": "Unsere Vision",
+  "visionEn": "رؤيتنا",
+  "vision": "Zu den führenden Unternehmen im Bereich Technologie und digitale Transformation zu gehören – mit hohen Nachhaltigkeitsstandards und innovativen Lösungen, die den Anforderungen des Marktes gerecht werden und mit globalen Entwicklungen Schritt halten.",
+  "missionTitle": "Unsere Mission",
+  "missionEn": "رسالتنا",
+  "mission": "Strategische Technologielösungen auf Basis fundierter Marktanalysen sowie digitale Lösungen zu liefern, die unseren Kunden und Partnern den höchsten Nutzen bringen – bei gesicherter Datenqualität und -sicherheit und einer hervorragenden Nutzererfahrung."
+ },
+ "services": {
+  "title": "Unsere Leistungen",
+  "body": "Sechs Bereiche, ein Team – von der Beratung bis zum Betrieb.",
+  "list": [
+   {
+    "icon": "transform",
+    "name": "Digitale Transformation",
+    "en": "التحول الرقمي",
+    "items": [
+     "Beratung zur digitalen Transformation für Unternehmen und Institutionen",
+     "Analyse, Entwicklung und Optimierung digitaler Strategien",
+     "Digitale Projekte aus einer Hand für mehr operative Effizienz",
+     "Content-Management-Plattformen und moderne digitale Lösungen"
+    ]
+   },
+   {
+    "icon": "software",
+    "name": "Softwareentwicklung",
+    "en": "تطوير البرمجيات",
+    "items": [
+     "Individualsoftware, nach höchsten Standards konzipiert und entwickelt",
+     "Mobile Apps und Weblösungen",
+     "Angewandte KI und Datenanalyse",
+     "Verwaltungs-, Business- und E-Commerce-Systeme"
+    ]
+   },
+   {
+    "icon": "infra",
+    "name": "IT-Infrastruktur",
+    "en": "تطوير التقنية للبنية التحتية",
+    "items": [
+     "Cloud Computing und Informationssicherheit",
+     "Kommunikationsnetze und digitale Infrastruktur",
+     "Support und Management von IT-Systemen",
+     "Moderne Netzwerke für Privat- und Geschäftsräume"
+    ]
+   },
+   {
+    "icon": "home",
+    "name": "Smart-Home-Systeme",
+    "en": "أنظمة المنزل الذكي",
+    "items": [
+     "Integrierte Smart-Home-Systeme",
+     "Fernsteuerung von Geräten und Haustechnik",
+     "Moderne Sicherheits- und Überwachungssysteme",
+     "Intelligente Beleuchtung und Klimasteuerung"
+    ]
+   },
+   {
+    "icon": "ai",
+    "name": "KI-Lösungen",
+    "en": "حلول الذكاء الاصطناعي",
+    "items": [
+     "KI-Systeme und Big-Data-Analysen",
+     "Fortschrittliche Analysen für fundierte Entscheidungen",
+     "Prozessoptimierung durch Automatisierung und Deep Learning",
+     "Mustererkennung und intelligente Geschäftsprognosen"
+    ]
+   },
+   {
+    "icon": "agent",
+    "name": "KI-Agenten & Automatisierung",
+    "en": "وكلاء الذكاء الاصطناعي والأتمتة",
+    "items": [
+     "Ein WhatsApp-Agent, der Kunden rund um die Uhr antwortet",
+     "Versteht Sprachnachrichten und spricht den Dialekt Ihrer Kunden",
+     "Nimmt Buchungen und Anfragen entgegen und erfasst sie für Ihr Team",
+     "Automatisiert Routineaufgaben und vernetzt Ihre Systeme"
+    ]
+   }
+  ]
+ },
+ "agents": {
+  "navLabel": "KI-Agenten",
+  "kicker": "Agenten für WhatsApp und Website",
+  "title": "KI-Agenten & Automatisierung",
+  "body": "Ein smarter Mitarbeiter auf Ihrem WhatsApp, der rund um die Uhr arbeitet: Er antwortet Kunden in ihrem eigenen Dialekt, versteht Sprachnachrichten, nimmt Anfragen und Buchungen entgegen, erfasst sie für Ihr Team und übergibt das Gespräch bei Bedarf an einen Menschen. Wir entwickeln und betreiben ihn für Organisationen jeder Art – von der kleinen Praxis bis zur Behörde.",
+  "demoLabel": "Beispielgespräche",
+  "online": "online",
+  "voice": "Sprachnachricht",
+  "typeHere": "Nachricht",
+  "capabilities": [
+   {
+    "name": "Rund um die Uhr erreichbar",
+    "text": "Sofortige Antworten zu jeder Zeit, auch nach Feierabend und an Feiertagen."
+   },
+   {
+    "name": "Spricht den Dialekt Ihrer Kunden",
+    "text": "Arabisch im saudischen oder ägyptischen Dialekt sowie Englisch."
+   },
+   {
+    "name": "Versteht Sprachnachrichten",
+    "text": "Transkribiert Sprache, erfasst das Anliegen und antwortet."
+   },
+   {
+    "name": "Erfasst jede Anfrage",
+    "text": "Buchungen, Bestellungen und Tickets landen direkt in Ihrem System oder Ihrer Tabelle."
+   },
+   {
+    "name": "Übergibt an Ihr Team",
+    "text": "Leitet das Gespräch an Ihre Mitarbeiter weiter, wenn ein Mensch gefragt ist."
+   },
+   {
+    "name": "Sie bestimmen sein Wissen",
+    "text": "Ein Dashboard, um Leistungen, Preise und FAQs ohne Entwickler zu aktualisieren."
+   }
+  ],
+  "chats": [
+   {
+    "id": "clinic",
+    "tab": "Praxen",
+    "name": "Smile Zahnarztpraxis",
+    "messages": [
+     {
+      "from": "user",
+      "text": "Hallo, ich möchte eine Zahnreinigung buchen",
+      "time": "21:41"
+     },
+     {
+      "from": "agent",
+      "text": "Hallo und herzlich willkommen 🌷 Wir haben morgen um 16:30 und um 18:00 Uhr Termine frei. Was passt Ihnen?",
+      "time": "21:41"
+     },
+     {
+      "from": "user",
+      "text": "18 Uhr passt",
+      "time": "21:42"
+     },
+     {
+      "from": "agent",
+      "text": "Gebucht ✅\nZahnreinigung, morgen um 18:00 Uhr.\nWir schicken Ihnen zwei Stunden vorher eine Erinnerung.",
+      "time": "21:42"
+     }
+    ]
+   },
+   {
+    "id": "school",
+    "tab": "Schulen",
+    "name": "Al Nukhba Privatschulen",
+    "messages": [
+     {
+      "from": "user",
+      "voice": "0:14",
+      "time": "19:05"
+     },
+     {
+      "from": "agent",
+      "text": "Willkommen 👋 Ich habe Ihnen die Gebühren und die Anmeldeschritte für die 4. Klasse geschickt 📄\nMöchten Sie einen Schulbesuch vereinbaren?",
+      "time": "19:05"
+     },
+     {
+      "from": "user",
+      "text": "Ja, am Sonntag",
+      "time": "19:06"
+     },
+     {
+      "from": "agent",
+      "text": "Erledigt, Ihre Besuchsanfrage für Sonntag ist erfasst ✅ Das Aufnahmeteam meldet sich bei Ihnen, um die Uhrzeit zu bestätigen.",
+      "time": "19:06"
+     }
+    ]
+   },
+   {
+    "id": "store",
+    "tab": "Onlineshops",
+    "name": "Anaqa Store",
+    "messages": [
+     {
+      "from": "user",
+      "text": "Wo ist meine Bestellung? Es ist die #4471",
+      "time": "11:20"
+     },
+     {
+      "from": "agent",
+      "text": "Bestellung #4471 ist heute in der Zustellung 🚚 und sollte vor 21 Uhr bei Ihnen sein.",
+      "time": "11:20"
+     },
+     {
+      "from": "user",
+      "text": "Haben Sie dieselbe Tasche auch in Schwarz?",
+      "time": "11:21"
+     },
+     {
+      "from": "agent",
+      "text": "Ja, auf Lager ✅ Hier ist der Link zur schwarzen. Soll ich sie in Ihren Warenkorb legen?",
+      "time": "11:21"
+     }
+    ]
+   },
+   {
+    "id": "events",
+    "tab": "Events",
+    "name": "Riyadh International Expo",
+    "messages": [
+     {
+      "from": "user",
+      "text": "Wo ist der Eingang für Aussteller?",
+      "time": "07:52"
+     },
+     {
+      "from": "agent",
+      "text": "Aussteller nutzen Tor 3 auf der Nordseite, geöffnet ab 8:00 Uhr 📍 Soll ich Ihnen den Standort auf der Karte schicken?",
+      "time": "07:52"
+     },
+     {
+      "from": "user",
+      "text": "Bei Stand B12 tritt Wasser aus",
+      "time": "07:54"
+     },
+     {
+      "from": "agent",
+      "text": "Meldung erfasst ✅ Nr. 1182, die Haustechnik ist informiert. Vielen Dank.",
+      "time": "07:54"
+     }
+    ]
+   }
+  ],
+  "sectorsTitle": "Für jede Branche",
+  "sectorsBody": "Wir passen den Agenten an Ihre Arbeitsweise an und speisen ihn mit Ihren freigegebenen Informationen.",
+  "sectors": [
+   {
+    "name": "Kundenservice",
+    "who": "Unternehmen, Shops, Dienstleister",
+    "text": "Antwortet auf Basis Ihrer freigegebenen Informationen, eröffnet Anfragen und Tickets und übergibt bei Bedarf an Ihr Team."
+   },
+   {
+    "name": "Medizinische Zentren & Praxen",
+    "who": "Medizinische Zentren, Ärztehäuser, Zahn- und Ästhetikpraxen",
+    "text": "Stellt Leistungen und Ärzte vor, nimmt Terminanfragen entgegen, ändert sie und erinnert Patienten an Termine."
+   },
+   {
+    "name": "Messen & Events",
+    "who": "Messen, Festivals, Konferenzen",
+    "text": "Informationen und Registrierung für Besucher und Aussteller sowie Meldungen vor Ort mit Weiterleitung an den Betrieb."
+   },
+   {
+    "name": "Schulen",
+    "who": "Private und internationale Schulen, Bildungszentren",
+    "text": "Fragen zu Aufnahme, Anmeldung und Gebühren – Anliegen von Eltern werden an die richtige Abteilung weitergeleitet."
+   },
+   {
+    "name": "Vertrieb & Lead-Qualifizierung",
+    "who": "Immobilien, Automobil, B2B-Dienstleistungen",
+    "text": "Nimmt Leads aus Anzeigen und von Ihrer Website entgegen, qualifiziert sie und benachrichtigt Ihr Vertriebsteam sofort."
+   },
+   {
+    "name": "Onlineshops",
+    "who": "Shopify, Salla, Zid und mehr",
+    "text": "Bestellstatus, Erinnerungen bei abgebrochenen Warenkörben sowie tägliche und wöchentliche Verkaufsberichte."
+   },
+   {
+    "name": "Interne Automatisierung",
+    "who": "Alle Branchen",
+    "text": "Vernetzt Ihre Systeme, automatisiert Berichte und liest Dokumente aus, um deren Daten zu extrahieren."
+   }
+  ],
+  "stepsTitle": "So starten wir",
+  "steps": [
+   {
+    "name": "Bedarf verstehen",
+    "text": "Ein kurzes Gespräch, um festzulegen, was der Agent leisten soll."
+   },
+   {
+    "name": "Agenten entwickeln",
+    "text": "Wir speisen ihn mit Ihren Leistungen, FAQs und Ihrer Tonalität."
+   },
+   {
+    "name": "Kanäle anbinden",
+    "text": "WhatsApp, Ihre Website und Systeme wie CRM und Tabellen."
+   },
+   {
+    "name": "Betreiben & verbessern",
+    "text": "Wir überwachen die Gespräche und verbessern die Antworten laufend."
+   }
+  ],
+  "pricing": "Monatliches oder jährliches Abonnement je nach Nutzung und Integrationen – mit einem Angebot, sobald wir Ihren Bedarf kennen.",
+  "cta": "Agenten-Demo anfordern",
+  "serviceValue": "AI Agent Automation"
+ },
+ "products": {
+  "navLabel": "Produkte",
+  "title": "Unsere Produkte",
+  "body": "Digitale Produkte, die wir selbst entwickeln und betreiben – allen voran Classti, unsere Schulverwaltungs-Suite.",
+  "tagline": "Smart School Network",
+  "name": "Classti",
+  "lead": "Eine saudische Komplettlösung für die Verwaltung privater und internationaler Schulen vom Kindergarten bis zum Abitur. Sie verbindet Schulleitung, Lehrkräfte, Schüler, Eltern und Busfahrer in einem intelligenten, sicheren System.",
+  "suiteLabel": "Die Suite",
+  "suite": [
+   {
+    "key": "platform",
+    "name": "Schulplattform",
+    "en": "Classti School",
+    "text": "Das Admin-Dashboard für alles rund um die Schule."
+   },
+   {
+    "key": "student",
+    "name": "Schüler-App",
+    "en": "Classti Student",
+    "text": "Unterricht, Stundenplan, Noten und Bus für Schüler."
+   },
+   {
+    "key": "teacher",
+    "name": "Lehrer-App",
+    "en": "Classti Teacher",
+    "text": "Klassen, Anwesenheit und Benotung für Lehrkräfte."
+   }
+  ],
+  "alsoLabel": "Ebenfalls Teil der Suite: die Eltern-App und die Fahrer-App.",
+  "platform": {
+   "title": "Schulplattform",
+   "en": "Classti School",
+   "lead": "Ein Dashboard, über das die Schule Unterricht, Schülerangelegenheiten, Personal und Finanzen steuert – vollständig auf Arabisch mit Rechts-nach-links-Design.",
+   "shotsLabel": "Screens der Plattform",
+   "shots": [
+    {
+     "file": "classti-dashboard.webp",
+     "tab": "Dashboard",
+     "caption": "Tagesüberblick: Schüler- und Lehrerzahlen, Anwesenheit nach Stufe, Busrouten live und Aufnahmen im Überblick."
+    },
+    {
+     "file": "classti-exams.webp",
+     "tab": "Prüfungsergebnisse",
+     "caption": "Durchschnitt und Bestehensquoten, noch zu korrigierende Prüfungen, Bestleistungen sowie Durchschnittswerte nach Stufe und Fach."
+    },
+    {
+     "file": "classti-buses.webp",
+     "tab": "Schülertransport",
+     "caption": "Live-Busverfolgung auf der Karte: Fahrer, Route, Anzahl der Schüler und voraussichtliche Ankunft."
+    }
+   ],
+   "modules": [
+    {
+     "name": "Unterricht",
+     "items": [
+      "Stufen und Klassen",
+      "E-Learning-LMS",
+      "Schuljahreskalender",
+      "Prüfungen und Ergebnisse"
+     ]
+    },
+    {
+     "name": "Schülerangelegenheiten",
+     "items": [
+      "Schülerakten",
+      "Bewerbungen, Aufnahmen und Verträge",
+      "Transport und Busverfolgung",
+      "Anwesenheit"
+     ]
+    },
+    {
+     "name": "Personal",
+     "items": [
+      "Lehr- und Verwaltungspersonal",
+      "Recruiting und Bewerber",
+      "Anwesenheit der Mitarbeiter",
+      "Verwaltungsanträge"
+     ]
+    },
+    {
+     "name": "Finanzen",
+     "items": [
+      "Schulgebühren und Inkasso",
+      "Einkauf, Lieferanten und Erstattungen",
+      "Gehaltsabrechnung, Vorschüsse und Gehaltsstufen",
+      "Steuererklärungen"
+     ]
+    }
+   ]
+  },
+  "student": {
+   "title": "Schüler-App",
+   "en": "Classti Student",
+   "lead": "Der Schultag für die Hosentasche: heutiger Unterricht, Hausaufgaben, Noten und wann der Bus kommt.",
+   "features": [
+    "Stundenplan und heutiger Unterricht",
+    "Unterrichtsinhalte und Hausaufgaben aus dem LMS",
+    "Prüfungsergebnisse und Noten",
+    "Anwesenheitsübersicht",
+    "Busverfolgung und Ankunftszeit",
+    "Schulmitteilungen und Kalender"
+   ],
+   "mock": {
+    "hello": "Guten Morgen, Ahmed 👋",
+    "sub": "Klasse 5 - A",
+    "bus": "Dein Bus kommt in 8 Min.",
+    "busSub": "Bus 12 · Fahrer Ahmed",
+    "today": "Heutiger Unterricht",
+    "classes": [
+     [
+      "7:30",
+      "Mathematik",
+      "Frau Sarah"
+     ],
+     [
+      "8:20",
+      "Arabisch",
+      "Frau Mona"
+     ],
+     [
+      "9:10",
+      "Naturwissenschaften",
+      "Herr Khaled"
+     ]
+    ],
+    "hw": "Hausaufgabe Naturwissenschaften",
+    "hwSub": "Fällig morgen",
+    "grade": "Letztes Ergebnis: Mathe 18/20",
+    "nav": [
+     "Start",
+     "Unterricht",
+     "Noten",
+     "Profil"
+    ]
+   }
+  },
+  "teacher": {
+   "title": "Lehrer-App",
+   "en": "Classti Teacher",
+   "lead": "Alle täglichen Werkzeuge einer Lehrkraft in einer App: Anwesenheit in Sekunden erfassen, Noten eintragen, Unterrichtsinhalte und Hausaufgaben veröffentlichen und mit Eltern kommunizieren.",
+   "features": [
+    "Stundenplan",
+    "Anwesenheit per Fingertipp",
+    "Noten und Prüfungen",
+    "Unterrichtsinhalte und Hausaufgaben",
+    "Nachrichten an Eltern",
+    "Anwesenheit der Lehrkräfte und Verwaltungsanträge"
+   ],
+   "mock": {
+    "hello": "Hallo, Frau Sarah",
+    "sub": "Sie haben heute 4 Stunden",
+    "now": "Aktuelle Stunde",
+    "nowClass": "Mathematik · Klasse 5 - A",
+    "attend": "Anwesenheit erfassen",
+    "students": [
+     [
+      "Ahmed Moataz",
+      true
+     ],
+     [
+      "Youssef Ali",
+      true
+     ],
+     [
+      "Layan Khaled",
+      false
+     ],
+     [
+      "Salman Fahad",
+      true
+     ]
+    ],
+    "present": "Anwesend",
+    "absent": "Abwesend",
+    "save": "Anwesenheit speichern",
+    "nav": [
+     "Start",
+     "Klassen",
+     "Noten",
+     "Nachrichten"
+    ]
+   }
+  },
+  "cta": "Classti-Demo anfordern",
+  "ctaValue": "Classti"
+ },
+ "advantages": {
+  "title": "Warum Oxira",
+  "sub": "für Technologielösungen",
+  "list": [
+   {
+    "name": "Bewährte Expertise",
+    "text": "Ein spezialisiertes Team mit umfassender Erfahrung in der Technologiebranche."
+   },
+   {
+    "name": "Moderne Technologie",
+    "text": "Wir setzen auf das Neueste in digitaler Transformation und künstlicher Intelligenz."
+   },
+   {
+    "name": "Qualitätsanspruch",
+    "text": "Projekte nach internationalen Standards – für zufriedene Kunden und Partner."
+   },
+   {
+    "name": "Strategische Partnerschaften",
+    "text": "Zusammenarbeit mit Behörden und privaten Unternehmen an nachhaltigen Technologieprojekten."
+   },
+   {
+    "name": "Datensicherheit",
+    "text": "Starker Schutz von Informationen und Einhaltung internationaler Sicherheitsstandards."
+   },
+   {
+    "name": "Kreativität & Innovation",
+    "text": "Fortschrittliche Lösungen, die mit sich schnell wandelnden digitalen Märkten Schritt halten."
+   }
+  ]
+ },
+ "clients": {
+  "title": "Unsere Kunden",
+  "body": "Wir sind stolz darauf, mit führenden staatlichen und privaten Organisationen sowie internationalen Technologie- und Beratungsunternehmen zusammenzuarbeiten."
+ },
+ "work": {
+  "title": "Unsere Referenzen",
+  "body": "Eine Auswahl an Websites und Plattformen, die wir für unsere Kunden konzipiert und entwickelt haben.",
+  "projects": [
+   {
+    "slug": "makkah",
+    "name": "Emirat der Region Mekka",
+    "sector": "Öffentlicher Sektor",
+    "text": "Die offizielle Website des Gouvernements Taif: ein vollständiger, professioneller Auftritt mit aktuellen Nachrichten und E-Services für Einwohner und Organisationen."
+   },
+   {
+    "slug": "perfect-choice",
+    "name": "Perfect Choice",
+    "sector": "Events",
+    "text": "Ein führender saudischer Veranstalter staatlicher, sportlicher und Unterhaltungs-Events. Wir haben einen digitalen Auftritt gestaltet, der die Qualität ihrer Arbeit widerspiegelt."
+   },
+   {
+    "slug": "imtenan",
+    "name": "Imtenan Limited Company",
+    "sector": "Bauwesen",
+    "text": "Ein führendes saudisches Bauunternehmen, 1992 in Dschidda gegründet. Wir haben eine Website gestaltet, die seine Projekte und seine Expertise präsentiert."
+   },
+   {
+    "slug": "cordoba",
+    "name": "Cordoba Eye",
+    "sector": "Handel",
+    "text": "Ein regionaler Marktführer für Keramik, Porzellan und Terrakotta. Wir haben eine professionelle Website entwickelt, die seine digitale Präsenz und das Vertrauen der Kunden stärkt."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Lassen Sie Ihre Website oder App professionell gestalten",
+  "body": "Websites, mobile Apps und Landingpages – mit kostenloser Beratung vor Projektstart.",
+  "button": "Beratung buchen"
+ },
+ "contact": {
+  "title": "Starten wir Ihr nächstes Projekt",
+  "body": "Ob digitale Plattform, Beratung zur digitalen Transformation oder maßgeschneiderte KI-Lösungen – unser Team hat ein offenes Ohr für Sie.",
+  "address": "426 Al Sulaymaniyah, Al Urubah Rd., Riad, Königreich Saudi-Arabien",
+  "labels": {
+   "phone": "Telefon",
+   "email": "E-Mail",
+   "web": "Website",
+   "address": "Adresse",
+   "whatsapp": "WhatsApp",
+   "support": "Technischer Support"
+  },
+  "form": {
+   "title": "Schreiben Sie uns",
+   "type": "Art der Anfrage",
+   "typeProject": "Projekt oder Anfrage",
+   "typeSupport": "Technischer Support",
+   "detailsSupport": "Beschreiben Sie das Problem",
+   "detailsSupportHint": "Nennen Sie uns das Produkt oder System, was passiert ist und wann.",
+   "subjectProject": "Neue Anfrage über die Oxira-Website",
+   "subjectSupport": "Supportanfrage über die Oxira-Website",
+   "name": "Vollständiger Name",
+   "email": "E-Mail",
+   "phone": "Mobilnummer",
+   "service": "Gewünschte Leistung",
+   "serviceAny": "Leistung auswählen",
+   "other": "Sonstiges",
+   "details": "Projektdetails",
+   "submit": "Nachricht senden",
+   "sending": "Wird gesendet…",
+   "sent": "Nachricht erhalten. Wir melden uns in Kürze bei Ihnen.",
+   "failed": "Die Nachricht konnte nicht über die Website gesendet werden. Senden Sie sie direkt per E-Mail oder WhatsApp:",
+   "pending": "Nachrichten an info@oxira.sa warten noch auf Freischaltung. Senden Sie Ihre jetzt direkt:",
+   "viaEmail": "Per E-Mail senden",
+   "viaWhatsapp": "Per WhatsApp senden",
+   "required": "Bitte füllen Sie die Pflichtfelder aus: Name, E-Mail oder Mobilnummer und Projektdetails."
+  }
+ },
+ "chat": {
+  "open": "Mit dem Oxira-Assistenten chatten",
+  "close": "Chat schließen",
+  "title": "Oxira-Assistent",
+  "status": "Online · antwortet in Sekunden",
+  "welcome": "Willkommen bei Oxira 👋\nIch bin der KI-Assistent. Fragen Sie mich zu unseren Leistungen, zur Schulplattform Classti oder zu KI-Agenten – ich kann Ihre Anfrage auch für das Team erfassen.",
+  "suggestions": [
+   "Was bieten Sie an?",
+   "Erzählen Sie mir von Classti",
+   "Ich möchte einen KI-Agenten",
+   "Ich brauche technischen Support"
+  ],
+  "placeholder": "Nachricht eingeben…",
+  "send": "Senden",
+  "typing": "Assistent schreibt…",
+  "error": "Der Assistent ist gerade nicht erreichbar.",
+  "errorAction": "Schreiben Sie uns auf WhatsApp",
+  "disclaimer": "KI-Assistent – Fehler sind möglich."
+ },
+ "site": {
+  "nav": [
+   {
+    "path": "/services/",
+    "label": "Leistungen"
+   },
+   {
+    "path": "/ai-agents/",
+    "label": "KI-Agenten"
+   },
+   {
+    "path": "/classti/",
+    "label": "Classti"
+   },
+   {
+    "path": "/work/",
+    "label": "Referenzen"
+   },
+   {
+    "path": "/about/",
+    "label": "Über uns"
+   }
+  ],
+  "contactCta": "Kontakt",
+  "menu": "Menü",
+  "skip": "Zum Inhalt springen",
+  "footerTagline": "Ein saudisches Unternehmen für digitale Transformation und IT.",
+  "footerCols": {
+   "company": "Unternehmen",
+   "services": "Leistungen",
+   "contact": "Kontakt"
+  },
+  "legal": "Riad, Königreich Saudi-Arabien"
+ },
+ "home": {
+  "title": "Wir entwickeln die Technologie, die Ihr Unternehmen antreibt",
+  "body": "Oxira ist ein saudisches Unternehmen für digitale Transformation und IT. Wir konzipieren und realisieren Software-, Infrastruktur- und KI-Lösungen für Behörden und führende Unternehmen im ganzen Königreich.",
+  "cta": "Kostenlose Beratung buchen",
+  "secondary": "Unsere Leistungen entdecken",
+  "trusted": "Vertraut von Behörden und führenden Unternehmen",
+  "heroTags": {
+   "site": "Websites & Plattformen",
+   "product": "Unser Produkt: Classti",
+   "agent": "KI-Agenten"
+  },
+  "servicesTitle": "Was wir tun",
+  "servicesBody": "Sechs Bereiche, ein Team – von der Beratung über den Betrieb bis zum Support.",
+  "servicesLink": "Alle Leistungen",
+  "agentsBody": "Ein smarter Mitarbeiter auf Ihrem WhatsApp und Ihrer Website, der rund um die Uhr arbeitet: Er antwortet im Dialekt Ihrer Kunden, versteht Sprachnachrichten und erfasst Anfragen für Ihr Team.",
+  "agentsLink": "KI-Agenten entdecken",
+  "classtiTitle": "Classti: Schulverwaltungs-Suite",
+  "classtiLink": "Classti entdecken",
+  "workTitle": "Ausgewählte Referenzen",
+  "workLink": "Alle Referenzen",
+  "aboutLink": "Über Oxira"
+ },
+ "pages": {
+  "home": {
+   "title": "Oxira | Digitale Transformation & IT",
+   "description": "Oxira ist ein saudisches Unternehmen für digitale Transformation und IT: Software, Infrastruktur, KI- und Automatisierungsagenten sowie die Schulverwaltungs-Suite Classti."
+  },
+  "services": {
+   "title": "Leistungen | Oxira",
+   "h1": "Integrierte Technologieleistungen",
+   "lead": "Von der Infrastruktur bis zur KI: Ein Team begleitet Ihr digitales Projekt von der Beratung bis zu Betrieb und Support.",
+   "description": "Leistungen von Oxira: digitale Transformation, Softwareentwicklung, Infrastruktur, Smart-Home-Systeme, KI-Lösungen sowie KI-Agenten und Automatisierung."
+  },
+  "agents": {
+   "title": "KI-Agenten | Oxira",
+   "description": "Ein KI-Agent auf Ihrem WhatsApp und Ihrer Website, der Kunden rund um die Uhr in ihrem Dialekt antwortet, Sprachnachrichten versteht und Anfragen erfasst – für jede Branche."
+  },
+  "classti": {
+   "title": "Classti | Schulverwaltungs-Suite von Oxira",
+   "description": "Classti ist eine saudische Schulverwaltungs-Suite für private und internationale Schulen: Schulplattform, Schüler-App, Lehrer-App sowie Eltern- und Fahrer-App."
+  },
+  "work": {
+   "title": "Referenzen | Oxira",
+   "h1": "Unsere Referenzen und Kunden",
+   "lead": "Websites, Plattformen und Systeme, die wir für Behörden und Unternehmen in ganz Saudi-Arabien realisiert haben.",
+   "description": "Ausgewählte Projekte und Kunden von Oxira aus dem öffentlichen Sektor und führenden Unternehmen in Saudi-Arabien."
+  },
+  "about": {
+   "title": "Über uns | Oxira",
+   "h1": "Über Oxira",
+   "description": "Über Oxira: ein saudisches Unternehmen für digitale Transformation und IT – Vision, Mission und Stärken."
+  },
+  "contact": {
+   "title": "Kontakt | Oxira",
+   "description": "Kontaktieren Sie Oxira für ein Projekt, eine kostenlose Beratung oder technischen Support. Riad, Saudi-Arabien."
+  }
+ },
+ "process": {
+  "title": "So arbeiten wir",
+  "steps": [
+   {
+    "name": "Verstehen",
+    "text": "Wir beginnen mit einem Gespräch, um Ihre Ziele, bestehenden Systeme und Ihren tatsächlichen Bedarf zu verstehen."
+   },
+   {
+    "name": "Konzipieren",
+    "text": "Wir schlagen die passende Lösung vor und planen das gesamte Projekt, bevor wir mit der Umsetzung beginnen."
+   },
+   {
+    "name": "Umsetzen",
+    "text": "Wir entwickeln, testen und liefern in klaren Etappen – und binden Sie durchgehend ein."
+   },
+   {
+    "name": "Betrieb & Support",
+    "text": "Wir bleiben auch nach dem Launch an Ihrer Seite: Betrieb, Monitoring, Optimierung und technischer Support."
+   }
+  ]
+ },
+ "legal": {
+  "privacy": "Datenschutzerklärung",
+  "formConsent": "Mit dem Absenden dieser Nachricht stimmen Sie zu, dass Ihre Daten verarbeitet werden gemäß unserer",
+  "chatConsent": "Gespräche werden verarbeitet gemäß unserer",
+  "notFound": {
+   "title": "Seite nicht gefunden",
+   "body": "Der Link hat sich möglicherweise geändert oder die Seite wurde entfernt. Kehren Sie zur Startseite zurück oder nehmen Sie Kontakt mit uns auf.",
+   "home": "Startseite",
+   "contact": "Kontakt"
+  },
+  "policy": {
+   "title": "Datenschutzerklärung | Oxira",
+   "h1": "Datenschutzerklärung",
+   "updated": "Zuletzt aktualisiert: 7. Oktober 2026",
+   "description": "Wie Oxira personenbezogene Daten auf seiner Website erhebt, nutzt und schützt, und welche Rechte Sie nach dem saudischen Gesetz zum Schutz personenbezogener Daten haben.",
+   "intro": "Oxira („Oxira“, „wir“) verpflichtet sich, Ihre personenbezogenen Daten zu schützen und sie im Einklang mit dem Gesetz zum Schutz personenbezogener Daten (PDPL) des Königreichs Saudi-Arabien und den zugehörigen Durchführungsbestimmungen zu verarbeiten. Diese Erklärung erläutert, welche Daten wir auf dieser Website erheben, zu welchem Zweck, wie wir sie schützen und welche Rechte Sie haben.",
+   "sections": [
+    {
+     "h": "Welche Daten wir erheben",
+     "p": [
+      "Wir erheben nur, was Sie uns mitteilen oder was für den Betrieb der Website erforderlich ist:"
+     ],
+     "list": [
+      "Kontakt- und Supportformular: Name, E-Mail-Adresse, Mobilnummer, gewünschte Leistung und Details zur Anfrage.",
+      "Chat mit dem Oxira-Assistenten: die von Ihnen verfassten Nachrichten, eine zufällige Sitzungs-ID, die nur für die Dauer des Besuchs in Ihrem Browser gespeichert wird, sowie alle Angaben, die Sie zur Erfassung einer Anfrage freiwillig machen, etwa Name, Mobilnummer und Organisation.",
+      "Begrenzte technische Daten: die Seite, von der aus Sie die Nachricht gesendet haben, und deren Sprache. Sofern Besucheranalysen aktiviert sind, aggregierte Nutzungsdaten wie besuchte Seiten und Gerätetyp."
+     ]
+    },
+    {
+     "h": "Wofür wir sie nutzen",
+     "p": [],
+     "list": [
+      "Um Ihre Anfrage zu beantworten und ein Angebot oder eine Demo vorzubereiten.",
+      "Um technischen Support für unsere Produkte und Leistungen zu leisten.",
+      "Um die Website und unsere Leistungen anhand aggregierter Nutzungsdaten zu verbessern."
+     ]
+    },
+    {
+     "h": "Rechtsgrundlage",
+     "p": [
+      "Wir verarbeiten Ihre Daten auf Grundlage Ihrer Einwilligung, wenn Sie das Formular absenden oder einen Chat beginnen, sowie zur Durchführung von Maßnahmen, die Sie vor oder während eines Vertragsverhältnisses anfragen. Sie können Ihre Einwilligung jederzeit widerrufen."
+     ]
+    },
+    {
+     "h": "Der KI-Assistent",
+     "p": [
+      "Der Oxira-Assistent ist ein KI-Agent, der automatisch antwortet und Fehler machen kann. Ihre Nachrichten werden zur Generierung der Antworten an einen Anbieter von KI-Modellen übermittelt und ausschließlich dazu verwendet, Ihr Anliegen zu bearbeiten. Bitte teilen Sie im Chat keine sensiblen Daten wie Gesundheits- oder Finanzinformationen."
+     ]
+    },
+    {
+     "h": "An wen wir Daten weitergeben",
+     "p": [
+      "Wir verkaufen oder vermieten Ihre Daten nicht. Wir geben sie nur an Dienstleister weiter, die in unserem Auftrag tätig sind, und nur im erforderlichen Umfang: Website-Hosting, die Automatisierungsplattform, die Nachrichten empfängt und speichert, unser E-Mail-Anbieter, der Anbieter des KI-Modells für den Chat sowie gegebenenfalls Besucheranalysen. Ein Teil dieser Daten kann außerhalb des Königreichs von Anbietern verarbeitet werden, die an angemessene Schutzmaßnahmen gebunden sind. Zudem können wir Daten offenlegen, wenn dies gesetzlich oder von einer zuständigen Behörde verlangt wird."
+     ]
+    },
+    {
+     "h": "Speicherdauer",
+     "p": [
+      "Wir speichern Nachrichten und Serviceanfragen so lange, wie es zur Bearbeitung und Nachverfolgung Ihrer Anfrage erforderlich ist, und löschen oder anonymisieren sie anschließend, sofern das Gesetz keine längere Aufbewahrung vorschreibt. Die Chat-Sitzungs-ID wird beim Schließen Ihres Browsers entfernt."
+     ]
+    },
+    {
+     "h": "Sicherheit",
+     "p": [
+      "Wir nutzen verschlüsselte Verbindungen (HTTPS), beschränken den Datenzugriff auf Teammitglieder, die ihn benötigen, und wählen Anbieter mit anerkannten Sicherheitsstandards."
+     ]
+    },
+    {
+     "h": "Ihre Rechte",
+     "p": [
+      "Nach dem Gesetz haben Sie das Recht:"
+     ],
+     "list": [
+      "darüber informiert zu werden, wie Ihre Daten erhoben und verarbeitet werden.",
+      "auf Ihre Daten zuzugreifen und eine Kopie davon zu erhalten.",
+      "die Berichtigung, Vervollständigung oder Aktualisierung Ihrer Daten zu verlangen.",
+      "die Vernichtung Ihrer Daten zu verlangen, sobald sie nicht mehr benötigt werden.",
+      "Ihre Einwilligung in die Verarbeitung jederzeit zu widerrufen."
+     ],
+     "after": "Um eines dieser Rechte auszuüben, schreiben Sie an info@oxira.sa – wir antworten innerhalb der gesetzlichen Frist. Sie können zudem Beschwerde bei der saudischen Behörde für Daten und künstliche Intelligenz (SDAIA) einreichen."
+    },
+    {
+     "h": "Cookies",
+     "p": [
+      "Die Website verwendet keine Werbe-Cookies. Besucheranalysen können, sofern aktiviert, Cookies einsetzen, um die Nutzung in aggregierter Form zu messen; Sie können diese in Ihren Browsereinstellungen blockieren."
+     ]
+    },
+    {
+     "h": "Aktualisierungen und Kontakt",
+     "p": [
+      "Wir können diese Erklärung von Zeit zu Zeit aktualisieren; das Datum der letzten Aktualisierung steht oben. Fragen: Oxira, 426 Al Sulaymaniyah, Al Urubah Rd., Riad, Saudi-Arabien. E-Mail: info@oxira.sa. Telefon: +966 59 669 4021."
+     ]
+    }
+   ]
+  }
+ },
+ "footer": {
+  "rights": "Oxira. Alle Rechte vorbehalten."
+ }
+}

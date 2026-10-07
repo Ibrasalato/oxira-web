@@ -1,7 +1,21 @@
 // All page copy lives here, one object per language.
 // Text follows the Oxira company profile. Edit here; the layout picks it up in both languages.
 
-export type Lang = 'ar' | 'en';
+import de from './de.json';
+import fr from './fr.json';
+import ru from './ru.json';
+
+export type Lang = 'ar' | 'en' | 'de' | 'fr' | 'ru';
+
+// Language picker: native name, country flag (public/flags/*.svg), Open Graph locale.
+export const languages: { code: Lang; name: string; flag: string; locale: string }[] = [
+  { code: 'ar', name: 'العربية', flag: 'sa', locale: 'ar_SA' },
+  { code: 'en', name: 'English', flag: 'gb', locale: 'en_US' },
+  { code: 'de', name: 'Deutsch', flag: 'de', locale: 'de_DE' },
+  { code: 'fr', name: 'Français', flag: 'fr', locale: 'fr_FR' },
+  { code: 'ru', name: 'Русский', flag: 'ru', locale: 'ru_RU' },
+];
+export const langCodes = languages.map((l) => l.code);
 
 export const contact = {
   phone: '+966 59 669 4021',
@@ -30,7 +44,7 @@ export const clientLogos = [
 
 export type ServiceIcon = 'transform' | 'software' | 'infra' | 'home' | 'ai' | 'agent';
 
-export const t = {
+const base = {
   ar: {
     dir: 'rtl',
     meta: {
@@ -686,3 +700,13 @@ export const t = {
     footer: { rights: 'Oxira. All rights reserved.' },
   },
 } as const;
+
+// German, French and Russian copy lives in de.json / fr.json / ru.json,
+// with exactly the same structure as the English block above.
+type Dict = typeof base.en;
+export const t = {
+  ...base,
+  de: de as unknown as Dict,
+  fr: fr as unknown as Dict,
+  ru: ru as unknown as Dict,
+};
