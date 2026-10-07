@@ -12,10 +12,22 @@
     "free": "Das Gestalten ist kostenlos. Sie zahlen erst bei der Bestellung.",
     "howTitle": "So funktioniert es",
     "steps": [
-      { "name": "Design wählen", "text": "Sechs professionelle Designs für Unternehmen, Einzelpersonen, Restaurants, Praxen, Shops und Events." },
-      { "name": "Erzählen Sie von sich", "text": "Ihr Name, Ihr Angebot und Ihre Kontaktdaten. Die KI erstellt Ihre erste Version in Sekunden." },
-      { "name": "Im Chat bearbeiten", "text": "Beschreiben Sie Änderungen in Ihren eigenen Worten: Farben, Texte, Abschnitte, Sprache. Jede Änderung sehen Sie sofort." },
-      { "name": "Bestellen und starten", "text": "Wählen Sie Hosting, Domain, Logo und Support. Wir veröffentlichen Ihre Website und senden Ihnen die Zugangsdaten." }
+      {
+        "name": "Design wählen",
+        "text": "Sechs professionelle Designs für Unternehmen, Einzelpersonen, Restaurants, Praxen, Shops und Events."
+      },
+      {
+        "name": "Erzählen Sie von sich",
+        "text": "Ihr Name, Ihr Angebot und Ihre Kontaktdaten. Die KI erstellt Ihre erste Version in Sekunden."
+      },
+      {
+        "name": "Im Chat bearbeiten",
+        "text": "Beschreiben Sie Änderungen in Ihren eigenen Worten: Farben, Texte, Abschnitte, Sprache. Jede Änderung sehen Sie sofort."
+      },
+      {
+        "name": "Bestellen und starten",
+        "text": "Wählen Sie Hosting, Domain, Logo und Support. Wir veröffentlichen Ihre Website und senden Ihnen die Zugangsdaten."
+      }
     ],
     "templatesTitle": "Starten Sie mit einem professionellen Design",
     "templatesBody": "Jedes Design ist für Smartphones optimiert, unterstützt Arabisch und Englisch und lässt sich mit dem KI-Designer vollständig anpassen.",
@@ -30,19 +42,52 @@
     "ctaButton": "Oxira Studio öffnen"
   },
   "templates": {
-    "corporate": { "name": "Unternehmen", "for": "Unternehmen und Beratungen" },
-    "personal": { "name": "Persönlich", "for": "Freiberufler und Fachleute" },
-    "restaurant": { "name": "Restaurant", "for": "Restaurants und Cafés" },
-    "clinic": { "name": "Praxis", "for": "Praxen und medizinische Zentren" },
-    "store": { "name": "Shop", "for": "Geschäfte und Marken" },
-    "events": { "name": "Events", "for": "Veranstaltungen und Konferenzen" }
+    "corporate": {
+      "name": "Unternehmen",
+      "for": "Unternehmen und Beratungen"
+    },
+    "personal": {
+      "name": "Persönlich",
+      "for": "Freiberufler und Fachleute"
+    },
+    "restaurant": {
+      "name": "Restaurant",
+      "for": "Restaurants und Cafés"
+    },
+    "clinic": {
+      "name": "Praxis",
+      "for": "Praxen und medizinische Zentren"
+    },
+    "store": {
+      "name": "Shop",
+      "for": "Geschäfte und Marken"
+    },
+    "events": {
+      "name": "Events",
+      "for": "Veranstaltungen und Konferenzen"
+    }
   },
   "packages": {
-    "site": { "name": "Website-Design und Launch", "text": "Ihre One-Page-Website auf Basis Ihres Designs – schnell und mobiloptimiert." },
-    "hosting": { "name": "Hosting", "text": "Schnelles, sicheres Hosting mit SSL und täglicher Überwachung." },
-    "domain": { "name": "Domain", "text": "Ihre eigene Adresse, z. B. ihrname.com – registriert und verbunden." },
-    "support": { "name": "Technischer Support", "text": "Inhaltsaktualisierungen und Support, wann immer Sie sie brauchen." },
-    "logo": { "name": "Logo-Design", "text": "Ein professionelles Logo für Ihre Marke, in allen Formaten." },
+    "site": {
+      "name": "Website-Design und Launch",
+      "text": "Ihre One-Page-Website auf Basis Ihres Designs – schnell und mobiloptimiert."
+    },
+    "hosting": {
+      "name": "Hosting",
+      "text": "Schnelles, sicheres Hosting mit SSL und täglicher Überwachung."
+    },
+    "domain": {
+      "name": "Domain",
+      "text": "Ihre eigene Adresse, z. B. ihrname.com – registriert und verbunden."
+    },
+    "support": {
+      "name": "Technischer Support",
+      "text": "Inhaltsaktualisierungen und Support, wann immer Sie sie brauchen."
+    },
+    "logo": {
+      "name": "Logo-Design",
+      "text": "Ein professionelles Logo für Ihre Marke, in allen Formaten."
+    },
     "oneTime": "einmalig",
     "perYear": "/ Jahr",
     "perMonth": "/ Monat",
@@ -53,7 +98,12 @@
     "title": "Oxira Studio",
     "pageTitle": "Oxira Studio | Website erstellen",
     "pageDescription": "Gestalten Sie Ihre Website mit dem KI-Designer von Oxira und sehen Sie das Ergebnis live.",
-    "steps": ["Design", "Ihre Angaben", "Mit KI bearbeiten", "Bestellung"],
+    "steps": [
+      "Design",
+      "Ihre Angaben",
+      "Mit KI bearbeiten",
+      "Bestellung"
+    ],
     "back": "Zurück",
     "next": "Weiter",
     "pickTitle": "Wählen Sie ein Design als Ausgangspunkt",
@@ -62,7 +112,11 @@
     "basicsTitle": "Erzählen Sie uns von Ihrer Website",
     "basicsBody": "Ein paar Angaben genügen, und der KI-Designer erstellt Ihre erste Version.",
     "kind": "Die Website ist für",
-    "kinds": { "company": "Ein Unternehmen", "personal": "Eine Einzelperson", "other": "Etwas anderes" },
+    "kinds": {
+      "company": "Ein Unternehmen",
+      "personal": "Eine Einzelperson",
+      "other": "Etwas anderes"
+    },
     "name": "Name auf der Website",
     "namePh": "z. B. Kanzlei Al Rayyan",
     "about": "Was machen Sie?",
@@ -80,15 +134,26 @@
     "chatPh": "Änderung beschreiben…",
     "send": "Senden",
     "thinking": "Ihr Design wird aktualisiert…",
-    "suggestions": ["Eleganter gestalten", "Farben in Marineblau und Gold ändern", "Einen Service hinzufügen", "Hauptüberschrift neu formulieren"],
+    "suggestions": [
+      "Eleganter gestalten",
+      "Farben in Marineblau und Gold ändern",
+      "Einen Service hinzufügen",
+      "Hauptüberschrift neu formulieren"
+    ],
     "aiDown": "Der KI-Designer ist derzeit nicht verfügbar. Sie können Design, Farben, Schrift und Sprache unten trotzdem ändern und Ihre Bestellung aufgeben; unser Team stellt die Texte gemeinsam mit Ihnen fertig.",
     "aiFailed": "Diese Änderung konnte ich nicht umsetzen. Bitte versuchen Sie es mit anderen Worten.",
     "controls": "Schnelleinstellungen",
     "design": "Design",
     "primary": "Hauptfarbe",
     "accent": "Akzentfarbe",
+    "background": "Hintergrundfarbe",
+    "backgroundReset": "Standard",
     "font": "Schriftstil",
-    "fonts": { "modern": "Modern", "elegant": "Elegant", "friendly": "Freundlich" },
+    "fonts": {
+      "modern": "Modern",
+      "elegant": "Elegant",
+      "friendly": "Freundlich"
+    },
     "desktop": "Desktop",
     "mobile": "Mobil",
     "undo": "Rückgängig",
@@ -120,7 +185,11 @@
     "doneTitle": "Ihre Bestellung ist eingegangen",
     "doneBody": "Bestellnummer {id}. Unser Team meldet sich in Kürze, um die Details zu bestätigen und Ihnen einen sicheren Zahlungslink zu senden. Ihre Website geht direkt nach der Zahlung online.",
     "doneNext": "Wie es weitergeht",
-    "doneSteps": ["Wir prüfen Ihr Design und Ihre Domain", "Sie erhalten einen Zahlungslink", "Ihre Website wird veröffentlicht und Sie erhalten Ihre Kontodaten"],
+    "doneSteps": [
+      "Wir prüfen Ihr Design und Ihre Domain",
+      "Sie erhalten einen Zahlungslink",
+      "Ihre Website wird veröffentlicht und Sie erhalten Ihre Kontodaten"
+    ],
     "doneHome": "Zurück zu Oxira",
     "doneWhatsapp": "Schreiben Sie uns auf WhatsApp",
     "consent": "Mit Ihrer Bestellung akzeptieren Sie die Verarbeitung Ihrer Daten gemäß unserer"

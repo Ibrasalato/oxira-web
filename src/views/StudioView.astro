@@ -128,6 +128,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
               </label>
               <label class="st-field st-color">{s.primary}<input type="color" data-ctl="primary" /></label>
               <label class="st-field st-color">{s.accent}<input type="color" data-ctl="accent" /></label>
+              <label class="st-field st-color">{s.background}<span class="st-bg"><input type="color" data-ctl="background" /><button type="button" class="st-link" data-bg-reset>{s.backgroundReset}</button></span></label>
               <label class="st-field">{s.siteLang}
                 <select data-ctl="lang">{siteLangs.map((l) => <option value={l}>{langName(l)}</option>)}</select>
               </label>
@@ -411,6 +412,9 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
         state.chat.push({ from: 'ai', text: data.reply || '✓' });
         render();
         syncControls();
+      } else if (data?.unavailable) {
+        state.chat.push({ from: 'note', text: T.aiDown });
+        $<HTMLDetailsElement>('.st-quick').open = true;
       } else if (data?.reply) {
         state.chat.push({ from: 'ai', text: data.reply });
       } else {
@@ -464,6 +468,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     ctl('font').value = state.spec.font;
     ctl('primary').value = state.spec.colors.primary;
     ctl('accent').value = state.spec.colors.accent;
+    ctl('background').value = state.spec.colors.background || '#ffffff';
     ctl('lang').value = state.spec.lang;
   }
   function change(fn: (s: Spec) => Spec) {
@@ -479,6 +484,8 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   });
   ctl('font').addEventListener('change', (e) => change((s) => mergeSpec(s, { font: (e.target as HTMLSelectElement).value })));
   ctl('primary').addEventListener('change', (e) => change((s) => mergeSpec(s, { colors: { ...s.colors, primary: (e.target as HTMLInputElement).value } })));
+  ctl('background').addEventListener('change', (e) => change((s) => mergeSpec(s, { colors: { ...s.colors, background: (e.target as HTMLInputElement).value } })));
+  $('[data-bg-reset]').addEventListener('click', () => { change((s) => mergeSpec(s, { colors: { ...s.colors, background: '' } })); syncControls(); });
   ctl('accent').addEventListener('change', (e) => change((s) => mergeSpec(s, { colors: { ...s.colors, accent: (e.target as HTMLInputElement).value } })));
   ctl('lang').addEventListener('change', (e) => {
     const l = (e.target as HTMLSelectElement).value as SiteLang;
@@ -644,6 +651,9 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-quick-in { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .75rem; padding: 0 .9rem .6rem; }
   .st-quick-in .st-link { grid-column: 1 / -1; justify-self: start; color: #B42318; }
   .st-color input { height: 44px; padding: .25rem; cursor: pointer; }
+  .st-bg { display: flex; align-items: center; gap: .5rem; }
+  .st-bg input { flex: 1; }
+  .st-bg .st-link { color: var(--muted); font-size: .85rem; white-space: nowrap; }
   .st-to-order { margin: .9rem 1.25rem 1.25rem; }
 
   /* 4. Order */

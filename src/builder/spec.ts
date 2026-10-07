@@ -11,7 +11,8 @@ export interface Spec {
   lang: SiteLang;
   name: string;
   tagline: string;
-  colors: { primary: string; accent: string };
+  /** background: optional page background (#RRGGBB); empty = the template's own. */
+  colors: { primary: string; accent: string; background?: string };
   font: FontId;
   hero: { title: string; subtitle: string; cta: string };
   about: { title: string; text: string };
@@ -184,7 +185,11 @@ export function mergeSpec(base: Spec, raw: unknown): Spec {
     lang: pick(r.lang, siteLangs, base.lang),
     name: str(r.name, 60, base.name),
     tagline: str(r.tagline, 90, base.tagline),
-    colors: { primary: color(o('colors').primary, base.colors.primary), accent: color(o('colors').accent, base.colors.accent) },
+    colors: {
+      primary: color(o('colors').primary, base.colors.primary),
+      accent: color(o('colors').accent, base.colors.accent),
+      background: o('colors').background === '' ? '' : color(o('colors').background, base.colors.background ?? ''),
+    },
     font: pick(r.font, fontIds, base.font),
     hero: {
       title: str(o('hero').title, 120, base.hero.title),

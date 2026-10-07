@@ -12,10 +12,22 @@
     "free": "La conception est gratuite. Vous ne payez qu'à la commande.",
     "howTitle": "Comment ça marche",
     "steps": [
-      { "name": "Choisissez un design", "text": "Six designs professionnels pour entreprises, indépendants, restaurants, cliniques, boutiques et événements." },
-      { "name": "Présentez-vous", "text": "Votre nom, votre activité et comment vous joindre. L'IA rédige votre première version en quelques secondes." },
-      { "name": "Modifiez en discutant", "text": "Demandez des changements avec vos propres mots : couleurs, textes, sections, langue. Chaque modification s'affiche instantanément." },
-      { "name": "Commandez et lancez", "text": "Choisissez l'hébergement, le domaine, le logo et le support. Nous publions votre site et vous envoyons les détails." }
+      {
+        "name": "Choisissez un design",
+        "text": "Six designs professionnels pour entreprises, indépendants, restaurants, cliniques, boutiques et événements."
+      },
+      {
+        "name": "Présentez-vous",
+        "text": "Votre nom, votre activité et comment vous joindre. L'IA rédige votre première version en quelques secondes."
+      },
+      {
+        "name": "Modifiez en discutant",
+        "text": "Demandez des changements avec vos propres mots : couleurs, textes, sections, langue. Chaque modification s'affiche instantanément."
+      },
+      {
+        "name": "Commandez et lancez",
+        "text": "Choisissez l'hébergement, le domaine, le logo et le support. Nous publions votre site et vous envoyons les détails."
+      }
     ],
     "templatesTitle": "Partez d'un design professionnel",
     "templatesBody": "Chaque design est adapté aux mobiles, prend en charge l'arabe et l'anglais, et peut être entièrement modifié avec le designer IA.",
@@ -30,19 +42,52 @@
     "ctaButton": "Ouvrir Oxira Studio"
   },
   "templates": {
-    "corporate": { "name": "Entreprise", "for": "Sociétés et cabinets de conseil" },
-    "personal": { "name": "Personnel", "for": "Indépendants et professionnels" },
-    "restaurant": { "name": "Restaurant", "for": "Restaurants et cafés" },
-    "clinic": { "name": "Clinique", "for": "Cliniques et centres médicaux" },
-    "store": { "name": "Boutique", "for": "Commerces et marques" },
-    "events": { "name": "Événements", "for": "Événements et conférences" }
+    "corporate": {
+      "name": "Entreprise",
+      "for": "Sociétés et cabinets de conseil"
+    },
+    "personal": {
+      "name": "Personnel",
+      "for": "Indépendants et professionnels"
+    },
+    "restaurant": {
+      "name": "Restaurant",
+      "for": "Restaurants et cafés"
+    },
+    "clinic": {
+      "name": "Clinique",
+      "for": "Cliniques et centres médicaux"
+    },
+    "store": {
+      "name": "Boutique",
+      "for": "Commerces et marques"
+    },
+    "events": {
+      "name": "Événements",
+      "for": "Événements et conférences"
+    }
   },
   "packages": {
-    "site": { "name": "Conception et mise en ligne du site", "text": "Votre site d'une page, réalisé à partir de votre design, rapide et adapté aux mobiles." },
-    "hosting": { "name": "Hébergement", "text": "Hébergement rapide et sécurisé avec SSL et surveillance quotidienne." },
-    "domain": { "name": "Nom de domaine", "text": "Votre propre adresse, comme votrenom.com, enregistrée et connectée." },
-    "support": { "name": "Support technique", "text": "Mises à jour de contenu et assistance dès que vous en avez besoin." },
-    "logo": { "name": "Création de logo", "text": "Un logo professionnel conçu pour votre marque, dans tous les formats." },
+    "site": {
+      "name": "Conception et mise en ligne du site",
+      "text": "Votre site d'une page, réalisé à partir de votre design, rapide et adapté aux mobiles."
+    },
+    "hosting": {
+      "name": "Hébergement",
+      "text": "Hébergement rapide et sécurisé avec SSL et surveillance quotidienne."
+    },
+    "domain": {
+      "name": "Nom de domaine",
+      "text": "Votre propre adresse, comme votrenom.com, enregistrée et connectée."
+    },
+    "support": {
+      "name": "Support technique",
+      "text": "Mises à jour de contenu et assistance dès que vous en avez besoin."
+    },
+    "logo": {
+      "name": "Création de logo",
+      "text": "Un logo professionnel conçu pour votre marque, dans tous les formats."
+    },
     "oneTime": "paiement unique",
     "perYear": "/ an",
     "perMonth": "/ mois",
@@ -53,7 +98,12 @@
     "title": "Oxira Studio",
     "pageTitle": "Oxira Studio | Créez votre site web",
     "pageDescription": "Concevez votre site web avec le designer IA d'Oxira et voyez-le en direct.",
-    "steps": ["Design", "Vos informations", "Modifier avec l'IA", "Commande"],
+    "steps": [
+      "Design",
+      "Vos informations",
+      "Modifier avec l'IA",
+      "Commande"
+    ],
     "back": "Retour",
     "next": "Continuer",
     "pickTitle": "Choisissez un design de départ",
@@ -62,7 +112,11 @@
     "basicsTitle": "Parlez-nous de votre site",
     "basicsBody": "Quelques informations suffisent pour que le designer IA rédige votre première version.",
     "kind": "Le site est destiné à",
-    "kinds": { "company": "Une entreprise", "personal": "Un particulier", "other": "Autre" },
+    "kinds": {
+      "company": "Une entreprise",
+      "personal": "Un particulier",
+      "other": "Autre"
+    },
     "name": "Nom affiché sur le site",
     "namePh": "ex. Cabinet d'avocats Al Rayyan",
     "about": "Quelle est votre activité ?",
@@ -80,15 +134,26 @@
     "chatPh": "Demandez une modification…",
     "send": "Envoyer",
     "thinking": "Mise à jour de votre design…",
-    "suggestions": ["Le rendre plus élégant", "Passer aux couleurs bleu marine et or", "Ajouter un service", "Réécrire le titre principal"],
+    "suggestions": [
+      "Le rendre plus élégant",
+      "Passer aux couleurs bleu marine et or",
+      "Ajouter un service",
+      "Réécrire le titre principal"
+    ],
     "aiDown": "Le designer IA n'est pas disponible pour le moment. Vous pouvez toujours modifier le design, les couleurs, la police et la langue ci-dessous et passer commande ; notre équipe finalisera les textes avec vous.",
     "aiFailed": "Je n'ai pas pu appliquer cette modification. Veuillez reformuler votre demande.",
     "controls": "Réglages rapides",
     "design": "Design",
     "primary": "Couleur principale",
     "accent": "Couleur d'accent",
+    "background": "Couleur de fond",
+    "backgroundReset": "Par défaut",
     "font": "Style de police",
-    "fonts": { "modern": "Moderne", "elegant": "Élégant", "friendly": "Convivial" },
+    "fonts": {
+      "modern": "Moderne",
+      "elegant": "Élégant",
+      "friendly": "Convivial"
+    },
     "desktop": "Ordinateur",
     "mobile": "Mobile",
     "undo": "Annuler",
@@ -120,7 +185,11 @@
     "doneTitle": "Votre commande est enregistrée",
     "doneBody": "Commande n° {id}. Notre équipe vous contactera rapidement pour confirmer les détails et vous envoyer un lien de paiement sécurisé. Votre site est mis en ligne dès réception du paiement.",
     "doneNext": "Prochaines étapes",
-    "doneSteps": ["Nous examinons votre design et votre domaine", "Vous recevez un lien de paiement", "Votre site est publié et vous recevez les informations de votre compte"],
+    "doneSteps": [
+      "Nous examinons votre design et votre domaine",
+      "Vous recevez un lien de paiement",
+      "Votre site est publié et vous recevez les informations de votre compte"
+    ],
     "doneHome": "Retour à Oxira",
     "doneWhatsapp": "Nous écrire sur WhatsApp",
     "consent": "En passant commande, vous acceptez le traitement de vos données conformément à notre"

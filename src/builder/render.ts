@@ -6,6 +6,24 @@ const esc = (s: string) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** Readable text colour on top of a background colour. */
+function luminance(hex: string) {
+  const n = parseInt(hex.slice(1), 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** Page colours when the client picks their own background. */
+function backgroundCss(bg: string) {
+  const dark = luminance(bg) < 0.2;
+  const ink = dark ? '#F4F6FA' : '#14171C';
+  return `body.has-bg{--bg:${bg};--ink:${ink};--muted:color-mix(in srgb,${ink} 68%,${bg});--line:color-mix(in srgb,${ink} 14%,${bg});--soft:color-mix(in srgb,var(--p) 10%,${bg});--soft-a:color-mix(in srgb,var(--a) 18%,${bg});--card:color-mix(in srgb,${dark ? '#fff 6%' : '#fff 55%'},${bg})}
+body.has-bg .card,body.has-bg .contact-grid>*,body.has-bg .btn-ghost{background:var(--card)}body.has-bg .top{background:color-mix(in srgb,var(--bg) 92%,transparent)}
+${dark ? 'body.has-bg .stats{color:var(--on-p)}body.has-bg .eyebrow{color:var(--a)}' : ''}`;
+}
+
 function onColor(hex: string) {
   const n = parseInt(hex.slice(1), 16);
   const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
@@ -242,5 +260,5 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.4;letter-spacin
 
   return `<!doctype html><html lang="${s.lang}" dir="${rtl ? 'rtl' : 'ltr'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(s.name)}${s.tagline ? ' | ' + esc(s.tagline) : ''}</title><meta name="description" content="${esc(s.hero.subtitle)}">
-<style>${css}</style></head><body class="t-${t}">${body}</body></html>`;
+<style>${css}${s.colors.background ? backgroundCss(s.colors.background) : ''}</style></head><body class="t-${t}${s.colors.background ? ' has-bg' : ''}">${body}</body></html>`;
 }

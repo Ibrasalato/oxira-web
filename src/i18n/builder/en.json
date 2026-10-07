@@ -12,10 +12,22 @@
     "free": "Designing is free. You only pay when you order.",
     "howTitle": "How it works",
     "steps": [
-      { "name": "Choose a design", "text": "Six professional designs for companies, individuals, restaurants, clinics, stores and events." },
-      { "name": "Tell us about you", "text": "Your name, what you do and how to reach you. The AI writes your first version in seconds." },
-      { "name": "Edit by chatting", "text": "Ask for changes in your own words: colours, text, sections, language. See every change instantly." },
-      { "name": "Order and launch", "text": "Choose hosting, domain, logo and support. We publish your site and send you the details." }
+      {
+        "name": "Choose a design",
+        "text": "Six professional designs for companies, individuals, restaurants, clinics, stores and events."
+      },
+      {
+        "name": "Tell us about you",
+        "text": "Your name, what you do and how to reach you. The AI writes your first version in seconds."
+      },
+      {
+        "name": "Edit by chatting",
+        "text": "Ask for changes in your own words: colours, text, sections, language. See every change instantly."
+      },
+      {
+        "name": "Order and launch",
+        "text": "Choose hosting, domain, logo and support. We publish your site and send you the details."
+      }
     ],
     "templatesTitle": "Start from a professional design",
     "templatesBody": "Every design works on phones, supports Arabic and English, and can be changed completely with the AI designer.",
@@ -30,19 +42,52 @@
     "ctaButton": "Open Oxira Studio"
   },
   "templates": {
-    "corporate": { "name": "Corporate", "for": "Companies and consultancies" },
-    "personal": { "name": "Personal", "for": "Freelancers and professionals" },
-    "restaurant": { "name": "Restaurant", "for": "Restaurants and cafés" },
-    "clinic": { "name": "Clinic", "for": "Clinics and medical centres" },
-    "store": { "name": "Store", "for": "Shops and brands" },
-    "events": { "name": "Events", "for": "Events and conferences" }
+    "corporate": {
+      "name": "Corporate",
+      "for": "Companies and consultancies"
+    },
+    "personal": {
+      "name": "Personal",
+      "for": "Freelancers and professionals"
+    },
+    "restaurant": {
+      "name": "Restaurant",
+      "for": "Restaurants and cafés"
+    },
+    "clinic": {
+      "name": "Clinic",
+      "for": "Clinics and medical centres"
+    },
+    "store": {
+      "name": "Store",
+      "for": "Shops and brands"
+    },
+    "events": {
+      "name": "Events",
+      "for": "Events and conferences"
+    }
   },
   "packages": {
-    "site": { "name": "Website design and launch", "text": "Your one-page website, built from your design, fast and mobile-ready." },
-    "hosting": { "name": "Hosting", "text": "Fast, secure hosting with SSL and daily monitoring." },
-    "domain": { "name": "Domain name", "text": "Your own address, such as yourname.com, registered and connected." },
-    "support": { "name": "Technical support", "text": "Content updates and support whenever you need them." },
-    "logo": { "name": "Logo design", "text": "A professional logo designed for your brand, in all formats." },
+    "site": {
+      "name": "Website design and launch",
+      "text": "Your one-page website, built from your design, fast and mobile-ready."
+    },
+    "hosting": {
+      "name": "Hosting",
+      "text": "Fast, secure hosting with SSL and daily monitoring."
+    },
+    "domain": {
+      "name": "Domain name",
+      "text": "Your own address, such as yourname.com, registered and connected."
+    },
+    "support": {
+      "name": "Technical support",
+      "text": "Content updates and support whenever you need them."
+    },
+    "logo": {
+      "name": "Logo design",
+      "text": "A professional logo designed for your brand, in all formats."
+    },
     "oneTime": "one-time",
     "perYear": "/ year",
     "perMonth": "/ month",
@@ -53,7 +98,12 @@
     "title": "Oxira Studio",
     "pageTitle": "Oxira Studio | Build your website",
     "pageDescription": "Design your website with Oxira's AI designer and see it live.",
-    "steps": ["Design", "Your details", "Edit with AI", "Order"],
+    "steps": [
+      "Design",
+      "Your details",
+      "Edit with AI",
+      "Order"
+    ],
     "back": "Back",
     "next": "Continue",
     "pickTitle": "Choose a design to start with",
@@ -62,7 +112,11 @@
     "basicsTitle": "Tell us about your website",
     "basicsBody": "A few details and the AI designer writes your first version.",
     "kind": "The website is for",
-    "kinds": { "company": "A company", "personal": "An individual", "other": "Something else" },
+    "kinds": {
+      "company": "A company",
+      "personal": "An individual",
+      "other": "Something else"
+    },
     "name": "Name on the website",
     "namePh": "e.g. Al Rayyan Law Firm",
     "about": "What do you do?",
@@ -80,15 +134,26 @@
     "chatPh": "Ask for a change…",
     "send": "Send",
     "thinking": "Updating your design…",
-    "suggestions": ["Make it more elegant", "Change the colours to navy and gold", "Add a service", "Rewrite the main headline"],
+    "suggestions": [
+      "Make it more elegant",
+      "Change the colours to navy and gold",
+      "Add a service",
+      "Rewrite the main headline"
+    ],
     "aiDown": "The AI designer is not available right now. You can still change the design, colours, font and language below and place your order; our team will finish the text with you.",
     "aiFailed": "I could not apply that change. Please try again in other words.",
     "controls": "Quick settings",
     "design": "Design",
     "primary": "Main colour",
     "accent": "Accent colour",
+    "background": "Background colour",
+    "backgroundReset": "Default",
     "font": "Font style",
-    "fonts": { "modern": "Modern", "elegant": "Elegant", "friendly": "Friendly" },
+    "fonts": {
+      "modern": "Modern",
+      "elegant": "Elegant",
+      "friendly": "Friendly"
+    },
     "desktop": "Desktop",
     "mobile": "Mobile",
     "undo": "Undo",
@@ -120,7 +185,11 @@
     "doneTitle": "Your order is in",
     "doneBody": "Order number {id}. Our team will contact you shortly to confirm the details and send a secure payment link. Your website goes live right after payment.",
     "doneNext": "What happens next",
-    "doneSteps": ["We review your design and domain", "You receive a payment link", "Your website is published and you get your account details"],
+    "doneSteps": [
+      "We review your design and domain",
+      "You receive a payment link",
+      "Your website is published and you get your account details"
+    ],
     "doneHome": "Back to Oxira",
     "doneWhatsapp": "Message us on WhatsApp",
     "consent": "By placing your order you agree to the processing of your data under our"
