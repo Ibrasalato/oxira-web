@@ -1,0 +1,224 @@
+{
+  "nav": {
+    "products": "Produits",
+    "websiteBuilder": "Oxira Studio",
+    "websiteBuilderDesc": "Site professionnel créé avec l'IA, prêt le jour même",
+    "addonsTitle": "Modules pour votre site",
+    "otherTitle": "Plus d'Oxira",
+    "classtiDesc": "Plateforme complète de gestion scolaire",
+    "agentsDesc": "Agents IA et automatisation pour les entreprises",
+    "all": "Tous les produits",
+    "account": "Mon compte"
+  },
+  "common": {
+    "start": "Commencer",
+    "perMonth": "/ mois",
+    "free": "Gratuit",
+    "fee": "+ 5 % par billet vendu",
+    "vat": "Prix hors TVA de 15 %. Mensuel, résiliable à tout moment.",
+    "featuresTitle": "Fonctionnalités",
+    "howTitle": "Comment ça marche",
+    "forTitle": "Pour qui",
+    "faqTitle": "Questions fréquentes",
+    "otherProducts": "Autres produits",
+    "home": "Accueil",
+    "productsCrumb": "Produits",
+    "needSite": "Fonctionne avec votre site Oxira. Créez le vôtre en quelques minutes.",
+    "buildSite": "Créer votre site",
+    "haveSite": "Vous avez déjà un site Oxira ?",
+    "openAccount": "Ajoutez-le depuis Mon compte",
+    "servicesTitle": "Solutions prêtes à l'emploi, au mois",
+    "servicesBody": "Ajoutez à votre site la réservation en ligne, un menu QR, les avis Google, un chatbot IA, du contenu mensuel ou la billetterie, sans aucun code.",
+    "learnMore": "En savoir plus",
+    "partnerStrip": "Agence ou marketeur ? Gagnez 15 % sur chaque site que vous recommandez à Oxira.",
+    "partnerCta": "Devenir partenaire"
+  },
+  "index": {
+    "title": "Réservation, menu QR et chatbot pour votre site | Oxira",
+    "description": "Modules pour votre site Oxira : réservation en ligne, menu QR code, plus d'avis Google, chatbot IA, contenu réseaux sociaux et billetterie. Sans engagement.",
+    "h1": "Les produits Oxira pour votre activité",
+    "lead": "Ajoutez à votre site exactement ce dont votre activité a besoin : réservation en ligne, menu digital, avis Google, chatbot IA, contenu mensuel pour les réseaux sociaux et vente de billets. Chaque produit fonctionne avec votre site Oxira Studio, avec un abonnement mensuel résiliable à tout moment."
+  },
+  "items": {
+    "booking": {
+      "title": "Réservation en ligne pour cliniques et salons | Oxira",
+      "description": "Prise de rendez-vous en ligne sur votre site : le client choisit service, date et heure, vous recevez un e-mail à chaque réservation, sans doublon. 99 SAR/mois.",
+      "name": "Réservation en ligne",
+      "short": "Vos clients réservent un service, une date et un horaire sur votre site, et vous recevez un e-mail.",
+      "h1": "Système de réservation en ligne pour votre site",
+      "lead": "Laissez vos clients prendre rendez-vous en ligne sur votre site à toute heure, au lieu d'appels et de messages sans fin. Un logiciel de prise de rendez-vous pour cliniques, dentistes, salons, barbiers, coachs et consultants, géré entièrement depuis Mon compte.",
+      "features": [
+        { "t": "Service, date et heure en un clic", "d": "Le client choisit un service de votre site, puis un jour et un créneau libre, et envoie sa réservation en quelques secondes." },
+        { "t": "Vos propres horaires", "d": "Définissez l'heure d'ouverture et de fermeture, la durée d'un rendez-vous, les jours de fermeture et une note pour les clients." },
+        { "t": "Aucune double réservation", "d": "Choisissez le nombre de réservations simultanées. Un créneau complet ne peut plus être réservé." },
+        { "t": "E-mail à chaque réservation", "d": "Vous recevez un e-mail pour chaque réservation, puis vous la confirmez, l'annulez ou la marquez terminée depuis Mon compte." },
+        { "t": "Confirmation et rappel", "d": "Le client reçoit un e-mail à la confirmation ou à l'annulation, et un rappel la veille s'il a indiqué son e-mail." },
+        { "t": "Planning du jour par e-mail", "d": "Chaque jour, vous recevez un e-mail avec les rendez-vous de la journée pour savoir qui vient et quand." }
+      ],
+      "steps": [
+        { "t": "Activez la réservation", "d": "Abonnez-vous au module depuis Mon compte sur votre site Oxira Studio." },
+        { "t": "Réglez vos horaires", "d": "Indiquez vos horaires, la durée des rendez-vous, les réservations par créneau et les jours fermés." },
+        { "t": "Recevez les réservations", "d": "Les clients réservent sur votre site et vous gérez chaque réservation depuis Mon compte." }
+      ],
+      "faq": [
+        { "q": "Combien coûte le système de réservation en ligne ?", "a": "99 SAR par mois hors TVA de 15 %. L'abonnement est mensuel, résiliable à tout moment depuis Mon compte, et reste actif jusqu'à la fin du mois payé." },
+        { "q": "Les clients peuvent-ils réserver depuis leur téléphone ?", "a": "Oui. La page de réservation est conçue pour le mobile, vos clients réservent donc depuis leur téléphone à tout moment. Elle s'affiche dans la langue de votre site." },
+        { "q": "Deux clients peuvent-ils réserver le même créneau ?", "a": "Vous décidez du nombre de réservations simultanées, par exemple une pour un cabinet avec un seul médecin ou plusieurs pour un salon avec plusieurs employés. Une fois complet, le créneau se ferme automatiquement." },
+        { "q": "Comment ajouter la réservation en ligne à mon site ?", "a": "Il vous faut un site créé avec Oxira Studio. Activez le module depuis Mon compte et réglez vos horaires et la durée des rendez-vous. Les services sont repris de la section services de votre site." },
+        { "q": "Les clients reçoivent-ils un rappel de rendez-vous ?", "a": "Oui. Si le client indique son e-mail, il reçoit un rappel la veille, ainsi qu'un e-mail à la confirmation ou à l'annulation. Vous recevez un e-mail pour chaque réservation et la liste quotidienne des rendez-vous." }
+      ],
+      "ctaTitle": "Recevez des réservations sur votre site",
+      "ctaBody": "Activez la réservation en ligne pour 99 SAR par mois, sans engagement."
+    },
+    "menu": {
+      "title": "Menu QR code pour restaurants et cafés | Oxira",
+      "description": "Menu digital avec QR code pour votre restaurant ou café : adapté au mobile, chevalets de table à imprimer, prix modifiés en direct. 49 SAR/mois.",
+      "name": "Menu digital",
+      "short": "Un menu digital avec onglets et QR code pour les tables. Modifiez plats et prix vous-même, à tout moment.",
+      "h1": "Menu digital avec QR code pour restaurants",
+      "lead": "Présentez votre carte ou votre liste de prix sur une page pensée pour le mobile, ouverte en scannant un QR code sur la table. Un menu digital sans contact pour restaurants, cafés et boulangeries, et une liste de prix claire pour salons, barbiers et tout commerce.",
+      "features": [
+        { "t": "Page menu adaptée au mobile", "d": "Une page légère pour smartphone où les clients parcourent plats, descriptions et prix facilement." },
+        { "t": "Onglets par catégorie", "d": "Organisez la carte en rubriques comme boissons chaudes, desserts et plats, accessibles d'un simple toucher." },
+        { "t": "QR code prêt à imprimer", "d": "Téléchargez le QR code en PNG ou imprimez-le sous forme de chevalet de table." },
+        { "t": "Modifications immédiates", "d": "Modifiez plats, descriptions et prix depuis Mon compte. Les changements sont en ligne aussitôt, sans réimpression." },
+        { "t": "Section menu sur votre site", "d": "Le menu apparaît aussi comme section de votre site, visible par vos visiteurs avant leur venue." },
+        { "t": "Liste de prix pour tout commerce", "d": "Pas seulement pour les restaurants : salons, barbiers et tout commerce avec une liste de prix peuvent l'utiliser." }
+      ],
+      "steps": [
+        { "t": "Activez le menu", "d": "Abonnez-vous au module depuis Mon compte sur votre site Oxira." },
+        { "t": "Ajoutez rubriques et plats", "d": "Saisissez vos rubriques et vos plats avec une description et un prix." },
+        { "t": "Imprimez votre QR code", "d": "Téléchargez le code ou imprimez le chevalet et placez-le sur les tables ou au comptoir." }
+      ],
+      "faq": [
+        { "q": "Combien coûte un menu QR code ?", "a": "49 SAR par mois hors TVA de 15 %. Résiliez à tout moment depuis Mon compte, votre menu reste en ligne jusqu'à la fin du mois payé." },
+        { "q": "Faut-il une application pour ouvrir le menu QR ?", "a": "Non. Le client scanne le QR code avec l'appareil photo de son téléphone et le menu s'ouvre dans le navigateur. Vous rédigez les plats dans la langue de votre choix, arabe, anglais ou les deux." },
+        { "q": "Comment créer un menu QR pour mon restaurant ?", "a": "Il vous faut d'abord un site créé avec Oxira Studio. Activez le menu depuis Mon compte, ajoutez rubriques, plats et prix, puis téléchargez le QR code en PNG ou imprimez-le en chevalet de table." },
+        { "q": "Faut-il réimprimer le menu quand les prix changent ?", "a": "Non. Modifiez le prix dans Mon compte et le nouveau prix s'affiche immédiatement. Le QR code reste le même, vos chevalets continuent de fonctionner." },
+        { "q": "Les salons et barbiers peuvent-ils l'utiliser comme liste de prix ?", "a": "Oui. Présentez vos prestations, comme coupe, coloration et soins, dans des onglets avec leurs prix. Il convient à tout commerce qui veut afficher clairement ses tarifs." }
+      ],
+      "ctaTitle": "Passez de la carte papier au menu digital",
+      "ctaBody": "Votre menu QR pour 49 SAR par mois, prix modifiables à tout moment."
+    },
+    "reviews": {
+      "title": "Obtenir plus d'avis Google pour votre commerce | Oxira",
+      "description": "Plus d'avis Google : chaque client peut vous noter sur Google en un clic, et les notes basses vous alertent par e-mail. Carte QR et lien, 79 SAR/mois.",
+      "name": "Avis Google",
+      "short": "Invitez chaque client à laisser un avis Google et recevez un e-mail immédiat pour chaque note basse ou commentaire.",
+      "h1": "Obtenez plus d'avis Google de vos clients",
+      "lead": "Demandez à chaque client de noter sa visite en quelques secondes, puis proposez-lui un bouton qui ouvre directement votre formulaire d'avis Google, quelle que soit sa note. Les notes basses et les commentaires vous sont aussi envoyés par e-mail, pour réagir vite et soigner votre réputation sur Google Maps.",
+      "features": [
+        { "t": "Page d'avis sur votre site", "d": "Une page simple, adaptée au mobile, où le client choisit de 1 à 5 étoiles en quelques secondes." },
+        { "t": "Un bouton Google pour chaque client", "d": "Après avoir noté sa visite, chaque client voit un bouton qui ouvre directement votre formulaire d'avis Google, quelle que soit sa note." },
+        { "t": "Alerte immédiate pour les notes basses", "d": "Les notes de 1 à 3 étoiles et tout commentaire vous sont aussi envoyés en privé par e-mail, pour recontacter le client rapidement." },
+        { "t": "Carte QR à imprimer", "d": "Imprimez une carte QR pour le comptoir, la table ou la salle d'attente afin que le client note avant de partir." },
+        { "t": "Un lien à envoyer après la visite", "d": "Copiez le lien de votre page d'avis et envoyez-le par WhatsApp ou SMS après la prestation." },
+        { "t": "De vrais avis de vrais clients", "d": "Nous n'achetons ni ne rédigeons aucun avis. Chaque avis Google vient de vos propres clients et rassure ceux qui vous trouvent sur Google Maps." }
+      ],
+      "steps": [
+        { "t": "Activez les avis", "d": "Abonnez-vous au module depuis Mon compte et ajoutez votre lien d'avis Google." },
+        { "t": "Partagez la carte QR ou le lien", "d": "Imprimez la carte ou envoyez le lien aux clients après chaque visite." },
+        { "t": "Réagissez et progressez", "d": "Vos clients publient leurs avis sur Google, et chaque note basse ou commentaire vous arrive par e-mail." }
+      ],
+      "faq": [
+        { "q": "Combien coûte le service pour obtenir plus d'avis Google ?", "a": "79 SAR par mois hors TVA de 15 %. Vous pouvez résilier à tout moment depuis Mon compte, l'abonnement reste actif jusqu'à la fin du mois payé." },
+        { "q": "Le client peut-il noter depuis son téléphone ?", "a": "Oui. Le client scanne le QR code ou ouvre le lien sur son téléphone et choisit ses étoiles sur une page adaptée au mobile. La page s'affiche dans la langue de votre site." },
+        { "q": "Où trouver mon lien d'avis Google ?", "a": "Dans votre fiche d'établissement Google, choisissez l'option pour demander des avis et copiez le lien. Collez-le ensuite dans les réglages du module dans Mon compte. Le bouton Google de votre page d'avis ouvrira alors directement votre formulaire." },
+        { "q": "Achetez-vous ou rédigez-vous des avis ?", "a": "Non. Nous n'achetons, ne rédigeons et ne filtrons aucun avis. Chaque avis Google est écrit par vos vrais clients, et chaque client se voit proposer le même bouton pour vous noter sur Google." },
+        { "q": "Que se passe-t-il en cas de note basse ?", "a": "Il peut publier son avis sur Google comme n'importe quel autre client. En plus, les notes de 1 à 3 étoiles et tout commentaire vous sont envoyés en privé par e-mail : vous découvrez le problème tôt et pouvez contacter le client pour y remédier." }
+      ],
+      "ctaTitle": "Facilitez les avis Google pour chaque client",
+      "ctaBody": "Activez les avis Google pour 79 SAR HT par mois, sans engagement."
+    },
+    "chat": {
+      "title": "Chatbot IA pour votre site web, 24h/24 | Oxira",
+      "description": "Chatbot IA pour votre site qui répond 24h/24 en arabe, anglais et autres langues, à partir de votre seul contenu, et vous envoie les contacts. 199 SAR/mois.",
+      "name": "Chatbot IA",
+      "short": "Un assistant IA sur votre site qui répond aux questions des clients jour et nuit, à partir de votre contenu.",
+      "h1": "Chatbot IA pour votre site, disponible 24h/24",
+      "lead": "Un assistant IA sur votre site répond aux visiteurs sur vos services, vos prix et vos horaires, en dialectes arabes, en anglais et dans d'autres langues. Il n'utilise que le contenu de votre site et vos notes, n'invente jamais de prix et vous envoie un e-mail quand quelqu'un demande à être rappelé.",
+      "features": [
+        { "t": "Réponses instantanées 24h/24", "d": "Le chatbot répond aux visiteurs jour et nuit, y compris le week-end et en dehors des heures d'ouverture." },
+        { "t": "Répond dans la langue du client", "d": "Il comprend les dialectes arabes et répond dans la langue du visiteur, arabe, anglais ou autre." },
+        { "t": "Uniquement votre contenu", "d": "Il s'appuie sur vos services, menu et prix, FAQ, coordonnées et horaires publiés sur votre site." },
+        { "t": "N'invente jamais de prix", "d": "Si un prix ou une information ne figure ni sur votre site ni dans vos notes, l'assistant ne devine pas." },
+        { "t": "Notes complémentaires", "d": "Ajoutez zones de livraison, moyens de paiement, conditions et offres en cours pour des réponses exactes." },
+        { "t": "Demandes de rappel par e-mail", "d": "Quand un visiteur laisse son nom et son numéro pour être rappelé, vous recevez ses coordonnées par e-mail." }
+      ],
+      "steps": [
+        { "t": "Activez le chatbot", "d": "Abonnez-vous au module depuis Mon compte sur votre site Oxira." },
+        { "t": "Ajoutez vos notes", "d": "Indiquez ce qui ne figure pas sur votre site, comme les zones de livraison, les paiements et les offres." },
+        { "t": "Répondez et captez des contacts", "d": "L'assistant répond aux visiteurs et les demandes de rappel arrivent dans votre boîte mail." }
+      ],
+      "faq": [
+        { "q": "Combien coûte un chatbot pour site web ?", "a": "199 SAR par mois hors TVA de 15 %. Vous pouvez résilier à tout moment depuis Mon compte, l'assistant fonctionne jusqu'à la fin du mois payé." },
+        { "q": "Le chatbot parle-t-il arabe et fonctionne-t-il sur mobile ?", "a": "Oui. Il comprend le dialecte saoudien et les autres dialectes arabes et répond dans la langue du visiteur, y compris en anglais et dans d'autres langues. Il fonctionne sur votre site, sur mobile comme sur ordinateur." },
+        { "q": "Où le chatbot trouve-t-il les informations sur mon entreprise ?", "a": "Dans le contenu de votre site : services, menu et prix, FAQ, coordonnées et horaires. Vous pouvez aussi ajouter des notes dans Mon compte sur la livraison, le paiement, les conditions et les offres." },
+        { "q": "Le chatbot peut-il donner un mauvais prix ?", "a": "L'assistant n'invente jamais de prix et ne cite que ceux de votre site ou de vos notes. Tenez vos prix à jour sur le site et ses réponses le seront aussi." },
+        { "q": "Comment recevoir les contacts du chatbot ?", "a": "Quand un visiteur indique son nom et son numéro et demande à être rappelé, vous recevez un e-mail avec ses coordonnées. Ainsi, vous ne manquez aucune demande, même en dehors des heures d'ouverture." }
+      ],
+      "ctaTitle": "Votre site répond pendant que vous travaillez",
+      "ctaBody": "Activez le chatbot IA pour 199 SAR par mois, sans engagement."
+    },
+    "content": {
+      "title": "Contenu réseaux sociaux prêt chaque mois | Oxira",
+      "description": "12 publications prêtes chaque mois pour vos réseaux sociaux : texte, hashtags et visuel carré aux couleurs de votre marque, issus de votre site. 499 SAR/mois.",
+      "name": "Contenu réseaux sociaux",
+      "short": "12 publications prêtes chaque mois avec hashtags et visuel à vos couleurs. Téléchargez et publiez.",
+      "h1": "Contenu mensuel prêt pour vos réseaux sociaux",
+      "lead": "Fini de chercher quoi publier : au début de chaque mois, vous recevez 12 publications rédigées pour votre activité, chacune avec hashtags et visuel aux couleurs de votre marque. Du contenu prêt pour Instagram, X, Facebook et LinkedIn qui simplifie la gestion de vos réseaux sociaux.",
+      "features": [
+        { "t": "12 publications par mois", "d": "Un mélange de publications sur vos services, de conseils clients, de coulisses et d'invitations à venir ou réserver." },
+        { "t": "Fêtes saoudiennes du mois", "d": "Les publications tiennent compte des vraies occasions en Arabie saoudite, comme le Ramadan, l'Aïd, la Journée de la fondation ou la Fête nationale, selon le mois." },
+        { "t": "Hashtags pour chaque post", "d": "Chaque publication est accompagnée de hashtags adaptés à votre activité et au sujet." },
+        { "t": "Visuel carré à vos couleurs", "d": "Chaque publication a un visuel carré aux couleurs de votre marque, à télécharger depuis Mon compte." },
+        { "t": "Idée photo ou design", "d": "Chaque publication propose une idée de photo ou de design si vous souhaitez créer vos propres visuels." },
+        { "t": "Basé sur votre site", "d": "Les textes sont rédigés par IA à partir du contenu de votre site, sans prix ni offres inventés." }
+      ],
+      "steps": [
+        { "t": "Abonnez-vous dans Mon compte", "d": "Activez le module de contenu mensuel depuis Mon compte sur votre site Oxira." },
+        { "t": "Recevez vos posts chaque mois", "d": "Au début de chaque mois, un e-mail vous annonce que vos 12 publications sont prêtes." },
+        { "t": "Téléchargez et publiez", "d": "Téléchargez les visuels, copiez les textes et publiez quand cela vous convient." }
+      ],
+      "faq": [
+        { "q": "Combien coûte le contenu mensuel pour les réseaux sociaux ?", "a": "499 SAR par mois hors TVA de 15 %, avec 12 publications prêtes chaque mois. Vous pouvez résilier à tout moment depuis Mon compte, l'abonnement reste actif jusqu'à la fin du mois payé." },
+        { "q": "Publiez-vous sur mes comptes ou les gérez-vous ?", "a": "Non, nous ne gérons pas vos comptes et ne publions pas à votre place. Vous recevez des publications prêtes avec texte, hashtags et visuel, que vous ou votre équipe publiez quand vous le souhaitez." },
+        { "q": "Puis-je télécharger les posts sur mon téléphone, et en quelle langue sont-ils ?", "a": "Oui. Ouvrez Mon compte sur votre téléphone, téléchargez les visuels carrés et copiez les textes, puis publiez depuis vos applications. Le contenu s'appuie sur votre site et suit sa langue." },
+        { "q": "Le contenu peut-il contenir des prix ou offres inventés ?", "a": "Non. Les publications sont rédigées par IA à partir de votre site et ne contiennent jamais de prix ni d'offres inventés. Pour promouvoir une offre précise, ajoutez-la vous-même avant de publier." },
+        { "q": "Quel type de publications vais-je recevoir chaque mois ?", "a": "Des publications sur vos services, des conseils utiles pour vos clients, des coulisses, les occasions saoudiennes du mois et des invitations à venir ou réserver. Chacune avec hashtags, idée de visuel et visuel carré prêt." }
+      ],
+      "ctaTitle": "Gardez vos comptes actifs chaque mois",
+      "ctaBody": "12 publications prêtes chaque mois pour 499 SAR, sans engagement."
+    },
+    "tickets": {
+      "title": "Billetterie en ligne pour vos événements | Oxira",
+      "description": "Billetterie en ligne sur le site de votre événement : paiement mada et Apple Pay, billets QR par e-mail, contrôle à l'entrée. Sans abonnement, 5 % par billet.",
+      "name": "Billetterie",
+      "short": "Vendez des billets sur le site de votre événement avec paiement en ligne, billets QR et scan à l'entrée.",
+      "h1": "Vendez vos billets d'événement en ligne",
+      "lead": "Vendez les billets de votre événement, conférence ou atelier directement depuis son site, avec paiement par mada, Visa, Mastercard et Apple Pay. Sans abonnement mensuel, seulement 5 % par billet vendu, avec billets QR et contrôle à l'entrée.",
+      "features": [
+        { "t": "Plusieurs types de billets", "d": "Créez plusieurs types de billets, par exemple Standard et VIP, chacun avec son prix et sa quantité." },
+        { "t": "Complet automatique", "d": "Quand un type de billet est épuisé, il s'affiche comme complet, vous ne vendez jamais au-delà de la capacité." },
+        { "t": "mada, cartes et Apple Pay", "d": "Les participants paient en ligne par mada, Visa, Mastercard ou Apple Pay via Moyasar." },
+        { "t": "Billet QR par e-mail", "d": "Chaque acheteur reçoit par e-mail un billet avec QR code, qu'il présente sur son téléphone à l'entrée." },
+        { "t": "Contrôle à l'entrée", "d": "Scannez le QR code avec l'appareil photo ou saisissez le code du billet dans Mon compte. Chaque billet ne sert qu'une fois." },
+        { "t": "Invitations et ventes en direct", "d": "Émettez des billets d'invitation gratuits pour invités et sponsors et suivez la liste des billets vendus en direct." }
+      ],
+      "steps": [
+        { "t": "Créez le site de l'événement", "d": "Créez le site de votre événement avec Oxira Studio, puis activez la billetterie depuis Mon compte." },
+        { "t": "Ajoutez les types de billets", "d": "Indiquez le nom, le prix et la quantité de chaque type, et émettez des invitations si besoin." },
+        { "t": "Vendez et contrôlez", "d": "Les participants achètent et reçoivent leurs billets QR, que vous scannez à l'entrée depuis Mon compte." }
+      ],
+      "faq": [
+        { "q": "Combien coûte la billetterie en ligne ?", "a": "Aucun abonnement mensuel, seulement 5 % par billet vendu. Les recettes vous sont reversées chaque mois, moins ces 5 %, frais hors TVA de 15 %. Les billets d'invitation gratuits n'entraînent aucun frais." },
+        { "q": "Peut-on acheter un billet depuis son téléphone ?", "a": "Oui. La page billetterie fonctionne sur mobile et le participant paie par mada, Apple Pay ou carte. Le billet arrive par e-mail et se présente sur le téléphone à l'entrée." },
+        { "q": "Comment contrôler les billets à l'entrée de l'événement ?", "a": "Ouvrez le contrôle d'accès dans Mon compte, puis scannez le QR code avec l'appareil photo ou saisissez le code du billet. Vous voyez immédiatement si le billet est valide ou déjà utilisé." },
+        { "q": "Quand est-ce que je reçois l'argent des billets vendus ?", "a": "Les recettes sont reversées à l'organisateur chaque mois, déduction faite des 5 %. Vous suivez les billets vendus à tout moment dans la liste en direct de Mon compte." },
+        { "q": "Quels moyens de paiement les participants peuvent-ils utiliser ?", "a": "Les participants paient par mada, Visa, Mastercard et Apple Pay via la passerelle de paiement Moyasar. Vous pouvez aussi émettre des billets d'invitation gratuits sans paiement." }
+      ],
+      "ctaTitle": "Lancez la vente de billets de votre événement",
+      "ctaBody": "Sans abonnement mensuel. Vous payez seulement 5 % par billet vendu."
+    }
+  }
+}

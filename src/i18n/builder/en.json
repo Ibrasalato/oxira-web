@@ -466,7 +466,7 @@
       },
       "reviews": {
         "name": "More Google reviews",
-        "desc": "A review page and printable QR card. Happy customers go to Google, unhappy ones reach you privately."
+        "desc": "A review page and printable QR card. Every customer sees the Google review button, and low ratings and comments also reach you by email."
       },
       "chat": {
         "name": "AI assistant",
@@ -589,7 +589,7 @@
     "reviewsTitle": "Google reviews",
     "googleUrl": "Your Google review link",
     "googleHelp": "In Google Maps open your business, choose \"Ask for reviews\" or \"Share review form\" and paste the link here.",
-    "qrReviewBody": "Put this card at the counter or send the link after each visit. Happy customers go to Google, others reach you privately.",
+    "qrReviewBody": "Put this card at the counter or send the link after each visit. Every customer sees the Google review button; low ratings also reach you by email so you can follow up.",
     "reviewLink": "Review page",
     "chatTitle": "AI assistant",
     "chatBody": "The assistant answers from your website. Add anything else it should know: delivery areas, payment methods, policies, offers that are running now.",

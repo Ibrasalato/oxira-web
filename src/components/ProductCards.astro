@@ -1,0 +1,46 @@
+---
+// Grid of the six monthly add-on products, linking to their pages. Used on /products/ and the services page.
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { builderText } from '../i18n/builder';
+import { productsText, productPath } from '../i18n/products';
+import { addonIds, addonPrices, addonIcons } from '../builder/addons';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const P = productsText[lang];
+const b = builderText[lang];
+const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
+---
+<ul class="pc">
+  {addonIds.map((id) => (
+    <li>
+      <a href={link(lang, productPath(id))}>
+        <span class="pc-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[id]} /></span>
+        <h3>{P.items[id].name}</h3>
+        <p>{P.items[id].short}</p>
+        <p class="pc-price">
+          {addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {P.common.perMonth}</> : <b>{P.common.free}</b>}
+          {addonPrices[id].feePercent ? <small> {P.common.fee}</small> : null}
+        </p>
+        <span class="more">{P.common.learnMore}</span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .pc { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; padding: 0; }
+  .pc a { display: flex; flex-direction: column; gap: .55rem; height: 100%; padding: 1.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; text-decoration: none; transition: border-color .15s, transform .15s; }
+  .pc a:hover { border-color: var(--navy); transform: translateY(-2px); }
+  .pc-ic { width: 48px; height: 48px; border-radius: 14px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; margin-bottom: .4rem; }
+  .pc-ic svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .pc h3 { font-size: 1.2rem; }
+  .pc p { color: var(--muted); }
+  .pc p:not(.pc-price) { flex: 1; }
+  .pc-price { color: var(--ink) !important; }
+  .pc-price b { font-size: 1.35rem; }
+  .pc-price small { color: var(--muted); }
+  @media (max-width: 900px) { .pc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  @media (max-width: 600px) { .pc { grid-template-columns: minmax(0, 1fr); } }
+</style>

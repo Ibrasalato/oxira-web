@@ -1,0 +1,121 @@
+---
+// A small phone-style picture of each add-on, drawn in HTML so it stays sharp and light.
+import type { AddonId } from '../builder/addons';
+import type { Lang } from '../i18n/content';
+
+interface Props { id: AddonId; lang: Lang; name: string }
+const { id, lang, name } = Astro.props;
+const ar = lang === 'ar';
+const days = ar ? ['أحد', 'إثن', 'ثلا', 'أرب', 'خمي'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
+const times = ['10:00', '11:30', '13:00', '16:00', '17:30', '19:00'];
+// A fixed QR-like pattern (decorative).
+const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.floor(i / 9) * 5) % 4 === 0) || [0, 1, 2, 9, 11, 18, 19, 20, 6, 7, 8, 15, 17, 24, 25, 26, 54, 55, 56, 63, 65, 72, 73, 74].includes(i));
+---
+<div class={`pm pm-${id}`} aria-hidden="true">
+  <div class="pm-phone">
+    <div class="pm-bar"><i></i><b>{name}</b></div>
+    {id === 'booking' && (
+      <div class="pm-body">
+        <div class="pm-days">{days.map((d, i) => <span class={i === 2 ? 'on' : ''}>{d}<b>{12 + i}</b></span>)}</div>
+        <div class="pm-times">{times.map((t, i) => <span class={i === 3 ? 'on' : i === 1 ? 'off' : ''} dir="ltr">{t}</span>)}</div>
+        <div class="pm-line w80"></div><div class="pm-line w60"></div>
+        <div class="pm-btn">✓</div>
+      </div>
+    )}
+    {id === 'menu' && (
+      <div class="pm-body">
+        <div class="pm-tabs"><span class="on"></span><span></span><span></span></div>
+        {[1, 2, 3, 4].map((i) => <div class="pm-item"><div><div class="pm-line w70"></div><div class="pm-line w50 thin"></div></div><b dir="ltr">{[18, 24, 32, 15][i - 1]}</b></div>)}
+        <div class="pm-qr">{qr.map((on) => <i class={on ? 'on' : ''}></i>)}</div>
+      </div>
+    )}
+    {id === 'reviews' && (
+      <div class="pm-body pm-center">
+        <div class="pm-stars">{[1, 2, 3, 4, 5].map((i) => <span class={i <= 4 ? 'on' : ''}>★</span>)}</div>
+        <div class="pm-line w80"></div><div class="pm-line w60"></div>
+        <div class="pm-box"></div>
+        <div class="pm-google"><b><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></b> ★★★★★</div>
+      </div>
+    )}
+    {id === 'chat' && (
+      <div class="pm-body pm-chat">
+        <div class="pm-msg in"><div class="pm-line w80"></div><div class="pm-line w50"></div></div>
+        <div class="pm-msg out"><div class="pm-line w70"></div></div>
+        <div class="pm-msg in"><div class="pm-line w90"></div><div class="pm-line w60"></div><div class="pm-line w40"></div></div>
+        <div class="pm-msg out"><div class="pm-line w50"></div></div>
+        <div class="pm-typing"><i></i><i></i><i></i></div>
+      </div>
+    )}
+    {id === 'content' && (
+      <div class="pm-body">
+        <div class="pm-grid">{[0, 1, 2, 3, 4, 5].map((i) => <span class={`c${i % 3}`}><i></i></span>)}</div>
+        <div class="pm-line w80"></div><div class="pm-line w60"></div><div class="pm-line w70"></div>
+      </div>
+    )}
+    {id === 'tickets' && (
+      <div class="pm-body">
+        <div class="pm-ticket">
+          <div><div class="pm-line w70 light"></div><div class="pm-line w50 light"></div><div class="pm-line w40 light"></div></div>
+          <div class="pm-qr sm">{qr.map((on) => <i class={on ? 'on' : ''}></i>)}</div>
+        </div>
+        <div class="pm-item"><div><div class="pm-line w60"></div></div><b dir="ltr">×2</b></div>
+        <div class="pm-btn">✓</div>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .pm { display: grid; place-items: center; padding: 1.5rem; border-radius: var(--radius-lg); background: radial-gradient(circle at 30% 20%, rgba(34,199,230,.25), transparent 55%), var(--navy); min-height: 420px; }
+  .pm-phone { width: min(260px, 100%); border-radius: 32px; background: #fff; padding: 12px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); border: 6px solid #0E2236; }
+  .pm-bar { display: flex; align-items: center; gap: .5rem; padding: .3rem .4rem .7rem; border-bottom: 1px solid var(--line); font-size: .8rem; }
+  .pm-bar i { width: 22px; height: 22px; border-radius: 7px; background: var(--amber); flex: none; }
+  .pm-body { display: grid; gap: .55rem; padding: .8rem .3rem .3rem; }
+  .pm-center { justify-items: center; text-align: center; }
+  .pm-line { height: 8px; border-radius: 4px; background: #E3E9EF; }
+  .pm-line.thin { height: 6px; margin-top: 4px; opacity: .7; }
+  .pm-line.light { background: rgba(255,255,255,.35); margin-bottom: 6px; }
+  .w40 { width: 40%; } .w50 { width: 50%; } .w60 { width: 60%; } .w70 { width: 70%; } .w80 { width: 80%; } .w90 { width: 90%; }
+  .pm-btn { height: 34px; border-radius: 10px; background: var(--amber); color: var(--navy); display: grid; place-items: center; font-weight: 700; margin-top: .3rem; }
+  .pm-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .pm-days span { display: grid; text-align: center; font-size: .62rem; padding: 4px 0; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); line-height: 1.3; }
+  .pm-days b { font-size: .85rem; color: var(--ink); }
+  .pm-days .on { background: var(--navy); border-color: var(--navy); color: #cfe; }
+  .pm-days .on b { color: #fff; }
+  .pm-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .pm-times span { font-size: .72rem; text-align: center; padding: 5px 0; border-radius: 8px; border: 1px solid var(--line); }
+  .pm-times .on { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .pm-times .off { text-decoration: line-through; opacity: .4; }
+  .pm-tabs { display: flex; gap: 5px; }
+  .pm-tabs span { height: 18px; flex: 1; border-radius: 999px; background: #EEF2F6; }
+  .pm-tabs .on { background: var(--navy); }
+  .pm-item { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .45rem .1rem; border-bottom: 1px dashed var(--line); }
+  .pm-item > div { flex: 1; }
+  .pm-item b { font-size: .8rem; color: var(--blue); }
+  .pm-qr { display: grid; grid-template-columns: repeat(9, 1fr); width: 72px; gap: 1px; margin: .4rem auto 0; padding: 5px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
+  .pm-qr i { aspect-ratio: 1; background: transparent; }
+  .pm-qr i.on { background: var(--navy); }
+  .pm-qr.sm { width: 64px; margin: 0; }
+  .pm-stars { font-size: 1.8rem; letter-spacing: 2px; color: #D7DEE5; line-height: 1; margin: .4rem 0; }
+  .pm-stars .on { color: var(--amber); }
+  .pm-center .pm-line { margin-inline: auto; }
+  .pm-box { width: 100%; height: 54px; border-radius: 10px; border: 1px solid var(--line); }
+  .pm-google { width: 100%; padding: .55rem; border-radius: 10px; border: 1.5px solid #DADCE0; font-size: .8rem; color: var(--amber); }
+  .pm-google b { font-size: .95rem; margin-inline-end: .3rem; }
+  .pm-chat { gap: .45rem; }
+  .pm-msg { max-width: 78%; padding: .5rem .6rem; border-radius: 14px; display: grid; gap: 5px; }
+  .pm-msg .pm-line { width: auto; }
+  .pm-msg.in { background: #EEF2F6; justify-self: start; min-width: 60%; }
+  .pm-msg.out { background: var(--blue); justify-self: end; min-width: 40%; }
+  .pm-msg.out .pm-line { background: rgba(255,255,255,.55); }
+  .pm-typing { display: flex; gap: 4px; padding: .5rem .6rem; background: #EEF2F6; border-radius: 14px; width: max-content; }
+  .pm-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); opacity: .6; }
+  .pm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .pm-grid span { aspect-ratio: 1; border-radius: 6px; display: grid; place-items: center; }
+  .pm-grid .c0 { background: linear-gradient(135deg, #F5A800, #F97316); }
+  .pm-grid .c1 { background: linear-gradient(135deg, #007DB4, #22C7E6); }
+  .pm-grid .c2 { background: linear-gradient(135deg, #0A253E, #10375A); }
+  .pm-grid i { width: 40%; height: 6px; border-radius: 3px; background: rgba(255,255,255,.7); }
+  .pm-ticket { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem; border-radius: 14px; background: linear-gradient(135deg, var(--navy), var(--blue)); }
+  .pm-ticket > div:first-child { flex: 1; }
+</style>

@@ -4,6 +4,7 @@ import { link } from '../lib/routes';
 import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
+import { productsText } from '../i18n/products';
 
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
@@ -22,6 +23,8 @@ const c = t[lang];
         <ul>
           {c.site.nav.map((n) => <li><a href={link(lang, n.path)}>{n.label}</a></li>)}
           <li><a href={link(lang, '/website-builder/')}>{builderText[lang].navLabel}</a></li>
+          <li><a href={link(lang, '/products/')}>{productsText[lang].nav.products}</a></li>
+          <li><a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
         </ul>
       </nav>
@@ -51,7 +54,6 @@ const c = t[lang];
         <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
         <a href={link(lang, '/terms/')}>{builderText[lang].page.terms}</a>
         <a href={link(lang, '/account/')}>{builderText[lang].account.title}</a>
-        <a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a>
         <LangPicker lang={lang} path={path} tone="dark" up />
       </div>
     </div>

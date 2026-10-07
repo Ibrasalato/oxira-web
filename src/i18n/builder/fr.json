@@ -466,7 +466,7 @@
       },
       "reviews": {
         "name": "Plus d'avis Google",
-        "desc": "Une page d'avis et une carte QR imprimable. Les clients satisfaits vont sur Google, les mécontents vous contactent en privé."
+        "desc": "Une page d'avis et une carte QR imprimable. Chaque client voit le bouton d'avis Google, et les notes basses et commentaires vous arrivent aussi par e-mail."
       },
       "chat": {
         "name": "Assistant IA",
@@ -589,7 +589,7 @@
     "reviewsTitle": "Avis Google",
     "googleUrl": "Votre lien d'avis Google",
     "googleHelp": "Dans Google Maps, ouvrez votre établissement, choisissez \"Demander des avis\" ou \"Partager le formulaire d'avis\" et collez le lien ici.",
-    "qrReviewBody": "Placez cette carte au comptoir ou envoyez le lien après chaque visite. Les clients satisfaits vont sur Google, les autres vous contactent en privé.",
+    "qrReviewBody": "Placez cette carte au comptoir ou envoyez le lien après chaque visite. Chaque client voit le bouton Google ; les notes basses vous arrivent aussi par e-mail.",
     "reviewLink": "Page d'avis",
     "chatTitle": "Assistant IA",
     "chatBody": "L'assistant répond à partir de votre site. Ajoutez tout ce qu'il doit savoir d'autre : zones de livraison, moyens de paiement, conditions, offres en cours.",

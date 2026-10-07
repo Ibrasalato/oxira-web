@@ -1,0 +1,216 @@
+---
+// One add-on product page, written to rank for what people search on Google (e.g. "نظام حجز مواعيد").
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { builderText } from '../i18n/builder';
+import { productsText, productPath, productFor } from '../i18n/products';
+import { addonIds, addonPrices, addonIcons, type AddonId } from '../builder/addons';
+import Base from '../layouts/Base.astro';
+import ProductMock from '../components/ProductMock.astro';
+
+interface Props { lang: Lang; id: AddonId }
+const { lang, id } = Astro.props;
+const P = productsText[lang];
+const c = P.common;
+const it = P.items[id];
+const b = builderText[lang];
+const site = Astro.site!;
+const path = productPath(id);
+const url = new URL(link(lang, path), site).href;
+const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
+const pr = addonPrices[id];
+const others = addonIds.filter((x) => x !== id);
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: it.name,
+    serviceType: it.name,
+    description: it.description,
+    url,
+    areaServed: { '@type': 'Country', name: 'Saudi Arabia' },
+    provider: { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href },
+    offers: {
+      '@type': 'Offer',
+      price: String(pr.price),
+      priceCurrency: 'SAR',
+      url,
+      availability: 'https://schema.org/InStock',
+      ...(pr.price ? { priceSpecification: { '@type': 'UnitPriceSpecification', price: String(pr.price), priceCurrency: 'SAR', unitCode: 'MON', valueAddedTaxIncluded: false } } : {}),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: it.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: c.home, item: new URL(link(lang, '/'), site).href },
+      { '@type': 'ListItem', position: 2, name: c.productsCrumb, item: new URL(link(lang, '/products/'), site).href },
+      { '@type': 'ListItem', position: 3, name: it.name, item: url },
+    ],
+  },
+];
+---
+<Base lang={lang} path={path} title={it.title} description={it.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+  <section class="page-hero pd-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label={c.productsCrumb}>
+        <a href={link(lang, '/')}>{c.home}</a><span aria-hidden="true">/</span>
+        <a href={link(lang, '/products/')}>{c.productsCrumb}</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{it.name}</span>
+      </nav>
+      <div class="pd-grid">
+        <div>
+          <p class="label pd-kicker"><span class="pd-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[id]} /></span>{it.name}</p>
+          <h1>{it.h1}</h1>
+          <p class="lead">{it.lead}</p>
+          <p class="pd-price">
+            {pr.price ? <><b>{fmt.format(pr.price)}</b> {b.packages.sar} <span>{c.perMonth}</span></> : <b>{c.free}</b>}
+            {pr.feePercent ? <span> {c.fee}</span> : null}
+          </p>
+          <div class="pd-ctas">
+            <a class="btn btn-amber" href={link(lang, '/website-builder/')}>{c.buildSite}</a>
+            <a class="btn btn-ghost" href={link(lang, '/account/')}>{c.openAccount}</a>
+          </div>
+          <p class="pd-vat">{c.vat}</p>
+        </div>
+        <ProductMock id={id} lang={lang} name={it.name} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="pd-features">
+    <div class="wrap">
+      <div class="sh"><h2 id="pd-features">{c.featuresTitle}</h2></div>
+      <ul class="pd-features">
+        {it.features.map((f) => <li><h3>{f.t}</h3><p>{f.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper" aria-labelledby="pd-how">
+    <div class="wrap">
+      <div class="sh"><h2 id="pd-how">{c.howTitle}</h2></div>
+      <ol class="pd-steps">
+        {it.steps.map((s, i) => <li><span aria-hidden="true">{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="pd-for">
+    <div class="wrap">
+      <div class="sh"><h2 id="pd-for">{c.forTitle}</h2><p>{c.needSite}</p></div>
+      <ul class="pd-for">
+        {productFor[id].map((cat) => <li><a href={`${link(lang, '/website-builder/')}?cat=${cat}#templates`}>{b.categories[cat]}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper" aria-labelledby="pd-faq">
+    <div class="wrap pd-faq-wrap">
+      <div class="sh"><h2 id="pd-faq">{c.faqTitle}</h2></div>
+      <div class="pd-faq">
+        {it.faq.map((f, i) => <details open={i === 0}><summary>{f.q}</summary><p>{f.a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="pd-cta">
+        <div><h2>{it.ctaTitle}</h2><p>{it.ctaBody}</p></div>
+        <div class="pd-ctas">
+          <a class="btn btn-amber" href={link(lang, '/website-builder/')}>{c.start}</a>
+          <a class="btn btn-ghost-light" href={link(lang, '/account/')}>{c.openAccount}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="pd-other">
+    <div class="wrap">
+      <div class="sh"><h2 id="pd-other">{c.otherProducts}</h2></div>
+      <ul class="pd-others">
+        {others.map((o) => (
+          <li>
+            <a href={link(lang, productPath(o))}>
+              <span class="pd-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[o]} /></span>
+              <b>{P.items[o].name}</b>
+              <small>{P.items[o].short}</small>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="pd-partner">{c.partnerStrip} <a href={link(lang, '/partners/')}>{c.partnerCta}</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .crumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .9rem; color: var(--muted); margin-bottom: 2rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--blue); }
+  .crumbs [aria-current] { color: var(--ink); font-weight: 600; }
+  .pd-hero { padding-top: clamp(2rem, 4vw, 3rem); }
+  .pd-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .pd-hero h1 { font-size: var(--s4); max-width: 20ch; }
+  .pd-kicker { display: inline-flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+  .pd-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; flex: none; }
+  .pd-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .pd-price { margin-top: 1.5rem; font-size: 1.05rem; color: var(--muted); }
+  .pd-price b { font-size: 2.2rem; color: var(--ink); }
+  .pd-ctas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+  .pd-vat { margin-top: 1rem; font-size: .88rem; color: var(--muted); }
+
+  .pd-features { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .pd-features li { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .5rem; align-content: start; }
+  .pd-features h3 { font-size: 1.12rem; }
+  .pd-features h3::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--amber); margin-bottom: .9rem; }
+  .pd-features p { color: var(--muted); }
+
+  .pd-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .pd-steps li { display: grid; gap: .6rem; align-content: start; }
+  .pd-steps span { width: 44px; height: 44px; border-radius: 12px; background: var(--navy); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 1.1rem; }
+  .pd-steps h3 { font-size: var(--s1); }
+  .pd-steps p { color: var(--muted); }
+
+  .pd-for { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; }
+  .pd-for a { display: inline-block; padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; }
+  .pd-for a:hover { border-color: var(--navy); }
+
+  .pd-faq-wrap { max-width: 56rem; }
+  .pd-faq { display: grid; gap: .75rem; }
+  .pd-faq details { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .pd-faq summary { cursor: pointer; font-weight: 700; font-size: 1.08rem; }
+  .pd-faq details p { margin-top: .75rem; color: var(--muted); }
+
+  .pd-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem 3rem; padding: clamp(1.75rem, 4vw, 3rem); border-radius: var(--radius-lg); background: var(--navy); color: #fff; }
+  .pd-cta > div:first-child { max-width: 38rem; }
+  .pd-cta h2 { font-size: var(--s3); }
+  .pd-cta p { color: var(--muted-on-navy); margin-top: .6rem; }
+  .pd-cta .pd-ctas { margin-top: 0; }
+
+  .pd-others { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+  .pd-others a { display: grid; gap: .5rem; align-content: start; height: 100%; padding: 1.2rem; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; }
+  .pd-others a:hover { border-color: var(--navy); }
+  .pd-others small { color: var(--muted); font-size: .88rem; line-height: 1.55; }
+  .pd-partner { margin-top: 2rem; padding: 1rem 1.25rem; border-radius: 14px; background: #FFF6E0; }
+  .pd-partner a { color: var(--blue); font-weight: 700; }
+
+  @media (max-width: 1000px) { .pd-others { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 900px) {
+    .pd-grid { grid-template-columns: minmax(0, 1fr); }
+    .pd-features, .pd-steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .pd-features, .pd-steps, .pd-others { grid-template-columns: minmax(0, 1fr); }
+    .pm { min-height: 0; }
+  }
+</style>

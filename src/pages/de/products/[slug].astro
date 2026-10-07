@@ -1,0 +1,11 @@
+---
+import View from '../../../views/ProductView.astro';
+import { productSlugs } from '../../../i18n/products';
+import type { AddonId } from '../../../builder/addons';
+
+export function getStaticPaths() {
+  return Object.entries(productSlugs).map(([id, slug]) => ({ params: { slug }, props: { id: id as AddonId } }));
+}
+const { id } = Astro.props;
+---
+<View lang="de" id={id} />

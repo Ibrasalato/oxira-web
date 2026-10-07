@@ -5,6 +5,7 @@ import { builderText, plans, planIds, renewals, domainPrice } from '../i18n/buil
 import { catalog } from '../builder/catalog';
 import { addonIds, addonPrices, addonIcons } from '../builder/addons';
 import { link } from '../lib/routes';
+import { productsText, productPath } from '../i18n/products';
 import Base from '../layouts/Base.astro';
 import SiteThumb from '../components/SiteThumb.astro';
 import TemplateGallery from '../components/TemplateGallery.astro';
@@ -105,13 +106,18 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
         {addonIds.map((id) => (
           <li>
             <span class="bd-addon-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={addonIcons[id]} /></span>
-            <h3>{b.addons.items[id].name}</h3>
+            <h3><a href={link(lang, productPath(id))}>{b.addons.items[id].name}</a></h3>
             <p>{b.addons.items[id].desc}</p>
             <p class="bd-addon-price">{addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {b.addons.perMonth}</> : <b>{b.addons.free}</b>}{addonPrices[id].feePercent ? <small> {b.addons.fee}</small> : null}</p>
+            <a class="more bd-addon-more" href={link(lang, productPath(id))}>{productsText[lang].common.learnMore}</a>
           </li>
         ))}
       </ul>
-      <p class="bd-addons-note">{b.addons.fromAccount} <a href={link(lang, '/account/')}>{b.account.title}</a> · <a href={link(lang, '/partners/')}>{b.account.partner}</a></p>
+      <p class="bd-addons-note">{b.addons.fromAccount} <a href={link(lang, '/account/')}>{b.account.title}</a> · <a href={link(lang, '/products/')}>{productsText[lang].nav.all}</a></p>
+      <div class="bd-partner">
+        <p>{productsText[lang].common.partnerStrip}</p>
+        <a class="btn btn-navy" href={link(lang, '/partners/')}>{productsText[lang].common.partnerCta}</a>
+      </div>
     </div>
   </section>
 
@@ -261,6 +267,11 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
   .bd-addon-price { color: var(--ink) !important; }
   .bd-addon-price b { font-size: 1.3rem; color: var(--navy); }
   .bd-addon-price small { color: var(--muted); }
+  .bd-addons h3 a { text-decoration: none; }
+  .bd-addons h3 a:hover { color: var(--blue); }
+  .bd-addon-more { font-size: .95rem; }
+  .bd-partner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: 2rem; padding: 1.25rem 1.5rem; border-radius: var(--radius); background: #FFF6E0; border: 1px solid #F5DFA6; }
+  .bd-partner p { font-weight: 600; max-width: 44rem; }
   .bd-addons-note { margin-top: 1.25rem; color: var(--muted); }
   .bd-addons-note a { color: var(--blue); font-weight: 600; }
   .bd-cmp { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: #fff; }

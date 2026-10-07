@@ -466,7 +466,7 @@
       },
       "reviews": {
         "name": "Mehr Google-Bewertungen",
-        "desc": "Eine Bewertungsseite und eine druckbare QR-Karte. Zufriedene Kunden gehen zu Google, unzufriedene erreichen Sie privat."
+        "desc": "Eine Bewertungsseite und eine druckbare QR-Karte. Jeder Kunde sieht den Google-Bewertungsbutton, niedrige Bewertungen und Kommentare erhalten Sie zusätzlich per E-Mail."
       },
       "chat": {
         "name": "KI-Assistent",
@@ -589,7 +589,7 @@
     "reviewsTitle": "Google-Bewertungen",
     "googleUrl": "Ihr Google-Bewertungslink",
     "googleHelp": "Öffnen Sie Ihr Unternehmen in Google Maps, wählen Sie \"Um Rezensionen bitten\" oder \"Rezensionsformular teilen\" und fügen Sie den Link hier ein.",
-    "qrReviewBody": "Stellen Sie diese Karte an die Theke oder senden Sie den Link nach jedem Besuch. Zufriedene Kunden gehen zu Google, andere erreichen Sie privat.",
+    "qrReviewBody": "Stellen Sie diese Karte an die Theke oder senden Sie den Link nach jedem Besuch. Jeder Kunde sieht den Google-Button; niedrige Bewertungen erhalten Sie zusätzlich per E-Mail.",
     "reviewLink": "Bewertungsseite",
     "chatTitle": "KI-Assistent",
     "chatBody": "Der Assistent antwortet anhand Ihrer Website. Ergänzen Sie, was er sonst wissen sollte: Liefergebiete, Zahlungsarten, Richtlinien, aktuelle Angebote.",

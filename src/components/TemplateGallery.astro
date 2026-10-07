@@ -95,6 +95,9 @@ const names = Object.fromEntries(categoryIds.map((c) => [c, langCodes.map((l) =>
     });
     more.addEventListener('click', () => { limit += per; draw(); });
     draw();
+    // ?cat=clinic (from the product pages) opens the gallery on that business type.
+    const want = new URLSearchParams(location.search).get('cat');
+    if (want) chips.find((x) => x.dataset.tgCat === want)?.click();
   });
 </script>
 

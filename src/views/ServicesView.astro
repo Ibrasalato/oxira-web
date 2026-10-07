@@ -4,6 +4,8 @@ import { link } from '../lib/routes';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import CtaBand from '../components/CtaBand.astro';
+import ProductCards from '../components/ProductCards.astro';
+import { productsText } from '../i18n/products';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -46,7 +48,17 @@ const other = lang === 'ar' ? 'en' : 'ar';
     </div>
   </section>
 
-  <section class="section bg-paper" aria-labelledby="process-title">
+  <section class="section bg-paper" id="monthly" aria-labelledby="monthly-title">
+    <div class="wrap">
+      <div class="sh-row">
+        <div class="sh"><h2 id="monthly-title">{productsText[lang].common.servicesTitle}</h2><p>{productsText[lang].common.servicesBody}</p></div>
+        <a class="more" href={link(lang, '/products/')}>{productsText[lang].nav.all}</a>
+      </div>
+      <ProductCards lang={lang} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="process-title">
     <div class="wrap">
       <div class="sh"><h2 id="process-title">{c.process.title}</h2></div>
       <ol class="process">

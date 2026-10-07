@@ -4,12 +4,16 @@ import { link } from '../lib/routes';
 import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
+import { productsText, productPath } from '../i18n/products';
+import { addonIds, addonIcons } from '../builder/addons';
 
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
 const c = t[lang];
 const b = builderText[lang];
-const onBuilder = path === '/website-builder/' || path === '/studio/';
+const P = productsText[lang];
+const onProducts = path === '/website-builder/' || path === '/studio/' || path.startsWith('/products/');
+const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? 'AI';
 ---
 <header class="hd" id="hd">
   <div class="wrap hd-row">
@@ -22,13 +26,46 @@ const onBuilder = path === '/website-builder/' || path === '/studio/';
         {c.site.nav.map((n) => (
           <li><a href={link(lang, n.path)} aria-current={path === n.path ? 'page' : undefined}>{n.label}</a></li>
         ))}
-        <li><a class="hd-build" href={link(lang, '/website-builder/')} aria-current={onBuilder ? 'page' : undefined}>{b.navLabel}<span class="hd-new">{b.badge}</span></a></li>
+        <li class="hd-dd">
+          <button type="button" class="hd-build" id="hd-dd-btn" aria-expanded="false" aria-controls="hd-prod" data-current={onProducts ? 'page' : undefined}>
+            {P.nav.products}<span class="hd-new">{b.badge}</span>
+            <svg class="hd-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div class="hd-panel" id="hd-prod">
+            <a class="hd-feat" href={link(lang, '/website-builder/')}>
+              <span class="hd-new">{b.badge}</span>
+              <b>{P.nav.websiteBuilder}</b>
+              <small>{P.nav.websiteBuilderDesc}</small>
+              <span class="hd-feat-go">{P.common.buildSite}</span>
+            </a>
+            <div class="hd-col">
+              <p class="hd-h">{P.nav.addonsTitle}</p>
+              <ul class="hd-addons">
+                {addonIds.map((id) => (
+                  <li><a href={link(lang, productPath(id))} aria-current={path === productPath(id) ? 'page' : undefined}><span class="hd-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[id]} /></span>{P.items[id].name}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div class="hd-col">
+              <p class="hd-h">{P.nav.otherTitle}</p>
+              <ul class="hd-other">
+                <li><a href={link(lang, '/classti/')}><b>Classti</b><small>{P.nav.classtiDesc}</small></a></li>
+                <li><a href={link(lang, '/ai-agents/')}><b>{agentsLabel}</b><small>{P.nav.agentsDesc}</small></a></li>
+              </ul>
+              <a class="more hd-all" href={link(lang, '/products/')}>{P.nav.all}</a>
+            </div>
+          </div>
+        </li>
       </ul>
       <a class="btn btn-navy hd-cta-mobile" href={link(lang, '/contact/')}>{c.site.contactCta}</a>
     </nav>
 
     <div class="hd-end">
       <LangPicker lang={lang} path={path} />
+      <a class="hd-acct" href={link(lang, '/account/')} aria-label={P.nav.account} title={P.nav.account} aria-current={path === '/account/' ? 'page' : undefined}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
+        <span>{P.nav.account}</span>
+      </a>
       <a class="btn btn-navy hd-cta" href={link(lang, '/contact/')} aria-current={path === '/contact/' ? 'page' : undefined}>{c.site.contactCta}</a>
       <button type="button" class="hd-menu" id="hd-menu" aria-controls="hd-nav" aria-expanded="false">
         <span class="sr-only">{c.site.menu}</span>
@@ -46,6 +83,20 @@ const onBuilder = path === '/website-builder/' || path === '/studio/';
     btn.setAttribute('aria-expanded', String(open));
     document.body.style.overflow = open ? 'hidden' : '';
   });
+  // Products menu: opens on click (and on hover with a mouse); closes on Escape or a click outside.
+  const dd = document.querySelector<HTMLElement>('.hd-dd')!;
+  const ddBtn = document.getElementById('hd-dd-btn') as HTMLButtonElement;
+  const setDd = (open: boolean) => { dd.classList.toggle('is-dd', open); ddBtn.setAttribute('aria-expanded', String(open)); };
+  const hover = window.matchMedia('(hover: hover) and (min-width: 1201px)');
+  // With a mouse the menu is already open on hover, so a click keeps it open instead of closing it.
+  ddBtn.addEventListener('click', () => setDd(hover.matches || !dd.classList.contains('is-dd')));
+  let leaveT = 0;
+  dd.addEventListener('mouseenter', () => { if (hover.matches) { clearTimeout(leaveT); setDd(true); } });
+  dd.addEventListener('mouseleave', () => { if (hover.matches) leaveT = window.setTimeout(() => setDd(false), 180); });
+  document.addEventListener('click', (e) => { if (!dd.contains(e.target as Node) && hover.matches) setDd(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && dd.classList.contains('is-dd')) { setDd(false); ddBtn.focus(); } });
+  dd.addEventListener('focusout', (e) => { if (hover.matches && !dd.contains(e.relatedTarget as Node)) setDd(false); });
+
   const onScroll = () => hd.classList.toggle('is-scrolled', window.scrollY > 8);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -68,8 +119,38 @@ const onBuilder = path === '/website-builder/' || path === '/studio/';
   .hd-nav ul a.hd-build { color: var(--ink); display: inline-flex; align-items: center; gap: .4rem; }
   .hd-new { font-size: .68rem; font-weight: 700; line-height: 1; padding: .28rem .45rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
 
+  .hd-dd { position: relative; }
+  .hd-nav ul button.hd-build { font: 600 1rem var(--font); background: none; border: 0; border-bottom: 2px solid transparent; padding: .4rem 0; cursor: pointer; color: var(--ink); display: inline-flex; align-items: center; gap: .4rem; white-space: nowrap; }
+  .hd-build[data-current='page'] { border-bottom-color: var(--amber) !important; }
+  .hd-chev { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; transition: transform .2s; }
+  .is-dd .hd-chev { transform: rotate(180deg); }
+  .hd-panel { display: none; position: absolute; top: calc(100% + .9rem); inset-inline-start: 50%; translate: -50% 0; width: min(860px, calc(100vw - 2rem)); padding: 1.25rem; border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 70px -30px rgba(6, 26, 45, .45); grid-template-columns: 1fr 1.2fr 1fr; gap: 1.25rem; }
+  html[dir='rtl'] .hd-panel { translate: 50% 0; }
+  .hd-panel::before { content: ''; position: absolute; inset-inline: 0; top: -1rem; height: 1rem; }
+  .is-dd .hd-panel { display: grid; }
+  .hd-nav .hd-panel a { border: 0; padding: 0; color: var(--ink); white-space: normal; }
+  .hd-nav .hd-panel a.hd-feat { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; padding: 1.25rem; border-radius: 14px; background: radial-gradient(circle at 80% 0%, rgba(34,199,230,.35), transparent 55%), var(--navy); color: #fff; }
+  .hd-feat b { font-size: 1.2rem; }
+  .hd-nav .hd-panel a.hd-feat { justify-content: space-between; }
+  .hd-feat-go { margin-top: auto; padding: .6rem 1rem; border-radius: 10px; background: var(--amber); color: var(--navy); font-weight: 700; font-size: .92rem; }
+  .hd-feat small { color: var(--muted-on-navy); font-size: .9rem; line-height: 1.5; }
+  .hd-h { font-size: .8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .5rem; }
+  .hd-nav .hd-panel ul { display: grid; gap: .15rem; }
+  .hd-nav .hd-panel ul a { display: flex; align-items: center; gap: .65rem; padding: .45rem .5rem; border-radius: 10px; font-weight: 600; font-size: .95rem; }
+  .hd-nav .hd-panel ul a:hover, .hd-nav .hd-panel ul a[aria-current='page'] { background: var(--paper); color: var(--ink); }
+  .hd-ic { width: 32px; height: 32px; flex: none; border-radius: 9px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
+  .hd-ic svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .hd-nav .hd-other a { flex-direction: column; align-items: flex-start !important; gap: .1rem !important; }
+  .hd-other small { color: var(--muted); font-weight: 400; font-size: .85rem; line-height: 1.45; }
+  .hd-nav .hd-panel a.hd-all { display: inline-flex; margin-top: .75rem; padding-inline: .5rem; color: var(--blue); }
+
+  .hd-acct { display: inline-flex; align-items: center; gap: .45rem; height: 44px; padding: 0 .9rem; border-radius: 12px; border: 1.5px solid var(--line); text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--ink); white-space: nowrap; }
+  .hd-acct:hover, .hd-acct[aria-current='page'] { border-color: var(--navy); }
+  .hd-acct svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+
   .hd-end { display: flex; align-items: center; gap: .75rem; }
-  .hd-cta { padding: .8rem 1.25rem; font-size: .95rem; }
+  .hd-cta { padding: .8rem 1.25rem; font-size: .95rem; white-space: nowrap; }
+  @media (max-width: 1480px) { .hd-acct { width: 44px; padding: 0; justify-content: center; } .hd-acct span { display: none; } }
 
   .hd-menu { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; position: relative; }
   .hd-menu i { position: absolute; inset-inline: 12px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s, top .2s; }
@@ -84,11 +165,20 @@ const onBuilder = path === '/website-builder/' || path === '/studio/';
     .hd-cta { display: none; }
     .hd-nav { display: none; position: fixed; top: 4.75rem; left: 0; right: 0; bottom: 0; z-index: 41; background: #fff; padding: 1.5rem var(--gutter) 2rem; overflow-y: auto; }
     .is-open .hd-nav { display: flex; flex-direction: column; gap: 1.5rem; }
-    .hd-nav ul { flex-direction: column; gap: 0; }
+    .hd-nav ul { flex-direction: column; gap: 0; align-items: stretch; }
     .hd-nav li { border-bottom: 1px solid var(--line); }
     .hd-nav ul a { display: block; padding: 1rem 0; font-size: 1.25rem; color: var(--ink); border: 0; }
     .hd-nav ul a[aria-current='page'] { color: var(--blue); }
     .hd-nav a.hd-cta-mobile { display: inline-flex; color: #fff; padding: 1rem 1.6rem; font-size: 1.05rem; }
     :global(body:has(.hd.is-open) .oxchat) { display: none; }
+    .hd-nav ul button.hd-build { width: 100%; justify-content: flex-start; padding: 1rem 0; font-size: 1.25rem; border: 0; }
+    .hd-chev { margin-inline-start: auto; }
+    .hd-panel { position: static; translate: none !important; width: auto; box-shadow: none; border: 0; padding: 0 0 1rem; grid-template-columns: 1fr; gap: 1rem; }
+    .hd-panel::before { display: none; }
+    .hd-nav .hd-panel ul { flex-direction: column; }
+    .hd-nav .hd-panel li { border: 0; }
+    .hd-nav .hd-panel ul a { font-size: 1rem; padding: .55rem .25rem; }
+    .hd-acct { width: 44px; padding: 0; justify-content: center; }
+    .hd-acct span { display: none; }
   }
 </style>

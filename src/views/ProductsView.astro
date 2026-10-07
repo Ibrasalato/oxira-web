@@ -1,0 +1,96 @@
+---
+// /products/: the website builder plus the six monthly add-ons.
+import { t, type Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { builderText } from '../i18n/builder';
+import { productsText, productPath } from '../i18n/products';
+import { addonIds } from '../builder/addons';
+import { catalog } from '../builder/catalog';
+import Base from '../layouts/Base.astro';
+import ProductCards from '../components/ProductCards.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const P = productsText[lang];
+const c = P.common;
+const b = builderText[lang];
+const site = Astro.site!;
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: P.index.h1,
+    itemListElement: addonIds.map((id, i) => ({ '@type': 'ListItem', position: i + 1, name: P.items[id].name, url: new URL(link(lang, productPath(id)), site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: c.home, item: new URL(link(lang, '/'), site).href },
+      { '@type': 'ListItem', position: 2, name: c.productsCrumb, item: new URL(link(lang, '/products/'), site).href },
+    ],
+  },
+];
+---
+<Base lang={lang} path="/products/" title={P.index.title} description={P.index.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label={c.productsCrumb}>
+        <a href={link(lang, '/')}>{c.home}</a><span aria-hidden="true">/</span><span aria-current="page">{c.productsCrumb}</span>
+      </nav>
+      <h1>{P.index.h1}</h1>
+      <p class="lead">{P.index.lead}</p>
+    </div>
+  </section>
+
+  <section class="section-tight pt0">
+    <div class="wrap">
+      <a class="ps-builder" href={link(lang, '/website-builder/')}>
+        <div>
+          <span class="ps-new">{b.badge}</span>
+          <h2>{P.nav.websiteBuilder}</h2>
+          <p>{P.nav.websiteBuilderDesc} · {b.gallery.count.replace('{n}', String(catalog.length))}</p>
+        </div>
+        <span class="btn btn-amber">{c.buildSite}</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section-tight pt0" aria-labelledby="ps-addons">
+    <div class="wrap">
+      <div class="sh"><h2 id="ps-addons">{P.nav.addonsTitle}</h2><p>{c.needSite}</p></div>
+      <ProductCards lang={lang} />
+      <p class="ps-vat">{c.vat}</p>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper" aria-labelledby="ps-other">
+    <div class="wrap">
+      <div class="sh"><h2 id="ps-other">{P.nav.otherTitle}</h2></div>
+      <ul class="ps-other">
+        <li><a href={link(lang, '/classti/')}><b>Classti</b><span>{P.nav.classtiDesc}</span></a></li>
+        <li><a href={link(lang, '/ai-agents/')}><b>{t[lang].site.nav.find((n) => n.path === '/ai-agents/')!.label}</b><span>{P.nav.agentsDesc}</span></a></li>
+        <li><a href={link(lang, '/partners/')}><b>{b.account.partner}</b><span>{c.partnerStrip}</span></a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .crumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .9rem; color: var(--muted); margin-bottom: 2rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs [aria-current] { color: var(--ink); font-weight: 600; }
+  .pt0 { padding-top: 0; }
+  .ps-builder { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: var(--radius-lg); background: radial-gradient(circle at 85% 0%, rgba(34,199,230,.3), transparent 50%), var(--navy); color: #fff; text-decoration: none; }
+  .ps-builder h2 { font-size: var(--s3); margin: .6rem 0 .4rem; }
+  .ps-builder p { color: var(--muted-on-navy); }
+  .ps-new { display: inline-block; font-size: .75rem; font-weight: 700; padding: .3rem .6rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
+  .ps-vat { margin-top: 1.25rem; color: var(--muted); font-size: .9rem; }
+  .ps-other { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .ps-other a { display: grid; gap: .4rem; height: 100%; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; text-decoration: none; }
+  .ps-other a:hover { border-color: var(--navy); }
+  .ps-other b { font-size: 1.15rem; }
+  .ps-other span { color: var(--muted); }
+  @media (max-width: 800px) { .ps-other { grid-template-columns: minmax(0, 1fr); } }
+</style>

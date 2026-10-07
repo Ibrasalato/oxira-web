@@ -1,0 +1,224 @@
+{
+  "nav": {
+    "products": "Produkte",
+    "websiteBuilder": "Oxira Studio",
+    "websiteBuilderDesc": "Professionelle Website mit KI, am selben Tag fertig",
+    "addonsTitle": "Erweiterungen für Ihre Website",
+    "otherTitle": "Mehr von Oxira",
+    "classtiDesc": "Komplettplattform für die Schulverwaltung",
+    "agentsDesc": "KI-Agenten und Automatisierung für Unternehmen",
+    "all": "Alle Produkte",
+    "account": "Mein Konto"
+  },
+  "common": {
+    "start": "Jetzt starten",
+    "perMonth": "/ Monat",
+    "free": "Kostenlos",
+    "fee": "+ 5 % pro verkauftem Ticket",
+    "vat": "Preise zzgl. 15 % MwSt. Monatlich, jederzeit kündbar.",
+    "featuresTitle": "Funktionen",
+    "howTitle": "So funktioniert es",
+    "forTitle": "Für wen geeignet",
+    "faqTitle": "Häufige Fragen",
+    "otherProducts": "Weitere Produkte",
+    "home": "Startseite",
+    "productsCrumb": "Produkte",
+    "needSite": "Funktioniert mit Ihrer Oxira-Website. Erstellen Sie eine in wenigen Minuten.",
+    "buildSite": "Website erstellen",
+    "haveSite": "Sie haben bereits eine Oxira-Website?",
+    "openAccount": "In Mein Konto hinzufügen",
+    "servicesTitle": "Fertige Lösungen im Monatsabo",
+    "servicesBody": "Ergänzen Sie Ihre Website um Online-Terminbuchung, QR-Speisekarte, Google-Bewertungen, KI-Chatbot, monatliche Inhalte oder Ticketverkauf, ganz ohne Programmierung.",
+    "learnMore": "Mehr erfahren",
+    "partnerStrip": "Agentur oder Marketer? Erhalten Sie 15 % für jede Website, die Sie an Oxira vermitteln.",
+    "partnerCta": "Partner werden"
+  },
+  "index": {
+    "title": "Terminbuchung, QR-Menü und Chatbot für Websites | Oxira",
+    "description": "Erweiterungen für Ihre Oxira-Website: Online-Terminbuchung, QR-Speisekarte, mehr Google-Bewertungen, KI-Chatbot, Social-Media-Inhalte und Ticketverkauf.",
+    "h1": "Oxira-Produkte für Ihr Unternehmen",
+    "lead": "Ergänzen Sie Ihre Website genau um das, was Ihr Unternehmen braucht: Online-Terminbuchung, digitale Speisekarte, Google-Bewertungen, KI-Chatbot, monatliche Social-Media-Inhalte und Ticketverkauf. Jedes Produkt funktioniert mit Ihrer Oxira-Studio-Website, monatlich und jederzeit kündbar."
+  },
+  "items": {
+    "booking": {
+      "title": "Online-Terminbuchung für Praxen und Salons | Oxira",
+      "description": "Online-Terminbuchung auf Ihrer Website: Kunden wählen Leistung, Datum und Uhrzeit, Sie erhalten jede Buchung per E-Mail, ohne Doppelbuchungen. 99 SAR/Monat.",
+      "name": "Online-Terminbuchung",
+      "short": "Kunden buchen Leistung, Datum und Uhrzeit auf Ihrer Website. Jede Buchung erhalten Sie per E-Mail.",
+      "h1": "Online-Terminbuchung direkt auf Ihrer Website",
+      "lead": "Lassen Sie Kunden jederzeit online Termine auf Ihrer Website buchen, statt endloser Anrufe und Nachrichten. Ein Terminbuchungssystem für Arztpraxen, Zahnärzte, Salons, Barbiere, Trainer und Berater, das Sie vollständig in Mein Konto verwalten.",
+      "features": [
+        { "t": "Leistung, Datum und Uhrzeit wählen", "d": "Kunden wählen eine Leistung aus Ihrer Website, dann einen Tag und ein freies Zeitfenster, und senden die Buchung in Sekunden ab." },
+        { "t": "Ihre eigenen Öffnungszeiten", "d": "Legen Sie Öffnungs- und Schließzeit, Minuten pro Termin, Ruhetage und einen Hinweis für Kunden fest." },
+        { "t": "Keine Doppelbuchungen", "d": "Bestimmen Sie, wie viele Buchungen gleichzeitig möglich sind. Ist ein Zeitfenster voll, kann es niemand mehr buchen." },
+        { "t": "E-Mail bei jeder Buchung", "d": "Sie erhalten für jede neue Buchung eine E-Mail und bestätigen, stornieren oder erledigen sie in Mein Konto." },
+        { "t": "Bestätigung und Erinnerung", "d": "Kunden erhalten eine E-Mail bei Bestätigung oder Stornierung und am Vortag eine Erinnerung, sofern sie eine E-Mail angegeben haben." },
+        { "t": "Tagesplan in Ihrem Postfach", "d": "Jeden Tag erhalten Sie eine E-Mail mit den Terminen des Tages und wissen, wer wann kommt." }
+      ],
+      "steps": [
+        { "t": "Buchung aktivieren", "d": "Abonnieren Sie die Erweiterung in Mein Konto Ihrer Oxira-Studio-Website." },
+        { "t": "Zeiten festlegen", "d": "Legen Sie Öffnungszeiten, Termindauer, Buchungen pro Zeitfenster und Ruhetage fest." },
+        { "t": "Buchungen empfangen", "d": "Kunden buchen auf Ihrer Website, und Sie verwalten jede Buchung in Mein Konto." }
+      ],
+      "faq": [
+        { "q": "Was kostet das Online-Terminbuchungssystem?", "a": "99 SAR pro Monat zzgl. 15 % MwSt. Das Abo ist monatlich in Mein Konto kündbar und bleibt bis zum Ende des bezahlten Monats aktiv." },
+        { "q": "Können Kunden Termine mit dem Smartphone buchen?", "a": "Ja. Die Buchungsseite ist für Smartphones optimiert, sodass Kunden jederzeit vom Handy aus buchen können. Sie erscheint in der Sprache Ihrer Website." },
+        { "q": "Können zwei Kunden dasselbe Zeitfenster buchen?", "a": "Sie bestimmen, wie viele Buchungen gleichzeitig erlaubt sind, etwa eine für eine Praxis mit einem Arzt oder mehrere für einen Salon mit mehreren Mitarbeitern. Ist das Zeitfenster voll, wird es automatisch gesperrt." },
+        { "q": "Wie füge ich die Terminbuchung zu meiner Website hinzu?", "a": "Sie benötigen eine mit Oxira Studio erstellte Website. Aktivieren Sie die Erweiterung in Mein Konto und legen Sie Zeiten und Termindauer fest. Die Leistungen werden aus dem Leistungsbereich Ihrer Website übernommen." },
+        { "q": "Erhalten Kunden eine Terminerinnerung?", "a": "Ja. Wenn der Kunde eine E-Mail angibt, erhält er am Vortag eine Erinnerung sowie eine E-Mail bei Bestätigung oder Stornierung. Sie selbst erhalten jede neue Buchung per E-Mail und täglich eine Terminliste." }
+      ],
+      "ctaTitle": "Nehmen Sie Buchungen über Ihre Website an",
+      "ctaBody": "Aktivieren Sie die Online-Terminbuchung für 99 SAR pro Monat, jederzeit kündbar."
+    },
+    "menu": {
+      "title": "QR-Code Speisekarte für Restaurants und Cafés | Oxira",
+      "description": "Digitale QR-Code Speisekarte für Restaurant oder Café: mobilfreundlich, druckbare Tischaufsteller, Preise sofort in Ihrem Konto ändern. 49 SAR pro Monat.",
+      "name": "Digitale Speisekarte",
+      "short": "Digitale Speisekarte mit Kategorien und QR-Code für den Tisch. Artikel und Preise jederzeit selbst ändern.",
+      "h1": "Digitale QR-Code Speisekarte für Restaurants",
+      "lead": "Zeigen Sie Ihre Speisekarte oder Preisliste auf einer Seite für Smartphones, die Gäste per QR-Code am Tisch öffnen. Eine kontaktlose digitale Speisekarte für Restaurants, Cafés und Bäckereien und eine übersichtliche Preisliste für Salons, Barbiere und jedes Geschäft mit Preisen.",
+      "features": [
+        { "t": "Mobilfreundliche Menüseite", "d": "Eine schlanke Seite für Smartphones, auf der Gäste Artikel, Beschreibungen und Preise bequem durchsehen." },
+        { "t": "Kategorien als Reiter", "d": "Gliedern Sie die Karte in Bereiche wie Heißgetränke, Desserts und Hauptgerichte, zwischen denen Gäste per Fingertipp wechseln." },
+        { "t": "QR-Code druckfertig", "d": "Laden Sie den QR-Code als PNG herunter oder drucken Sie ihn als fertigen Tischaufsteller." },
+        { "t": "Sofort ändern in Mein Konto", "d": "Ändern Sie Artikel, Beschreibungen und Preise in Mein Konto. Änderungen sind sofort live, ohne Neudruck." },
+        { "t": "Menübereich auf Ihrer Website", "d": "Die Karte erscheint auch als Bereich auf Ihrer Website, sodass Besucher sie vor dem Besuch sehen." },
+        { "t": "Preisliste für jedes Geschäft", "d": "Nicht nur für Restaurants: Salons, Barbiere und jedes Geschäft mit Preisliste können sie nutzen." }
+      ],
+      "steps": [
+        { "t": "Speisekarte aktivieren", "d": "Abonnieren Sie die Erweiterung in Mein Konto Ihrer Oxira-Website." },
+        { "t": "Kategorien und Artikel anlegen", "d": "Tragen Sie Kategorien und Artikel mit Beschreibung und Preis ein." },
+        { "t": "QR-Code drucken", "d": "Laden Sie den Code herunter oder drucken Sie den Tischaufsteller für Tische oder Theke." }
+      ],
+      "faq": [
+        { "q": "Was kostet eine QR-Code Speisekarte?", "a": "49 SAR pro Monat zzgl. 15 % MwSt. Sie können jederzeit in Mein Konto kündigen, und die Karte bleibt bis zum Ende des bezahlten Monats online." },
+        { "q": "Brauchen Gäste eine App für die QR-Speisekarte?", "a": "Nein. Gäste scannen den QR-Code mit der Handykamera und die Karte öffnet sich im Browser. Die Artikel schreiben Sie in der Sprache Ihrer Wahl, etwa Arabisch, Englisch oder beides." },
+        { "q": "Wie erstelle ich eine QR-Speisekarte für mein Restaurant?", "a": "Zuerst benötigen Sie eine mit Oxira Studio erstellte Website. Aktivieren Sie die Speisekarte in Mein Konto, legen Sie Kategorien, Artikel und Preise an und laden Sie den QR-Code als PNG herunter oder drucken Sie ihn als Tischaufsteller." },
+        { "q": "Muss ich die Karte bei Preisänderungen neu drucken?", "a": "Nein. Ändern Sie den Preis in Mein Konto, und der neue Preis ist sofort sichtbar. Der QR-Code bleibt gleich, Ihre Tischaufsteller funktionieren also weiter." },
+        { "q": "Eignet sich die Karte als Preisliste für Salons und Barbiere?", "a": "Ja. Listen Sie Leistungen wie Haarschnitt, Färben und Pflege in Reitern mit Preisen auf. Sie eignet sich für jedes Geschäft, das seine Preise klar zeigen möchte." }
+      ],
+      "ctaTitle": "Machen Sie aus Ihrer Papierkarte eine digitale",
+      "ctaBody": "Ihre QR-Speisekarte für 49 SAR pro Monat, Preise jederzeit änderbar."
+    },
+    "reviews": {
+      "title": "Mehr Google-Bewertungen für Ihr Unternehmen | Oxira",
+      "description": "Mehr Google-Bewertungen: Jeder Kunde bewertet Sie per Klick auf Google, niedrige Bewertungen melden wir Ihnen sofort per E-Mail. QR-Karte, 79 SAR/Monat.",
+      "name": "Google-Bewertungen",
+      "short": "Laden Sie jeden Kunden zur Google-Bewertung ein und erhalten Sie sofort eine E-Mail bei niedrigen Bewertungen oder Kommentaren.",
+      "h1": "Mehr Google-Bewertungen von Ihren Kunden",
+      "lead": "Bitten Sie jeden Kunden, seinen Besuch in Sekunden zu bewerten. Danach öffnet ein Button direkt Ihr Google-Bewertungsformular, egal wie viele Sterne er vergeben hat. Niedrige Bewertungen und Kommentare erhalten Sie zusätzlich per E-Mail, damit Sie schnell reagieren und Ihren Ruf auf Google Maps pflegen.",
+      "features": [
+        { "t": "Bewertungsseite auf Ihrer Website", "d": "Eine einfache, mobilfreundliche Seite auf Ihrer Website, auf der Kunden in Sekunden 1 bis 5 Sterne vergeben." },
+        { "t": "Google-Button für jeden Kunden", "d": "Nach der Bewertung sieht jeder Kunde einen Button, der direkt Ihr Google-Bewertungsformular öffnet, unabhängig von der Sternezahl." },
+        { "t": "Sofort-Hinweis bei Kritik und Kommentaren", "d": "Bewertungen mit 1 bis 3 Sternen und jeder Kommentar gehen zusätzlich privat an Ihre E-Mail, damit Sie schnell nachfassen können." },
+        { "t": "Druckbare QR-Karte", "d": "Drucken Sie eine QR-Karte für Theke, Tisch oder Wartebereich, damit Kunden vor dem Gehen bewerten." },
+        { "t": "Link nach jedem Besuch senden", "d": "Kopieren Sie den Link zur Bewertungsseite und senden Sie ihn nach der Leistung per WhatsApp oder SMS." },
+        { "t": "Echte Bewertungen echter Kunden", "d": "Wir kaufen oder schreiben keine Bewertungen. Jede Google-Bewertung stammt von Ihren eigenen Kunden und schafft Vertrauen bei allen, die Sie auf Google Maps finden." }
+      ],
+      "steps": [
+        { "t": "Bewertungen aktivieren", "d": "Abonnieren Sie die Erweiterung in Mein Konto und hinterlegen Sie Ihren Google-Bewertungslink." },
+        { "t": "QR-Karte oder Link teilen", "d": "Drucken Sie die Karte oder senden Sie den Link nach jedem Besuch." },
+        { "t": "Reagieren und wachsen", "d": "Kunden veröffentlichen ihre Bewertungen auf Google, und Sie erhalten bei jeder niedrigen Bewertung oder jedem Kommentar eine E-Mail." }
+      ],
+      "faq": [
+        { "q": "Was kostet es, mit Oxira mehr Google-Bewertungen zu bekommen?", "a": "79 SAR pro Monat zzgl. 15 % MwSt. Sie können jederzeit in Mein Konto kündigen, und das Abo bleibt bis zum Ende des bezahlten Monats aktiv." },
+        { "q": "Können Kunden mit dem Smartphone bewerten?", "a": "Ja. Kunden scannen den QR-Code oder öffnen den Link auf dem Handy und wählen ihre Sterne auf einer mobilfreundlichen Seite. Die Seite erscheint in der Sprache Ihrer Website." },
+        { "q": "Wo finde ich meinen Google-Bewertungslink?", "a": "Wählen Sie in Ihrem Google Unternehmensprofil die Option, um Rezensionen zu bitten, und kopieren Sie den Link. Fügen Sie ihn in den Einstellungen der Erweiterung in Mein Konto ein. Der Google-Button auf Ihrer Bewertungsseite öffnet dann direkt Ihr Bewertungsformular." },
+        { "q": "Kaufen oder schreiben Sie Bewertungen?", "a": "Nein. Wir kaufen, schreiben oder filtern keine Bewertungen. Jede Google-Bewertung schreiben Ihre echten Kunden selbst, und jeder Kunde erhält denselben Button zur Bewertung auf Google." },
+        { "q": "Was passiert bei einer niedrigen Bewertung?", "a": "Der Kunde kann seine Bewertung wie jeder andere auf Google veröffentlichen. Zusätzlich gehen Bewertungen mit 1 bis 3 Sternen und jeder Kommentar privat an Ihre E-Mail. So erfahren Sie früh vom Problem und können den Kunden kontaktieren." }
+      ],
+      "ctaTitle": "Machen Sie Google-Bewertungen für jeden Kunden einfach",
+      "ctaBody": "Aktivieren Sie Google-Bewertungen für 79 SAR pro Monat zzgl. MwSt., jederzeit kündbar."
+    },
+    "chat": {
+      "title": "KI-Chatbot für Ihre Website, rund um die Uhr | Oxira",
+      "description": "KI-Chatbot für Ihre Website: antwortet rund um die Uhr auf Arabisch, Englisch und mehr, nur aus Ihren Website-Inhalten, mit Leads per E-Mail. 199 SAR/Monat.",
+      "name": "KI-Chatbot",
+      "short": "Ein KI-Assistent auf Ihrer Website, der Kundenfragen rund um die Uhr aus Ihren eigenen Inhalten beantwortet.",
+      "h1": "KI-Chatbot für Ihre Website, rund um die Uhr",
+      "lead": "Ein KI-Assistent auf Ihrer Website beantwortet Besucherfragen zu Leistungen, Preisen und Öffnungszeiten, in arabischen Dialekten, auf Englisch und in weiteren Sprachen. Er nutzt nur Ihre Website-Inhalte und Notizen, erfindet keine Preise und meldet Rückrufwünsche per E-Mail.",
+      "features": [
+        { "t": "Sofortige Antworten rund um die Uhr", "d": "Der Chatbot beantwortet Besucherfragen Tag und Nacht, auch am Wochenende und außerhalb der Geschäftszeiten." },
+        { "t": "Antwortet in der Sprache des Kunden", "d": "Er versteht arabische Dialekte und antwortet in der Sprache des Besuchers, ob Arabisch, Englisch oder eine andere." },
+        { "t": "Nur Inhalte Ihrer Website", "d": "Er nutzt Leistungen, Speisekarte und Preise, FAQ, Kontaktdaten und Öffnungszeiten Ihrer Website." },
+        { "t": "Erfindet keine Preise", "d": "Steht ein Preis oder eine Angabe nicht auf Ihrer Website oder in Ihren Notizen, rät der Assistent nicht." },
+        { "t": "Eigene Zusatznotizen", "d": "Ergänzen Sie Liefergebiete, Zahlungsarten, Richtlinien und aktuelle Angebote, damit er korrekt antwortet." },
+        { "t": "Rückruf-Leads per E-Mail", "d": "Hinterlässt ein Besucher Name und Telefonnummer und wünscht einen Rückruf, erhalten Sie die Daten per E-Mail." }
+      ],
+      "steps": [
+        { "t": "Chatbot aktivieren", "d": "Abonnieren Sie die Erweiterung in Mein Konto Ihrer Oxira-Website." },
+        { "t": "Notizen ergänzen", "d": "Schreiben Sie auf, was nicht auf der Website steht, etwa Liefergebiete, Zahlungsarten und Angebote." },
+        { "t": "Antworten und Leads erhalten", "d": "Der Assistent antwortet Besuchern, Rückrufwünsche kommen in Ihr Postfach." }
+      ],
+      "faq": [
+        { "q": "Was kostet ein Chatbot für die Website?", "a": "199 SAR pro Monat zzgl. 15 % MwSt. Sie können jederzeit in Mein Konto kündigen, und der Assistent arbeitet bis zum Ende des bezahlten Monats weiter." },
+        { "q": "Spricht der Chatbot Arabisch und funktioniert er auf dem Handy?", "a": "Ja. Er versteht saudische und andere arabische Dialekte und antwortet in der Sprache des Besuchers, auch auf Englisch und in weiteren Sprachen. Er funktioniert auf Ihrer Website auf Smartphone und Computer." },
+        { "q": "Woher kennt der Chatbot die Informationen über mein Unternehmen?", "a": "Aus Ihren Website-Inhalten: Leistungen, Speisekarte und Preise, FAQ, Kontaktdaten und Öffnungszeiten. Zusätzlich können Sie in Mein Konto Notizen zu Lieferung, Zahlung, Richtlinien und Angeboten hinterlegen." },
+        { "q": "Kann der Chatbot einen falschen Preis nennen?", "a": "Der Assistent erfindet keine Preise und nennt nur Preise von Ihrer Website oder aus Ihren Notizen. Halten Sie Ihre Preise aktuell, dann sind es auch seine Antworten." },
+        { "q": "Wie erhalte ich Leads aus dem Chatbot?", "a": "Schreibt ein Besucher Name und Telefonnummer und bittet um Rückruf, erhalten Sie eine E-Mail mit seinen Daten. So verpassen Sie keine Anfrage, auch nach Feierabend." }
+      ],
+      "ctaTitle": "Ihre Website antwortet, während Sie arbeiten",
+      "ctaBody": "Aktivieren Sie den KI-Chatbot für 199 SAR pro Monat, jederzeit kündbar."
+    },
+    "content": {
+      "title": "Social-Media-Content jeden Monat fertig | Oxira",
+      "description": "12 fertige Social-Media-Beiträge pro Monat mit Text, Hashtags und quadratischem Bild in Ihren Markenfarben, auf Basis Ihrer Website. 499 SAR pro Monat.",
+      "name": "Social-Media-Inhalte",
+      "short": "12 fertige Beiträge pro Monat mit Hashtags und Bild in Ihren Farben. Herunterladen und direkt posten.",
+      "h1": "Fertige Social-Media-Inhalte jeden Monat",
+      "lead": "Nie mehr überlegen, was Sie posten sollen: Zu Monatsbeginn erhalten Sie 12 Beiträge für Ihr Unternehmen, jeweils mit Hashtags und einem Bild in Ihren Markenfarben. Fertiger Content für Instagram, X, Facebook und LinkedIn, der die Pflege Ihrer Social-Media-Kanäle deutlich erleichtert.",
+      "features": [
+        { "t": "12 Beiträge pro Monat", "d": "Eine Mischung aus Beiträgen zu Ihren Leistungen, Tipps für Kunden, Blicken hinter die Kulissen und Aufrufen zum Besuch oder zur Buchung." },
+        { "t": "Saudische Anlässe des Monats", "d": "Die Beiträge greifen echte Anlässe in Saudi-Arabien auf, etwa Ramadan, Eid, den Gründungstag oder den Nationalfeiertag, wenn sie in den Monat fallen." },
+        { "t": "Hashtags zu jedem Beitrag", "d": "Jeder Beitrag enthält Hashtags, die zu Ihrem Unternehmen und zum Thema passen." },
+        { "t": "Quadratisches Bild in Markenfarben", "d": "Zu jedem Beitrag gibt es ein quadratisches Bild in Ihren Markenfarben, zum Download in Mein Konto." },
+        { "t": "Foto- oder Designidee", "d": "Jeder Beitrag enthält eine Idee für ein Foto oder Design, falls Sie eigene Motive erstellen möchten." },
+        { "t": "Basierend auf Ihrer Website", "d": "Die Texte werden mit KI aus Ihren Website-Inhalten erstellt, ohne erfundene Preise oder Angebote." }
+      ],
+      "steps": [
+        { "t": "In Mein Konto abonnieren", "d": "Aktivieren Sie die Erweiterung für monatliche Inhalte in Mein Konto Ihrer Oxira-Website." },
+        { "t": "Monatlich Beiträge erhalten", "d": "Zu Beginn jedes Monats informiert Sie eine E-Mail, dass Ihre 12 Beiträge bereitstehen." },
+        { "t": "Herunterladen und posten", "d": "Laden Sie die Bilder herunter, kopieren Sie die Texte und posten Sie, wann es Ihnen passt." }
+      ],
+      "faq": [
+        { "q": "Was kosten monatliche Social-Media-Inhalte?", "a": "499 SAR pro Monat zzgl. 15 % MwSt., inklusive 12 fertiger Beiträge pro Monat. Sie können jederzeit in Mein Konto kündigen, und das Abo bleibt bis zum Ende des bezahlten Monats aktiv." },
+        { "q": "Veröffentlichen Sie die Beiträge oder betreuen Sie meine Konten?", "a": "Nein, wir betreuen Ihre Konten nicht und posten nicht in Ihrem Namen. Sie erhalten fertige Beiträge mit Text, Hashtags und Bild und veröffentlichen sie selbst oder durch Ihr Team." },
+        { "q": "Kann ich die Beiträge auf dem Handy laden, und in welcher Sprache sind sie?", "a": "Ja. Öffnen Sie Mein Konto auf dem Handy, laden Sie die Bilder herunter, kopieren Sie die Texte und posten Sie direkt aus Ihren Apps. Die Inhalte basieren auf Ihrer Website und folgen deren Sprache." },
+        { "q": "Enthalten die Inhalte erfundene Preise oder Angebote?", "a": "Nein. Die Beiträge werden mit KI aus Ihren Website-Inhalten erstellt und enthalten keine erfundenen Preise oder Angebote. Ein bestimmtes Angebot ergänzen Sie selbst vor dem Posten." },
+        { "q": "Welche Art von Beiträgen erhalte ich jeden Monat?", "a": "Beiträge zu Ihren Leistungen, nützliche Tipps für Kunden, Blicke hinter die Kulissen, saudische Anlässe des Monats und Aufrufe zum Besuch oder zur Buchung. Jeder mit Hashtags, Bildidee und fertigem quadratischen Bild." }
+      ],
+      "ctaTitle": "Halten Sie Ihre Kanäle jeden Monat aktiv",
+      "ctaBody": "12 fertige Beiträge pro Monat für 499 SAR, jederzeit kündbar."
+    },
+    "tickets": {
+      "title": "Ticketverkauf online für Events und Konferenzen | Oxira",
+      "description": "Tickets online auf Ihrer Event-Website verkaufen: Zahlung mit mada und Apple Pay, QR-Tickets per E-Mail, Einlass-Check. Keine Grundgebühr, nur 5 % je Ticket.",
+      "name": "Ticketverkauf",
+      "short": "Verkaufen Sie Tickets auf Ihrer Event-Website mit Online-Zahlung, QR-Tickets per E-Mail und Einlass-Scan.",
+      "h1": "Event-Tickets online auf Ihrer Website verkaufen",
+      "lead": "Verkaufen Sie Tickets für Ihr Event, Ihre Konferenz oder Ihren Workshop direkt auf der Event-Website, mit Zahlung per mada, Visa, Mastercard und Apple Pay. Keine monatliche Gebühr, nur 5 % pro verkauftem Ticket, mit QR-Tickets und Einlasskontrolle.",
+      "features": [
+        { "t": "Mehrere Ticketarten", "d": "Erstellen Sie mehrere Ticketarten, etwa Standard und VIP, jeweils mit eigenem Preis und Kontingent." },
+        { "t": "Automatisch ausverkauft", "d": "Ist eine Ticketart vergriffen, wird sie als ausverkauft markiert, sodass Sie nie über die Kapazität verkaufen." },
+        { "t": "mada, Karten und Apple Pay", "d": "Gäste zahlen online mit mada, Visa, Mastercard oder Apple Pay über Moyasar." },
+        { "t": "QR-Ticket per E-Mail", "d": "Jeder Käufer erhält ein Ticket mit QR-Code per E-Mail und zeigt es am Eingang auf dem Handy." },
+        { "t": "Einlasskontrolle am Eingang", "d": "Scannen Sie den QR-Code mit der Handykamera oder geben Sie den Ticketcode in Mein Konto ein. Jedes Ticket gilt einmal." },
+        { "t": "Freikarten und Live-Verkäufe", "d": "Stellen Sie kostenlose Einladungstickets für Gäste und Sponsoren aus und verfolgen Sie verkaufte Tickets live." }
+      ],
+      "steps": [
+        { "t": "Event-Website erstellen", "d": "Erstellen Sie Ihre Event-Website mit Oxira Studio und aktivieren Sie den Ticketverkauf in Mein Konto." },
+        { "t": "Ticketarten anlegen", "d": "Legen Sie Name, Preis und Kontingent jeder Ticketart fest und stellen Sie bei Bedarf Freikarten aus." },
+        { "t": "Verkaufen und einlassen", "d": "Gäste kaufen und erhalten QR-Tickets, die Sie am Eingang in Mein Konto scannen." }
+      ],
+      "faq": [
+        { "q": "Was kostet die Ticketing-Plattform für Events?", "a": "Es gibt keine monatliche Gebühr, nur 5 % pro verkauftem Ticket. Die Einnahmen werden Ihnen monatlich abzüglich dieser 5 % überwiesen, Gebühren zzgl. 15 % MwSt. Für kostenlose Einladungstickets fällt keine Gebühr an." },
+        { "q": "Können Gäste Tickets mit dem Smartphone kaufen?", "a": "Ja. Die Ticketseite funktioniert auf dem Handy, und Gäste zahlen mit mada, Apple Pay oder Karte. Das Ticket kommt per E-Mail und wird am Eingang auf dem Handy gezeigt." },
+        { "q": "Wie kontrolliere ich Tickets am Eingang?", "a": "Öffnen Sie den Check-in in Mein Konto und scannen Sie den QR-Code mit der Handykamera oder geben Sie den Ticketcode ein. Sie sehen sofort, ob das Ticket gültig oder bereits verwendet ist." },
+        { "q": "Wann erhalte ich das Geld aus dem Ticketverkauf?", "a": "Die Ticketeinnahmen werden dem Veranstalter monatlich abzüglich 5 % überwiesen. Verkaufte Tickets verfolgen Sie jederzeit in der Live-Liste in Mein Konto." },
+        { "q": "Welche Zahlungsarten stehen Gästen zur Verfügung?", "a": "Gäste zahlen mit mada, Visa, Mastercard und Apple Pay über das Zahlungsgateway Moyasar. Zusätzlich können Sie kostenlose Einladungstickets ohne Zahlung ausstellen." }
+      ],
+      "ctaTitle": "Starten Sie den Ticketverkauf für Ihr Event",
+      "ctaBody": "Keine monatliche Gebühr. Sie zahlen nur 5 % pro verkauftem Ticket."
+    }
+  }
+}
