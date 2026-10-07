@@ -36,10 +36,11 @@ npm run build    # ينتج مجلد dist/
    وسجل CNAME لـ `www` إلى `<الحساب>.github.io`
 3. في **Settings → Pages** فعّل **Enforce HTTPS** بعد أن يتعرّف GitHub على الدومين.
 
-## نموذج التواصل
+## نموذج التواصل والدعم الفني
 
-GitHub Pages لا يشغّل كود خادم، لذلك يرسل النموذج طلبه إلى رابط خارجي (مثل Webhook في n8n).
+رسائل النموذج (طلبات المشاريع وطلبات الدعم الفني) تصل إلى **info@oxira.sa** عبر خدمة [FormSubmit](https://formsubmit.co) المجانية.
 
-- أضف الرابط في **Settings → Secrets and variables → Actions → Variables** باسم `FORM_ENDPOINT`.
-- يستقبل الرابط طلب `POST` بصيغة JSON يحتوي: `name`, `email`, `phone`, `layer`, `details`, `lang`, `page`.
-- إن لم يُضبط الرابط، يفتح النموذج تطبيق البريد لدى الزائر برسالة جاهزة إلى info@oxira.sa.
+- **التفعيل لمرة واحدة:** أول رسالة تُرسل من الموقع تجعل FormSubmit يرسل إيميل تفعيل إلى info@oxira.sa. افتحه واضغط **Activate Form**، ومن بعدها تصل كل الرسائل مباشرة.
+- عنوان الإيميل يوضح نوع الطلب ("طلب جديد" أو "طلب دعم فني")، وزر الرد يرد على بريد العميل مباشرة.
+- لتغيير وجهة الرسائل (مثل Webhook في n8n): أضف متغيراً باسم `FORM_ENDPOINT` في **Settings → Secrets and variables → Actions → Variables**.
+- إن تعذر الإرسال، يفتح النموذج تطبيق البريد لدى الزائر برسالة جاهزة إلى info@oxira.sa.

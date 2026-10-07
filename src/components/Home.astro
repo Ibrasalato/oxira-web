@@ -10,7 +10,9 @@ const c = t[lang];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const asset = (p: string) => `${base}/${p}`;
 const altHref = lang === 'ar' ? `${base}/en/` : `${base}/`;
-const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '';
+// Form messages are emailed to info@oxira.sa through FormSubmit (formsubmit.co).
+// Set PUBLIC_FORM_ENDPOINT to send them somewhere else (e.g. an n8n webhook).
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || `https://formsubmit.co/ajax/${contact.email}`;
 const other = lang === 'ar' ? 'en' : 'ar';
 
 // Wire-mesh waves, like the profile cover: two families of curves warped around a centre.
@@ -339,6 +341,7 @@ const net = network(1400, 800, 34, 7);
           <li><Icon name="phone" class="d-icon" /><span class="sr-only">{c.contact.labels.phone}: </span><a href={contact.phoneHref} dir="ltr">{contact.phone}</a></li>
           <li><Icon name="whatsapp" class="d-icon" /><span class="sr-only">{c.contact.labels.whatsapp}: </span><a href={contact.whatsappHref} target="_blank" rel="noopener">{c.contact.labels.whatsapp}</a></li>
           <li><Icon name="mail" class="d-icon" /><span class="sr-only">{c.contact.labels.email}: </span><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><Icon name="support" class="d-icon" /><a href="#contact" data-pick-type="support">{c.contact.labels.support}</a></li>
           <li class="wide"><Icon name="pin" class="d-icon" /><span class="sr-only">{c.contact.labels.address}: </span><span>{c.contact.address}</span></li>
         </ul>
       </div>
@@ -350,8 +353,18 @@ const net = network(1400, 800, 34, 7);
             data-msg-sent={c.contact.form.sent}
             data-msg-failed={c.contact.form.failed}
             data-msg-required={c.contact.form.required}
-            data-label-submit={c.contact.form.submit}>
+            data-label-submit={c.contact.form.submit}
+            data-subject-project={c.contact.form.subjectProject}
+            data-subject-support={c.contact.form.subjectSupport}
+            data-details-project={c.contact.form.details}
+            data-details-support={c.contact.form.detailsSupport}
+            data-hint-support={c.contact.form.detailsSupportHint}>
         <h3>{c.contact.form.title}</h3>
+        <fieldset class="type-toggle">
+          <legend class="sr-only">{c.contact.form.type}</legend>
+          <label><input type="radio" name="type" value="project" checked /><span>{c.contact.form.typeProject}</span></label>
+          <label><input type="radio" name="type" value="support" /><span>{c.contact.form.typeSupport}</span></label>
+        </fieldset>
         <label class="field">
           <span>{c.contact.form.name}</span>
           <input name="name" autocomplete="name" required />
@@ -376,7 +389,7 @@ const net = network(1400, 800, 34, 7);
           </select>
         </label>
         <label class="field">
-          <span>{c.contact.form.details}</span>
+          <span class="details-label">{c.contact.form.details}</span>
           <textarea name="details" rows="4" required></textarea>
         </label>
         <input type="text" name="company_website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -394,6 +407,7 @@ const net = network(1400, 800, 34, 7);
       <a href="#about">{c.nav.about}</a>
       <a href="#services">{c.nav.services}</a>
       <a href="#contact">{c.nav.contact}</a>
+      <a href="#contact" data-pick-type="support">{c.contact.labels.support}</a>
       <a href={altHref} lang={other}>{c.switchLabel}</a>
     </nav>
     <p>© {new Date().getFullYear()} {c.footer.rights}</p>
@@ -437,7 +451,22 @@ const net = network(1400, 800, 34, 7);
   if (form) {
     const status = form.querySelector('.form-status') as HTMLElement;
     const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const detailsLabel = form.querySelector('.details-label') as HTMLElement;
+    const detailsBox = form.querySelector('textarea[name=details]') as HTMLTextAreaElement;
     const d = form.dataset;
+
+    // Project vs technical support: relabel the description field
+    const setType = (type: string) => {
+      const radio = form.querySelector<HTMLInputElement>(`input[name=type][value=${type}]`);
+      if (radio) radio.checked = true;
+      const support = type === 'support';
+      detailsLabel.textContent = support ? d.detailsSupport! : d.detailsProject!;
+      detailsBox.placeholder = support ? d.hintSupport! : '';
+    };
+    form.querySelectorAll<HTMLInputElement>('input[name=type]').forEach((r) => r.addEventListener('change', () => setType(r.value)));
+    document.querySelectorAll<HTMLAnchorElement>('[data-pick-type]').forEach((a) => {
+      a.addEventListener('click', () => setType(a.dataset.pickType!));
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -451,29 +480,50 @@ const net = network(1400, 800, 34, 7);
         return;
       }
 
-      // No endpoint configured yet: open the visitor's email app with the message filled in.
-      if (!d.endpoint) {
-        const body = Object.entries(data).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('\n');
-        location.href = `mailto:${d.email}?subject=${encodeURIComponent('Oxira: ' + data.name)}&body=${encodeURIComponent(body)}`;
-        return;
+      const support = data.type === 'support';
+      const subject = `${support ? d.subjectSupport : d.subjectProject}: ${data.name}`;
+      const labels = Array.from(form.querySelectorAll('.field')).reduce<Record<string, string>>((acc, f) => {
+        const input = f.querySelector('input, select, textarea') as HTMLInputElement | null;
+        const label = f.querySelector('span');
+        if (input && label) acc[input.name] = label.textContent!.trim();
+        return acc;
+      }, {});
+
+      // Email body: readable field labels in the page language
+      const payload: Record<string, string> = {
+        _subject: subject,
+        _template: 'table',
+        _captcha: 'false',
+        [form.querySelector('legend')!.textContent!.trim()]: form.querySelector('input[name=type]:checked + span')!.textContent!.trim(),
+      };
+      for (const [k, v] of Object.entries(data)) {
+        if (k === 'type' || !v) continue;
+        payload[labels[k] || k] = v;
       }
+      if (data.email) payload._replyto = data.email;
+      payload[document.documentElement.lang === 'ar' ? 'الصفحة' : 'Page'] = location.href;
 
       button.disabled = true;
       button.textContent = d.msgSending!;
       status.textContent = '';
       try {
-        const res = await fetch(d.endpoint, {
+        const res = await fetch(d.endpoint!, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, lang: document.documentElement.lang, page: location.href }),
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
         });
-        if (!res.ok) throw new Error(String(res.status));
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok || String(out.success) === 'false') throw new Error(out.message || String(res.status));
         form.reset();
+        setType('project');
         status.textContent = d.msgSent!;
         status.dataset.state = 'ok';
       } catch {
+        // Fallback: open the visitor's email app with the message filled in
         status.textContent = d.msgFailed!;
         status.dataset.state = 'error';
+        const body = Object.entries(payload).filter(([k]) => !k.startsWith('_')).map(([k, v]) => `${k}: ${v}`).join('\n');
+        location.href = `mailto:${d.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       } finally {
         button.disabled = false;
         button.textContent = d.labelSubmit!;
@@ -696,6 +746,12 @@ const net = network(1400, 800, 34, 7);
 
   .form { background: #fff; color: var(--ink); border-radius: calc(var(--radius) + 4px); padding: clamp(1.5rem, 3vw, 2.2rem); display: grid; gap: 1rem; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); border-top: 5px solid var(--amber); }
   .form h3 { font-size: 1.45rem; }
+  .type-toggle { border: 0; margin: 0; padding: 4px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--paper); border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--line); }
+  .type-toggle label { position: relative; cursor: pointer; }
+  .type-toggle input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .type-toggle span { display: block; text-align: center; padding: .6rem .5rem; border-radius: 9px; font-weight: 700; font-size: .95rem; color: var(--muted); }
+  .type-toggle input:checked + span { background: var(--navy); color: #fff; }
+  .type-toggle input:focus-visible + span { outline: 3px solid var(--amber); outline-offset: 2px; }
   .field { display: grid; gap: .35rem; }
   .field > span { font-size: .92rem; font-weight: 700; color: var(--ink); }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
