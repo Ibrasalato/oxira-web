@@ -2,7 +2,7 @@
 // Bundled to public/cloudflare/sites-worker.js (npm run build:worker); n8n uploads it to Cloudflare.
 // KV namespace bound as SITES stores each site's spec (JSON), not HTML, so design fixes reach every site:
 //   "host:<hostname>"  for custom domains and subdomains (e.g. host:alrayyan.oxira.sa)
-//   "slug:<slug>"      for https://<worker-domain>/<slug>/
+//   "slug:<slug>"      for https://<slug>.oxira.sa/ and https://<worker-domain>/<slug>/
 import { renderSite } from './render';
 import { mergeSpec, sampleSpec, templateIds, siteLangs, imageIdPattern, type Spec, type TemplateId, type SiteLang } from './spec';
 
@@ -92,10 +92,14 @@ export default {
       return new Response(html, { headers: { ...securityHeaders, 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } });
     }
 
+    if (url.hostname === 'www.oxira.sa') return Response.redirect(`https://oxira.sa${url.pathname}${url.search}`, 301);
     const host = url.hostname.toLowerCase().replace(/^www\./, '');
     let siteUrl = `${url.origin}/`;
     let raw = await env.SITES.get(`host:${host}`);
-    if (!raw) {
+    // Free subdomains: https://<slug>.oxira.sa/
+    const sub = /^([a-z0-9-]{2,63})\.oxira\.sa$/.exec(host)?.[1];
+    if (!raw && sub && sub !== 'www') raw = await env.SITES.get(`slug:${sub}`);
+    if (!raw && !sub) {
       const parts = url.pathname.split('/').filter(Boolean);
       const slug = parts[0];
       if (slug && /^[a-z0-9-]{2,63}$/.test(slug)) {
