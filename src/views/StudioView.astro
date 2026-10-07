@@ -3,11 +3,12 @@
 import type { Lang } from '../i18n/content';
 import { contact } from '../i18n/content';
 import { builderText, plans, planIds, domainPrice } from '../i18n/builder';
-import { templateIds, siteLangs, fontIds, sectionIds } from '../builder/spec';
+import { siteLangs, fontIds, sectionIds } from '../builder/spec';
 import { languages } from '../i18n/content';
 import { link, asset } from '../lib/routes';
 import Base from '../layouts/Base.astro';
-import SiteThumb from '../components/SiteThumb.astro';
+import TemplateGallery from '../components/TemplateGallery.astro';
+import { catalog, categoryIds } from '../builder/catalog';
 import Logo from '../components/Logo.astro';
 import { t } from '../i18n/content';
 
@@ -55,17 +56,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     <section class="st-pick" data-panel="1" aria-labelledby="pick-title">
       <div class="wrap">
         <div class="sh"><h1 id="pick-title">{s.pickTitle}</h1><p>{s.pickBody}</p></div>
-        <ul class="st-tpls">
-          {templateIds.map((id) => (
-            <li>
-              <button type="button" data-template={id}>
-                <SiteThumb template={id} lang={lang} height={900} />
-                <span class="st-tpl-meta"><strong>{b.templates[id].name}</strong><small>{b.templates[id].for}</small></span>
-                <span class="st-tpl-go">{s.use}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <TemplateGallery lang={lang} mode="pick" action={s.use} />
       </div>
     </section>
 
@@ -203,7 +194,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
             <summary>{s.controls}</summary>
             <div class="st-quick-in">
               <label class="st-field">{s.design}
-                <select data-ctl="template">{templateIds.map((id) => <option value={id}>{b.templates[id].name}</option>)}</select>
+                <select data-ctl="template">{categoryIds.map((c) => <optgroup label={b.categories[c]}>{catalog.filter((t) => t.cat === c).map((t) => <option value={t.id}>{b.categories[c]} · {b.gallery.designN.replace('{n}', String(t.n))}</option>)}</optgroup>)}</select>
               </label>
               <label class="st-field">{s.font}
                 <select data-ctl="font">{fontIds.map((f) => <option value={f}>{s.fonts[f]}</option>)}</select>
@@ -327,6 +318,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
 <script>
   import { renderSite } from '../builder/render';
+  import { guessCategory } from '../builder/catalog';
   import { sampleSpec, mergeSpec, looks, sectionIds, type Spec, type TemplateId, type SiteLang, type SectionId } from '../builder/spec';
 
   type Msg = { from: 'ai' | 'me' | 'note'; text: string };
@@ -373,20 +365,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   // Quick start from the service page: ?q=<what the business does>
   const quick = (params.get('q') || '').trim().slice(0, 600);
   if (quick) {
-    const guess: [RegExp, TemplateId][] = [
-      [/محام|محاماة|قانون|استشارات قانونية|law|lawyer|legal|attorney|anwalt|kanzlei|avocat|juridique|юрист|адвокат/i, 'law'],
-      [/عقار|شقق|فلل|أراضي|اراضي|real ?estate|property|realtor|immobil|недвижим/i, 'realestate'],
-      [/صالون|تجميل|سبا|مكياج|أظافر|اظافر|beauty|salon|spa|makeup|nails|kosmetik|beauté|красот|салон/i, 'beauty'],
-      [/مقاول|مقاولات|بناء|إنشاء|انشاء|هندس|ترميم|construction|contractor|building|engineering|bau|btp|строител/i, 'construction'],
-      [/تعليم|مدرسة|معهد|أكاديمي|اكاديمي|دورات|تدريب|education|school|academy|institute|courses|tutor|schule|école|formation|образован|школ|курс/i, 'education'],
-      [/نادي|جيم|لياقة|رياض|كروس فت|يوغا|gym|fitness|workout|crossfit|yoga|sport|фитнес|спортзал/i, 'fitness'],
-      [/عياد|طبي|طبيب|أسنان|اسنان|مستشفى|صيدلي|clinic|dental|doctor|medical|klinik|arzt|clinique|médic|клиник|врач/i, 'clinic'],
-      [/مطعم|مقهى|كافيه|كوفي|مخبز|حلويات|restaurant|caf[eé]|bakery|coffee|bäckerei|ресторан|кафе/i, 'restaurant'],
-      [/متجر|محل|بيع|منتجات|ملابس|عطور|store|shop|boutique|products|laden|magasin|магазин/i, 'store'],
-      [/فعالي|مؤتمر|معرض|ملتقى|حفل|مهرجان|event|conference|expo|summit|festival|veranstalt|événement|конференц|мероприят/i, 'events'],
-      [/مصمم|مصور|مستقل|مدرب|كاتب|فنان|freelanc|designer|photograph|coach|portfolio|artist|fotograf|дизайнер|фотограф/i, 'personal'],
-    ];
-    const tpl = guess.find(([re]) => re.test(quick))?.[1] ?? 'corporate';
+    const tpl: TemplateId = guessCategory(quick);
     state = { ...blank(), step: 2, spec: sampleSpec(tpl, cfg.lang as SiteLang), basics: { about: quick, siteLang: cfg.lang, kind: 'company' } };
     history.replaceState(null, '', location.pathname);
   }

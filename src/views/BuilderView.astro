@@ -2,10 +2,11 @@
 // Service page: "Build your website in minutes" (Oxira Studio).
 import type { Lang } from '../i18n/content';
 import { builderText, plans, planIds, renewals, domainPrice } from '../i18n/builder';
-import { templateIds } from '../builder/spec';
+import { catalog } from '../builder/catalog';
 import { link } from '../lib/routes';
 import Base from '../layouts/Base.astro';
 import SiteThumb from '../components/SiteThumb.astro';
+import TemplateGallery from '../components/TemplateGallery.astro';
 import Logo from '../components/Logo.astro';
 
 interface Props { lang: Lang }
@@ -35,9 +36,9 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
         <div class="bd-window">
           <div class="bd-bar"><i></i><i></i><i></i><span>{p.demoLabel}</span></div>
           <div class="bd-frames">
-            <div class="bd-frame is-on"><SiteThumb template="clinic" lang={lang} height={760} /></div>
+            <div class="bd-frame is-on"><SiteThumb template="clinic" lang={lang} height={760} eager /></div>
             <div class="bd-frame"><SiteThumb template="clinic" lang={lang} height={760} colors={{ primary: '#0A253E', accent: '#C8A24A' }} /></div>
-            <div class="bd-frame"><SiteThumb template="restaurant" lang={lang} height={760} /></div>
+            <div class="bd-frame"><SiteThumb template="restaurant" lang={lang} height={760} eager /></div>
           </div>
           <div class="bd-scan"></div>
         </div>
@@ -67,21 +68,8 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
 
   <section class="section" id="templates" aria-labelledby="tpl-title">
     <div class="wrap">
-      <div class="sh"><h2 id="tpl-title">{p.templatesTitle}</h2><p>{p.templatesBody}</p></div>
-      <ul class="bd-tpls">
-        {templateIds.map((id) => (
-          <li>
-            <a href={`${studio}?t=${id}`}>
-              <SiteThumb template={id} lang={lang} height={900} class="bd-tpl-thumb" />
-              <span class="bd-tpl-meta">
-                <strong>{b.templates[id].name}</strong>
-                <small>{b.templates[id].for}</small>
-              </span>
-              <span class="bd-tpl-go">{p.useTemplate}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div class="sh"><h2 id="tpl-title">{p.templatesTitle}</h2><p>{p.templatesBody} <b>{b.gallery.count.replace('{n}', String(catalog.length))}</b></p></div>
+      <TemplateGallery lang={lang} mode="link" href={studio} action={p.useTemplate} />
     </div>
   </section>
 

@@ -409,5 +409,43 @@
     },
     "domainExtra": "Add your own domain (+ SAR {price}/year)",
     "included": "Included"
+  },
+  "categories": {
+    "corporate": "Companies",
+    "restaurant": "Restaurants",
+    "cafe": "Cafés",
+    "clinic": "Clinics",
+    "dental": "Dental",
+    "beauty": "Salons & beauty",
+    "barber": "Barbers",
+    "store": "Stores",
+    "perfume": "Perfumes",
+    "realestate": "Real estate",
+    "construction": "Construction",
+    "law": "Law firms",
+    "accounting": "Accounting",
+    "tech": "Tech",
+    "agency": "Marketing",
+    "education": "Education",
+    "fitness": "Fitness",
+    "hotel": "Hotels",
+    "cars": "Cars",
+    "photography": "Photography",
+    "bakery": "Bakeries",
+    "florist": "Flowers & gifts",
+    "cleaning": "Cleaning",
+    "events": "Events",
+    "venue": "Wedding halls",
+    "charity": "Charities",
+    "personal": "Personal"
+  },
+  "gallery": {
+    "filterAll": "All",
+    "searchPh": "Search your business: restaurant, clinic, salon…",
+    "showMore": "Show more designs",
+    "noResults": "No results. Try another word or choose \"All\".",
+    "designN": "Design {n}",
+    "count": "{n} designs",
+    "categoriesLabel": "Filter by business"
   }
 }

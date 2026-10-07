@@ -1,11 +1,14 @@
 import extra from './samples-extra.json';
+import more from './samples-more.json';
+import { catalog, templateById, categoryOf, type FontId as CatFont, type Layout } from './catalog';
 
 // Site spec: everything a client's website is made of. The studio edits it (by form or by
 // chatting with the AI), render.ts turns it into a full HTML page.
 
-export type TemplateId = 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events' | 'law' | 'realestate' | 'beauty' | 'construction' | 'education' | 'fitness';
+/** A design from the catalog, e.g. "cafe" or "cafe-2". */
+export type TemplateId = string;
 export type SiteLang = 'ar' | 'en' | 'de' | 'fr' | 'ru';
-export type FontId = 'modern' | 'elegant' | 'friendly';
+export type FontId = CatFont;
 export type SectionId = 'about' | 'services' | 'gallery' | 'testimonials' | 'faq' | 'stats' | 'cta' | 'contact';
 
 export interface Spec {
@@ -35,32 +38,17 @@ export interface Spec {
 export const imageIdPattern = /^i_[a-f0-9]{20,40}_[jp]$/;
 export const emptyMedia = () => ({ logo: '', hero: '', about: '', gallery: [] as string[], galleryTitle: '' });
 
-export const templateIds: TemplateId[] = ['corporate', 'personal', 'restaurant', 'clinic', 'store', 'events', 'law', 'realestate', 'beauty', 'construction', 'education', 'fitness'];
+export const templateIds: TemplateId[] = catalog.map((t) => t.id);
 export const sectionIds: SectionId[] = ['about', 'services', 'gallery', 'testimonials', 'faq', 'stats', 'cta', 'contact'];
 export const fontIds: FontId[] = ['modern', 'elegant', 'friendly'];
 export const siteLangs: SiteLang[] = ['ar', 'en', 'de', 'fr', 'ru'];
 
 /** Look of each template (not the words). */
-export const looks: Record<TemplateId, { primary: string; accent: string; font: FontId }> = {
-  corporate: { primary: '#1D3A8A', accent: '#F2A900', font: 'modern' },
-  personal: { primary: '#1C1917', accent: '#C2410C', font: 'elegant' },
-  restaurant: { primary: '#6B2310', accent: '#E0A526', font: 'elegant' },
-  clinic: { primary: '#0E7490', accent: '#22A06B', font: 'friendly' },
-  store: { primary: '#5B21B6', accent: '#F97316', font: 'friendly' },
-  events: { primary: '#0B1120', accent: '#B7F34B', font: 'modern' },
-  law: { primary: '#1F2A44', accent: '#B08D57', font: 'elegant' },
-  realestate: { primary: '#14532D', accent: '#D4A017', font: 'modern' },
-  beauty: { primary: '#7A2E55', accent: '#E8A5B9', font: 'elegant' },
-  construction: { primary: '#1F2937', accent: '#F59E0B', font: 'modern' },
-  education: { primary: '#1E40AF', accent: '#F97316', font: 'friendly' },
-  fitness: { primary: '#111111', accent: '#EF4444', font: 'modern' },
-};
+export const looks: Record<TemplateId, { primary: string; accent: string; font: FontId }> = Object.fromEntries(
+  catalog.map((t) => [t.id, { primary: t.primary, accent: t.accent, font: t.font }]));
 
-/** Which base layout each template uses; the template then adds its own artwork and colours. */
-export const layoutOf: Record<TemplateId, 'corporate' | 'personal' | 'restaurant' | 'clinic' | 'store' | 'events'> = {
-  corporate: 'corporate', personal: 'personal', restaurant: 'restaurant', clinic: 'clinic', store: 'store', events: 'events',
-  law: 'corporate', realestate: 'corporate', beauty: 'clinic', construction: 'corporate', education: 'clinic', fitness: 'events',
-};
+/** Which base layout each template uses; its category then adds artwork and style touches. */
+export const layoutOf: Record<TemplateId, Layout> = Object.fromEntries(catalog.map((t) => [t.id, t.layout]));
 
 type Copy = Omit<Spec, 'template' | 'lang' | 'colors' | 'font' | 'sections' | 'media'>;
 
@@ -181,8 +169,12 @@ const testimonialsTitle: Record<SiteLang, string> = { ar: 'آراء عملائن
 
 export function sampleSpec(template: TemplateId, lang: SiteLang): Spec {
   const l = lang === 'ar' ? 'ar' : 'en';
-  const base = sample[template]?.[l] ?? (extra.templates as Record<string, { ar: BaseCopy; en: BaseCopy }>)[template]?.[l] ?? sample.corporate[l];
-  const faq = (extra.faq as Record<string, { ar: Copy['faq']; en: Copy['faq'] }>)[template]?.[l] ?? { title: '', items: [] };
+  if (!templateById[template]) template = 'corporate';
+  const cat = categoryOf(template);
+  const words = { ...extra.templates, ...more.templates } as Record<string, { ar: BaseCopy; en: BaseCopy }>;
+  const faqs = { ...extra.faq, ...more.faq } as Record<string, { ar: Copy['faq']; en: Copy['faq'] }>;
+  const base = sample[cat]?.[l] ?? words[cat]?.[l] ?? sample.corporate[l];
+  const faq = faqs[cat]?.[l] ?? { title: '', items: [] };
   const copy: Copy = {
     ...base,
     testimonials: { title: testimonialsTitle[lang] ?? testimonialsTitle.en, items: [] },

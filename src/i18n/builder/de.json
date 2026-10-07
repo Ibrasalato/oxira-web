@@ -409,5 +409,43 @@
     },
     "domainExtra": "Eigene Domain hinzufügen (+ SAR {price}/Jahr)",
     "included": "Inklusive"
+  },
+  "categories": {
+    "corporate": "Unternehmen",
+    "restaurant": "Restaurants",
+    "cafe": "Cafés",
+    "clinic": "Praxen",
+    "dental": "Zahnarzt",
+    "beauty": "Salons & Beauty",
+    "barber": "Barbiere",
+    "store": "Shops",
+    "perfume": "Parfüm",
+    "realestate": "Immobilien",
+    "construction": "Bau",
+    "law": "Kanzleien",
+    "accounting": "Buchhaltung",
+    "tech": "Tech",
+    "agency": "Marketing",
+    "education": "Bildung",
+    "fitness": "Fitness",
+    "hotel": "Hotels",
+    "cars": "Autos",
+    "photography": "Fotografie",
+    "bakery": "Bäckereien",
+    "florist": "Blumen & Geschenke",
+    "cleaning": "Reinigung",
+    "events": "Events",
+    "venue": "Hochzeitssäle",
+    "charity": "Vereine",
+    "personal": "Persönlich"
+  },
+  "gallery": {
+    "filterAll": "Alle",
+    "searchPh": "Branche suchen: Restaurant, Praxis, Salon…",
+    "showMore": "Mehr Designs anzeigen",
+    "noResults": "Keine Ergebnisse. Versuchen Sie ein anderes Wort oder wählen Sie \"Alle\".",
+    "designN": "Design {n}",
+    "count": "{n} Designs",
+    "categoriesLabel": "Nach Branche filtern"
   }
 }

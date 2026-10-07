@@ -1,6 +1,7 @@
 // Turns a site spec into one self-contained HTML page (no scripts).
 // Used for the live preview in the studio, the template gallery, and later for publishing.
-import { emptyMedia, imageIdPattern, layoutOf, type Spec, type TemplateId, type FontId, type SiteLang } from './spec';
+import { emptyMedia, imageIdPattern, layoutOf, type Spec, type FontId, type SiteLang } from './spec';
+import { categoryOf, type CategoryId } from './catalog';
 
 const esc = (s: string) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -78,7 +79,7 @@ const icon = (i: number) =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[i % icons.length]}</svg>`;
 
 /** Decorative artwork for each template's hero, drawn from the brand colours. */
-function art(t: TemplateId, initial: string) {
+function art(t: CategoryId, initial: string) {
   switch (t) {
     case 'corporate':
       return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
@@ -168,6 +169,153 @@ function art(t: TemplateId, initial: string) {
         <path d="M60 340 L170 300 L250 330 L420 270" stroke="var(--a)" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="420" cy="270" r="14" fill="#fff"/>
       </svg>`;
+    case 'cafe':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft)"/>
+        <path d="M190 135 c-20 -25 20 -40 0 -70 M240 135 c-20 -25 20 -40 0 -70 M290 135 c-20 -25 20 -40 0 -70" stroke="var(--a)" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <ellipse cx="230" cy="345" rx="150" ry="18" fill="var(--a)"/>
+        <path d="M330 190 a40 40 0 0 1 0 80" fill="none" stroke="var(--p)" stroke-width="18"/>
+        <path d="M130 170 h200 v70 a100 100 0 0 1 -200 0 z" fill="var(--p)"/>
+        <rect x="124" y="158" width="212" height="18" rx="9" fill="var(--a)"/>
+        <path d="M165 200 v50" stroke="var(--on-p)" stroke-opacity=".35" stroke-width="10" stroke-linecap="round"/>
+      </svg>`;
+    case 'dental':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft)"/>
+        <path d="M170 110 c-50 0 -70 50 -60 95 c8 40 22 60 30 110 c6 35 40 40 48 5 c8 -35 14 -60 52 -60 c38 0 44 25 52 60 c8 35 42 30 48 -5 c8 -50 22 -70 30 -110 c10 -45 -10 -95 -60 -95 c-30 0 -45 15 -70 15 c-25 0 -40 -15 -70 -15 z" fill="var(--p)"/>
+        <path d="M160 150 c-15 10 -20 30 -16 50" stroke="var(--on-p)" stroke-opacity=".6" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M390 70 l8 22 22 8 -22 8 -8 22 -8 -22 -22 -8 22 -8z" fill="var(--a)"/>
+        <path d="M90 320 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5z" fill="var(--a)"/>
+      </svg>`;
+    case 'barber':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="230" cy="215" r="175" fill="var(--soft)"/>
+        <path d="M175 85 L285 265" stroke="var(--p)" stroke-width="22" stroke-linecap="round"/>
+        <path d="M285 85 L175 265" stroke="var(--p)" stroke-width="22" stroke-linecap="round"/>
+        <circle cx="165" cy="310" r="42" fill="none" stroke="var(--a)" stroke-width="18"/>
+        <circle cx="295" cy="310" r="42" fill="none" stroke="var(--a)" stroke-width="18"/>
+        <circle cx="230" cy="175" r="11" fill="var(--a)"/>
+        <rect x="396" y="80" width="44" height="240" rx="22" fill="var(--bg)" stroke="var(--a)" stroke-width="6"/>
+        <path d="M402 130 L434 108 M402 180 L434 158 M402 230 L434 208 M402 280 L434 258" stroke="var(--p)" stroke-width="12" stroke-linecap="round"/>
+      </svg>`;
+    case 'perfume':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="220" r="170" fill="var(--soft-a)"/>
+        <rect x="212" y="66" width="56" height="44" rx="10" fill="var(--a)"/>
+        <rect x="228" y="108" width="24" height="28" fill="var(--p)"/>
+        <path d="M150 170 q0 -36 36 -36 h108 q36 0 36 36 v150 q0 36 -36 36 h-108 q-36 0 -36 -36z" fill="var(--p)"/>
+        <rect x="190" y="215" width="100" height="62" rx="10" fill="var(--a)"/>
+        <path d="M178 170 v120" stroke="var(--on-p)" stroke-opacity=".35" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="300" cy="78" r="7" fill="var(--a)"/><circle cx="326" cy="62" r="5" fill="var(--a)"/><circle cx="322" cy="96" r="4" fill="var(--a)"/><circle cx="350" cy="80" r="3" fill="var(--a)"/>
+      </svg>`;
+    case 'tech':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <rect x="40" y="60" width="330" height="240" rx="22" fill="var(--p)"/>
+        <path d="M40 104 v-22 a22 22 0 0 1 22 -22 h286 a22 22 0 0 1 22 22 v22z" fill="var(--a)"/>
+        <circle cx="70" cy="82" r="7" fill="var(--on-a)" fill-opacity=".6"/><circle cx="92" cy="82" r="7" fill="var(--on-a)" fill-opacity=".4"/><circle cx="114" cy="82" r="7" fill="var(--on-a)" fill-opacity=".25"/>
+        <path d="M110 150 l-28 28 28 28 M210 150 l28 28 -28 28 M150 214 l24 -72" stroke="var(--a)" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="82" y="240" width="160" height="12" rx="6" fill="var(--on-p)" fill-opacity=".35"/><rect x="82" y="262" width="100" height="12" rx="6" fill="var(--on-p)" fill-opacity=".25"/>
+        <rect x="270" y="190" width="170" height="160" rx="20" fill="var(--soft)" stroke="var(--line)"/>
+        <rect x="298" y="290" width="24" height="40" rx="5" fill="var(--p)"/><rect x="336" y="256" width="24" height="74" rx="5" fill="var(--a)"/><rect x="374" y="222" width="24" height="108" rx="5" fill="var(--p)"/>
+      </svg>`;
+    case 'hotel':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <rect x="40" y="378" width="410" height="10" rx="5" fill="var(--a)"/>
+        <path d="M96 122 L220 58 L344 122 Z" fill="var(--a)"/>
+        <rect x="110" y="112" width="220" height="268" rx="12" fill="var(--p)"/>
+        <g fill="var(--on-p)" fill-opacity=".5"><rect x="138" y="146" width="40" height="34" rx="6"/><rect x="200" y="146" width="40" height="34" rx="6"/><rect x="262" y="146" width="40" height="34" rx="6"/><rect x="138" y="204" width="40" height="34" rx="6"/><rect x="200" y="204" width="40" height="34" rx="6"/><rect x="262" y="204" width="40" height="34" rx="6"/><rect x="138" y="262" width="40" height="34" rx="6"/><rect x="262" y="262" width="40" height="34" rx="6"/></g>
+        <path d="M194 380 v-52 a26 26 0 0 1 52 0 v52z" fill="var(--a)"/>
+        <path d="M405 380 q-12 -90 8 -170" stroke="var(--a)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <path d="M413 210 q32 -30 62 -8 q-32 -2 -62 8z M413 210 q-32 -30 -62 -8 q32 -2 62 8z M413 210 q12 -42 42 -52 q-22 22 -42 52z M413 210 q-12 -42 -42 -52 q22 22 42 52z" fill="var(--a)"/>
+        <path d="M70 80 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5z" fill="var(--a)"/>
+      </svg>`;
+    case 'cars':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="250" cy="200" r="170" fill="var(--soft)"/>
+        <rect x="40" y="328" width="410" height="8" rx="4" fill="var(--line)"/>
+        <path d="M14 205 h60 M4 238 h44" stroke="var(--a)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M60 290 v-40 q0 -20 20 -24 l60 -12 l50 -50 q12 -12 30 -12 h110 q18 0 30 14 l40 48 l30 6 q20 4 20 24 v46 z" fill="var(--p)"/>
+        <path d="M205 172 h55 v42 h-95 z" fill="var(--on-p)" fill-opacity=".5"/><path d="M275 172 h52 q10 0 16 8 l26 34 h-94 z" fill="var(--on-p)" fill-opacity=".5"/>
+        <rect x="434" y="234" width="16" height="12" rx="3" fill="var(--a)"/>
+        <circle cx="140" cy="292" r="38" fill="var(--a)"/><circle cx="140" cy="292" r="15" fill="var(--bg)"/>
+        <circle cx="372" cy="292" r="38" fill="var(--a)"/><circle cx="372" cy="292" r="15" fill="var(--bg)"/>
+      </svg>`;
+    case 'photography':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft)"/>
+        <path d="M170 142 l20 -38 h100 l20 38z" fill="var(--p)"/>
+        <rect x="90" y="140" width="300" height="200" rx="28" fill="var(--p)"/>
+        <circle cx="240" cy="242" r="74" fill="var(--a)"/><circle cx="240" cy="242" r="52" fill="var(--p)"/><circle cx="240" cy="242" r="28" fill="var(--a)" fill-opacity=".55"/><circle cx="224" cy="226" r="9" fill="#fff" fill-opacity=".85"/>
+        <rect x="324" y="164" width="40" height="20" rx="6" fill="var(--a)"/><rect x="112" y="162" width="38" height="16" rx="6" fill="var(--on-p)" fill-opacity=".4"/>
+      </svg>`;
+    case 'bakery':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft-a)"/>
+        <ellipse cx="240" cy="352" rx="160" ry="13" fill="var(--a)" fill-opacity=".5"/>
+        <rect x="110" y="250" width="260" height="100" rx="16" fill="var(--p)"/>
+        <rect x="150" y="170" width="180" height="82" rx="14" fill="var(--p)"/>
+        <path d="M110 268 q0 -18 18 -18 h224 q18 0 18 18 v10 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0 q-16 14 -32 0z" fill="var(--a)"/>
+        <path d="M150 186 q0 -16 16 -16 h148 q16 0 16 16 v8 q-15 12 -30 0 q-15 12 -30 0 q-15 12 -30 0 q-15 12 -30 0 q-15 12 -30 0 q-15 12 -30 0z" fill="var(--a)"/>
+        <rect x="232" y="122" width="16" height="50" rx="5" fill="var(--p)"/>
+        <path d="M240 90 q15 17 0 30 q-15 -13 0 -30z" fill="var(--a)"/>
+      </svg>`;
+    case 'cleaning':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft)"/>
+        <path d="M200 170 v-40 h60 l40 15 v15 h-30 v10z" fill="var(--a)"/><rect x="298" y="139" width="18" height="14" rx="3" fill="var(--a)"/>
+        <path d="M190 170 h90 l10 40 v140 q0 20 -20 20 h-70 q-20 0 -20 -20 v-140z" fill="var(--p)"/>
+        <rect x="200" y="240" width="70" height="64" rx="10" fill="var(--a)"/>
+        <path d="M196 214 v100" stroke="var(--on-p)" stroke-opacity=".3" stroke-width="8" stroke-linecap="round"/>
+        <g fill="none" stroke="var(--a)" stroke-width="5"><circle cx="362" cy="118" r="22"/><circle cx="404" cy="168" r="14"/><circle cx="372" cy="200" r="9"/><circle cx="112" cy="282" r="18"/><circle cx="92" cy="232" r="10"/></g>
+        <path d="M120 100 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7z" fill="var(--a)"/>
+      </svg>`;
+    case 'charity':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="210" r="175" fill="var(--soft)"/>
+        <path d="M240 250 c-60 -40 -90 -70 -90 -105 c0 -28 22 -48 48 -48 c18 0 32 10 42 24 c10 -14 24 -24 42 -24 c26 0 48 20 48 48 c0 35 -30 65 -90 105z" fill="var(--a)"/>
+        <path d="M70 250 q20 -10 40 10 l70 70 q20 20 60 20 v40 h-80 q-30 0 -50 -20 l-50 -60 q-10 -40 10 -60z" fill="var(--p)"/>
+        <path d="M410 250 q-20 -10 -40 10 l-70 70 q-20 20 -60 20 v40 h80 q30 0 50 -20 l50 -60 q10 -40 -10 -60z" fill="var(--p)"/>
+      </svg>`;
+    case 'florist':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="210" r="175" fill="var(--soft-a)"/>
+        <path d="M240 262 V150 M240 262 Q200 205 168 150 M240 262 Q280 205 312 150" stroke="var(--p)" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M240 228 q-40 -10 -52 -42 q36 6 52 42z M240 214 q40 -10 52 -42 q-36 6 -52 42z" fill="var(--p)"/>
+        <g fill="var(--a)"><g transform="translate(240 122)"><circle cy="-22" r="18"/><circle cx="21" cy="-7" r="18"/><circle cx="13" cy="18" r="18"/><circle cx="-13" cy="18" r="18"/><circle cx="-21" cy="-7" r="18"/></g>
+        <g transform="translate(164 146) scale(.8)"><circle cy="-22" r="18"/><circle cx="21" cy="-7" r="18"/><circle cx="13" cy="18" r="18"/><circle cx="-13" cy="18" r="18"/><circle cx="-21" cy="-7" r="18"/></g>
+        <g transform="translate(316 146) scale(.8)"><circle cy="-22" r="18"/><circle cx="21" cy="-7" r="18"/><circle cx="13" cy="18" r="18"/><circle cx="-13" cy="18" r="18"/><circle cx="-21" cy="-7" r="18"/></g></g>
+        <circle cx="240" cy="122" r="12" fill="var(--p)"/><circle cx="164" cy="146" r="10" fill="var(--p)"/><circle cx="316" cy="146" r="10" fill="var(--p)"/>
+        <path d="M190 252 h100 l-12 120 q-2 12 -14 12 h-48 q-12 0 -14 -12z" fill="var(--p)"/>
+        <rect x="200" y="290" width="80" height="12" rx="6" fill="var(--a)"/>
+      </svg>`;
+    case 'venue':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <path d="M90 410 V190 a150 150 0 0 1 300 0 V410 Z" fill="var(--soft-a)"/>
+        <path d="M122 410 V200 a118 118 0 0 1 236 0 V410" fill="none" stroke="var(--a)" stroke-width="4"/>
+        <circle cx="210" cy="262" r="52" fill="none" stroke="var(--a)" stroke-width="16"/>
+        <circle cx="270" cy="262" r="52" fill="none" stroke="var(--p)" stroke-width="16"/>
+        <path d="M210 176 l16 18 -16 16 -16 -16z" fill="var(--a)"/>
+        <path d="M400 70 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7z" fill="var(--a)"/><path d="M74 120 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" fill="var(--a)"/>
+      </svg>`;
+    case 'agency':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="240" cy="215" r="175" fill="var(--soft)"/>
+        <rect x="134" y="250" width="36" height="86" rx="10" fill="var(--p)" transform="rotate(-12 152 250)"/>
+        <path d="M110 186 L284 106 V334 L110 254 Z" fill="var(--p)"/>
+        <rect x="66" y="180" width="54" height="80" rx="14" fill="var(--a)"/>
+        <rect x="274" y="94" width="24" height="252" rx="12" fill="var(--a)"/>
+        <path d="M334 170 q24 50 0 100 M376 136 q42 84 0 168" stroke="var(--a)" stroke-width="12" fill="none" stroke-linecap="round"/>
+      </svg>`;
+    case 'accounting':
+      return `<svg class="art" viewBox="0 0 480 420" aria-hidden="true">
+        <circle cx="250" cy="210" r="172" fill="var(--soft)"/>
+        <rect x="100" y="66" width="200" height="290" rx="24" fill="var(--p)"/>
+        <rect x="126" y="92" width="148" height="58" rx="10" fill="var(--a)"/>
+        <g fill="var(--on-p)" fill-opacity=".35"><rect x="126" y="170" width="40" height="36" rx="8"/><rect x="180" y="170" width="40" height="36" rx="8"/><rect x="234" y="170" width="40" height="36" rx="8"/><rect x="126" y="220" width="40" height="36" rx="8"/><rect x="180" y="220" width="40" height="36" rx="8"/><rect x="234" y="220" width="40" height="36" rx="8"/><rect x="126" y="270" width="40" height="36" rx="8"/><rect x="180" y="270" width="40" height="36" rx="8"/></g>
+        <rect x="234" y="270" width="40" height="62" rx="8" fill="var(--a)"/>
+        <circle cx="360" cy="262" r="72" fill="var(--a)" stroke="var(--bg)" stroke-width="8"/>
+        <path d="M360 262 V190 A72 72 0 0 1 428 286 Z" fill="var(--p)"/>
+      </svg>`;
   }
   return '';
 }
@@ -188,8 +336,8 @@ export interface RenderOptions {
 }
 
 export function renderSite(s: Spec, opt: RenderOptions): string {
-  const t = s.template;
-  const layout = layoutOf[t] ?? 'corporate';
+  const layout = layoutOf[s.template] ?? 'corporate';
+  const t = categoryOf(s.template);
   const ed = (path: string) => (opt.editable ? ` data-f="${path}"` : '');
   const rtl = s.lang === 'ar';
   const w = words[s.lang] ?? words.en;
@@ -281,7 +429,7 @@ ${s.extras.whatsappButton && s.contact.whatsapp ? `<a class="wa-float" href="${e
 
   const p = s.colors.primary, a = s.colors.accent;
   const css = `${fontCss(s.font, opt.fontBase)}
-:root{--p:${p};--a:${a};--on-p:${onColor(p)};--on-a:${onColor(a)};--ink:#14171C;--muted:#5B6472;--line:#E5E7EB;--bg:#fff;
+:root{--p-hero:${p};--p:${p};--a:${a};--on-p:${onColor(p)};--on-a:${onColor(a)};--ink:#14171C;--muted:#5B6472;--line:#E5E7EB;--bg:#fff;
 --soft:color-mix(in srgb,var(--p) 9%,#fff);--soft-a:color-mix(in srgb,var(--a) 16%,#fff);--r:16px;--head:${f.head};--body:${f.body}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--head);margin:0;line-height:1.2;font-weight:700}p{margin:0}a{color:inherit;text-decoration:none}svg{display:block}
@@ -296,6 +444,15 @@ h1,h2,h3{font-family:var(--head);margin:0;line-height:1.2;font-weight:700}p{marg
 .eyebrow{font-weight:700;color:var(--p);margin-bottom:14px;font-size:.98rem}h1{font-size:clamp(2.3rem,5vw,3.9rem);letter-spacing:-.01em}
 .sub{font-size:1.18rem;color:var(--muted);margin-top:20px;max-width:34rem}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .art{width:100%;height:auto}
+.mono{width:180px;height:180px;margin:0 auto;border-radius:50%;background:var(--p);color:var(--on-p);display:grid;place-items:center;font-family:var(--head);font-size:4.6rem;box-shadow:0 0 0 12px var(--soft-a)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px}.tiles div{aspect-ratio:1;border-radius:var(--r);background:var(--soft);display:grid;place-items:center}.tiles div:nth-child(2),.tiles div:nth-child(3){background:var(--soft-a)}.tiles svg{width:62%}
+.t-events .tiles{--p:#E8ECF2}
+.t-clinic .hero-art{order:-1}.t-clinic .hero-in{grid-template-columns:.95fr 1.05fr}
+.t-store .hero{padding:36px 0 56px}.t-store .hero-in{background:var(--soft-a);border-radius:36px;padding:56px 56px}.t-store .hero .tiles div{background:color-mix(in srgb,#fff 70%,transparent)}.t-store .hero .art{--soft:color-mix(in srgb,#fff 65%,transparent)}
+.t-corporate .hero{background-image:radial-gradient(color-mix(in srgb,var(--p) 16%,transparent) 1.5px,transparent 1.6px);background-size:22px 22px;background-position:0 0}.t-corporate .hero-copy{background:var(--bg);box-shadow:0 0 0 24px var(--bg);border-radius:8px}
+.t-personal .hero-art .art{max-width:300px;margin:0 auto}.t-personal .hero-art .tiles{width:300px}
+.t-events .art{--p:#E8ECF2;--on-p:#0B1120;--soft:rgba(255,255,255,.07);--soft-a:color-mix(in srgb,var(--a) 16%,transparent);--bg:#0B1120;--line:rgba(255,255,255,.14)}
+.t-restaurant .art{--p:color-mix(in srgb,var(--p-hero) 58%,#000);--soft:color-mix(in srgb,var(--on-p) 10%,transparent);--soft-a:color-mix(in srgb,var(--a) 22%,transparent);--bg:var(--p-hero);--line:color-mix(in srgb,var(--on-p) 25%,transparent)}
 section h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:28px}
 .logo-img{height:40px;width:auto;max-width:150px;object-fit:contain;display:block}.foot .logo-img{height:32px}
 .hero-photo{border-radius:calc(var(--r) * 1.5);overflow:hidden;aspect-ratio:4/3;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}.hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -371,7 +528,7 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.4;letter-spacin
 
 @media (max-width:860px){
   .top nav{display:none}.top-in{justify-content:space-between}.hero{padding:56px 0}.hero-in,.about-in{grid-template-columns:1fr;gap:36px}
-  .hero-art{max-width:420px}.faq-in{grid-template-columns:1fr}.cform{grid-template-columns:1fr}.quotes,.faq{padding:64px 0}.about-in.has-img{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr}.gallery{padding:64px 0}.t-restaurant .hero-copy{padding-bottom:0}.t-restaurant .cards{grid-template-columns:1fr}
+  .hero-art{max-width:420px}.t-clinic .hero-art{order:0}.t-store .hero-in{padding:32px 24px;border-radius:24px}.faq-in{grid-template-columns:1fr}.cform{grid-template-columns:1fr}.quotes,.faq{padding:64px 0}.about-in.has-img{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr}.gallery{padding:64px 0}.t-restaurant .hero-copy{padding-bottom:0}.t-restaurant .cards{grid-template-columns:1fr}
   .t-personal .card{grid-template-columns:48px 1fr;}.t-personal .card p{grid-column:2}.cta-in{padding:32px}
   .services,.about,.cta{padding:64px 0}
 }

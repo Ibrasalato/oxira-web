@@ -1,0 +1,2286 @@
+{
+  "templates": {
+    "cafe": {
+      "ar": {
+        "name": "محمصة بُن الوادي",
+        "tagline": "قهوة مختصة",
+        "hero": {
+          "title": "قهوتك المختصة تبدأ من هنا",
+          "subtitle": "نحمص حبوبنا بعناية يومياً ونقدمها بأيدي باريستا محترفين في أجواء هادئة تناسب العمل واللقاءات.",
+          "cta": "اطلب الآن"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "مقهى سعودي متخصص في القهوة المختصة، نختار محاصيلنا من أفضل المزارع حول العالم. نؤمن بأن كل فنجان يستحق الاهتمام بالتفاصيل من الحبة إلى الكوب."
+        },
+        "services": {
+          "title": "ما نقدمه",
+          "items": [
+            {
+              "title": "قهوة مختصة",
+              "text": "مشروبات إسبريسو وتقطير يدوي محضرة من محاصيل مختارة بعناية."
+            },
+            {
+              "title": "حلويات ومخبوزات",
+              "text": "تشكيلة يومية طازجة من الكيك والكرواسون تكمل تجربة قهوتك."
+            },
+            {
+              "title": "حبوب للبيع",
+              "text": "حبوب محمصة طازجة بأوزان مختلفة لتستمتع بقهوتك في المنزل."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+20",
+            "label": "محصولاً مختصاً"
+          },
+          {
+            "value": "+1,500",
+            "label": "كوب يومياً"
+          },
+          {
+            "value": "4.9",
+            "label": "تقييم العملاء"
+          }
+        ],
+        "ctaBand": {
+          "title": "زرنا اليوم",
+          "text": "استمتع بفنجانك المفضل في جلساتنا الداخلية والخارجية أو اطلبه للاستلام السريع.",
+          "button": "موقعنا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي النرجس، الرياض",
+          "hours": "يومياً: 6 صباحاً - 12 منتصف الليل"
+        }
+      },
+      "en": {
+        "name": "Bun Al Wadi Roastery",
+        "tagline": "Specialty Coffee",
+        "hero": {
+          "title": "Your specialty coffee starts here",
+          "subtitle": "We roast our beans daily and serve them through skilled baristas in a calm space made for work and meetups.",
+          "cta": "Order now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi specialty coffee house sourcing crops from the finest farms around the world. We believe every cup deserves attention to detail, from bean to glass."
+        },
+        "services": {
+          "title": "What we serve",
+          "items": [
+            {
+              "title": "Specialty coffee",
+              "text": "Espresso drinks and hand brews made from carefully selected crops."
+            },
+            {
+              "title": "Pastries and sweets",
+              "text": "A fresh daily selection of cakes and croissants to complete your coffee."
+            },
+            {
+              "title": "Beans to go",
+              "text": "Freshly roasted beans in several sizes so you can brew at home."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+20",
+            "label": "Specialty crops"
+          },
+          {
+            "value": "+1,500",
+            "label": "Cups served daily"
+          },
+          {
+            "value": "4.9",
+            "label": "Customer rating"
+          }
+        ],
+        "ctaBand": {
+          "title": "Visit us today",
+          "text": "Enjoy your favourite cup in our indoor and outdoor seating, or order ahead for quick pickup.",
+          "button": "Find us"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Narjis, Riyadh",
+          "hours": "Daily: 6 AM - 12 AM"
+        }
+      }
+    },
+    "dental": {
+      "ar": {
+        "name": "عيادات ابتسامة الصفا لطب الأسنان",
+        "tagline": "طب وتجميل الأسنان",
+        "hero": {
+          "title": "ابتسامة صحية تستحقها",
+          "subtitle": "رعاية شاملة لأسنانك وأسنان عائلتك على يد أطباء متخصصين وبأحدث التقنيات.",
+          "cta": "احجز موعدك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "عيادة أسنان متكاملة تضم نخبة من الاستشاريين في مختلف التخصصات. نحرص على تقديم علاج مريح وآمن وفق أعلى معايير التعقيم."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "تجميل الأسنان",
+              "text": "تبييض وعدسات وابتسامة هوليود بتصميم يناسب ملامح وجهك."
+            },
+            {
+              "title": "زراعة الأسنان",
+              "text": "حلول دائمة لتعويض الأسنان المفقودة بنتائج طبيعية وثابتة."
+            },
+            {
+              "title": "طب أسنان الأطفال",
+              "text": "عناية لطيفة بأسنان أطفالك في بيئة مريحة وخالية من الخوف."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+12",
+            "label": "طبيباً متخصصاً"
+          },
+          {
+            "value": "+20,000",
+            "label": "مراجع سعيد"
+          },
+          {
+            "value": "+10",
+            "label": "أعوام من الخبرة"
+          }
+        ],
+        "ctaBand": {
+          "title": "ابدأ رحلة ابتسامتك",
+          "text": "احجز كشفك الأول اليوم ودع فريقنا يضع لك خطة علاج واضحة.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الصفا، جدة",
+          "hours": "السبت - الخميس: 10 صباحاً - 10 مساءً"
+        }
+      },
+      "en": {
+        "name": "Ibtisamat Al Safa Dental Clinics",
+        "tagline": "Dental & Cosmetic Care",
+        "hero": {
+          "title": "The healthy smile you deserve",
+          "subtitle": "Complete dental care for you and your family by specialist dentists using the latest technology.",
+          "cta": "Book an appointment"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A full-service dental clinic with leading consultants across all specialties. We deliver comfortable, safe treatment under the highest sterilisation standards."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Cosmetic dentistry",
+              "text": "Whitening, veneers and Hollywood smiles designed to suit your features."
+            },
+            {
+              "title": "Dental implants",
+              "text": "Permanent solutions for missing teeth with natural, stable results."
+            },
+            {
+              "title": "Pediatric dentistry",
+              "text": "Gentle care for your children's teeth in a calm, fear-free setting."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+12",
+            "label": "Specialist dentists"
+          },
+          {
+            "value": "+20,000",
+            "label": "Happy patients"
+          },
+          {
+            "value": "+10",
+            "label": "Years of experience"
+          }
+        ],
+        "ctaBand": {
+          "title": "Start your smile journey",
+          "text": "Book your first check-up today and let our team build you a clear treatment plan.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Safa, Jeddah",
+          "hours": "Sat - Thu: 10 AM - 10 PM"
+        }
+      }
+    },
+    "barber": {
+      "ar": {
+        "name": "صالون الوجيه للحلاقة",
+        "tagline": "حلاقة وعناية رجالية",
+        "hero": {
+          "title": "إطلالتك تبدأ من كرسينا",
+          "subtitle": "حلاقون محترفون وعناية رجالية متكاملة في مكان أنيق ومريح يقدّر وقتك.",
+          "cta": "احجز موعدك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "صالون رجالي يجمع بين أصالة الحلاقة الكلاسيكية وأحدث صيحات القصات. نلتزم بأعلى معايير النظافة واستخدام أدوات معقمة لكل عميل."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "قص الشعر",
+              "text": "قصات كلاسيكية وعصرية تناسب شكل وجهك وأسلوبك."
+            },
+            {
+              "title": "تهذيب اللحية",
+              "text": "تحديد وتشذيب احترافي بالموس والمنشفة الساخنة."
+            },
+            {
+              "title": "العناية بالبشرة",
+              "text": "تنظيف وترطيب للوجه يمنحك انتعاشاً وإطلالة صحية."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+8",
+            "label": "حلاقين محترفين"
+          },
+          {
+            "value": "+30,000",
+            "label": "عميل خدمناه"
+          },
+          {
+            "value": "4.8",
+            "label": "تقييم العملاء"
+          }
+        ],
+        "ctaBand": {
+          "title": "لا تنتظر في الطابور",
+          "text": "احجز موعدك مسبقاً واحصل على خدمتك في الوقت الذي يناسبك.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الفيصلية، الدمام",
+          "hours": "يومياً: 10 صباحاً - 1 بعد منتصف الليل"
+        }
+      },
+      "en": {
+        "name": "Al Wajeeh Barbershop",
+        "tagline": "Men's Grooming",
+        "hero": {
+          "title": "Your look starts in our chair",
+          "subtitle": "Skilled barbers and complete men's grooming in a sharp, comfortable space that respects your time.",
+          "cta": "Book now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A men's salon that blends classic barbering with the latest cuts. We keep the highest hygiene standards with sterilised tools for every client."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Haircuts",
+              "text": "Classic and modern cuts tailored to your face shape and style."
+            },
+            {
+              "title": "Beard grooming",
+              "text": "Professional shaping and trimming with a straight razor and hot towel."
+            },
+            {
+              "title": "Skin care",
+              "text": "Facial cleansing and hydration for a fresh, healthy look."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+8",
+            "label": "Expert barbers"
+          },
+          {
+            "value": "+30,000",
+            "label": "Clients served"
+          },
+          {
+            "value": "4.8",
+            "label": "Customer rating"
+          }
+        ],
+        "ctaBand": {
+          "title": "Skip the queue",
+          "text": "Book ahead and get your service at the time that suits you.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Faisaliyah, Dammam",
+          "hours": "Daily: 10 AM - 1 AM"
+        }
+      }
+    },
+    "perfume": {
+      "ar": {
+        "name": "دار عبق للعطور والعود",
+        "tagline": "عطور شرقية وعود فاخر",
+        "hero": {
+          "title": "عبق يروي حكاية أصالتك",
+          "subtitle": "عطور شرقية ودهن عود وبخور فاخر مختار بعناية من أجود المصادر.",
+          "cta": "تسوّق الآن"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "دار عطور سعودية تجمع بين إرث العطور العربية ولمسة عصرية في التركيب. نختار أخشاب العود والزيوت العطرية بعناية لنقدم لك رائحة تدوم."
+        },
+        "services": {
+          "title": "منتجاتنا",
+          "items": [
+            {
+              "title": "دهن العود",
+              "text": "دهن عود طبيعي معتّق بثبات عالٍ ورائحة فاخرة."
+            },
+            {
+              "title": "العطور الشرقية",
+              "text": "تركيبات مميزة تمزج العود والورد والمسك بلمسة عصرية."
+            },
+            {
+              "title": "البخور والمباخر",
+              "text": "أخشاب عود ومعمول فاخر يعطّر مجالسك ومناسباتك."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+150",
+            "label": "منتجاً عطرياً"
+          },
+          {
+            "value": "+25,000",
+            "label": "عميل راضٍ"
+          },
+          {
+            "value": "+18",
+            "label": "عاماً في صناعة العطور"
+          }
+        ],
+        "ctaBand": {
+          "title": "هدية تليق بمن تحب",
+          "text": "اختر من تشكيلات الهدايا الفاخرة المغلفة بعناية لكل المناسبات.",
+          "button": "اكتشف الهدايا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي العزيزية، مكة المكرمة",
+          "hours": "يومياً: 9 صباحاً - 12 منتصف الليل"
+        }
+      },
+      "en": {
+        "name": "Abaq Perfume & Oud House",
+        "tagline": "Arabian Fragrances & Fine Oud",
+        "hero": {
+          "title": "A scent that tells your story",
+          "subtitle": "Arabian perfumes, oud oils and luxury incense carefully sourced from the finest origins.",
+          "cta": "Shop now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi perfume house uniting the heritage of Arabian fragrance with a modern touch. We hand-select oud woods and essential oils to create scents that last."
+        },
+        "services": {
+          "title": "Our collection",
+          "items": [
+            {
+              "title": "Oud oil",
+              "text": "Natural aged oud oil with long-lasting, luxurious character."
+            },
+            {
+              "title": "Arabian perfumes",
+              "text": "Signature blends of oud, rose and musk with a modern twist."
+            },
+            {
+              "title": "Incense and burners",
+              "text": "Premium oud chips and mamoul to scent your majlis and occasions."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+150",
+            "label": "Fragrance products"
+          },
+          {
+            "value": "+25,000",
+            "label": "Happy customers"
+          },
+          {
+            "value": "+18",
+            "label": "Years in perfumery"
+          }
+        ],
+        "ctaBand": {
+          "title": "A gift worthy of them",
+          "text": "Choose from luxury gift sets, beautifully wrapped for every occasion.",
+          "button": "Explore gifts"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Aziziyah, Makkah",
+          "hours": "Daily: 9 AM - 12 AM"
+        }
+      }
+    },
+    "tech": {
+      "ar": {
+        "name": "نواة للتقنية",
+        "tagline": "حلول برمجية وتطبيقات",
+        "hero": {
+          "title": "نبني التقنية التي تنمّي أعمالك",
+          "subtitle": "منصات سحابية وتطبيقات ذكية تساعد الشركات على العمل بكفاءة والنمو بثقة.",
+          "cta": "اطلب عرضاً تجريبياً"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "شركة تقنية سعودية تطور منتجات برمجية وحلولاً رقمية مصممة لاحتياجات السوق المحلي. يجمع فريقنا بين الخبرة الهندسية وفهم عميق لتحديات الأعمال."
+        },
+        "services": {
+          "title": "حلولنا",
+          "items": [
+            {
+              "title": "منصات SaaS",
+              "text": "أنظمة سحابية جاهزة لإدارة العمليات والمبيعات والعملاء."
+            },
+            {
+              "title": "تطوير التطبيقات",
+              "text": "تطبيقات جوال وويب بتجربة استخدام سلسة وأداء عالٍ."
+            },
+            {
+              "title": "التكامل والأتمتة",
+              "text": "ربط أنظمتك وأتمتة المهام المتكررة لتوفير الوقت والجهد."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+60",
+            "label": "منتجاً ومشروعاً"
+          },
+          {
+            "value": "+200",
+            "label": "عميل من الشركات"
+          },
+          {
+            "value": "99.9%",
+            "label": "جاهزية الأنظمة"
+          }
+        ],
+        "ctaBand": {
+          "title": "جاهز للتحول الرقمي؟",
+          "text": "تحدث مع فريقنا لنرشح لك الحل الأنسب لأعمالك.",
+          "button": "تحدث معنا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الملقا، الرياض",
+          "hours": "الأحد - الخميس: 9 صباحاً - 6 مساءً"
+        }
+      },
+      "en": {
+        "name": "Nawah Tech",
+        "tagline": "Software & Apps",
+        "hero": {
+          "title": "Technology that grows your business",
+          "subtitle": "Cloud platforms and smart apps that help companies operate efficiently and scale with confidence.",
+          "cta": "Request a demo"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi technology company building software products and digital solutions designed for the local market. Our team combines engineering expertise with a deep understanding of business challenges."
+        },
+        "services": {
+          "title": "Our solutions",
+          "items": [
+            {
+              "title": "SaaS platforms",
+              "text": "Ready cloud systems for managing operations, sales and customers."
+            },
+            {
+              "title": "App development",
+              "text": "Mobile and web apps with smooth user experience and high performance."
+            },
+            {
+              "title": "Integration and automation",
+              "text": "Connect your systems and automate repetitive tasks to save time and effort."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+60",
+            "label": "Products and projects"
+          },
+          {
+            "value": "+200",
+            "label": "Business clients"
+          },
+          {
+            "value": "99.9%",
+            "label": "System uptime"
+          }
+        ],
+        "ctaBand": {
+          "title": "Ready to go digital?",
+          "text": "Talk to our team and we will recommend the right solution for your business.",
+          "button": "Talk to us"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Malqa, Riyadh",
+          "hours": "Sun - Thu: 9 AM - 6 PM"
+        }
+      }
+    },
+    "hotel": {
+      "ar": {
+        "name": "منتجع غيم السودة",
+        "tagline": "فندق ومنتجع بوتيك",
+        "hero": {
+          "title": "إقامة فوق الغيم",
+          "subtitle": "أجنحة وفلل هادئة بإطلالات جبلية ساحرة وضيافة سعودية أصيلة في قلب عسير.",
+          "cta": "احجز إقامتك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "منتجع بوتيك يحتضن طبيعة السودة الخلابة ويجمع بين الفخامة والهدوء. صممنا كل تفصيل لتعيش تجربة إقامة لا تُنسى مع العائلة أو الأصدقاء."
+        },
+        "services": {
+          "title": "تجربتنا",
+          "items": [
+            {
+              "title": "أجنحة وفلل",
+              "text": "غرف واسعة بإطلالات بانورامية وتجهيزات فاخرة."
+            },
+            {
+              "title": "مطعم ومقهى",
+              "text": "أطباق محلية وعالمية تُقدّم بإطلالة على الجبال."
+            },
+            {
+              "title": "أنشطة وتجارب",
+              "text": "جولات طبيعية ومسارات مشي وتجارب تراثية لجميع أفراد العائلة."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+40",
+            "label": "جناحاً وفيلا"
+          },
+          {
+            "value": "+15,000",
+            "label": "ضيف سنوياً"
+          },
+          {
+            "value": "4.9",
+            "label": "تقييم الضيوف"
+          }
+        ],
+        "ctaBand": {
+          "title": "هرب قصير إلى الطبيعة",
+          "text": "احجز مباشرة معنا واستمتع بأفضل الأسعار والعروض الموسمية.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "السودة، أبها",
+          "hours": "الاستقبال على مدار 24 ساعة"
+        }
+      },
+      "en": {
+        "name": "Ghaim Al Soudah Resort",
+        "tagline": "Boutique Hotel & Resort",
+        "hero": {
+          "title": "A stay above the clouds",
+          "subtitle": "Quiet suites and villas with stunning mountain views and authentic Saudi hospitality in the heart of Asir.",
+          "cta": "Book your stay"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A boutique resort embracing the beauty of Al Soudah, blending luxury with calm. Every detail is designed for an unforgettable stay with family or friends."
+        },
+        "services": {
+          "title": "The experience",
+          "items": [
+            {
+              "title": "Suites and villas",
+              "text": "Spacious rooms with panoramic views and premium amenities."
+            },
+            {
+              "title": "Restaurant and café",
+              "text": "Local and international dishes served with a mountain view."
+            },
+            {
+              "title": "Activities",
+              "text": "Nature tours, hiking trails and heritage experiences for the whole family."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+40",
+            "label": "Suites and villas"
+          },
+          {
+            "value": "+15,000",
+            "label": "Guests a year"
+          },
+          {
+            "value": "4.9",
+            "label": "Guest rating"
+          }
+        ],
+        "ctaBand": {
+          "title": "A short escape to nature",
+          "text": "Book direct with us for the best rates and seasonal offers.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Soudah, Abha",
+          "hours": "Front desk open 24 hours"
+        }
+      }
+    },
+    "cars": {
+      "ar": {
+        "name": "مركز المسار لخدمات السيارات",
+        "tagline": "صيانة وعناية بالسيارات",
+        "hero": {
+          "title": "سيارتك بأيدٍ أمينة",
+          "subtitle": "صيانة دورية وإصلاح وعناية متكاملة لسيارتك بفنيين معتمدين وقطع غيار أصلية.",
+          "cta": "احجز موعد صيانة"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "مركز خدمات سيارات متكامل مجهز بأحدث أجهزة الفحص والتشخيص. نعمل بشفافية تامة ونطلعك على كل تفصيل قبل البدء في أي إصلاح."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "الصيانة الدورية",
+              "text": "تغيير الزيوت والفلاتر والفحص الشامل وفق توصيات الشركة المصنعة."
+            },
+            {
+              "title": "الفحص والإصلاح",
+              "text": "تشخيص إلكتروني دقيق وإصلاح المحركات والفرامل والتكييف."
+            },
+            {
+              "title": "العناية والتلميع",
+              "text": "غسيل وتلميع وحماية للطلاء والمقصورة تعيد لسيارتك بريقها."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+25,000",
+            "label": "سيارة خدمناها"
+          },
+          {
+            "value": "+15",
+            "label": "فنياً معتمداً"
+          },
+          {
+            "value": "+12",
+            "label": "عاماً من الخبرة"
+          }
+        ],
+        "ctaBand": {
+          "title": "وفّر وقتك",
+          "text": "احجز موعدك أونلاين واستلم سيارتك في الوقت المحدد.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الراكة، الخبر",
+          "hours": "السبت - الخميس: 8 صباحاً - 10 مساءً"
+        }
+      },
+      "en": {
+        "name": "Al Masar Car Services",
+        "tagline": "Car Maintenance & Care",
+        "hero": {
+          "title": "Your car in safe hands",
+          "subtitle": "Scheduled maintenance, repairs and complete car care by certified technicians with genuine parts.",
+          "cta": "Book a service"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A full-service car centre equipped with the latest inspection and diagnostic tools. We work with full transparency and explain every detail before starting any repair."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Scheduled maintenance",
+              "text": "Oil and filter changes and full inspections to manufacturer standards."
+            },
+            {
+              "title": "Diagnostics and repair",
+              "text": "Accurate electronic diagnostics and repair for engines, brakes and AC."
+            },
+            {
+              "title": "Detailing",
+              "text": "Washing, polishing and paint and interior protection that restore your car's shine."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+25,000",
+            "label": "Cars serviced"
+          },
+          {
+            "value": "+15",
+            "label": "Certified technicians"
+          },
+          {
+            "value": "+12",
+            "label": "Years of experience"
+          }
+        ],
+        "ctaBand": {
+          "title": "Save your time",
+          "text": "Book online and pick up your car right on schedule.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Rakah, Khobar",
+          "hours": "Sat - Thu: 8 AM - 10 PM"
+        }
+      }
+    },
+    "photography": {
+      "ar": {
+        "name": "استوديو لقطة",
+        "tagline": "تصوير احترافي",
+        "hero": {
+          "title": "لحظاتك تستحق أن تُخلَّد",
+          "subtitle": "تصوير احترافي للأعراس والمنتجات والفعاليات بعين فنية ولمسة إبداعية.",
+          "cta": "احجز جلستك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "استوديو تصوير سعودي يضم مصورين ومصورات محترفين ومحررين مبدعين. نحوّل لحظاتك المهمة إلى صور تحكي قصتها بكل تفاصيلها."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "تصوير الأعراس",
+              "text": "تغطية كاملة لليلة العمر بفريق نسائي ورجالي حسب الطلب."
+            },
+            {
+              "title": "تصوير المنتجات",
+              "text": "صور احترافية لمنتجاتك تبرز جودتها وتزيد مبيعاتك."
+            },
+            {
+              "title": "تغطية الفعاليات",
+              "text": "تصوير فوتوغرافي ومرئي للمؤتمرات والمعارض والمناسبات."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+1,200",
+            "label": "مناسبة مصوّرة"
+          },
+          {
+            "value": "+300",
+            "label": "علامة تجارية"
+          },
+          {
+            "value": "+9",
+            "label": "أعوام من الإبداع"
+          }
+        ],
+        "ctaBand": {
+          "title": "لنصنع صوراً لا تُنسى",
+          "text": "تواصل معنا لحجز موعدك واختيار الباقة المناسبة لمناسبتك.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الروضة، جدة",
+          "hours": "السبت - الخميس: 10 صباحاً - 10 مساءً"
+        }
+      },
+      "en": {
+        "name": "Laqta Studio",
+        "tagline": "Professional Photography",
+        "hero": {
+          "title": "Moments worth keeping forever",
+          "subtitle": "Professional photography for weddings, products and events with an artistic eye and creative touch.",
+          "cta": "Book a session"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi photography studio with skilled male and female photographers and creative editors. We turn your important moments into images that tell the whole story."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Wedding photography",
+              "text": "Full coverage of your big night with female or male teams on request."
+            },
+            {
+              "title": "Product photography",
+              "text": "Professional shots that showcase your products and boost sales."
+            },
+            {
+              "title": "Event coverage",
+              "text": "Photo and video coverage for conferences, exhibitions and occasions."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+1,200",
+            "label": "Events captured"
+          },
+          {
+            "value": "+300",
+            "label": "Brands served"
+          },
+          {
+            "value": "+9",
+            "label": "Years of creativity"
+          }
+        ],
+        "ctaBand": {
+          "title": "Let's create unforgettable images",
+          "text": "Contact us to book your date and choose the right package for your occasion.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Rawdah, Jeddah",
+          "hours": "Sat - Thu: 10 AM - 10 PM"
+        }
+      }
+    },
+    "bakery": {
+      "ar": {
+        "name": "مخبز سنبلة",
+        "tagline": "مخبوزات وحلويات",
+        "hero": {
+          "title": "طازج من فرننا إليك",
+          "subtitle": "خبز يومي وكيك وحلويات شرقية وغربية تُحضّر بمكونات طبيعية وحب.",
+          "cta": "اطلب الآن"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "مخبز سعودي يخبز منتجاته كل صباح بوصفات أصيلة ومكونات مختارة. نصنع الكيك والحلويات المخصصة لتشارك أحبابك أجمل اللحظات."
+        },
+        "services": {
+          "title": "ما نقدمه",
+          "items": [
+            {
+              "title": "الخبز والمعجنات",
+              "text": "خبز طازج ومعجنات وفطائر تُخبز يومياً."
+            },
+            {
+              "title": "كيك المناسبات",
+              "text": "كيك مخصص بتصاميم تناسب أعياد الميلاد والأعراس والتخرج."
+            },
+            {
+              "title": "الحلويات الشرقية",
+              "text": "معمول وبسبوسة وكنافة بنكهات أصيلة."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+80",
+            "label": "صنفاً يومياً"
+          },
+          {
+            "value": "+5,000",
+            "label": "طلب شهرياً"
+          },
+          {
+            "value": "+3",
+            "label": "فروع"
+          }
+        ],
+        "ctaBand": {
+          "title": "لديك مناسبة قريبة؟",
+          "text": "اطلب الكيك والحلويات مسبقاً ودعنا نهتم بالتفاصيل.",
+          "button": "اطلب مسبقاً"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي العزيزية، المدينة المنورة",
+          "hours": "يومياً: 6 صباحاً - 11 مساءً"
+        }
+      },
+      "en": {
+        "name": "Sunbula Bakery",
+        "tagline": "Breads & Sweets",
+        "hero": {
+          "title": "Fresh from our oven to you",
+          "subtitle": "Daily bread, cakes and Arabic and Western sweets made with natural ingredients and care.",
+          "cta": "Order now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi bakery baking every morning with authentic recipes and selected ingredients. We craft custom cakes and sweets so you can share life's best moments."
+        },
+        "services": {
+          "title": "What we bake",
+          "items": [
+            {
+              "title": "Breads and pastries",
+              "text": "Fresh bread, pastries and pies baked every day."
+            },
+            {
+              "title": "Celebration cakes",
+              "text": "Custom cakes designed for birthdays, weddings and graduations."
+            },
+            {
+              "title": "Arabic sweets",
+              "text": "Maamoul, basbousa and kunafa with authentic flavours."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+80",
+            "label": "Items daily"
+          },
+          {
+            "value": "+5,000",
+            "label": "Orders a month"
+          },
+          {
+            "value": "+3",
+            "label": "Branches"
+          }
+        ],
+        "ctaBand": {
+          "title": "Celebrating soon?",
+          "text": "Pre-order your cakes and sweets and let us take care of the details.",
+          "button": "Pre-order"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Aziziyah, Madinah",
+          "hours": "Daily: 6 AM - 11 PM"
+        }
+      }
+    },
+    "cleaning": {
+      "ar": {
+        "name": "لمعة لخدمات النظافة",
+        "tagline": "نظافة المنازل والمكاتب",
+        "hero": {
+          "title": "نظافة تلمسها في كل زاوية",
+          "subtitle": "فرق تنظيف مدربة ومعدات حديثة لمنزلك ومكتبك بمواعيد مرنة تناسبك.",
+          "cta": "احجز خدمة"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "شركة سعودية متخصصة في خدمات التنظيف الشامل للمنازل والمنشآت. نستخدم مواد آمنة ومعتمدة ونلتزم بالمواعيد والجودة في كل زيارة."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "تنظيف المنازل",
+              "text": "تنظيف شامل ودوري للغرف والمطابخ ودورات المياه."
+            },
+            {
+              "title": "تنظيف المكاتب",
+              "text": "عقود تنظيف يومية وأسبوعية لبيئة عمل صحية ومنظمة."
+            },
+            {
+              "title": "تنظيف الكنب والسجاد",
+              "text": "غسيل بالبخار يزيل البقع والروائح ويعيد النضارة."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+10,000",
+            "label": "زيارة منجزة"
+          },
+          {
+            "value": "+120",
+            "label": "عقد مع الشركات"
+          },
+          {
+            "value": "+50",
+            "label": "عاملاً مدرباً"
+          }
+        ],
+        "ctaBand": {
+          "title": "بيت نظيف بلا عناء",
+          "text": "احجز زيارتك الأولى الآن ودع المهمة علينا.",
+          "button": "احجز الآن"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الشاطئ، الدمام",
+          "hours": "يومياً: 8 صباحاً - 8 مساءً"
+        }
+      },
+      "en": {
+        "name": "Lamaa Cleaning Services",
+        "tagline": "Home & Office Cleaning",
+        "hero": {
+          "title": "Clean you can feel everywhere",
+          "subtitle": "Trained cleaning teams and modern equipment for your home and office, on flexible schedules.",
+          "cta": "Book a service"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi company specialising in complete cleaning for homes and facilities. We use safe, approved products and stay committed to punctuality and quality on every visit."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Home cleaning",
+              "text": "Thorough, regular cleaning of rooms, kitchens and bathrooms."
+            },
+            {
+              "title": "Office cleaning",
+              "text": "Daily and weekly contracts for a healthy, tidy workplace."
+            },
+            {
+              "title": "Sofa and carpet cleaning",
+              "text": "Steam cleaning that removes stains and odours and restores freshness."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+10,000",
+            "label": "Visits completed"
+          },
+          {
+            "value": "+120",
+            "label": "Business contracts"
+          },
+          {
+            "value": "+50",
+            "label": "Trained staff"
+          }
+        ],
+        "ctaBand": {
+          "title": "A clean home, no hassle",
+          "text": "Book your first visit now and leave the work to us.",
+          "button": "Book now"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Shatea, Dammam",
+          "hours": "Daily: 8 AM - 8 PM"
+        }
+      }
+    },
+    "charity": {
+      "ar": {
+        "name": "جمعية أثر الخيرية",
+        "tagline": "عمل خيري وتنمية مجتمعية",
+        "hero": {
+          "title": "عطاؤك يصنع أثراً يدوم",
+          "subtitle": "نعمل على دعم الأسر المحتاجة وتمكينها عبر برامج مستدامة بشفافية وموثوقية.",
+          "cta": "تبرّع الآن"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "جمعية خيرية مرخصة من المركز الوطني لتنمية القطاع غير الربحي، تخدم المستفيدين منذ سنوات. نؤمن بأن التمكين هو الطريق الأمثل لتحقيق أثر مستدام."
+        },
+        "services": {
+          "title": "برامجنا",
+          "items": [
+            {
+              "title": "كفالة الأسر",
+              "text": "دعم شهري للأسر المحتاجة يغطي احتياجاتها الأساسية."
+            },
+            {
+              "title": "التمكين والتدريب",
+              "text": "برامج تدريب وتأهيل تساعد المستفيدين على دخول سوق العمل."
+            },
+            {
+              "title": "السلال الغذائية",
+              "text": "توزيع سلال غذائية على الأسر المستحقة في المواسم وطوال العام."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+3,000",
+            "label": "أسرة مستفيدة"
+          },
+          {
+            "value": "+500",
+            "label": "متطوع ومتطوعة"
+          },
+          {
+            "value": "+25",
+            "label": "برنامجاً ومبادرة"
+          }
+        ],
+        "ctaBand": {
+          "title": "كن شريكاً في الخير",
+          "text": "ساهم بتبرعك أو انضم إلى فريق المتطوعين لدينا.",
+          "button": "ساهم معنا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الشفا، الطائف",
+          "hours": "الأحد - الخميس: 8 صباحاً - 4 مساءً"
+        }
+      },
+      "en": {
+        "name": "Athar Charity Association",
+        "tagline": "Charity & Community Development",
+        "hero": {
+          "title": "Your giving leaves a lasting impact",
+          "subtitle": "We support families in need and empower them through sustainable programmes with transparency and trust.",
+          "cta": "Donate now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A charity licensed by the National Center for Non-Profit Sector, serving beneficiaries for years. We believe empowerment is the best path to lasting impact."
+        },
+        "services": {
+          "title": "Our programmes",
+          "items": [
+            {
+              "title": "Family sponsorship",
+              "text": "Monthly support covering the basic needs of families in need."
+            },
+            {
+              "title": "Empowerment and training",
+              "text": "Training programmes that help beneficiaries enter the job market."
+            },
+            {
+              "title": "Food baskets",
+              "text": "Food baskets distributed to eligible families in season and all year round."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+3,000",
+            "label": "Families supported"
+          },
+          {
+            "value": "+500",
+            "label": "Volunteers"
+          },
+          {
+            "value": "+25",
+            "label": "Programmes and initiatives"
+          }
+        ],
+        "ctaBand": {
+          "title": "Be a partner in giving",
+          "text": "Make a donation or join our volunteer team.",
+          "button": "Get involved"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Shafa, Taif",
+          "hours": "Sun - Thu: 8 AM - 4 PM"
+        }
+      }
+    },
+    "florist": {
+      "ar": {
+        "name": "ورد الربيع",
+        "tagline": "ورود وهدايا",
+        "hero": {
+          "title": "مشاعرك تصل بباقة ورد",
+          "subtitle": "تنسيقات ورد طبيعي وهدايا مميزة تُوصَل إلى من تحب في نفس اليوم.",
+          "cta": "تسوّق الآن"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "متجر ورد وهدايا يختار أزهاره الطازجة يومياً وينسقها بأيدي فنانين مبدعين. نساعدك على التعبير عن مشاعرك في كل مناسبة."
+        },
+        "services": {
+          "title": "ما نقدمه",
+          "items": [
+            {
+              "title": "باقات الورد",
+              "text": "تنسيقات يومية بألوان وأحجام تناسب كل مناسبة."
+            },
+            {
+              "title": "تنسيق المناسبات",
+              "text": "تزيين الأعراس والاستقبالات والفعاليات بالورد الطبيعي."
+            },
+            {
+              "title": "الهدايا",
+              "text": "توزيعات وشوكولاتة وبوكسات هدايا مع بطاقات إهداء."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+50",
+            "label": "تنسيقاً متجدداً"
+          },
+          {
+            "value": "+8,000",
+            "label": "طلب سنوياً"
+          },
+          {
+            "value": "نفس اليوم",
+            "label": "توصيل داخل المدينة"
+          }
+        ],
+        "ctaBand": {
+          "title": "فاجئ من تحب اليوم",
+          "text": "اطلب باقتك الآن ونوصلها مع بطاقة إهداء بكلماتك.",
+          "button": "اطلب باقتك"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الخالدية، جدة",
+          "hours": "يومياً: 9 صباحاً - 11 مساءً"
+        }
+      },
+      "en": {
+        "name": "Ward Al Rabee",
+        "tagline": "Flowers & Gifts",
+        "hero": {
+          "title": "Say it with flowers",
+          "subtitle": "Fresh flower arrangements and unique gifts delivered to your loved ones the same day.",
+          "cta": "Shop now"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A flower and gift shop that picks fresh blooms daily and arranges them by creative florists. We help you express your feelings on every occasion."
+        },
+        "services": {
+          "title": "What we offer",
+          "items": [
+            {
+              "title": "Bouquets",
+              "text": "Daily arrangements in colours and sizes for every occasion."
+            },
+            {
+              "title": "Event styling",
+              "text": "Fresh floral styling for weddings, receptions and events."
+            },
+            {
+              "title": "Gifts",
+              "text": "Giveaways, chocolates and gift boxes with personal cards."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+50",
+            "label": "Fresh designs"
+          },
+          {
+            "value": "+8,000",
+            "label": "Orders a year"
+          },
+          {
+            "value": "Same day",
+            "label": "Delivery in the city"
+          }
+        ],
+        "ctaBand": {
+          "title": "Surprise someone today",
+          "text": "Order your bouquet now and we'll deliver it with a card in your words.",
+          "button": "Order a bouquet"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Khalidiyah, Jeddah",
+          "hours": "Daily: 9 AM - 11 PM"
+        }
+      }
+    },
+    "venue": {
+      "ar": {
+        "name": "قاعة اللؤلؤة للاحتفالات",
+        "tagline": "قاعة أفراح ومناسبات",
+        "hero": {
+          "title": "ليلة العمر تبدأ هنا",
+          "subtitle": "قاعة فاخرة للأعراس والمناسبات مع خدمات ضيافة وتنظيم متكاملة.",
+          "cta": "احجز موعدك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "قاعة احتفالات مجهزة بأحدث أنظمة الإضاءة والصوت وتتسع لمختلف أحجام المناسبات. يتولى فريقنا كل التفاصيل لتستمتع بمناسبتك مع ضيوفك."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "حفلات الأعراس",
+              "text": "قسمان مستقلان للرجال والنساء بتجهيزات فاخرة وكوشة مميزة."
+            },
+            {
+              "title": "الضيافة والبوفيه",
+              "text": "قوائم طعام متنوعة وضيافة سعودية تليق بضيوفك."
+            },
+            {
+              "title": "المؤتمرات والمناسبات",
+              "text": "تجهيز قاعات للمؤتمرات وحفلات التخرج والاستقبالات."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+1,000",
+            "label": "ضيف بالطاقة الاستيعابية"
+          },
+          {
+            "value": "+2,500",
+            "label": "مناسبة منظّمة"
+          },
+          {
+            "value": "+10",
+            "label": "أعوام من الخبرة"
+          }
+        ],
+        "ctaBand": {
+          "title": "احجز تاريخك قبل نفاده",
+          "text": "تواصل معنا لمعرفة التواريخ المتاحة وترتيب زيارة للقاعة.",
+          "button": "تحقق من التوفر"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الحمراء، الرياض",
+          "hours": "يومياً: 10 صباحاً - 10 مساءً"
+        }
+      },
+      "en": {
+        "name": "Al Lulua Celebration Hall",
+        "tagline": "Wedding & Events Venue",
+        "hero": {
+          "title": "Your big night starts here",
+          "subtitle": "A luxury venue for weddings and occasions with complete hospitality and event management.",
+          "cta": "Book your date"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A celebration hall equipped with the latest lighting and sound systems and suited to events of every size. Our team handles every detail so you can enjoy the night with your guests."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Weddings",
+              "text": "Separate men's and women's halls with luxury fittings and a signature kosha."
+            },
+            {
+              "title": "Catering and buffet",
+              "text": "Varied menus and Saudi hospitality worthy of your guests."
+            },
+            {
+              "title": "Conferences and events",
+              "text": "Hall setups for conferences, graduations and receptions."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+1,000",
+            "label": "Guest capacity"
+          },
+          {
+            "value": "+2,500",
+            "label": "Events hosted"
+          },
+          {
+            "value": "+10",
+            "label": "Years of experience"
+          }
+        ],
+        "ctaBand": {
+          "title": "Secure your date early",
+          "text": "Contact us to check available dates and arrange a venue visit.",
+          "button": "Check availability"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Hamra, Riyadh",
+          "hours": "Daily: 10 AM - 10 PM"
+        }
+      }
+    },
+    "agency": {
+      "ar": {
+        "name": "وكالة صدى للتسويق",
+        "tagline": "تسويق وإعلان",
+        "hero": {
+          "title": "نصنع لعلامتك صدى يصل",
+          "subtitle": "استراتيجيات تسويق وحملات إبداعية تحقق نتائج ملموسة لعلامتك التجارية.",
+          "cta": "ابدأ مشروعك"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "وكالة تسويق سعودية تجمع بين الإبداع والتحليل لبناء علامات تجارية مؤثرة. نعمل شركاء لعملائنا من الفكرة حتى قياس النتائج."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "إدارة وسائل التواصل",
+              "text": "محتوى إبداعي وإدارة حسابات تبني جمهوراً متفاعلاً."
+            },
+            {
+              "title": "الحملات الإعلانية",
+              "text": "إعلانات رقمية مدروسة تستهدف عملاءك بدقة وتحقق عائداً أعلى."
+            },
+            {
+              "title": "الهوية البصرية",
+              "text": "تصميم هوية متكاملة تعكس قيم علامتك وتميزها عن المنافسين."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+150",
+            "label": "علامة تجارية"
+          },
+          {
+            "value": "+400",
+            "label": "حملة ناجحة"
+          },
+          {
+            "value": "+30",
+            "label": "مبدعاً ومختصاً"
+          }
+        ],
+        "ctaBand": {
+          "title": "لنرفع صوت علامتك",
+          "text": "احجز جلسة استشارية مجانية لمناقشة أهدافك التسويقية.",
+          "button": "احجز جلسة"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الحمراء، الخبر",
+          "hours": "الأحد - الخميس: 9 صباحاً - 6 مساءً"
+        }
+      },
+      "en": {
+        "name": "Sada Marketing Agency",
+        "tagline": "Marketing & Advertising",
+        "hero": {
+          "title": "We make your brand heard",
+          "subtitle": "Marketing strategies and creative campaigns that deliver measurable results for your brand.",
+          "cta": "Start a project"
+        },
+        "about": {
+          "title": "About us",
+          "text": "A Saudi marketing agency combining creativity and analytics to build influential brands. We work as partners from the first idea to measuring results."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Social media management",
+              "text": "Creative content and account management that build an engaged audience."
+            },
+            {
+              "title": "Ad campaigns",
+              "text": "Well-planned digital ads that target your customers precisely and deliver higher returns."
+            },
+            {
+              "title": "Brand identity",
+              "text": "A complete identity that reflects your values and sets you apart."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+150",
+            "label": "Brands served"
+          },
+          {
+            "value": "+400",
+            "label": "Successful campaigns"
+          },
+          {
+            "value": "+30",
+            "label": "Creatives and specialists"
+          }
+        ],
+        "ctaBand": {
+          "title": "Let's amplify your brand",
+          "text": "Book a free consultation to discuss your marketing goals.",
+          "button": "Book a call"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Hamra, Khobar",
+          "hours": "Sun - Thu: 9 AM - 6 PM"
+        }
+      }
+    },
+    "accounting": {
+      "ar": {
+        "name": "مكتب رصيد للخدمات المحاسبية",
+        "tagline": "محاسبة وضرائب وزكاة",
+        "hero": {
+          "title": "حساباتك منظمة وأعمالك مطمئنة",
+          "subtitle": "خدمات محاسبية وضريبية متكاملة تضمن امتثالك للأنظمة وتمنحك رؤية مالية واضحة.",
+          "cta": "اطلب استشارة"
+        },
+        "about": {
+          "title": "من نحن",
+          "text": "مكتب محاسبي يضم محاسبين معتمدين بخبرة في خدمة المنشآت الصغيرة والمتوسطة. نتابع أنظمة هيئة الزكاة والضريبة والجمارك لنحميك من الغرامات ونوفر وقتك."
+        },
+        "services": {
+          "title": "خدماتنا",
+          "items": [
+            {
+              "title": "مسك الدفاتر",
+              "text": "تسجيل العمليات المالية وإعداد القوائم الشهرية بدقة."
+            },
+            {
+              "title": "ضريبة القيمة المضافة",
+              "text": "إعداد الإقرارات الضريبية وتقديمها في مواعيدها النظامية."
+            },
+            {
+              "title": "الزكاة والقوائم المالية",
+              "text": "إعداد إقرار الزكاة والقوائم المالية السنوية للمنشأة."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+250",
+            "label": "منشأة نخدمها"
+          },
+          {
+            "value": "+3,000",
+            "label": "إقرار مقدّم"
+          },
+          {
+            "value": "+14",
+            "label": "عاماً من الخبرة"
+          }
+        ],
+        "ctaBand": {
+          "title": "ركّز على أعمالك ونحن نهتم بالأرقام",
+          "text": "تواصل معنا لتقييم وضعك المحاسبي واقتراح الباقة المناسبة.",
+          "button": "تواصل معنا"
+        },
+        "contact": {
+          "title": "تواصل معنا",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "حي الأندلس، جدة",
+          "hours": "الأحد - الخميس: 8 صباحاً - 5 مساءً"
+        }
+      },
+      "en": {
+        "name": "Raseed Accounting Services",
+        "tagline": "Accounting, Tax & Zakat",
+        "hero": {
+          "title": "Organised books, peace of mind",
+          "subtitle": "Complete accounting and tax services that keep you compliant and give you a clear financial picture.",
+          "cta": "Request a consultation"
+        },
+        "about": {
+          "title": "About us",
+          "text": "An accounting firm of certified accountants experienced in serving small and medium businesses. We follow ZATCA regulations closely to protect you from penalties and save your time."
+        },
+        "services": {
+          "title": "Our services",
+          "items": [
+            {
+              "title": "Bookkeeping",
+              "text": "Accurate recording of transactions and monthly financial statements."
+            },
+            {
+              "title": "VAT",
+              "text": "Preparing and filing VAT returns on time, every period."
+            },
+            {
+              "title": "Zakat and financial statements",
+              "text": "Preparing zakat returns and annual financial statements for your business."
+            }
+          ]
+        },
+        "stats": [
+          {
+            "value": "+250",
+            "label": "Businesses served"
+          },
+          {
+            "value": "+3,000",
+            "label": "Returns filed"
+          },
+          {
+            "value": "+14",
+            "label": "Years of experience"
+          }
+        ],
+        "ctaBand": {
+          "title": "Focus on your business, we'll handle the numbers",
+          "text": "Contact us for an assessment of your accounts and a package that fits.",
+          "button": "Contact us"
+        },
+        "contact": {
+          "title": "Get in touch",
+          "phone": "+966 50 000 0000",
+          "whatsapp": "+966 50 000 0000",
+          "email": "hello@example.com",
+          "address": "Al Andalus, Jeddah",
+          "hours": "Sun - Thu: 8 AM - 5 PM"
+        }
+      }
+    }
+  },
+  "faq": {
+    "cafe": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل توفرون خدمة التوصيل؟",
+            "a": "نعم، يمكنك الطلب عبر تطبيقات التوصيل المعتمدة أو الطلب المسبق للاستلام من الفرع."
+          },
+          {
+            "q": "هل لديكم خيارات حليب نباتي؟",
+            "a": "نوفر حليب الشوفان واللوز وجوز الهند لجميع المشروبات."
+          },
+          {
+            "q": "هل تقدمون خدمة القهوة للمناسبات؟",
+            "a": "نعم، نوفر ركن قهوة متنقلاً مع باريستا للمناسبات والفعاليات الخاصة بالحجز المسبق."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you offer delivery?",
+            "a": "Yes, you can order through approved delivery apps or pre-order for pickup at the branch."
+          },
+          {
+            "q": "Do you have plant-based milk options?",
+            "a": "We offer oat, almond and coconut milk for all drinks."
+          },
+          {
+            "q": "Do you cater coffee for events?",
+            "a": "Yes, we provide a mobile coffee bar with a barista for private events on advance booking."
+          }
+        ]
+      }
+    },
+    "dental": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل تقبلون التأمين الطبي؟",
+            "a": "نعم، نتعامل مع عدد من شركات التأمين المعتمدة، ويمكنك التواصل معنا للتأكد من تغطيتك."
+          },
+          {
+            "q": "كم مرة يجب زيارة طبيب الأسنان؟",
+            "a": "ننصح بزيارة دورية كل ستة أشهر للفحص والتنظيف للحفاظ على صحة الفم."
+          },
+          {
+            "q": "هل علاج العصب مؤلم؟",
+            "a": "نستخدم التخدير الموضعي وتقنيات حديثة تجعل العلاج مريحاً إلى حد كبير."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you accept medical insurance?",
+            "a": "Yes, we work with several approved insurers. Contact us to confirm your coverage."
+          },
+          {
+            "q": "How often should I visit the dentist?",
+            "a": "We recommend a check-up and cleaning every six months to keep your mouth healthy."
+          },
+          {
+            "q": "Is root canal treatment painful?",
+            "a": "We use local anaesthesia and modern techniques that make treatment largely comfortable."
+          }
+        ]
+      }
+    },
+    "barber": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل يلزم الحجز المسبق؟",
+            "a": "نستقبل الزبائن دون موعد، لكن الحجز المسبق يضمن لك الخدمة دون انتظار."
+          },
+          {
+            "q": "هل الأدوات معقمة؟",
+            "a": "نعم، نعقم جميع الأدوات بعد كل عميل ونستخدم شفرات جديدة في كل مرة."
+          },
+          {
+            "q": "هل تقدمون خدمة الحلاقة المنزلية؟",
+            "a": "نعم، تتوفر خدمة الحلاقة في المنزل والمناسبات بالحجز المسبق."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do I need to book in advance?",
+            "a": "Walk-ins are welcome, but booking ahead guarantees service without waiting."
+          },
+          {
+            "q": "Are your tools sterilised?",
+            "a": "Yes, all tools are sterilised after every client and we use a new blade each time."
+          },
+          {
+            "q": "Do you offer home visits?",
+            "a": "Yes, home and event grooming is available on advance booking."
+          }
+        ]
+      }
+    },
+    "perfume": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل يمكنني تجربة العطر قبل الشراء؟",
+            "a": "نعم، يسعدنا استقبالك في المعرض لتجربة العطور، كما نوفر عينات صغيرة لبعض المنتجات."
+          },
+          {
+            "q": "هل توصلون إلى جميع مدن المملكة؟",
+            "a": "نعم، نشحن الطلبات إلى جميع مدن المملكة خلال أيام عمل قليلة."
+          },
+          {
+            "q": "كيف أحافظ على ثبات العطر؟",
+            "a": "ضع العطر على نقاط النبض واحفظ الزجاجة بعيداً عن الحرارة وأشعة الشمس."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Can I try a fragrance before buying?",
+            "a": "Yes, you are welcome to try our scents in store, and we offer small samples for selected products."
+          },
+          {
+            "q": "Do you deliver across Saudi Arabia?",
+            "a": "Yes, we ship to all cities in the Kingdom within a few business days."
+          },
+          {
+            "q": "How can I make my perfume last longer?",
+            "a": "Apply it to pulse points and store the bottle away from heat and direct sunlight."
+          }
+        ]
+      }
+    },
+    "tech": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "أين تُستضاف بيانات العملاء؟",
+            "a": "نستضيف البيانات في مراكز بيانات داخل المملكة بما يتوافق مع أنظمة حماية البيانات المحلية."
+          },
+          {
+            "q": "هل يمكن تخصيص الحلول حسب احتياجاتنا؟",
+            "a": "نعم، نخصص منتجاتنا ونطور مزايا إضافية بما يناسب طبيعة عملك."
+          },
+          {
+            "q": "هل تقدمون الدعم الفني بعد الإطلاق؟",
+            "a": "نعم، نوفر دعماً فنياً مستمراً وتحديثات دورية ضمن باقات الدعم."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Where is customer data hosted?",
+            "a": "Data is hosted in data centres inside the Kingdom in line with local data protection regulations."
+          },
+          {
+            "q": "Can solutions be customised to our needs?",
+            "a": "Yes, we tailor our products and build additional features to fit how your business works."
+          },
+          {
+            "q": "Do you provide support after launch?",
+            "a": "Yes, we offer ongoing technical support and regular updates through our support plans."
+          }
+        ]
+      }
+    },
+    "hotel": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "ما مواعيد تسجيل الدخول والخروج؟",
+            "a": "يبدأ تسجيل الدخول من الساعة 3 عصراً، وتسجيل الخروج حتى الساعة 12 ظهراً."
+          },
+          {
+            "q": "هل يوجد موقف سيارات؟",
+            "a": "نعم، نوفر موقفاً مجانياً وآمناً لجميع الضيوف."
+          },
+          {
+            "q": "هل يمكن إلغاء الحجز؟",
+            "a": "تختلف سياسة الإلغاء حسب نوع الحجز والموسم، وتظهر تفاصيلها بوضوح عند الحجز."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "What are the check-in and check-out times?",
+            "a": "Check-in starts at 3 PM and check-out is until 12 PM."
+          },
+          {
+            "q": "Is parking available?",
+            "a": "Yes, free and secure parking is available for all guests."
+          },
+          {
+            "q": "Can I cancel my booking?",
+            "a": "Cancellation terms depend on the rate and season and are shown clearly when you book."
+          }
+        ]
+      }
+    },
+    "cars": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل تستخدمون قطع غيار أصلية؟",
+            "a": "نعم، نستخدم قطع غيار أصلية أو معتمدة، ونوضح لك الخيارات المتاحة قبل التركيب."
+          },
+          {
+            "q": "هل يوجد ضمان على الإصلاحات؟",
+            "a": "نعم، نقدم ضماناً على أعمال الإصلاح وقطع الغيار وفق نوع الخدمة."
+          },
+          {
+            "q": "كم تستغرق الصيانة الدورية؟",
+            "a": "تستغرق الصيانة الدورية عادة ساعة إلى ساعتين حسب نوع السيارة."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you use genuine parts?",
+            "a": "Yes, we use genuine or approved parts and explain the available options before fitting."
+          },
+          {
+            "q": "Is there a warranty on repairs?",
+            "a": "Yes, we provide a warranty on repair work and parts depending on the service."
+          },
+          {
+            "q": "How long does a routine service take?",
+            "a": "A routine service usually takes one to two hours depending on the vehicle."
+          }
+        ]
+      }
+    },
+    "photography": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل يتوفر فريق تصوير نسائي؟",
+            "a": "نعم، لدينا مصورات محترفات لتغطية مناسبات النساء والأعراس."
+          },
+          {
+            "q": "متى أستلم الصور النهائية؟",
+            "a": "تُسلّم الصور المعدلة عادة خلال أسبوعين إلى أربعة أسابيع حسب حجم المناسبة."
+          },
+          {
+            "q": "هل تصورون خارج المدينة؟",
+            "a": "نعم، نغطي المناسبات في مختلف مدن المملكة بالتنسيق المسبق."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you have a female photography team?",
+            "a": "Yes, our professional female photographers cover women's events and weddings."
+          },
+          {
+            "q": "When will I receive the final photos?",
+            "a": "Edited photos are usually delivered within two to four weeks depending on the event size."
+          },
+          {
+            "q": "Do you shoot outside the city?",
+            "a": "Yes, we cover events in cities across the Kingdom with advance coordination."
+          }
+        ]
+      }
+    },
+    "bakery": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "كم يوماً أحتاج لطلب كيك مخصص؟",
+            "a": "يُفضل الطلب قبل يومين إلى ثلاثة أيام على الأقل، وأكثر للطلبات الكبيرة."
+          },
+          {
+            "q": "هل لديكم خيارات خالية من السكر أو الجلوتين؟",
+            "a": "نعم، نوفر أصنافاً مختارة خالية من السكر أو الجلوتين، ويمكنك السؤال عن المتوفر يومياً."
+          },
+          {
+            "q": "هل توصلون الطلبات؟",
+            "a": "نعم، نوصل داخل المدينة، كما يمكنك الطلب عبر تطبيقات التوصيل."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How far ahead should I order a custom cake?",
+            "a": "We recommend ordering at least two to three days ahead, and more for large orders."
+          },
+          {
+            "q": "Do you have sugar-free or gluten-free options?",
+            "a": "Yes, we offer selected sugar-free and gluten-free items. Ask us what is available today."
+          },
+          {
+            "q": "Do you deliver?",
+            "a": "Yes, we deliver within the city, and you can also order through delivery apps."
+          }
+        ]
+      }
+    },
+    "cleaning": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل تحضرون المعدات ومواد التنظيف؟",
+            "a": "نعم، يصل فريقنا بجميع المعدات والمواد اللازمة دون أي تكلفة إضافية عليك."
+          },
+          {
+            "q": "هل المواد المستخدمة آمنة للأطفال؟",
+            "a": "نستخدم مواد تنظيف معتمدة وآمنة على الأطفال والحيوانات الأليفة."
+          },
+          {
+            "q": "هل تتوفر عقود تنظيف دورية؟",
+            "a": "نعم، نوفر عقوداً أسبوعية وشهرية للمنازل والشركات بجداول مرنة."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you bring equipment and supplies?",
+            "a": "Yes, our team arrives with all the equipment and products needed at no extra cost to you."
+          },
+          {
+            "q": "Are your products safe for children?",
+            "a": "We use approved cleaning products that are safe for children and pets."
+          },
+          {
+            "q": "Do you offer recurring contracts?",
+            "a": "Yes, we offer weekly and monthly contracts for homes and businesses on flexible schedules."
+          }
+        ]
+      }
+    },
+    "charity": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل الجمعية مرخصة رسمياً؟",
+            "a": "نعم، الجمعية مسجلة ومرخصة لدى الجهات الرسمية المختصة في المملكة."
+          },
+          {
+            "q": "كيف أتأكد من وصول تبرعي؟",
+            "a": "نرسل لك إيصالاً بعد كل تبرع، وننشر تقارير دورية توضح أوجه الصرف."
+          },
+          {
+            "q": "كيف أنضم إلى المتطوعين؟",
+            "a": "يمكنك التسجيل عبر نموذج التطوع في الموقع وسنتواصل معك عند توفر الفرص."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Is the association officially licensed?",
+            "a": "Yes, the association is registered and licensed by the relevant authorities in the Kingdom."
+          },
+          {
+            "q": "How do I know my donation arrived?",
+            "a": "We send a receipt after every donation and publish regular reports on how funds are spent."
+          },
+          {
+            "q": "How can I volunteer?",
+            "a": "Register through the volunteer form on our website and we will contact you when opportunities open."
+          }
+        ]
+      }
+    },
+    "florist": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل يتوفر التوصيل في نفس اليوم؟",
+            "a": "نعم، الطلبات التي تصلنا قبل الساعة 6 مساءً توصل في اليوم نفسه داخل المدينة."
+          },
+          {
+            "q": "كم يدوم الورد الطبيعي؟",
+            "a": "يدوم الورد عادة من خمسة إلى سبعة أيام مع تغيير الماء يومياً وإبعاده عن الشمس."
+          },
+          {
+            "q": "هل يمكن إضافة بطاقة إهداء؟",
+            "a": "بالتأكيد، يمكنك كتابة رسالتك عند الطلب وسنطبعها على بطاقة أنيقة."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you offer same-day delivery?",
+            "a": "Yes, orders received before 6 PM are delivered the same day within the city."
+          },
+          {
+            "q": "How long do fresh flowers last?",
+            "a": "Flowers usually last five to seven days if you change the water daily and keep them out of the sun."
+          },
+          {
+            "q": "Can I add a gift card?",
+            "a": "Of course, write your message when ordering and we'll print it on an elegant card."
+          }
+        ]
+      }
+    },
+    "venue": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل يمكنني زيارة القاعة قبل الحجز؟",
+            "a": "نعم، يسعدنا ترتيب زيارة للقاعة في الوقت الذي يناسبك."
+          },
+          {
+            "q": "هل يمكن الاستعانة بمنظم أو مصور خارجي؟",
+            "a": "نعم، يمكنك ذلك بالتنسيق المسبق مع إدارة القاعة."
+          },
+          {
+            "q": "متى يجب أن أحجز؟",
+            "a": "ننصح بالحجز قبل عدة أشهر خاصة في مواسم الإجازات والأعياد."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Can I visit the venue before booking?",
+            "a": "Yes, we're happy to arrange a visit at a time that suits you."
+          },
+          {
+            "q": "Can I bring an outside planner or photographer?",
+            "a": "Yes, with prior coordination with the venue management."
+          },
+          {
+            "q": "How early should I book?",
+            "a": "We recommend booking several months ahead, especially during holiday and Eid seasons."
+          }
+        ]
+      }
+    },
+    "agency": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "كيف تقيسون نجاح الحملات؟",
+            "a": "نحدد مؤشرات أداء واضحة منذ البداية ونرسل تقارير دورية بالنتائج والتوصيات."
+          },
+          {
+            "q": "هل تعملون مع المشاريع الصغيرة؟",
+            "a": "نعم، نقدم باقات مرنة تناسب المشاريع الناشئة والشركات الكبيرة."
+          },
+          {
+            "q": "ما المدة اللازمة لظهور النتائج؟",
+            "a": "تظهر نتائج الإعلانات خلال أسابيع، بينما يحتاج بناء العلامة والمحتوى إلى عدة أشهر."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How do you measure campaign success?",
+            "a": "We set clear KPIs from the start and send regular reports with results and recommendations."
+          },
+          {
+            "q": "Do you work with small businesses?",
+            "a": "Yes, we offer flexible packages for startups and large companies alike."
+          },
+          {
+            "q": "How long until we see results?",
+            "a": "Ad results show within weeks, while brand building and content take several months."
+          }
+        ]
+      }
+    },
+    "accounting": {
+      "ar": {
+        "title": "أسئلة شائعة",
+        "items": [
+          {
+            "q": "هل تتعاملون مع أنظمة الفوترة الإلكترونية؟",
+            "a": "نعم، نساعدك في الامتثال لمتطلبات الفوترة الإلكترونية وربط أنظمتك بها."
+          },
+          {
+            "q": "هل يمكن تقديم الخدمة عن بُعد؟",
+            "a": "نعم، نقدم معظم خدماتنا إلكترونياً عبر منصات محاسبية سحابية آمنة."
+          },
+          {
+            "q": "ماذا لو تأخرت في تقديم إقراراتي السابقة؟",
+            "a": "نراجع وضعك ونساعدك في تسوية الإقرارات المتأخرة بأسرع وقت ممكن."
+          }
+        ]
+      },
+      "en": {
+        "title": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Do you work with e-invoicing systems?",
+            "a": "Yes, we help you comply with e-invoicing requirements and integrate your systems."
+          },
+          {
+            "q": "Can you provide services remotely?",
+            "a": "Yes, most of our services are delivered online through secure cloud accounting platforms."
+          },
+          {
+            "q": "What if I am late on previous returns?",
+            "a": "We review your position and help you settle overdue returns as quickly as possible."
+          }
+        ]
+      }
+    }
+  }
+}

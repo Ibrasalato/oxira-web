@@ -409,5 +409,43 @@
     },
     "domainExtra": "أضف نطاقك الخاص (+ {price} ريال سنوياً)",
     "included": "مشمول"
+  },
+  "categories": {
+    "corporate": "شركات",
+    "restaurant": "مطاعم",
+    "cafe": "كافيهات",
+    "clinic": "عيادات",
+    "dental": "أسنان",
+    "beauty": "صالونات وتجميل",
+    "barber": "حلاقة",
+    "store": "متاجر",
+    "perfume": "عطور",
+    "realestate": "عقارات",
+    "construction": "مقاولات",
+    "law": "محاماة",
+    "accounting": "محاسبة",
+    "tech": "تقنية",
+    "agency": "تسويق",
+    "education": "تعليم",
+    "fitness": "لياقة",
+    "hotel": "فنادق",
+    "cars": "سيارات",
+    "photography": "تصوير",
+    "bakery": "حلويات ومخابز",
+    "florist": "ورود وهدايا",
+    "cleaning": "تنظيف",
+    "events": "فعاليات",
+    "venue": "قاعات أفراح",
+    "charity": "جمعيات خيرية",
+    "personal": "أفراد"
+  },
+  "gallery": {
+    "filterAll": "الكل",
+    "searchPh": "ابحث عن نشاطك: مطعم، عيادة، صالون…",
+    "showMore": "عرض المزيد من التصاميم",
+    "noResults": "لا توجد نتائج. جرّب كلمة أخرى أو اختر \"الكل\".",
+    "designN": "تصميم {n}",
+    "count": "{n} تصميماً",
+    "categoriesLabel": "تصفية حسب النشاط"
   }
 }
