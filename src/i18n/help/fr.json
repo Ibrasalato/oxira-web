@@ -217,6 +217,16 @@
           "a": [
             "Oui. Contactez-nous et nous vous aiderons à le connecter à votre site."
           ]
+        },
+        {
+          "id": "search-console",
+          "q": "Comment connecter mon propre domaine à Google Search Console pour l'option Référencement Google ?",
+          "a": [
+            "Les sites en <nom>.oxira.sa n'ont rien à faire : Oxira voit déjà leurs données Google.",
+            "Si le DNS de votre domaine est géré par Oxira (domaine acheté chez nous ou transféré chez nous), nous le validons automatiquement dans Google Search Console dans la journée suivant votre abonnement.",
+            "Si vous utilisez déjà Google Search Console pour votre domaine : ouvrez Search Console → Paramètres → Utilisateurs et autorisations → Ajouter un utilisateur, saisissez l'adresse e-mail que nous vous avons envoyée, choisissez « Limitée » (lecture seule), puis cliquez sur Ajouter.",
+            "Si votre domaine est géré ailleurs et que vous n'utilisez pas Search Console : ajoutez l'enregistrement TXT que nous vous envoyons par e-mail dans les paramètres DNS de votre domaine (nom : @ ou votre domaine, type : TXT, valeur : celle envoyée), ou répondez à notre e-mail et nous vous guiderons. Google confirme généralement en quelques heures."
+          ]
         }
       ]
     },

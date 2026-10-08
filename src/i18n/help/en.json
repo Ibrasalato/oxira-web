@@ -217,6 +217,16 @@
           "a": [
             "Yes. Contact us and we'll help you connect it to your site."
           ]
+        },
+        {
+          "id": "search-console",
+          "q": "How do I connect my own domain to Google Search Console for the Google SEO add-on?",
+          "a": [
+            "Sites on <name>.oxira.sa need nothing: Oxira already sees their Google data.",
+            "If your domain's DNS is managed by Oxira (you bought the domain through us or moved it to us), we verify it in Google Search Console automatically within a day of subscribing.",
+            "If you already use Google Search Console for your domain: open Search Console → Settings → Users and permissions → Add user, enter the email we sent you, choose \"Restricted\" (read-only), then click Add.",
+            "If your domain is managed elsewhere and you don't use Search Console: add the TXT record we email you in your domain's DNS settings (name: @ or your domain, type: TXT, value: as sent), or reply to our email and we'll guide you. Google usually confirms within a few hours."
+          ]
         }
       ]
     },

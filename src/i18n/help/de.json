@@ -217,6 +217,16 @@
           "a": [
             "Ja. Kontaktieren Sie uns, und wir helfen Ihnen, sie mit Ihrer Website zu verbinden."
           ]
+        },
+        {
+          "id": "search-console",
+          "q": "Wie verbinde ich meine eigene Domain mit der Google Search Console für das Google-SEO-Add-on?",
+          "a": [
+            "Websites unter <name>.oxira.sa brauchen nichts zu tun: Oxira sieht deren Google-Daten bereits.",
+            "Wird das DNS Ihrer Domain von Oxira verwaltet (Domain über uns gekauft oder zu uns umgezogen), verifizieren wir sie innerhalb eines Tages nach Abschluss des Abos automatisch in der Google Search Console.",
+            "Nutzen Sie die Google Search Console bereits für Ihre Domain: Öffnen Sie Search Console → Einstellungen → Nutzer und Berechtigungen → Nutzer hinzufügen, geben Sie die E-Mail-Adresse aus unserer Nachricht ein, wählen Sie „Eingeschränkt“ (nur Lesezugriff) und klicken Sie auf „Hinzufügen“.",
+            "Wird Ihre Domain woanders verwaltet und nutzen Sie die Search Console nicht: Fügen Sie den TXT-Eintrag aus unserer E-Mail in den DNS-Einstellungen Ihrer Domain hinzu (Name: @ bzw. Ihre Domain, Typ: TXT, Wert: wie zugesendet), oder antworten Sie auf unsere E-Mail und wir helfen Ihnen. Google bestätigt in der Regel innerhalb weniger Stunden."
+          ]
         }
       ]
     },
