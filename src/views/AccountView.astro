@@ -16,6 +16,10 @@ const config = {
   loginEndpoint: `${n8n}/oxira-portal-login`,
   apiEndpoint: `${n8n}/oxira-portal`,
   seoEndpoint: `${n8n}/oxira-seo`,
+  extEndpoint: `${n8n}/oxira-site-ext`,
+  gscEmail: 'ibrasalato@gmail.com',
+  builderUrl: link(lang, '/website-builder/'),
+  helpUrl: `${link(lang, '/help/')}#domains-search-console`,
   numberLocale: lang === 'ar' ? 'ar-SA-u-nu-latn' : lang,
   text: a,
   addons: b.addons,
@@ -62,7 +66,7 @@ const config = {
   import qrcode from 'qrcode-generator';
 
   type Sub = { id: number; order_id: number; product: string; price: number; period: string; status: string; next_due: string; invoice_url: string };
-  type Site = { order_id: number; name: string; url: string; status: string; plan: string; domain: string; spec: any; settings: any };
+  type Site = { order_id: number; name: string; url: string; status: string; plan: string; domain: string; spec: any; settings: any; external?: boolean; verified?: boolean };
   type Booking = { id: number; order_id: number; name: string; phone: string; email: string; service: string; date: string; time: string; note: string; status: string };
   type Ticket = { id: number; order_id: number; code: string; type: string; qty: number; amount: number; name: string; phone: string; email: string; status: string; checked_in: string };
   type View = { success: boolean; reason?: string; email: string; sites: Site[]; subs: Sub[]; bookings: Booking[]; tickets: Ticket[]; content: { order_id: number; month: string; posts: any[] }[]; payUrl?: string };
@@ -134,11 +138,10 @@ const config = {
       const v = await api('load');
       if (!v?.success) throw new Error('load');
       view = v as View;
-      if (!view.sites.length) { signOut(); return; }
-      if (!view.sites.some((s) => s.order_id === siteId)) siteId = view.sites[0].order_id;
+      if (view.sites.length && !view.sites.some((s) => s.order_id === siteId)) siteId = view.sites[0].order_id;
       $<HTMLElement>('#ac-email').textContent = view.email;
       const sel = $<HTMLSelectElement>('#ac-site');
-      sel.replaceChildren(...view.sites.map((s) => new Option(`${s.name || '#' + s.order_id}`, String(s.order_id), false, s.order_id === siteId)));
+      sel.replaceChildren(...view.sites.map((s) => new Option(`${s.name || '#' + s.order_id}${s.external ? ' · ' + T.extBadge : ''}`, String(s.order_id), false, s.order_id === siteId)));
       sel.hidden = view.sites.length < 2;
       show('app');
       draw();
@@ -157,6 +160,7 @@ const config = {
   // ---- Tabs ----
   const tabs = () => {
     const list = ['overview', 'addons'];
+    if (site()?.external) { if (has('seo') || has('seogrowth')) list.push('seo'); return list; }
     if (has('booking')) list.push('bookings');
     list.push('menu');
     if (has('reviews')) list.push('reviews');
@@ -167,6 +171,12 @@ const config = {
     return list;
   };
   function draw() {
+    const panel0 = $<HTMLElement>('#ac-panel');
+    if (!view?.sites.length) {
+      $<HTMLElement>('#ac-tabs').innerHTML = '';
+      panel0.innerHTML = emptyState();
+      return;
+    }
     const list = tabs();
     if (!list.includes(tab)) tab = 'overview';
     $<HTMLElement>('#ac-tabs').innerHTML = list.map((t) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${t === tab}">${esc(T.tabs[t] || (t === 'seo' ? T.seoTitle : t))}</button>`).join('');
@@ -206,8 +216,49 @@ const config = {
     if (v?.success) { view = v; draw(); }
   }
 
-  // ---- Overview ----
-  function overview(s: Site) {
+  // ---- No website yet / websites hosted elsewhere ----
+  const addSiteForm = () => `<form id="ac-ext-add" class="ac-ext-form">
+      <label class="ac-field">${esc(T.extDomain)}<input name="domain" required maxlength="200" dir="ltr" placeholder="${esc(T.extDomainPh)}" inputmode="url"></label>
+      <label class="ac-field">${esc(T.extName)}<input name="name" maxlength="120" dir="auto"></label>
+      <button type="submit" class="btn btn-navy">${esc(T.extAdd)}</button></form>`;
+  function emptyState() {
+    return `<div class="ac-intro"><h2>${esc(T.emptyTitle)}</h2><p class="ac-muted">${esc(T.emptyBody)}</p></div>
+      <div class="ac-empty">
+        ${card(`<h2>${esc(T.newSiteTitle)}</h2><p class="ac-muted">${esc(T.newSiteBody)}</p><p><a class="btn btn-amber" href="${esc(cfg.builderUrl)}">${esc(T.newSiteCta)}</a></p>`)}
+        ${card(`<h2>${esc(T.extTitle)}</h2><p class="ac-muted">${esc(T.extBody)}</p>${addSiteForm()}`)}
+      </div>`;
+  }
+  const extCheck: Record<number, { email?: string; txt?: string; tried?: boolean }> = {};
+  async function checkExternal(s: Site, btn?: HTMLButtonElement) {
+    const run = async () => {
+      const res = await fetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'check', order_id: String(s.order_id) }) });
+      const r = await res.json().catch(() => ({}));
+      if (r?.reason === 'expired') { signOut(T.expired); return; }
+      extCheck[s.order_id] = { email: r?.email, txt: r?.txt, tried: true };
+      if (r?.verified) { flash(T.extVerified); await reload(); return; }
+      if (btn) flash(T.extNotYet);
+      draw();
+    };
+    if (btn) await busy(btn, run); else await run();
+  }
+  function externalOverview(s: Site) {
+    const c = extCheck[s.order_id] || {};
+    const verify = s.verified ? card(`<p class="ac-ok">${esc(T.extVerified)}</p>`) : card(`<h2>${esc(T.extVerifyTitle)}</h2><p class="ac-muted">${esc(T.extVerifyBody)}</p>
+      <div class="ac-ext-opts">
+        <div><h3 class="ac-h3">${esc(T.extOpt1Title)}</h3><p>${esc(T.extOpt1)}</p><p class="ac-mono" dir="ltr">${esc(c.email || cfg.gscEmail)}</p></div>
+        <div><h3 class="ac-h3">${esc(T.extOpt2Title)}</h3><p>${esc(T.extOpt2)}</p><p class="ac-mono" dir="ltr">${c.txt ? esc(c.txt) : '…'}</p></div>
+      </div>
+      <p class="ac-row"><button type="button" class="btn btn-amber" data-ext-check>${esc(T.extCheck)}</button><a class="ac-link" href="${esc(cfg.helpUrl)}">${esc(T.extHelp)} →</a></p>`);
+    if (!s.verified && !c.tried) setTimeout(() => checkExternal(s), 0);
+    return card(`<div class="ac-site"><div><p class="ac-kicker">${esc(T.extBadge)}</p><h2>${esc(s.name || s.domain)}</h2>
+        <p><a href="${esc(s.url)}" target="_blank" rel="noopener" dir="ltr" class="ac-url">${esc(s.domain)}</a></p></div>
+        <a class="btn btn-navy" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(T.visit)}</a></div>`)
+      + verify + billingCard(s)
+      + card(`<p class="ac-muted">${esc(T.extUpsell)}</p><p><a class="ac-link" href="${esc(cfg.builderUrl)}">${esc(T.newSiteCta)} →</a></p>`, 'ac-soft')
+      + card(`<h2>${esc(T.extAddMore)}</h2>${addSiteForm()}`);
+  }
+
+  function billingCard(s: Site) {
     const subs = subsOf(s.order_id);
     const rows = subs.length ? subs.map((x) => `<tr>
       <td>${esc(productName(x.product))}</td>
@@ -216,19 +267,27 @@ const config = {
       <td>${x.price ? money(x.price) + (x.period === 'month' ? ' ' + esc(cfg.addons.perMonth) : '') : esc(cfg.addons.free)}</td>
       <td class="ac-actions">${x.invoice_url ? `<a class="btn btn-amber ac-small-btn" href="${esc(x.invoice_url)}">${esc(T.pay)}</a>` : ''}${x.status === 'active' && !['hosting', 'domain'].includes(x.product) ? `<button type="button" class="ac-link is-danger" data-cancel="${x.id}">${esc(T.cancel)}</button>` : ''}${x.status === 'cancelling' ? `<button type="button" class="ac-link" data-keep="${x.order_id}:${esc(x.product)}">${esc(T.keep)}</button>` : ''}</td>
     </tr>`).join('') : '';
+    return rows ? card(`<h2>${esc(T.billing)}</h2><div class="ac-table-wrap"><table class="ac-table"><thead><tr><th>${esc(T.product)}</th><th></th><th>${esc(T.nextDue)}</th><th>${esc(T.price)}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div><p class="ac-muted ac-small">${esc(T.vat)}</p>`) : '';
+  }
+
+  // ---- Overview ----
+  function overview(s: Site) {
+    if (s.external) return externalOverview(s);
     return card(`<div class="ac-site">
         <div><p class="ac-kicker">${esc(T.site)}</p><h2>${esc(s.name || '#' + s.order_id)}</h2>
         <p><span class="ac-chip st-${isLive(s) ? 'active' : 'pending'}">${esc(T.status[s.status] || s.status)}</span>${s.url ? ` <a href="${esc(s.url)}" target="_blank" rel="noopener" dir="ltr" class="ac-url">${esc(s.url.replace(/^https:\/\//, '').replace(/\/$/, ''))}</a>` : ''}</p></div>
         ${s.url ? `<a class="btn btn-navy" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(T.visit)}</a>` : ''}
       </div>`)
-      + (rows ? card(`<h2>${esc(T.billing)}</h2><div class="ac-table-wrap"><table class="ac-table"><thead><tr><th>${esc(T.product)}</th><th></th><th>${esc(T.nextDue)}</th><th>${esc(T.price)}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div><p class="ac-muted ac-small">${esc(T.vat)}</p>`) : '')
+      + billingCard(s)
+      + card(`<h2>${esc(T.extAddMore)}</h2><p class="ac-muted">${esc(T.extBody)}</p>${addSiteForm()}`)
       + card(`<h2>${esc(T.partner)}</h2><p class="ac-muted">${esc(T.partnerBody)}</p><p><a class="ac-link" href="${esc(cfg.partnersUrl)}">${esc(T.partner)} →</a></p>`, 'ac-soft');
   }
 
   // ---- Add-ons ----
   function addons(s: Site) {
-    const live = isLive(s);
-    return `<div class="ac-intro"><h2>${esc(cfg.addons.title)}</h2><p class="ac-muted">${esc(cfg.addons.body)}</p>${live ? '' : `<p class="ac-note">${esc(T.notLive)}</p>`}</div>
+    const ext = !!s.external;
+    const live = isLive(s) || (ext && !!s.verified);
+    return `<div class="ac-intro"><h2>${esc(cfg.addons.title)}</h2><p class="ac-muted">${esc(cfg.addons.body)}</p>${live ? '' : `<p class="ac-note">${esc(ext ? T.extNeedVerify : T.notLive)}</p>`}</div>
       <div class="ac-addons">${cfg.addonIds.map((id: string) => {
         const p = cfg.prices[id];
         const sub = subsOf(s.order_id).find((x) => x.product === id);
@@ -238,7 +297,7 @@ const config = {
           <h3>${esc(cfg.addons.items[id].name)}</h3>
           <p class="ac-muted">${esc(cfg.addons.items[id].desc)}</p>
           <p class="ac-price">${p.price ? `<b>${money(p.price)}</b> ${esc(cfg.addons.perMonth)}` : `<b>${esc(cfg.addons.free)}</b>`}${p.feePercent ? ` <small>${esc(cfg.addons.fee)}</small>` : ''}</p>
-          ${on ? `<span class="ac-chip st-active">${esc(T.active)}</span>` : sub?.invoice_url && sub.status === 'pending' ? `<a class="btn btn-amber" href="${esc(sub.invoice_url)}">${esc(T.pay)}</a>` : `<button type="button" class="btn btn-navy" data-subscribe="${id}" ${live ? '' : 'disabled'}>${esc(T.subscribe)}</button>`}
+          ${ext && !['seo', 'seogrowth'].includes(id) ? `<p class="ac-note">${esc(T.extOnlySeo)}</p>` : on ? `<span class="ac-chip st-active">${esc(T.active)}</span>` : sub?.invoice_url && sub.status === 'pending' ? `<a class="btn btn-amber" href="${esc(sub.invoice_url)}">${esc(T.pay)}</a>` : `<button type="button" class="btn btn-navy" data-subscribe="${id}" ${live ? '' : 'disabled'}>${esc(T.subscribe)}</button>`}
         </article>`;
       }).join('')}</div><p class="ac-muted ac-small">${esc(T.vat)}</p>`;
   }
@@ -417,10 +476,10 @@ const config = {
       <p class="ac-chip">${esc(T.seoKinds[x.kind] || x.kind)}</p>
       <label class="ac-field">${esc(T.seoSuggested)}<input name="title" value="${esc(x.title)}" maxlength="90" dir="auto"></label>
       <label class="ac-field"><textarea name="description" rows="2" maxlength="180" dir="auto">${esc(x.description)}</textarea></label>
-      ${x.kind !== 'meta' ? `<details><summary>${esc(T.seoEdit)}</summary><textarea name="body" rows="14" dir="auto" class="ac-seo-body">${esc(x.body)}</textarea></details>` : ''}
-      <div class="ac-row"><button type="button" class="btn btn-amber ac-small-btn" data-seo-pub="${x.id}">${esc(T.seoApprove)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-seo-rej="${x.id}">${esc(T.seoReject)}</button></div>
+      ${x.kind !== 'meta' ? `<details${v.external ? ' open' : ''}><summary>${esc(T.seoEdit)}</summary><textarea name="body" rows="14" dir="auto" class="ac-seo-body">${esc(x.body)}</textarea></details>` : ''}
+      <div class="ac-row">${v.external ? `<button type="button" class="btn btn-ghost ac-small-btn" data-seo-copy="${x.id}">${esc(T.seoCopy)}</button>` : ''}<button type="button" class="btn btn-amber ac-small-btn" data-seo-pub="${x.id}">${esc(v.external ? T.seoMarkDone : T.seoApprove)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-seo-rej="${x.id}">${esc(T.seoReject)}</button></div>
     </article>`;
-    const list = card(`<h2>${esc(T.seoPending)}</h2><p class="ac-muted">${esc(T.seoBody)}</p>${pending.length ? pending.map(item).join('') : `<p class="ac-muted">${esc(T.seoNone)}</p>`}`);
+    const list = card(`<h2>${esc(T.seoPending)}</h2><p class="ac-muted">${esc(v.external ? T.seoExtNote : T.seoBody)}</p>${pending.length ? pending.map(item).join('') : `<p class="ac-muted">${esc(T.seoNone)}</p>`}`);
     const history = done.length ? card(`<ul class="ac-seo-done">${done.map((x: any) => `<li><span class="ac-chip ${x.status === 'published' ? 'st-active' : ''}">${esc(x.status === 'published' ? T.seoPublished : T.seoRejected)}</span> <span dir="auto">${esc(x.title)}</span> ${x.url ? `<a class="ac-link" href="${esc(x.url)}" target="_blank" rel="noopener">↗</a>` : ''}</li>`).join('')}</ul>`) : '';
     return report + health + list + history;
   }
@@ -437,7 +496,7 @@ const config = {
       await busy(btn, async () => {
         const r = await api('subscribe', { order_id: s.order_id, product: btn.dataset.subscribe });
         if (r?.payUrl) { location.href = r.payUrl; return; }
-        if (r?.success) { flash(T.saved); await reload(); } else flash(r?.reason === 'gateway' ? T.failed : T.failed);
+        if (r?.success) { flash(T.saved); await reload(); } else flash(r?.reason === 'not_verified' ? T.extNeedVerify : r?.reason === 'not_for_external' ? T.extOnlySeo : T.failed);
       });
     } else if (btn.dataset.cancel) {
       if (confirm(T.cancelConfirm)) await save('cancel', { sub_id: Number(btn.dataset.cancel) }, btn);
@@ -477,6 +536,12 @@ const config = {
       btn.closest('[data-type-row]')?.remove();
     } else if ('scan' in btn.dataset) {
       scan();
+    } else if ('extCheck' in btn.dataset) {
+      await checkExternal(s, btn);
+    } else if (btn.dataset.seoCopy) {
+      const el = root.querySelector<HTMLElement>(`[data-seo-item="${btn.dataset.seoCopy}"]`)!;
+      const v = (n: string) => (el.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${n}"]`)?.value ?? '');
+      try { await navigator.clipboard.writeText([v('title'), v('description'), v('body')].filter(Boolean).join('\n\n')); btn.textContent = T.seoCopied; setTimeout(() => { btn.textContent = T.seoCopy; }, 1500); } catch { /* ignore */ }
     } else if (btn.dataset.seoPub || btn.dataset.seoRej) {
       const id = btn.dataset.seoPub || btn.dataset.seoRej!;
       const el = root.querySelector<HTMLElement>(`[data-seo-item="${id}"]`)!;
@@ -505,6 +570,17 @@ const config = {
     const s = site()!;
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     const fd = new FormData(form);
+    if (form.id === 'ac-ext-add') {
+      await busy(btn, async () => {
+        const res = await fetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'add', domain: String(fd.get('domain') || ''), name: String(fd.get('name') || ''), lang: cfg.lang }) });
+        const r = await res.json().catch(() => ({}));
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        if (!r?.success) { flash(r?.reason === 'domain' ? T.extErrDomain : T.failed); return; }
+        siteId = Number(r.order_id) || siteId; store.set(SITE_KEY, String(siteId)); tab = 'overview';
+        flash(T.saved); await load();
+      });
+      return;
+    }
     if (form.id === 'ac-bset') {
       await save('settings', { order_id: s.order_id, settings: { bookingFrom: fd.get('bookingFrom'), bookingTo: fd.get('bookingTo'), slotMinutes: Number(fd.get('slotMinutes')), capacity: Number(fd.get('capacity')), closedDays: fd.getAll('closed').map(Number), bookingNote: fd.get('bookingNote') } }, btn);
     } else if (form.id === 'ac-rev') {
@@ -607,6 +683,14 @@ const config = {
   .ac-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .ac-seo-done { list-style: none; display: grid; gap: .5rem; padding: 0; margin: 0; }
   @media (max-width: 600px) { .ac-stats { grid-template-columns: minmax(0, 1fr); } }
+  .ac-empty { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .ac-ext-form { display: grid; gap: .75rem; margin-top: .8rem; max-width: 28rem; }
+  .ac-ext-form .btn { justify-self: start; }
+  .ac-ext-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .ac-ext-opts > div { padding: 1rem; border: 1px solid var(--line); border-radius: 12px; }
+  #ac-panel .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .ac-mono { font-family: ui-monospace, Menlo, monospace; font-size: .85rem; background: var(--paper); padding: .6rem .8rem; border-radius: 8px; word-break: break-all; margin-top: .5rem; user-select: all; }
+  @media (max-width: 760px) { .ac-empty, .ac-ext-opts { grid-template-columns: minmax(0, 1fr); } }
   .ac-tabs { display: flex; gap: .3rem; overflow-x: auto; border-bottom: 1px solid var(--line); margin-bottom: 1.4rem; scrollbar-width: none; }
   .ac-tabs button { flex: none; border: 0; background: none; padding: .75rem 1rem; font: 600 .95rem var(--font); color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; }
   .ac-tabs button[aria-selected='true'] { color: var(--navy); border-bottom-color: var(--amber); }
