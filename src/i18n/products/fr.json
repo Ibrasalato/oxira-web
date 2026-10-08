@@ -582,6 +582,213 @@
         },
         "note": "Personne ne peut garantir la première place sur Google, et les résultats prennent généralement de 3 à 6 mois."
       }
+    },
+    "social": {
+      "title": "Gestion des réseaux sociaux pour entreprises en Arabie saoudite | Oxira",
+      "description": "Gestion de vos réseaux sociaux : publications aux couleurs de votre marque, calendrier des temps forts saoudiens, publication automatique sur Instagram et Facebook après votre validation et rapport mensuel. À partir de 699 SAR par mois.",
+      "name": "Gestion des réseaux sociaux",
+      "short": "Des publications aux couleurs de votre marque, diffusées à l’heure prévue sur Instagram et Facebook, après votre validation.",
+      "h1": "Gestion des réseaux sociaux pour votre entreprise",
+      "lead": "Gardez votre Instagram et votre Facebook actifs sans y passer des heures. Chaque mois, nous préparons des publications aux couleurs de votre marque, avec textes et hashtags, planifiées autour des temps forts saoudiens. Vous validez chaque publication dans Mon compte, et elle est publiée automatiquement à l’heure prévue.",
+      "features": [
+        {
+          "t": "Des publications prêtes chaque mois",
+          "d": "12 publications par mois avec Essentiel et 20 avec Pro, conçues par IA aux couleurs de votre marque, ou à partir de vos propres photos si vous les téléversez."
+        },
+        {
+          "t": "Textes et hashtags",
+          "d": "Chaque publication est accompagnée de son texte et de ses hashtags, rédigés pour votre activité et vos clients."
+        },
+        {
+          "t": "Calendrier des temps forts saoudiens",
+          "d": "Votre plan suit les moments qui comptent pour vos clients : Ramadan, Aïd al-Fitr, Aïd al-Adha, Jour de la fondation, Fête nationale, White Friday et rentrée scolaire."
+        },
+        {
+          "t": "Vous validez chaque publication",
+          "d": "Chaque publication attend votre validation dans Mon compte. Rien n’est publié sans votre accord."
+        },
+        {
+          "t": "Publication automatique",
+          "d": "Les publications validées partent à l’heure prévue sur votre compte Instagram et votre page Facebook."
+        },
+        {
+          "t": "Rapport mensuel",
+          "d": "Portée, mentions J’aime, commentaires et vos meilleures publications chaque mois, pour voir ce qui fonctionne."
+        },
+        {
+          "t": "Scripts de Reels (Pro)",
+          "d": "4 scripts de vidéos courtes par mois avec leurs couvertures. Vous filmez ; le script et la couverture sont prêts."
+        },
+        {
+          "t": "Réponses IA aux commentaires (Pro)",
+          "d": "En option, vous l’activez vous-même. Les réponses sur Instagram et Facebook s’appuient uniquement sur les informations de votre activité et invitent à vous écrire sur WhatsApp."
+        },
+        {
+          "t": "Publicités des concurrents (Pro)",
+          "d": "Un lien rapide vers les publicités que vos concurrents diffusent en ce moment dans la Bibliothèque publicitaire de Meta."
+        }
+      ],
+      "steps": [
+        {
+          "t": "Abonnez-vous depuis Mon compte",
+          "d": "Choisissez Essentiel ou Pro dans Mon compte sur votre site Oxira."
+        },
+        {
+          "t": "Connectez Facebook et Instagram",
+          "d": "Connectez-vous en un clic avec Meta, puis renseignez les informations de votre activité."
+        },
+        {
+          "t": "Validez le plan du mois",
+          "d": "Parcourez les publications du mois et validez, modifiez ou refusez chacune d’elles."
+        },
+        {
+          "t": "La publication se fait toute seule",
+          "d": "Les publications validées partent à l’heure prévue, et vous recevez un rapport chaque mois."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Publiez-vous quelque chose sans mon accord ?",
+          "a": "Non. Chaque publication attend dans Mon compte jusqu’à votre validation. Rien n’est publié sur vos comptes sans votre accord."
+        },
+        {
+          "q": "Quelles plateformes prenez-vous en charge ?",
+          "a": "Instagram et les pages Facebook pour le moment. D’autres plateformes arrivent bientôt."
+        },
+        {
+          "q": "Puis-je utiliser mes propres photos ?",
+          "a": "Oui. Téléversez des photos de vos produits, de votre établissement ou de votre équipe dans Mon compte, et nous construisons vos publications avec. Sinon, nous créons des visuels par IA aux couleurs de votre marque."
+        },
+        {
+          "q": "Puis-je résilier à tout moment ?",
+          "a": "Oui, depuis Mon compte. Le service reste actif jusqu’à la fin de la période déjà payée."
+        },
+        {
+          "q": "Garantissez-vous des abonnés ou des ventes ?",
+          "a": "Non, et personne ne peut honnêtement le promettre. Nous n’achetons jamais d’abonnés ni de faux engagement : cela enfreint les règles des plateformes et nuit à votre compte. Ce que nous proposons, c’est un contenu régulier et bien planifié, et un rapport mensuel avec de vrais chiffres."
+        },
+        {
+          "q": "Quelle différence avec l’option Contenu réseaux sociaux ?",
+          "a": "Contenu réseaux sociaux vous fournit 12 publications par mois à télécharger et à publier vous-même. La gestion des réseaux sociaux publie automatiquement vos publications validées sur Instagram et Facebook, suit un plan des temps forts saoudiens et inclut un rapport mensuel ; la formule Pro ajoute des scripts de Reels, des réponses IA aux commentaires et plus encore."
+        }
+      ],
+      "ctaTitle": "Des comptes actifs, sans contrainte",
+      "ctaBody": "Commencez avec Essentiel pour 699 SAR par mois, sans engagement.",
+      "plans": {
+        "title": "Formules",
+        "from": "À partir de",
+        "basic": {
+          "name": "Essentiel",
+          "items": [
+            "12 publications par mois aux couleurs de votre marque",
+            "Textes et hashtags",
+            "Calendrier des temps forts saoudiens",
+            "Votre validation avant chaque publication",
+            "Publication automatique sur Instagram et Facebook",
+            "Rapport mensuel"
+          ]
+        },
+        "growth": {
+          "name": "Pro",
+          "items": [
+            "Tout l’Essentiel",
+            "20 publications par mois",
+            "4 scripts de Reels avec couvertures",
+            "Réponses IA aux commentaires (en option)",
+            "Publicités actives des concurrents dans la Bibliothèque publicitaire de Meta",
+            "Support prioritaire"
+          ]
+        },
+        "note": "Nous n’achetons jamais d’abonnés ni de faux engagement, et personne ne peut garantir un nombre d’abonnés ou de ventes."
+      }
+    },
+    "ads": {
+      "title": "Gestion des publicités Instagram et Facebook en Arabie saoudite | Oxira",
+      "description": "Gestion de vos publicités sur Instagram et Facebook : un plan publicitaire mensuel que vous validez, un plafond de dépenses fixe, des résultats chaque semaine et un rapport mensuel. Vous payez le budget publicitaire directement à Meta. 999 SAR par mois.",
+      "name": "Gestion des publicités",
+      "short": "Un plan publicitaire mensuel pour Instagram et Facebook, lancé uniquement après votre validation, avec un budget que vous payez directement à Meta.",
+      "h1": "Gestion des publicités Instagram et Facebook",
+      "lead": "Touchez plus de clients dans votre ville grâce à des publicités planifiées plutôt qu’à des boosts au hasard. Chaque mois, nous préparons un plan publicitaire pour votre activité ; il n’est lancé qu’après votre validation, et vous suivez les résultats chaque semaine. Le budget publicitaire est payé depuis votre propre compte publicitaire directement à Meta ; Oxira ne détient jamais votre argent publicitaire.",
+      "features": [
+        {
+          "t": "Plan publicitaire mensuel",
+          "d": "Objectif, audience par ville, âge et centres d’intérêt, budget, durée et 2 à 3 textes d’annonce, prêts pour votre relecture."
+        },
+        {
+          "t": "Rien sans votre validation",
+          "d": "Les publicités ne démarrent qu’après la validation du plan dans Mon compte."
+        },
+        {
+          "t": "Booster vos publications ou attirer des visiteurs",
+          "d": "Mettez en avant vos publications les plus performantes, ou lancez des publicités de trafic vers votre site."
+        },
+        {
+          "t": "Votre budget payé directement à Meta",
+          "d": "Le budget publicitaire est payé depuis votre propre compte publicitaire directement à Meta. Oxira ne détient jamais votre argent publicitaire."
+        },
+        {
+          "t": "Un plafond de dépenses fixe",
+          "d": "Chaque campagne a un budget total fixe et une date de fin : les dépenses ne dépassent jamais ce que vous avez validé."
+        },
+        {
+          "t": "Résultats et recommandations hebdomadaires",
+          "d": "Chaque semaine, vous voyez les performances de vos publicités et ce que nous recommandons d’ajuster."
+        },
+        {
+          "t": "Rapport mensuel",
+          "d": "Dépenses, portée, clics et coût par résultat dans un rapport clair chaque mois."
+        },
+        {
+          "t": "Instagram et Facebook aujourd’hui",
+          "d": "Les publicités sont actuellement diffusées sur Meta (Instagram et Facebook). TikTok, Snapchat et Google Ads arrivent bientôt."
+        }
+      ],
+      "steps": [
+        {
+          "t": "Abonnez-vous depuis Mon compte",
+          "d": "Ajoutez Gestion des publicités dans Mon compte sur votre site Oxira."
+        },
+        {
+          "t": "Connectez Facebook et Instagram",
+          "d": "Connectez-vous en un clic avec Meta, puis renseignez les informations de votre activité."
+        },
+        {
+          "t": "Validez le plan du mois",
+          "d": "Vérifiez l’objectif, l’audience, le budget et les textes d’annonce, puis validez le plan."
+        },
+        {
+          "t": "Les publicités tournent toutes seules",
+          "d": "Votre campagne tourne jusqu’à épuisement du budget ou jusqu’à sa date de fin, et vous recevez les résultats chaque semaine."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Qui paie le budget publicitaire ?",
+          "a": "Vous, directement à Meta depuis votre propre compte publicitaire. Les 999 SAR mensuels couvrent uniquement la gestion de vos publicités ; Oxira ne détient ni ne paie jamais votre argent publicitaire."
+        },
+        {
+          "q": "Une publicité peut-elle être lancée sans mon accord ?",
+          "a": "Non. Chaque campagne n’est lancée qu’après la validation de son plan dans Mon compte, et chacune a un budget total fixe et une date de fin."
+        },
+        {
+          "q": "Quelles plateformes prenez-vous en charge ?",
+          "a": "Instagram et Facebook (Meta) pour le moment. TikTok, Snapchat et Google Ads arrivent bientôt."
+        },
+        {
+          "q": "Puis-je utiliser mes propres photos ?",
+          "a": "Oui. Téléversez-les dans Mon compte et nous les utilisons dans vos publicités."
+        },
+        {
+          "q": "Puis-je résilier à tout moment ?",
+          "a": "Oui, depuis Mon compte. Le service reste actif jusqu’à la fin de la période déjà payée."
+        },
+        {
+          "q": "Garantissez-vous des résultats ?",
+          "a": "Non, et personne ne peut honnêtement garantir des ventes ou un nombre de clients grâce à la publicité. Nous n’achetons jamais d’abonnés ni de faux engagement. Ce que nous proposons : un plan clair, un budget plafonné et des résultats chaque semaine, pour décider sur la base de vrais chiffres."
+        }
+      ],
+      "ctaTitle": "Touchez les clients de votre ville avec des publicités que vous maîtrisez",
+      "ctaBody": "999 SAR par mois pour gérer vos publicités, plus le budget publicitaire de votre choix, payé directement à Meta. Sans engagement."
     }
   }
 }

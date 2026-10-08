@@ -8,6 +8,14 @@ const { id, lang, name } = Astro.props;
 const ar = lang === 'ar';
 const days = ar ? ['أحد', 'إثن', 'ثلا', 'أرب', 'خمي'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
 const times = ['10:00', '11:30', '13:00', '16:00', '17:30', '19:00'];
+// Short labels for the social media and ads mocks.
+const mockText = {
+  ar: { scheduled: 'مجدول', sponsored: 'مُموَّل', results: 'النتائج' },
+  en: { scheduled: 'Scheduled', sponsored: 'Sponsored', results: 'Results' },
+  de: { scheduled: 'Geplant', sponsored: 'Gesponsert', results: 'Ergebnisse' },
+  fr: { scheduled: 'Planifié', sponsored: 'Sponsorisé', results: 'Résultats' },
+  ru: { scheduled: 'По плану', sponsored: 'Реклама', results: 'Результаты' },
+}[lang];
 // A fixed QR-like pattern (decorative).
 const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.floor(i / 9) * 5) % 4 === 0) || [0, 1, 2, 9, 11, 18, 19, 20, 6, 7, 8, 15, 17, 24, 25, 26, 54, 55, 56, 63, 65, 72, 73, 74].includes(i));
 ---
@@ -59,6 +67,29 @@ const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.flo
         <div class="pm-res"><b class="pm-line w70 blue"></b><div class="pm-line w80 thin"></div></div>
         <div class="pm-res"><b class="pm-line w60 blue"></b><div class="pm-line w70 thin"></div></div>
         <div class="pm-chart">{[22, 30, 28, 40, 46, 52, 64].map((h) => <i style={`height:${h}px`}></i>)}</div>
+      </div>
+    )}
+    {(id === 'social' || id === 'socialpro') && (
+      <div class="pm-body">
+        <div class="pm-profile"><i></i><div><div class="pm-line w60"></div><div class="pm-line w40 thin"></div></div></div>
+        <div class="pm-grid">{[0, 1, 2, 3, 4, 5].map((i) => <span class={`c${(i + 1) % 3}`}><i></i></span>)}</div>
+        <div class="pm-cal">
+          {days.map((d, i) => <span class={i === 1 || i === 3 ? 'on' : ''}>{d}<b dir="ltr">{12 + i}</b>{(i === 1 || i === 3) && <em></em>}</span>)}
+        </div>
+        <div class="pm-sched"><span>✓</span><b>{mockText.scheduled}</b><small dir="ltr">19:00</small></div>
+      </div>
+    )}
+    {id === 'ads' && (
+      <div class="pm-body">
+        <div class="pm-ad">
+          <div class="pm-ad-head"><i></i><div><div class="pm-line w60"></div><small>{mockText.sponsored}</small></div></div>
+          <div class="pm-ad-img"><i></i></div>
+          <div class="pm-ad-cta"><div class="pm-line w50"></div><span></span></div>
+        </div>
+        <div class="pm-ad-res">
+          <small>{mockText.results}</small>
+          <div class="pm-chart sm">{[18, 26, 24, 34, 40, 46].map((h) => <i style={`height:${h}px`}></i>)}</div>
+        </div>
       </div>
     )}
     {id === 'tickets' && (
@@ -135,4 +166,28 @@ const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.flo
   .pm-chart i { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--amber), #F97316); }
   .pm-ticket { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem; border-radius: 14px; background: linear-gradient(135deg, var(--navy), var(--blue)); }
   .pm-ticket > div:first-child { flex: 1; }
+  .pm-profile { display: flex; align-items: center; gap: .55rem; }
+  .pm-profile > i { width: 34px; height: 34px; border-radius: 50%; flex: none; background: var(--amber); box-shadow: 0 0 0 2px #fff, 0 0 0 4px #F97316; }
+  .pm-profile > div { flex: 1; display: grid; gap: 4px; }
+  .pm-cal { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-top: .2rem; }
+  .pm-cal span { position: relative; display: grid; text-align: center; font-size: .6rem; padding: 4px 0 7px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); line-height: 1.3; }
+  .pm-cal b { font-size: .8rem; color: var(--ink); }
+  .pm-cal .on { border-color: var(--blue); background: var(--blue-soft); }
+  .pm-cal em { position: absolute; bottom: 3px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--blue); }
+  .pm-sched { display: flex; align-items: center; gap: .45rem; padding: .45rem .6rem; border-radius: 10px; background: #E9F7EF; font-size: .75rem; }
+  .pm-sched span { width: 18px; height: 18px; border-radius: 50%; background: #1E8E4E; color: #fff; display: grid; place-items: center; font-size: .65rem; flex: none; }
+  .pm-sched b { flex: 1; color: #1E6B3A; }
+  .pm-sched small { color: var(--muted); }
+  .pm-ad { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .pm-ad-head { display: flex; align-items: center; gap: .5rem; padding: .5rem; }
+  .pm-ad-head > i { width: 26px; height: 26px; border-radius: 50%; background: var(--amber); flex: none; }
+  .pm-ad-head > div { flex: 1; display: grid; gap: 3px; }
+  .pm-ad-head small { font-size: .6rem; color: var(--muted); }
+  .pm-ad-img { height: 96px; display: grid; place-items: center; background: linear-gradient(135deg, #007DB4, #22C7E6); }
+  .pm-ad-img i { width: 46%; height: 10px; border-radius: 5px; background: rgba(255,255,255,.75); }
+  .pm-ad-cta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .5rem; background: #F4F6F9; }
+  .pm-ad-cta span { width: 54px; height: 20px; border-radius: 6px; background: var(--navy); flex: none; }
+  .pm-ad-res { display: grid; gap: .3rem; }
+  .pm-ad-res small { font-size: .65rem; color: var(--muted); font-weight: 600; }
+  .pm-chart.sm { height: 52px; padding-top: .2rem; }
 </style>

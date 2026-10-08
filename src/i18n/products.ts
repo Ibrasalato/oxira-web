@@ -20,6 +20,8 @@ export const productSlugs: Record<ProductId, string> = {
   content: 'social-media-content',
   tickets: 'event-tickets',
   seo: 'google-seo',
+  social: 'social-media-management',
+  ads: 'ads-management',
 };
 export const productPath = (id: ProductId) => `/products/${productSlugs[id]}/`;
 
@@ -32,4 +34,6 @@ export const productFor: Record<ProductId, CategoryId[]> = {
   content: ['store', 'perfume', 'restaurant', 'cafe', 'beauty', 'fitness', 'florist', 'agency'],
   tickets: ['events', 'venue', 'education', 'charity', 'fitness'],
   seo: ['clinic', 'dental', 'beauty', 'realestate', 'law', 'cleaning', 'cars', 'restaurant'],
+  social: ['restaurant', 'cafe', 'bakery', 'clinic', 'dental', 'beauty', 'barber', 'store', 'perfume', 'fitness', 'florist', 'realestate', 'hotel', 'cars', 'education', 'events'],
+  ads: ['restaurant', 'cafe', 'bakery', 'clinic', 'dental', 'beauty', 'barber', 'store', 'perfume', 'fitness', 'florist', 'realestate', 'hotel', 'cars', 'education', 'events'],
 };

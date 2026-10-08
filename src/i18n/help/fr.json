@@ -146,6 +146,27 @@
             "Chaque suggestion apparaît dans votre compte pour être publiée, modifiée ou refusée ; rien n’est publié sans votre accord.",
             "Personne ne peut garantir la première place sur Google ; les résultats prennent généralement 3 à 6 mois."
           ]
+        },
+        {
+          "id": "social",
+          "q": "Gestion des réseaux sociaux (699 ou 1499 SAR/mois)",
+          "a": [
+            "Essentiel (699 SAR) : 12 publications par mois aux couleurs de votre marque (ou avec vos propres photos), textes et hashtags, calendrier des temps forts saoudiens, publication automatique sur Instagram et votre page Facebook, et un rapport mensuel avec la portée, les mentions J’aime, les commentaires et vos meilleures publications.",
+            "Pro (1499 SAR) : tout l’Essentiel, plus 20 publications par mois, 4 scripts de Reels avec couvertures à filmer vous-même, des réponses IA aux commentaires en option, un lien rapide vers les publicités actives des concurrents dans la Bibliothèque publicitaire de Meta et un support prioritaire.",
+            "Dans Mon compte, connectez Facebook et Instagram en un clic (connexion avec Meta) et renseignez les informations de votre activité.",
+            "Chaque publication attend votre validation dans Mon compte ; rien n’est publié sans elle.",
+            "Nous n’achetons jamais d’abonnés ni d’engagement, et personne ne peut garantir des abonnés ou des ventes."
+          ]
+        },
+        {
+          "id": "ads",
+          "q": "Gestion des publicités (999 SAR/mois)",
+          "a": [
+            "Chaque mois, vous recevez un plan publicitaire : objectif, audience par ville, âge et centres d’intérêt, budget, durée et 2 à 3 textes d’annonce. Les publicités ne sont lancées qu’après votre validation.",
+            "Le budget publicitaire est payé depuis votre propre compte publicitaire directement à Meta ; Oxira ne détient jamais votre argent publicitaire. Chaque campagne a un budget total fixe et une date de fin.",
+            "Vous recevez des résultats et des recommandations chaque semaine, et un rapport mensuel avec les dépenses, la portée, les clics et le coût par résultat.",
+            "Les publicités sont actuellement diffusées sur Instagram et Facebook. TikTok, Snapchat et Google Ads arrivent bientôt."
+          ]
         }
       ]
     },

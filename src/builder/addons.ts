@@ -1,6 +1,6 @@
 // Monthly add-ons for published websites. Prices in SAR before VAT.
 // Keep in sync with the "Account" node in n8n workflow "Oxira 13 — Client account (portal)".
-export const addonIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo', 'seogrowth'] as const;
+export const addonIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo', 'seogrowth', 'social', 'socialpro', 'ads'] as const;
 export type AddonId = (typeof addonIds)[number];
 
 export const addonPrices: Record<AddonId, { price: number; feePercent?: number }> = {
@@ -12,11 +12,21 @@ export const addonPrices: Record<AddonId, { price: number; feePercent?: number }
   tickets: { price: 0, feePercent: 5 },
   seo: { price: 299 },
   seogrowth: { price: 799 },
+  social: { price: 699 },
+  socialpro: { price: 1499 },
+  ads: { price: 999 },
 };
 
-/** Add-ons with their own product page (the SEO Growth plan is shown on the SEO page). */
-export const productIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo'] as const;
+/** Add-ons with their own product page (the SEO Growth plan is shown on the SEO page, Social Pro on the social page). */
+export const productIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo', 'social', 'ads'] as const;
 export type ProductId = (typeof productIds)[number];
+
+/** Higher plan shown on a product page next to the product's own (basic) plan. */
+export const growthPlanOf: Partial<Record<ProductId, AddonId>> = { seo: 'seogrowth', social: 'socialpro' };
+
+/** Product page that presents an add-on (plans without their own page point to the main product). */
+export const productOf = (id: AddonId): ProductId =>
+  id === 'seogrowth' ? 'seo' : id === 'socialpro' ? 'social' : (id as ProductId);
 
 /** Simple line icons (24×24, stroke). */
 export const addonIcons: Record<AddonId, string> = {
@@ -28,4 +38,7 @@ export const addonIcons: Record<AddonId, string> = {
   tickets: '<path d="M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 0 0-4V4H3z"/><path d="M13 4v16" stroke-dasharray="2 2"/>',
   seo: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M7.5 12l2-2.5 2 1.5 2.5-3"/>',
   seogrowth: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M7.5 12l2-2.5 2 1.5 2.5-3"/>',
+  social: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/>',
+  socialpro: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/>',
+  ads: '<path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M17 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12"/>',
 };

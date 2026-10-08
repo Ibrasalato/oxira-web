@@ -582,6 +582,213 @@
         },
         "note": "Nobody can guarantee a first-place ranking on Google, and results usually take 3 to 6 months."
       }
+    },
+    "social": {
+      "title": "Social Media Management for Businesses in Saudi Arabia | Oxira",
+      "description": "Social media management for your business: posts designed in your brand colours, a Saudi seasonal calendar, automatic publishing to Instagram and Facebook after your approval, and a monthly report. From 699 SAR a month.",
+      "name": "Social media management",
+      "short": "Posts designed in your brand colours and published to Instagram and Facebook on schedule, after you approve them.",
+      "h1": "Social media management for your business",
+      "lead": "Keep your Instagram and Facebook active without spending hours on them. Every month we prepare posts in your brand colours, with captions and hashtags, planned around the Saudi seasons. You approve each post in My account, and it is published automatically at its scheduled time.",
+      "features": [
+        {
+          "t": "Ready posts every month",
+          "d": "12 posts a month on Basic and 20 on Pro, designed in your brand colours with AI, or built around your own photos if you upload them."
+        },
+        {
+          "t": "Captions and hashtags",
+          "d": "Every post comes with its caption and hashtags, written for your business and your customers."
+        },
+        {
+          "t": "Saudi seasonal calendar",
+          "d": "Your plan follows the seasons that matter to your customers: Ramadan, Eid al-Fitr, Eid al-Adha, Founding Day, National Day, White Friday and back to school."
+        },
+        {
+          "t": "You approve every post",
+          "d": "Each post waits for your approval in My account. Nothing is published before you approve it."
+        },
+        {
+          "t": "Automatic publishing",
+          "d": "Approved posts go out at their scheduled time to your Instagram account and your Facebook page."
+        },
+        {
+          "t": "Monthly report",
+          "d": "Reach, likes, comments and your best posts every month, so you can see what works."
+        },
+        {
+          "t": "Reels scripts (Pro)",
+          "d": "4 short-video scripts a month with cover designs. You film them; the script and cover are ready."
+        },
+        {
+          "t": "AI replies to comments (Pro)",
+          "d": "Optional, and you turn it on yourself. Replies to comments on Instagram and Facebook use only your business details and invite people to message you on WhatsApp."
+        },
+        {
+          "t": "Competitors’ ads (Pro)",
+          "d": "A quick link to the ads your competitors are running right now in the Meta Ad Library."
+        }
+      ],
+      "steps": [
+        {
+          "t": "Subscribe from My account",
+          "d": "Choose Basic or Pro from My account on your Oxira website."
+        },
+        {
+          "t": "Connect Facebook and Instagram",
+          "d": "Connect with one click by signing in with Meta, then fill in your business details."
+        },
+        {
+          "t": "Approve the monthly plan",
+          "d": "Review the month’s posts and approve, edit or reject each one."
+        },
+        {
+          "t": "Publishing runs automatically",
+          "d": "Approved posts go out at their scheduled time, and a report reaches you every month."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is anything published without my approval?",
+          "a": "No. Every post waits in My account until you approve it. Nothing is published on your accounts without your approval."
+        },
+        {
+          "q": "Which platforms do you support?",
+          "a": "Instagram and Facebook pages for now. More platforms are coming soon."
+        },
+        {
+          "q": "Can I use my own photos?",
+          "a": "Yes. Upload photos of your products, your place or your team in My account and we build your posts around them. Otherwise we create designs in your brand colours with AI."
+        },
+        {
+          "q": "Can I cancel anytime?",
+          "a": "Yes, from My account. The service stays active until the end of the period you have already paid for."
+        },
+        {
+          "q": "Do you guarantee followers or sales?",
+          "a": "No, and nobody can honestly promise that. We never buy followers or fake engagement, because it breaks the platforms’ rules and harms your account. What we offer is steady, well-planned content and a monthly report with real numbers."
+        },
+        {
+          "q": "How is this different from the Social media content add-on?",
+          "a": "Social media content gives you 12 posts a month to download and publish yourself. Social media management publishes your approved posts automatically to Instagram and Facebook, follows a Saudi seasonal plan and includes a monthly report, and the Pro plan adds Reels scripts, AI replies to comments and more."
+        }
+      ],
+      "ctaTitle": "Keep your accounts active, without the hassle",
+      "ctaBody": "Start with Basic for 699 SAR a month and cancel anytime.",
+      "plans": {
+        "title": "Plans",
+        "from": "From",
+        "basic": {
+          "name": "Basic",
+          "items": [
+            "12 posts a month in your brand colours",
+            "Captions and hashtags",
+            "Saudi seasonal calendar",
+            "Your approval before every post",
+            "Automatic publishing to Instagram and Facebook",
+            "Monthly report"
+          ]
+        },
+        "growth": {
+          "name": "Pro",
+          "items": [
+            "Everything in Basic",
+            "20 posts a month",
+            "4 Reels scripts with cover designs",
+            "AI replies to comments (optional)",
+            "Competitors’ active ads in the Meta Ad Library",
+            "Priority support"
+          ]
+        },
+        "note": "We never buy followers or fake engagement, and nobody can guarantee a number of followers or sales."
+      }
+    },
+    "ads": {
+      "title": "Instagram and Facebook Ads Management in Saudi Arabia | Oxira",
+      "description": "Ads management for your business on Instagram and Facebook: a monthly ad plan you approve, a fixed spending cap, weekly results and a monthly report. You pay the ad budget to Meta directly. 999 SAR a month.",
+      "name": "Ads management",
+      "short": "A monthly ad plan for Instagram and Facebook that runs only after you approve it, with a budget you pay to Meta directly.",
+      "h1": "Instagram and Facebook ads management",
+      "lead": "Reach more customers in your city with planned ads instead of random boosts. Every month we prepare an ad plan for your business, it runs only after you approve it, and you see the results every week. The ad budget is paid from your own ad account directly to Meta; Oxira never holds your ad money.",
+      "features": [
+        {
+          "t": "Monthly ad plan",
+          "d": "Objective, audience by city, age and interests, budget, duration and 2–3 ad texts, ready for your review."
+        },
+        {
+          "t": "Nothing runs without your approval",
+          "d": "Ads start only after you approve the plan in My account."
+        },
+        {
+          "t": "Boost posts or bring visitors",
+          "d": "Promote your best-performing posts, or run traffic ads that bring visitors to your website."
+        },
+        {
+          "t": "Your budget, paid to Meta directly",
+          "d": "The ad budget is paid from your own ad account directly to Meta. Oxira never holds your ad money."
+        },
+        {
+          "t": "A fixed spending cap",
+          "d": "Every campaign has a fixed total budget and an end date, so spending never goes beyond what you approved."
+        },
+        {
+          "t": "Weekly results and recommendations",
+          "d": "Every week you see how your ads are doing and what we recommend changing."
+        },
+        {
+          "t": "Monthly report",
+          "d": "Spend, reach, clicks and cost per result in one clear report every month."
+        },
+        {
+          "t": "Instagram and Facebook today",
+          "d": "Ads currently run on Meta (Instagram and Facebook). TikTok, Snapchat and Google Ads are coming soon."
+        }
+      ],
+      "steps": [
+        {
+          "t": "Subscribe from My account",
+          "d": "Add Ads management from My account on your Oxira website."
+        },
+        {
+          "t": "Connect Facebook and Instagram",
+          "d": "Connect with one click by signing in with Meta, then fill in your business details."
+        },
+        {
+          "t": "Approve the monthly plan",
+          "d": "Review the objective, audience, budget and ad texts, then approve the plan."
+        },
+        {
+          "t": "Ads run automatically",
+          "d": "Your campaign runs until its budget or end date, and you get results every week."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Who pays the ad budget?",
+          "a": "You do, directly to Meta from your own ad account. The 999 SAR monthly fee covers managing your ads only; Oxira never holds or pays your ad money."
+        },
+        {
+          "q": "Will any ad run without my approval?",
+          "a": "No. Every campaign runs only after you approve its plan in My account, and each one has a fixed total budget and an end date."
+        },
+        {
+          "q": "Which platforms do you support?",
+          "a": "Instagram and Facebook (Meta) for now. TikTok, Snapchat and Google Ads are coming soon."
+        },
+        {
+          "q": "Can I use my own photos?",
+          "a": "Yes. Upload them in My account and we use them in your ads."
+        },
+        {
+          "q": "Can I cancel anytime?",
+          "a": "Yes, from My account. The service stays active until the end of the period you have already paid for."
+        },
+        {
+          "q": "Do you guarantee results?",
+          "a": "No, and nobody can honestly guarantee sales or a number of customers from ads. We never buy followers or fake engagement. What we offer is a clear plan, a capped budget and weekly results, so you decide based on real numbers."
+        }
+      ],
+      "ctaTitle": "Reach customers in your city with ads you control",
+      "ctaBody": "999 SAR a month to manage your ads, plus the ad budget you choose, paid directly to Meta. Cancel anytime."
     }
   }
 }

@@ -146,6 +146,27 @@
             "Every suggestion or draft appears in your account to publish, edit or reject; nothing goes live without your approval.",
             "Nobody can guarantee first place on Google; results usually take 3 to 6 months."
           ]
+        },
+        {
+          "id": "social",
+          "q": "Social media management (699 or 1499 SAR/month)",
+          "a": [
+            "Basic (699 SAR): 12 posts a month designed in your brand colours (or with your own photos), captions and hashtags, a Saudi seasonal calendar, automatic publishing to Instagram and your Facebook page, and a monthly report with reach, likes, comments and your best posts.",
+            "Pro (1499 SAR): everything in Basic plus 20 posts a month, 4 Reels scripts with cover designs for you to film, optional AI replies to comments, a quick link to competitors’ active ads in the Meta Ad Library, and priority support.",
+            "In My account, connect Facebook and Instagram with one click (sign in with Meta) and fill in your business details.",
+            "Every post waits for your approval in My account; nothing is published without it.",
+            "We never buy followers or engagement, and nobody can guarantee followers or sales."
+          ]
+        },
+        {
+          "id": "ads",
+          "q": "Ads management (999 SAR/month)",
+          "a": [
+            "Every month you get an ad plan: objective, audience by city, age and interests, budget, duration and 2–3 ad texts. Ads run only after you approve it.",
+            "The ad budget is paid from your own ad account directly to Meta; Oxira never holds your ad money. Each campaign has a fixed total budget and an end date.",
+            "You get results and recommendations every week, and a monthly report with spend, reach, clicks and cost per result.",
+            "Ads currently run on Instagram and Facebook. TikTok, Snapchat and Google Ads are coming soon."
+          ]
         }
       ]
     },

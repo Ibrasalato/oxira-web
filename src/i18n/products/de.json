@@ -582,6 +582,213 @@
         },
         "note": "Niemand kann Platz 1 bei Google garantieren, und Ergebnisse zeigen sich in der Regel nach 3 bis 6 Monaten."
       }
+    },
+    "social": {
+      "title": "Social-Media-Management für Unternehmen in Saudi-Arabien | Oxira",
+      "description": "Social-Media-Management für Ihr Unternehmen: Beiträge in Ihren Markenfarben, saudischer Saisonkalender, automatische Veröffentlichung auf Instagram und Facebook nach Ihrer Freigabe und ein Monatsbericht. Ab 699 SAR pro Monat.",
+      "name": "Social-Media-Management",
+      "short": "Beiträge in Ihren Markenfarben, die nach Ihrer Freigabe pünktlich auf Instagram und Facebook erscheinen.",
+      "h1": "Social-Media-Management für Ihr Unternehmen",
+      "lead": "Halten Sie Instagram und Facebook aktiv, ohne Stunden damit zu verbringen. Jeden Monat bereiten wir Beiträge in Ihren Markenfarben vor – mit Texten und Hashtags, abgestimmt auf die saudischen Saisons. Sie geben jeden Beitrag in Mein Konto frei, und er wird zum geplanten Zeitpunkt automatisch veröffentlicht.",
+      "features": [
+        {
+          "t": "Fertige Beiträge jeden Monat",
+          "d": "12 Beiträge pro Monat bei Basis und 20 bei Pro, mit KI in Ihren Markenfarben gestaltet oder mit Ihren eigenen Fotos, wenn Sie welche hochladen."
+        },
+        {
+          "t": "Texte und Hashtags",
+          "d": "Jeder Beitrag kommt mit Text und Hashtags, geschrieben für Ihr Unternehmen und Ihre Kunden."
+        },
+        {
+          "t": "Saudischer Saisonkalender",
+          "d": "Ihr Plan folgt den Anlässen, die Ihren Kunden wichtig sind: Ramadan, Eid al-Fitr, Eid al-Adha, Gründungstag, Nationalfeiertag, White Friday und Schulanfang."
+        },
+        {
+          "t": "Sie geben jeden Beitrag frei",
+          "d": "Jeder Beitrag wartet in Mein Konto auf Ihre Freigabe. Ohne Ihre Zustimmung wird nichts veröffentlicht."
+        },
+        {
+          "t": "Automatische Veröffentlichung",
+          "d": "Freigegebene Beiträge erscheinen zum geplanten Zeitpunkt auf Ihrem Instagram-Konto und Ihrer Facebook-Seite."
+        },
+        {
+          "t": "Monatsbericht",
+          "d": "Reichweite, Likes, Kommentare und Ihre besten Beiträge jeden Monat – damit Sie sehen, was funktioniert."
+        },
+        {
+          "t": "Reels-Skripte (Pro)",
+          "d": "4 Skripte für Kurzvideos pro Monat mit Titelbildern. Sie filmen, Skript und Titelbild sind fertig."
+        },
+        {
+          "t": "KI-Antworten auf Kommentare (Pro)",
+          "d": "Optional, Sie schalten sie selbst ein. Die Antworten auf Instagram und Facebook nutzen nur Ihre Unternehmensangaben und laden zum Kontakt über WhatsApp ein."
+        },
+        {
+          "t": "Anzeigen der Konkurrenz (Pro)",
+          "d": "Ein direkter Link zu den Anzeigen, die Ihre Wettbewerber gerade in der Meta-Werbebibliothek schalten."
+        }
+      ],
+      "steps": [
+        {
+          "t": "In Mein Konto abonnieren",
+          "d": "Wählen Sie Basis oder Pro in Mein Konto Ihrer Oxira-Website."
+        },
+        {
+          "t": "Facebook und Instagram verbinden",
+          "d": "Mit einem Klick über die Meta-Anmeldung verbinden und dann Ihre Unternehmensangaben ausfüllen."
+        },
+        {
+          "t": "Monatsplan freigeben",
+          "d": "Sehen Sie die Beiträge des Monats durch und geben Sie jeden frei, bearbeiten oder verwerfen Sie ihn."
+        },
+        {
+          "t": "Automatisch veröffentlicht",
+          "d": "Freigegebene Beiträge erscheinen zum geplanten Zeitpunkt, und jeden Monat erhalten Sie einen Bericht."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Wird etwas ohne meine Freigabe veröffentlicht?",
+          "a": "Nein. Jeder Beitrag wartet in Mein Konto, bis Sie ihn freigeben. Ohne Ihre Zustimmung wird nichts auf Ihren Konten veröffentlicht."
+        },
+        {
+          "q": "Welche Plattformen unterstützen Sie?",
+          "a": "Derzeit Instagram und Facebook-Seiten. Weitere Plattformen folgen in Kürze."
+        },
+        {
+          "q": "Kann ich eigene Fotos verwenden?",
+          "a": "Ja. Laden Sie Fotos Ihrer Produkte, Ihrer Räume oder Ihres Teams in Mein Konto hoch, und wir gestalten Ihre Beiträge damit. Andernfalls erstellen wir Designs in Ihren Markenfarben mit KI."
+        },
+        {
+          "q": "Kann ich jederzeit kündigen?",
+          "a": "Ja, in Mein Konto. Der Dienst bleibt bis zum Ende des bereits bezahlten Zeitraums aktiv."
+        },
+        {
+          "q": "Garantieren Sie Follower oder Umsätze?",
+          "a": "Nein, und das kann niemand ehrlich versprechen. Wir kaufen niemals Follower oder gefälschte Interaktionen, denn das verstößt gegen die Regeln der Plattformen und schadet Ihrem Konto. Was wir bieten: regelmäßige, gut geplante Inhalte und einen Monatsbericht mit echten Zahlen."
+        },
+        {
+          "q": "Was ist der Unterschied zur Erweiterung Social-Media-Inhalte?",
+          "a": "Social-Media-Inhalte liefert Ihnen 12 Beiträge pro Monat zum Herunterladen und selbst Veröffentlichen. Social-Media-Management veröffentlicht Ihre freigegebenen Beiträge automatisch auf Instagram und Facebook, folgt einem saudischen Saisonplan und enthält einen Monatsbericht; das Pro-Paket ergänzt Reels-Skripte, KI-Antworten auf Kommentare und mehr."
+        }
+      ],
+      "ctaTitle": "Aktive Konten – ohne Aufwand",
+      "ctaBody": "Starten Sie mit Basis für 699 SAR pro Monat, jederzeit kündbar.",
+      "plans": {
+        "title": "Pakete",
+        "from": "Ab",
+        "basic": {
+          "name": "Basis",
+          "items": [
+            "12 Beiträge pro Monat in Ihren Markenfarben",
+            "Texte und Hashtags",
+            "Saudischer Saisonkalender",
+            "Ihre Freigabe vor jedem Beitrag",
+            "Automatische Veröffentlichung auf Instagram und Facebook",
+            "Monatsbericht"
+          ]
+        },
+        "growth": {
+          "name": "Pro",
+          "items": [
+            "Alles aus dem Basispaket",
+            "20 Beiträge pro Monat",
+            "4 Reels-Skripte mit Titelbildern",
+            "KI-Antworten auf Kommentare (optional)",
+            "Aktive Anzeigen der Konkurrenz in der Meta-Werbebibliothek",
+            "Bevorzugter Support"
+          ]
+        },
+        "note": "Wir kaufen niemals Follower oder gefälschte Interaktionen, und niemand kann eine bestimmte Zahl an Followern oder Umsätzen garantieren."
+      }
+    },
+    "ads": {
+      "title": "Instagram- und Facebook-Werbung verwalten in Saudi-Arabien | Oxira",
+      "description": "Anzeigenmanagement für Ihr Unternehmen auf Instagram und Facebook: ein monatlicher Anzeigenplan zur Freigabe, ein festes Ausgabenlimit, wöchentliche Ergebnisse und ein Monatsbericht. Das Werbebudget zahlen Sie direkt an Meta. 999 SAR pro Monat.",
+      "name": "Anzeigenmanagement",
+      "short": "Ein monatlicher Anzeigenplan für Instagram und Facebook, der erst nach Ihrer Freigabe startet – mit einem Budget, das Sie direkt an Meta zahlen.",
+      "h1": "Anzeigenmanagement für Instagram und Facebook",
+      "lead": "Erreichen Sie mehr Kunden in Ihrer Stadt mit geplanten Anzeigen statt zufälligem Hervorheben. Jeden Monat erstellen wir einen Anzeigenplan für Ihr Unternehmen, der erst nach Ihrer Freigabe startet, und Sie sehen die Ergebnisse jede Woche. Das Werbebudget zahlen Sie aus Ihrem eigenen Werbekonto direkt an Meta; Oxira verwaltet niemals Ihr Werbegeld.",
+      "features": [
+        {
+          "t": "Monatlicher Anzeigenplan",
+          "d": "Ziel, Zielgruppe nach Stadt, Alter und Interessen, Budget, Laufzeit und 2–3 Anzeigentexte – bereit zur Prüfung."
+        },
+        {
+          "t": "Nichts läuft ohne Ihre Freigabe",
+          "d": "Anzeigen starten erst, nachdem Sie den Plan in Mein Konto freigegeben haben."
+        },
+        {
+          "t": "Beiträge hervorheben oder Besucher gewinnen",
+          "d": "Bewerben Sie Ihre erfolgreichsten Beiträge oder schalten Sie Traffic-Anzeigen, die Besucher auf Ihre Website bringen."
+        },
+        {
+          "t": "Ihr Budget geht direkt an Meta",
+          "d": "Das Werbebudget wird aus Ihrem eigenen Werbekonto direkt an Meta gezahlt. Oxira verwaltet niemals Ihr Werbegeld."
+        },
+        {
+          "t": "Festes Ausgabenlimit",
+          "d": "Jede Kampagne hat ein festes Gesamtbudget und ein Enddatum, sodass die Ausgaben nie über das Freigegebene hinausgehen."
+        },
+        {
+          "t": "Wöchentliche Ergebnisse und Empfehlungen",
+          "d": "Jede Woche sehen Sie, wie Ihre Anzeigen laufen und was wir zu ändern empfehlen."
+        },
+        {
+          "t": "Monatsbericht",
+          "d": "Ausgaben, Reichweite, Klicks und Kosten pro Ergebnis in einem übersichtlichen Bericht jeden Monat."
+        },
+        {
+          "t": "Heute Instagram und Facebook",
+          "d": "Anzeigen laufen derzeit über Meta (Instagram und Facebook). TikTok, Snapchat und Google Ads folgen in Kürze."
+        }
+      ],
+      "steps": [
+        {
+          "t": "In Mein Konto abonnieren",
+          "d": "Fügen Sie Anzeigenmanagement in Mein Konto Ihrer Oxira-Website hinzu."
+        },
+        {
+          "t": "Facebook und Instagram verbinden",
+          "d": "Mit einem Klick über die Meta-Anmeldung verbinden und dann Ihre Unternehmensangaben ausfüllen."
+        },
+        {
+          "t": "Monatsplan freigeben",
+          "d": "Prüfen Sie Ziel, Zielgruppe, Budget und Anzeigentexte und geben Sie den Plan frei."
+        },
+        {
+          "t": "Anzeigen laufen automatisch",
+          "d": "Ihre Kampagne läuft bis zum Budget oder Enddatum, und jede Woche erhalten Sie die Ergebnisse."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Wer zahlt das Werbebudget?",
+          "a": "Sie – direkt an Meta aus Ihrem eigenen Werbekonto. Die monatliche Gebühr von 999 SAR deckt nur die Verwaltung Ihrer Anzeigen; Oxira verwaltet oder zahlt niemals Ihr Werbegeld."
+        },
+        {
+          "q": "Läuft eine Anzeige ohne meine Freigabe?",
+          "a": "Nein. Jede Kampagne startet erst, nachdem Sie ihren Plan in Mein Konto freigegeben haben, und jede hat ein festes Gesamtbudget und ein Enddatum."
+        },
+        {
+          "q": "Welche Plattformen unterstützen Sie?",
+          "a": "Derzeit Instagram und Facebook (Meta). TikTok, Snapchat und Google Ads folgen in Kürze."
+        },
+        {
+          "q": "Kann ich eigene Fotos verwenden?",
+          "a": "Ja. Laden Sie sie in Mein Konto hoch, und wir verwenden sie in Ihren Anzeigen."
+        },
+        {
+          "q": "Kann ich jederzeit kündigen?",
+          "a": "Ja, in Mein Konto. Der Dienst bleibt bis zum Ende des bereits bezahlten Zeitraums aktiv."
+        },
+        {
+          "q": "Garantieren Sie Ergebnisse?",
+          "a": "Nein, und niemand kann ehrlich Umsätze oder eine bestimmte Zahl an Kunden durch Anzeigen garantieren. Wir kaufen niemals Follower oder gefälschte Interaktionen. Was wir bieten: einen klaren Plan, ein begrenztes Budget und wöchentliche Ergebnisse, damit Sie auf Basis echter Zahlen entscheiden."
+        }
+      ],
+      "ctaTitle": "Erreichen Sie Kunden in Ihrer Stadt – mit Anzeigen, die Sie steuern",
+      "ctaBody": "999 SAR pro Monat für die Verwaltung Ihrer Anzeigen, plus das von Ihnen gewählte Werbebudget, das Sie direkt an Meta zahlen. Jederzeit kündbar."
     }
   }
 }

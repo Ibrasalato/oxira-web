@@ -146,6 +146,27 @@
             "Jeder Vorschlag erscheint in Ihrem Konto zum Veröffentlichen, Bearbeiten oder Ablehnen; nichts geht ohne Ihre Freigabe online.",
             "Niemand kann Platz 1 bei Google garantieren; Ergebnisse brauchen meist 3 bis 6 Monate."
           ]
+        },
+        {
+          "id": "social",
+          "q": "Social-Media-Management (699 oder 1499 SAR/Monat)",
+          "a": [
+            "Basis (699 SAR): 12 Beiträge pro Monat in Ihren Markenfarben (oder mit Ihren eigenen Fotos), Texte und Hashtags, ein saudischer Saisonkalender, automatische Veröffentlichung auf Instagram und Ihrer Facebook-Seite sowie ein Monatsbericht mit Reichweite, Likes, Kommentaren und Ihren besten Beiträgen.",
+            "Pro (1499 SAR): alles aus Basis, dazu 20 Beiträge pro Monat, 4 Reels-Skripte mit Titelbildern zum Selbstfilmen, optionale KI-Antworten auf Kommentare, ein direkter Link zu aktiven Anzeigen der Konkurrenz in der Meta-Werbebibliothek und bevorzugter Support.",
+            "Verbinden Sie in Mein Konto Facebook und Instagram mit einem Klick (Anmeldung mit Meta) und füllen Sie Ihre Unternehmensangaben aus.",
+            "Jeder Beitrag wartet in Mein Konto auf Ihre Freigabe; ohne sie wird nichts veröffentlicht.",
+            "Wir kaufen niemals Follower oder Interaktionen, und niemand kann Follower oder Umsätze garantieren."
+          ]
+        },
+        {
+          "id": "ads",
+          "q": "Anzeigenmanagement (999 SAR/Monat)",
+          "a": [
+            "Jeden Monat erhalten Sie einen Anzeigenplan: Ziel, Zielgruppe nach Stadt, Alter und Interessen, Budget, Laufzeit und 2–3 Anzeigentexte. Anzeigen laufen erst nach Ihrer Freigabe.",
+            "Das Werbebudget wird aus Ihrem eigenen Werbekonto direkt an Meta gezahlt; Oxira verwaltet niemals Ihr Werbegeld. Jede Kampagne hat ein festes Gesamtbudget und ein Enddatum.",
+            "Sie erhalten jede Woche Ergebnisse und Empfehlungen sowie einen Monatsbericht mit Ausgaben, Reichweite, Klicks und Kosten pro Ergebnis.",
+            "Anzeigen laufen derzeit auf Instagram und Facebook. TikTok, Snapchat und Google Ads folgen in Kürze."
+          ]
         }
       ]
     },

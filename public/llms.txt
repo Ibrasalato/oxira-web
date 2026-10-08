@@ -13,6 +13,8 @@ Commercial registration: 7050917793 · VAT: 314064774700003 · Address: 426 Al-S
 ## Add-ons (monthly subscriptions)
 
 - [Google visibility (SEO)](https://oxira.sa/products/google-seo/): Search Console connection, monthly title and description improvements, helpful articles and local service pages approved by the owner, keyword rank tracking, lead counting (calls, WhatsApp, forms) and a monthly report. Basic 299 SAR, Growth 799 SAR per month. Works for websites built with Oxira and for external websites (WordPress auto-publishing).
+- [Social media management](https://oxira.sa/products/social-media-management/): monthly content plan with ready designs, Saudi seasonal calendar, owner approval and automatic publishing to Instagram and Facebook, AI comment replies (Pro), monthly report. Basic 699 SAR, Pro 1,499 SAR per month.
+- [Ads management](https://oxira.sa/products/ads-management/): monthly Meta ad plans that run only after the owner approves, with a fixed total budget and end date; the ad budget is paid by the client directly to Meta. 999 SAR per month.
 - [Online booking](https://oxira.sa/products/booking-system/)
 - [Digital menu and QR](https://oxira.sa/products/digital-menu-qr/)
 - [More Google reviews](https://oxira.sa/products/google-reviews/)

@@ -4,7 +4,7 @@ import type { Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath, productFor } from '../i18n/products';
-import { productIds, addonPrices, addonIcons, type ProductId } from '../builder/addons';
+import { productIds, addonPrices, addonIcons, growthPlanOf, type ProductId } from '../builder/addons';
 import Base from '../layouts/Base.astro';
 import ProductMock from '../components/ProductMock.astro';
 
@@ -20,10 +20,11 @@ const url = new URL(link(lang, path), site).href;
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
 const pr = addonPrices[id];
 const others = productIds.filter((x) => x !== id);
-// The SEO add-on has two plans (Basic / Growth); its copy carries a `plans` block.
+// The SEO and social media add-ons have two plans (Basic / Growth or Pro); their copy carries a `plans` block.
 type Plans = { title: string; from: string; basic: { name: string; items: string[] }; growth: { name: string; items: string[] }; note: string };
-const plans = (it as unknown as { plans?: Plans }).plans;
-const growthPrice = addonPrices.seogrowth.price;
+const growthId = growthPlanOf[id];
+const plans = growthId ? (it as unknown as { plans?: Plans }).plans : undefined;
+const growthPrice = growthId ? addonPrices[growthId].price : 0;
 
 const ld = [
   {
@@ -122,7 +123,7 @@ const ld = [
   <section class="section-tight bg-paper" aria-labelledby="pd-how">
     <div class="wrap">
       <div class="sh"><h2 id="pd-how">{c.howTitle}</h2></div>
-      <ol class="pd-steps">
+      <ol class="pd-steps" style={`--cols:${Math.min(it.steps.length, 4)}`}>
         {it.steps.map((s, i) => <li><span aria-hidden="true">{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>)}
       </ol>
     </div>
@@ -211,7 +212,7 @@ const ld = [
   .pd-plan .btn { align-self: flex-start; }
   .pd-plans-note { margin-top: 1rem; color: var(--muted); font-size: .92rem; max-width: 56rem; }
   @media (max-width: 700px) { .pd-plans { grid-template-columns: minmax(0, 1fr); } }
-  .pd-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .pd-steps { list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 2rem; }
   .pd-steps li { display: grid; gap: .6rem; align-content: start; }
   .pd-steps span { width: 44px; height: 44px; border-radius: 12px; background: var(--navy); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 1.1rem; }
   .pd-steps h3 { font-size: var(--s1); }

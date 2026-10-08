@@ -17,6 +17,9 @@ const config = {
   apiEndpoint: `${n8n}/oxira-portal`,
   seoEndpoint: `${n8n}/oxira-seo`,
   seoSettingsEndpoint: `${n8n}/oxira-seo-settings`,
+  socialEndpoint: `${n8n}/oxira-social`,
+  uploadEndpoint: `${n8n}/oxira-studio-upload`,
+  imageBase: 'https://oxira-sites.oxira-sa.workers.dev/_img/',
   extEndpoint: `${n8n}/oxira-site-ext`,
   gscEmail: 'ibrasalato@gmail.com',
   builderUrl: link(lang, '/website-builder/'),
@@ -92,7 +95,8 @@ const config = {
   const fromLink = params.get('k');
   if (fromLink && /^[a-f0-9]{40}$/.test(fromLink)) store.set(KEY, fromLink);
   const justPaid = params.has('paid');
-  if (fromLink || justPaid) history.replaceState(null, '', location.pathname + location.hash);
+  const socialBack = params.get('social');
+  if (fromLink || justPaid || socialBack) history.replaceState(null, '', location.pathname + location.hash);
   let token = store.get(KEY);
 
   $<HTMLFormElement>('#ac-login').addEventListener('submit', async (e) => {
@@ -147,6 +151,7 @@ const config = {
       show('app');
       draw();
       if (justPaid) flash(T.paidNote);
+      if (socialBack) flash(socialBack === 'connected' ? T.socConnectedOk : T.socConnectErr);
     } catch (e) {
       if ((e as Error).message !== 'session') { show('signin'); flash(''); const s = $<HTMLElement>('#ac-login-status'); s.textContent = T.failed; s.className = 'ac-status is-error'; s.hidden = false; }
     }
@@ -161,7 +166,8 @@ const config = {
   // ---- Tabs ----
   const tabs = () => {
     const list = ['overview', 'addons'];
-    if (site()?.external) { if (has('seo') || has('seogrowth')) list.push('seo'); return list; }
+    const social = has('social') || has('socialpro') || has('ads');
+    if (site()?.external) { if (has('seo') || has('seogrowth')) list.push('seo'); if (social) list.push('social'); return list; }
     if (has('booking')) list.push('bookings');
     list.push('menu');
     if (has('reviews')) list.push('reviews');
@@ -169,6 +175,7 @@ const config = {
     if (has('content')) list.push('content');
     if (has('tickets')) list.push('tickets');
     if (has('seo') || has('seogrowth')) list.push('seo');
+    if (social) list.push('social');
     return list;
   };
   function draw() {
@@ -180,10 +187,10 @@ const config = {
     }
     const list = tabs();
     if (!list.includes(tab)) tab = 'overview';
-    $<HTMLElement>('#ac-tabs').innerHTML = list.map((t) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${t === tab}">${esc(T.tabs[t] || (t === 'seo' ? T.seoTitle : t))}</button>`).join('');
+    $<HTMLElement>('#ac-tabs').innerHTML = list.map((t) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${t === tab}">${esc(T.tabs[t] || (t === 'seo' ? T.seoTitle : t === 'social' ? T.socTitle : t))}</button>`).join('');
     const panel = $<HTMLElement>('#ac-panel');
     const s = site()!;
-    panel.innerHTML = ({ overview, addons, bookings, menu, reviews, chat, content, tickets, seo } as Record<string, (s: Site) => string>)[tab](s);
+    panel.innerHTML = ({ overview, addons, bookings, menu, reviews, chat, content, tickets, seo, social } as Record<string, (s: Site) => string>)[tab](s);
     bind[tab]?.(s);
   }
   $('#ac-tabs').addEventListener('click', (e) => {
@@ -288,6 +295,7 @@ const config = {
   function addons(s: Site) {
     const ext = !!s.external;
     const live = isLive(s) || (ext && !!s.verified);
+    const noSiteNeeded = ['social', 'socialpro', 'ads'];
     return `<div class="ac-intro"><h2>${esc(cfg.addons.title)}</h2><p class="ac-muted">${esc(cfg.addons.body)}</p>${live ? '' : `<p class="ac-note">${esc(ext ? T.extNeedVerify : T.notLive)}</p>`}</div>
       <div class="ac-addons">${cfg.addonIds.map((id: string) => {
         const p = cfg.prices[id];
@@ -298,7 +306,7 @@ const config = {
           <h3>${esc(cfg.addons.items[id].name)}</h3>
           <p class="ac-muted">${esc(cfg.addons.items[id].desc)}</p>
           <p class="ac-price">${p.price ? `<b>${money(p.price)}</b> ${esc(cfg.addons.perMonth)}` : `<b>${esc(cfg.addons.free)}</b>`}${p.feePercent ? ` <small>${esc(cfg.addons.fee)}</small>` : ''}</p>
-          ${ext && !['seo', 'seogrowth'].includes(id) ? `<p class="ac-note">${esc(T.extOnlySeo)}</p>` : on ? `<span class="ac-chip st-active">${esc(T.active)}</span>` : sub?.invoice_url && sub.status === 'pending' ? `<a class="btn btn-amber" href="${esc(sub.invoice_url)}">${esc(T.pay)}</a>` : `<button type="button" class="btn btn-navy" data-subscribe="${id}" ${live ? '' : 'disabled'}>${esc(T.subscribe)}</button>`}
+          ${ext && !['seo', 'seogrowth', ...noSiteNeeded].includes(id) ? `<p class="ac-note">${esc(T.extOnlySeo)}</p>` : on ? `<span class="ac-chip st-active">${esc(T.active)}</span>` : sub?.invoice_url && sub.status === 'pending' ? `<a class="btn btn-amber" href="${esc(sub.invoice_url)}">${esc(T.pay)}</a>` : `<button type="button" class="btn btn-navy" data-subscribe="${id}" ${live || (ext && noSiteNeeded.includes(id)) ? '' : 'disabled'}>${esc(T.subscribe)}</button>`}
         </article>`;
       }).join('')}</div><p class="ac-muted ac-small">${esc(T.vat)}</p>`;
   }
@@ -438,6 +446,7 @@ const config = {
     overview: () => undefined,
     addons: () => undefined,
     seo: (s) => { loadSeo(s.order_id); },
+    social: (s) => { loadSocial(s.order_id); },
     menu: () => drawMenu(),
     content: (s) => {
       const packs = (view?.content ?? []).filter((c) => c.order_id === s.order_id);
@@ -555,6 +564,231 @@ const config = {
     return res.json().catch(() => ({ success: false }));
   }
 
+
+  // ---- Social media & ads (Oxira 22 API): Meta connection, brief, monthly plan approvals, report ----
+  const socCache: Record<number, any> = {};
+  const bgOverride: Record<number, string> = {};
+  async function socApi(action: string, data: Record<string, unknown> = {}) {
+    const res = await fetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
+    return res.json().catch(() => ({ success: false }));
+  }
+  async function loadSocial(orderId: number, force = false) {
+    const box = root.querySelector<HTMLElement>('#ac-social');
+    if (!box) return;
+    if (!socCache[orderId] || force) {
+      const v = await socApi('list');
+      if (v?.reason === 'expired') { signOut(T.expired); return; }
+      socCache[orderId] = v?.success ? v : { items: [], settings: { brief: {}, meta: {} }, plan: '', ads: false };
+    }
+    if (site()!.order_id !== orderId) return;
+    box.innerHTML = socialHtml(socCache[orderId]);
+    paintSocial(socCache[orderId]);
+  }
+  function social(_s: Site) { return `<div id="ac-social"><p class="ac-muted">${esc(T.loading)}</p></div>`; }
+  const imgUrl = (id: string) => (id ? cfg.imageBase + id : '');
+  const opt = (v: string, label: string, cur: string) => `<option value="${esc(v)}"${v === cur ? ' selected' : ''}>${esc(label)}</option>`;
+  function socialHtml(v: any) {
+    const s0 = site()!;
+    const nf = new Intl.NumberFormat(cfg.numberLocale);
+    const b = v.settings?.brief || {}, m = v.settings?.meta || {};
+    const pro = v.plan === 'pro';
+    const hasSocial = !!v.plan;
+    // Connection
+    const connect = card(`<h2>${esc(T.socConnectTitle)}</h2>${m.connected ? `
+        <div class="ac-conn">
+          <p><span class="ac-chip st-active">${esc(T.socConnected)}</span> ${m.user_name ? esc(m.user_name) : ''}</p>
+          <form id="ac-meta-select" class="ac-form-grid">
+            <label class="ac-field">${esc(T.socPage)}<select name="page_id">${(m.pages || []).map((p: any) => opt(p.id, p.name + (p.ig_username ? ' · @' + p.ig_username : ''), m.page_id)).join('')}</select></label>
+            ${v.ads ? `<label class="ac-field">${esc(T.socAdAcc)}<select name="ad_account_id"><option value="">—</option>${(m.adaccounts || []).map((a: any) => opt(a.id, a.name + ' (' + a.currency + ')', m.ad_account_id)).join('')}</select></label>` : ''}
+            <p class="ac-wide ac-muted ac-small">${m.ig_username ? `${esc(T.socIg)}: <b dir="ltr">@${esc(m.ig_username)}</b>` : esc(T.socNoIg)}</p>
+            <div class="ac-row ac-wide"><button type="submit" class="btn btn-navy ac-small-btn">${esc(T.socSave)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-connect>${esc(T.socReconnect)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-disconnect>${esc(T.socDisconnect)}</button></div>
+          </form>
+        </div>`
+      : `<p class="ac-muted">${esc(T.socConnectBody)}</p>${v.metaReady ? `<p><button type="button" class="btn btn-navy" data-soc-connect>${esc(T.socConnect)}</button></p>` : `<p class="ac-note">${esc(T.socNotReady)}</p>`}`}`);
+    // Plan
+    const items: any[] = v.items || [];
+    const months = [...new Set(items.filter((x) => x.kind !== 'reply').map((x) => x.month))].sort();
+    const status = (x: any) => `<span class="ac-chip st-${esc(x.status)}">${esc((T.socStatus as any)[x.status] || x.status)}</span>`;
+    const pf = (x: any) => String(x.platforms || 'instagram,facebook').split(',');
+    const post = (x: any) => {
+      const open = x.status === 'pending' || x.status === 'failed';
+      return `<article class="ac-sp" data-soc-item="${x.id}">
+        <canvas width="1080" height="1080" data-soc-canvas="${x.id}"></canvas>
+        <div class="ac-sp-body">
+          <p class="ac-row ac-sp-head">${status(x)} <span class="ac-muted ac-small" dir="ltr">${esc(x.day)} · ${esc(x.time)}</span></p>
+          ${open ? `
+          <label class="ac-field">${esc(T.socHeadline)}<input name="title" value="${esc(x.title)}" maxlength="120" dir="auto" data-soc-redraw="${x.id}"></label>
+          <label class="ac-field">${esc(T.socCaption)}<textarea name="caption" rows="5" maxlength="2200" dir="auto">${esc(x.caption)}</textarea></label>
+          <label class="ac-field">${esc(T.socHashtags)}<input name="hashtags" value="${esc(x.hashtags)}" maxlength="400" dir="auto"></label>
+          <div class="ac-form-grid">
+            <label class="ac-field">${esc(T.socDay)}<input type="date" name="day" value="${esc(x.day)}"></label>
+            <label class="ac-field">${esc(T.socTime)}<input type="time" name="time" step="3600" value="${esc(x.time)}"></label>
+          </div>
+          <p class="ac-row">${['instagram', 'facebook'].map((p) => `<label class="ac-check"><input type="checkbox" name="platforms" value="${p}" ${pf(x).includes(p) ? 'checked' : ''}> ${esc((T.socPlatformNames as any)[p])}</label>`).join('')}</p>
+          ${x.result?.error || x.result?.fb_error || x.result?.ig_error ? `<p class="ac-bad ac-small">${esc(x.result.error || x.result.fb_error || x.result.ig_error)}</p>` : ''}
+          <div class="ac-row">
+            <button type="button" class="btn btn-amber ac-small-btn" data-soc-approve="${x.id}">${esc(T.socApprove)}</button>
+            <label class="btn btn-ghost ac-small-btn ac-file">${esc(T.socChangePhoto)}<input type="file" accept="image/jpeg,image/png" data-soc-photo="${x.id}" hidden></label>
+            <button type="button" class="btn btn-ghost ac-small-btn" data-soc-reject="${x.id}">${esc(T.socReject)}</button>
+          </div>` : `<p class="ac-caption" dir="auto">${esc(x.caption)}</p><p class="ac-tags" dir="auto">${esc(x.hashtags)}</p>`}
+          <p class="ac-row"><button type="button" class="ac-link" data-soc-dl="${x.id}">${esc(T.socDownload)}</button><button type="button" class="ac-link" data-soc-copy="${x.id}">${esc(T.socCopy)}</button></p>
+        </div>
+      </article>`;
+    };
+    const reel = (x: any) => `<article class="ac-sp" data-soc-item="${x.id}">
+        <canvas width="1080" height="1920" data-soc-canvas="${x.id}" class="ac-reel"></canvas>
+        <div class="ac-sp-body">
+          <p class="ac-row ac-sp-head">${status(x)} <span class="ac-muted ac-small" dir="ltr">${esc(x.day)}</span></p>
+          <h3 class="ac-h3" dir="auto">${esc(x.title)}</h3>
+          <p class="ac-kicker">${esc(T.socScript)}</p><p class="ac-caption" dir="auto">${esc(x.idea)}</p>
+          <p class="ac-caption" dir="auto">${esc(x.caption)}</p><p class="ac-tags" dir="auto">${esc(x.hashtags)}</p>
+          <p class="ac-row"><button type="button" class="ac-link" data-soc-dl="${x.id}">${esc(T.socDownloadCover)}</button><button type="button" class="ac-link" data-soc-copy="${x.id}">${esc(T.socCopy)}</button>
+          ${x.status === 'pending' ? `<button type="button" class="btn btn-ghost ac-small-btn" data-soc-approve="${x.id}">${esc(T.socFilmed)}</button>` : ''}</p>
+        </div>
+      </article>`;
+    const ad = (x: any) => {
+      const a = x.ad || {};
+      const open = x.status === 'pending' || x.status === 'failed';
+      const res = x.result || {};
+      return `<article class="ac-ad" data-soc-item="${x.id}">
+        <p class="ac-row ac-sp-head">${status(x)} <b dir="auto">${esc(x.title)}</b></p>
+        <dl class="ac-ad-meta">
+          <div><dt>${esc(T.socGoal)}</dt><dd>${esc((T.socGoals as any)[a.goal] || a.goal || '')}</dd></div>
+          <div><dt>${esc(T.socAudienceAd)}</dt><dd>${esc((a.cities || []).join('، ') || 'KSA')} · ${esc(a.age_min || 18)}–${esc(a.age_max || 65)}${(a.interests || []).length ? ' · ' + esc(a.interests.join(', ')) : ''}</dd></div>
+          ${a.post_title ? `<div><dt>${esc(T.socBoostPost)}</dt><dd dir="auto">${esc(a.post_title)} (${esc(a.post_day)})</dd></div>` : `<div><dt>${esc(T.socLink)}</dt><dd dir="ltr">${esc(a.link || '')}</dd></div>`}
+        </dl>
+        ${a.why ? `<p class="ac-muted ac-small" dir="auto">💡 ${esc(a.why)}</p>` : ''}
+        ${open && res.error ? `<p class="ac-bad ac-small">${esc((T.socErr as any)[res.error] || res.error)}</p>` : ''}
+        ${open ? `<label class="ac-field">${esc(T.socAdHeadline)}<input name="headline" value="${esc(a.headline || '')}" maxlength="80" dir="auto"></label>
+          <label class="ac-field">${esc(T.socAdText)}<textarea name="text" rows="4" maxlength="1500" dir="auto">${esc(a.text || '')}</textarea></label>
+          <div class="ac-form-grid"><label class="ac-field">${esc(T.socBudget)}<input type="number" name="budget" min="20" step="10" value="${esc(a.budget || 0)}"></label>
+          <label class="ac-field">${esc(T.socDays)}<input type="number" name="days" min="3" max="30" value="${esc(a.days || 7)}"></label></div>
+          <p class="ac-muted ac-small">${esc(T.socAdNote)}</p>
+          <div class="ac-row"><button type="button" class="btn btn-amber ac-small-btn" data-soc-approve="${x.id}">${esc(T.socApproveAd)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-reject="${x.id}">${esc(T.socReject)}</button></div>`
+        : `<p class="ac-caption" dir="auto">${esc(a.text || '')}</p><p class="ac-muted ac-small">${esc(T.socBudget)}: <b>${money(Number(a.budget) || 0)}</b> · ${esc(T.socDays)}: ${esc(a.days || '')}${res.end ? ` · ${esc(T.socEnds)} <span dir="ltr">${esc(String(res.end).slice(0, 10))}</span>` : ''}</p>${res.error ? `<p class="ac-bad ac-small">${esc(res.error)}</p>` : ''}`}
+      </article>`;
+    };
+    const plan = !months.length ? card(`<h2>${esc(T.socPlan)}</h2><p class="ac-muted">${esc(T.socPlanEmpty)}</p>`)
+      : months.map((mo) => {
+        const inMonth = items.filter((x) => x.month === mo);
+        const posts = inMonth.filter((x) => x.kind === 'post'), reels = inMonth.filter((x) => x.kind === 'reel'), ads = inMonth.filter((x) => x.kind === 'ad');
+        const pending = inMonth.filter((x) => x.status === 'pending' && x.kind !== 'reply').length;
+        return card(`<div class="ac-plan-head"><h2>${esc(T.socPlan)} <span dir="ltr">${esc(mo)}</span></h2>${pending ? `<span class="ac-chip st-pending">${esc(T.socWaiting.replace('{n}', String(pending)))}</span>` : ''}</div>
+          ${posts.length ? `<h3 class="ac-h3">${esc(T.socPosts)} (${posts.length})</h3><div class="ac-sp-grid">${posts.map(post).join('')}</div>` : ''}
+          ${reels.length ? `<h3 class="ac-h3">${esc(T.socReels)} (${reels.length})</h3><div class="ac-sp-grid">${reels.map(reel).join('')}</div>` : ''}
+          ${ads.length ? `<h3 class="ac-h3">${esc(T.socAds)} (${ads.length})</h3>${!m.ad_account_id ? `<p class="ac-note">${esc(T.socNeedAdAcc)}</p>` : ''}<div class="ac-ads">${ads.map(ad).join('')}</div>` : ''}`);
+      }).join('');
+    // Report
+    const rep = v.report;
+    const t = rep?.totals || {};
+    const report = rep ? card(`<h2>${esc(T.socReport)} <span dir="ltr">${esc(rep.month)}</span></h2>
+      <div class="ac-stats"><div><b>${nf.format(t.published || 0)}</b><span>${esc(T.socPublishedN)}</span></div><div><b>${nf.format(t.reach || 0)}</b><span>${esc(T.socReach)}</span></div><div><b>${nf.format((t.reactions || 0) + (t.comments || 0) + (t.shares || 0) + (t.saved || 0))}</b><span>${esc(T.socEngagement)}</span></div></div>
+      ${(rep.top || []).length ? `<h3 class="ac-h3">${esc(T.socTop)}</h3><ol class="ac-queries">${rep.top.map((p: any) => `<li dir="auto"><span>${esc(p.title)}</span><small>${nf.format(p.eng || 0)}</small></li>`).join('')}</ol>` : ''}
+      ${(rep.ads || []).length ? `<h3 class="ac-h3">${esc(T.socAds)}</h3><div class="ac-stats"><div><b>${money(t.spend || 0)}</b><span>${esc(T.socSpend)}</span></div><div><b>${nf.format(t.clicks || 0)}</b><span>${esc(T.socClicks)}</span></div><div><b>${nf.format(t.results || 0)}</b><span>${esc(T.socResults)}</span></div></div>` : ''}`) : '';
+    // Auto replies log
+    const replies = items.filter((x) => x.kind === 'reply').slice(-8).reverse();
+    const repl = replies.length ? card(`<h2>${esc(T.socReplied)}</h2><ul class="ac-replies">${replies.map((x) => `<li><p dir="auto" class="ac-muted">«${esc(x.title)}»</p><p dir="auto">↳ ${esc(x.caption)}</p></li>`).join('')}</ul>`) : '';
+    // Competitors (Meta Ad Library)
+    const comp = (b.competitors || []).length ? card(`<h2>${esc(T.socCompetitorAds)}</h2><ul class="ac-seo-done">${b.competitors.map((c: string) => `<li><span dir="auto">${esc(c)}</span> <a class="ac-link" target="_blank" rel="noopener" href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SA&q=${encodeURIComponent(c)}">${esc(T.socSeeAds)} ↗</a></li>`).join('')}</ul>`) : '';
+    // Brief
+    const sel = (name: string, cur: string, map: Record<string, string>) => `<select name="${name}">${Object.entries(map).map(([k, l]) => opt(k, l, cur)).join('')}</select>`;
+    const hours = Array.from({ length: 24 }, (_, h) => String(h).padStart(2, '0') + ':00');
+    const plats = b.platforms && b.platforms.length ? b.platforms : ['instagram', 'facebook'];
+    const brief = card(`<details${b.about || !s0.external ? '' : ' open'}><summary><h2 class="ac-inline">${esc(T.socBrief)}</h2></summary>
+      <p class="ac-muted">${esc(T.socBriefBody)}</p>
+      <form id="ac-soc-brief" class="ac-form-grid">
+        <label class="ac-field ac-wide">${esc(T.socAbout)}<textarea name="about" rows="3" maxlength="1500" dir="auto">${esc(b.about || '')}</textarea></label>
+        <label class="ac-field">${esc(T.socAudience)}<textarea name="audience" rows="2" maxlength="600" dir="auto">${esc(b.audience || '')}</textarea></label>
+        <label class="ac-field">${esc(T.socOffers)}<textarea name="offers" rows="2" maxlength="800" dir="auto">${esc(b.offers || '')}</textarea></label>
+        <label class="ac-field">${esc(T.socAreas)}<input name="areas" maxlength="300" dir="auto" value="${esc(b.areas || '')}"></label>
+        <label class="ac-field">${esc(T.socAvoid)}<input name="avoid" maxlength="600" dir="auto" value="${esc(b.avoid || '')}"></label>
+        <label class="ac-field">${esc(T.socVoice)}${sel('voice', b.voice || 'friendly', T.socVoices)}</label>
+        <label class="ac-field">${esc(T.socLang)}${sel('lang', b.lang || 'ar', T.socLangs)}</label>
+        <label class="ac-field">${esc(T.socTimePref)}${sel('time', b.time || '19:00', Object.fromEntries(hours.map((h) => [h, h])))}</label>
+        <div class="ac-field"><span>${esc(T.socPlatforms)}</span><p class="ac-row">${['instagram', 'facebook'].map((p) => `<label class="ac-check"><input type="checkbox" name="platforms" value="${p}" ${plats.includes(p) ? 'checked' : ''}> ${esc((T.socPlatformNames as any)[p])}</label>`).join('')}</p></div>
+        <div class="ac-wide ac-field"><span>${esc(T.socPhotos)}</span><p class="ac-muted ac-small">${esc(T.socPhotosHint)}</p>
+          <div class="ac-photos" id="ac-soc-photos">${(b.photos || []).map((id: string) => `<span class="ac-ph" data-ph="${esc(id)}" style="background-image:url(${esc(imgUrl(id))})"><button type="button" class="ac-x" data-ph-del="${esc(id)}" aria-label="${esc(T.remove)}">×</button></span>`).join('')}
+          <label class="ac-ph ac-ph-add">+<input type="file" accept="image/jpeg,image/png" multiple hidden data-ph-add></label></div></div>
+        <label class="ac-field ac-wide">${esc(T.socCompetitors)}<textarea name="competitors" rows="2" dir="auto">${esc((b.competitors || []).join('\n'))}</textarea></label>
+        ${pro ? `<label class="ac-check ac-wide"><input type="checkbox" name="replies" ${b.replies ? 'checked' : ''}> ${esc(T.socReplies)} <small class="ac-muted">${esc(T.socRepliesHint)}</small></label>` : ''}
+        ${v.ads ? `<div class="ac-wide ac-gbp"><h3 class="ac-h3">${esc(T.socAdsTitle)}</h3>
+          <div class="ac-form-grid">
+            <label class="ac-field">${esc(T.socAdsCap)}<input type="number" name="ads_cap" min="0" step="50" value="${esc(b.ads_cap || 0)}"></label>
+            <label class="ac-field">${esc(T.socAdsGoal)}${sel('ads_goal', b.ads_goal || 'traffic', T.socGoals)}</label>
+            <label class="ac-field">${esc(T.socAgeMin)}<input type="number" name="age_min" min="18" max="65" value="${esc(b.age_min || 18)}"></label>
+            <label class="ac-field">${esc(T.socAgeMax)}<input type="number" name="age_max" min="18" max="65" value="${esc(b.age_max || 65)}"></label>
+            <label class="ac-field">${esc(T.socSpecial)}${sel('special', b.special || 'none', T.socSpecials)}</label>
+          </div><p class="ac-muted ac-small">${esc(T.socAdsCapHint)}</p></div>` : ''}
+        <button type="submit" class="btn btn-navy">${esc(T.socSave)}</button>
+      </form></details>`);
+    return (hasSocial || v.ads ? connect : '') + plan + report + repl + comp + brief;
+  }
+
+  // Post designs: the photo (AI or the owner's) with the headline and the business name, in the brand colours.
+  const imgCache: Record<string, Promise<HTMLImageElement | null>> = {};
+  function loadImg(id: string) {
+    if (!id) return Promise.resolve(null);
+    if (!imgCache[id]) imgCache[id] = new Promise((ok) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => ok(im); im.onerror = () => ok(null); im.src = imgUrl(id); });
+    return imgCache[id];
+  }
+  async function drawDesign(c: HTMLCanvasElement, x: any, title: string) {
+    const s0 = site()!;
+    const ctx = c.getContext('2d')!;
+    const W = c.width, H = c.height;
+    const p = s0.spec?.colors?.primary || '#0A253E', a = s0.spec?.colors?.accent || '#F5A800';
+    const rtl = /[؀-ۿ]/.test(title) || (!title && (s0.spec?.lang || 'ar') === 'ar');
+    const font = getComputedStyle(document.body).fontFamily;
+    const im = await loadImg(bgOverride[x.id] || x.bg);
+    if (im) {
+      const sc = Math.max(W / im.width, H / im.height);
+      ctx.drawImage(im, (W - im.width * sc) / 2, (H - im.height * sc) / 2, im.width * sc, im.height * sc);
+      const g = ctx.createLinearGradient(0, H * 0.45, 0, H);
+      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.78)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    } else {
+      ctx.fillStyle = p; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = a; ctx.globalAlpha = .9; ctx.beginPath(); ctx.arc(rtl ? 120 : W - 120, 120, 260, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+    }
+    const pad = 80;
+    ctx.direction = rtl ? 'rtl' : 'ltr'; ctx.textAlign = rtl ? 'right' : 'left';
+    const tx = rtl ? W - pad : pad;
+    const size = W >= 1080 ? 84 : 60;
+    ctx.font = `700 ${size}px ${font}`;
+    const words = String(title || '').split(/\s+/).filter(Boolean); const lines: string[] = []; let line = '';
+    for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > W - pad * 2 && line) { lines.push(line); line = w; } else line = t; }
+    if (line) lines.push(line);
+    const L = lines.slice(0, 4);
+    const baseY = H - 210 - (L.length - 1) * size * 1.2;
+    ctx.fillStyle = '#FFFFFF'; ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = im ? 12 : 0;
+    L.forEach((l, i) => ctx.fillText(l, tx, baseY + i * size * 1.2));
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = a; ctx.fillRect(rtl ? W - pad - 120 : pad, H - 150, 120, 10);
+    ctx.font = `600 38px ${font}`; ctx.fillStyle = '#FFFFFF'; ctx.globalAlpha = .92;
+    ctx.fillText(s0.name || '', tx, H - 80); ctx.globalAlpha = 1;
+  }
+  function paintSocial(v: any) {
+    for (const c of root.querySelectorAll<HTMLCanvasElement>('canvas[data-soc-canvas]')) {
+      const x = (v.items || []).find((i: any) => String(i.id) === c.dataset.socCanvas);
+      if (x) drawDesign(c, x, x.title);
+    }
+  }
+  async function uploadBlob(blob: Blob, name: string): Promise<string | null> {
+    const fd = new FormData();
+    fd.append('file', blob, name);
+    fd.append('sessionId', 'social-' + site()!.order_id);
+    const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+    const data = await res.json().catch(() => ({}));
+    return data?.success && typeof data.id === 'string' ? data.id : null;
+  }
+  async function shrinkFile(file: File, max = 1600): Promise<Blob> {
+    const bmp = await createImageBitmap(file);
+    const sc = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+    c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+    return new Promise((ok, fail) => c.toBlob((b) => (b ? ok(b) : fail(new Error('encode'))), 'image/jpeg', 0.86));
+  }
+  const canvasBlob = (c: HTMLCanvasElement) => new Promise<Blob | null>((ok) => c.toBlob((b) => ok(b), 'image/jpeg', 0.9));
+
   function seo(_s: Site) { return `<div id="ac-seo"><p class="ac-muted">${esc(T.loading)}</p></div>`; }
 
   const panel = $<HTMLElement>('#ac-panel');
@@ -607,6 +841,51 @@ const config = {
       btn.closest('[data-type-row]')?.remove();
     } else if ('scan' in btn.dataset) {
       scan();
+    } else if ('socConnect' in btn.dataset) {
+      await busy(btn, async () => {
+        const r = await socApi('meta_start', { lang: cfg.lang });
+        if (r?.url) { location.href = r.url; return; }
+        flash(r?.reason === 'meta_not_ready' ? T.socNotReady : T.failed);
+      });
+    } else if ('socDisconnect' in btn.dataset) {
+      if (!confirm(T.socDisconnectConfirm)) return;
+      await busy(btn, async () => { const r = await socApi('meta_disconnect'); flash(r?.success ? T.saved : T.failed); await loadSocial(s.order_id, true); });
+    } else if (btn.dataset.socApprove || btn.dataset.socReject) {
+      const id = Number(btn.dataset.socApprove || btn.dataset.socReject);
+      const v = socCache[s.order_id];
+      const x = (v?.items || []).find((i: any) => i.id === id);
+      const el = root.querySelector<HTMLElement>(`[data-soc-item="${id}"]`);
+      if (!x || !el) return;
+      const val = (n: string) => el.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${n}"]`)?.value ?? '';
+      await busy(btn, async () => {
+        let r: any;
+        if (btn.dataset.socReject) r = await socApi('reject', { item_id: id });
+        else if (x.kind === 'ad') r = await socApi('approve', { item_id: id, budget: val('budget'), days: val('days'), text: val('text'), headline: val('headline') });
+        else if (x.kind === 'reel') r = await socApi('approve', { item_id: id });
+        else {
+          const c = el.querySelector<HTMLCanvasElement>('canvas')!;
+          await drawDesign(c, x, val('title'));
+          const blob = await canvasBlob(c);
+          const image = blob ? await uploadBlob(blob, 'post.jpg') : null;
+          if (!image) { flash(T.socNoImage); return; }
+          const platforms = [...el.querySelectorAll<HTMLInputElement>('input[name="platforms"]:checked')].map((i) => i.value);
+          r = await socApi('approve', { item_id: id, title: val('title'), caption: val('caption'), hashtags: val('hashtags'), day: val('day'), time: val('time'), platforms, image });
+        }
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        flash(r?.success ? T.saved : ((T.socErr as any)[r?.reason] || T.failed));
+        if (r?.success) await loadSocial(s.order_id, true);
+      });
+    } else if (btn.dataset.socDl) {
+      const c = root.querySelector<HTMLCanvasElement>(`canvas[data-soc-canvas="${btn.dataset.socDl}"]`);
+      if (c) c.toBlob((b) => { if (!b) return; const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `post-${btn.dataset.socDl}.jpg`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }, 'image/jpeg', 0.92);
+    } else if (btn.dataset.socCopy) {
+      const x = (socCache[s.order_id]?.items || []).find((i: any) => String(i.id) === btn.dataset.socCopy);
+      const el = root.querySelector<HTMLElement>(`[data-soc-item="${btn.dataset.socCopy}"]`);
+      const cap = el?.querySelector<HTMLTextAreaElement>('[name="caption"]')?.value ?? x?.caption ?? '';
+      const tags = el?.querySelector<HTMLInputElement>('[name="hashtags"]')?.value ?? x?.hashtags ?? '';
+      try { await navigator.clipboard.writeText(`${cap}\n\n${tags}`.trim()); btn.textContent = T.socCopied; setTimeout(() => { btn.textContent = T.socCopy; }, 1500); } catch { /* ignore */ }
+    } else if (btn.dataset.phDel) {
+      btn.closest('[data-ph]')?.remove();
     } else if ('extCheck' in btn.dataset) {
       await checkExternal(s, btn);
     } else if ('seoPrint' in btn.dataset) {
@@ -636,6 +915,13 @@ const config = {
     }
   });
   panel.addEventListener('input', (e) => {
+    const rd = (e.target as HTMLElement).dataset?.socRedraw;
+    if (rd) {
+      const x = (socCache[site()!.order_id]?.items || []).find((i: any) => String(i.id) === rd);
+      const c = root.querySelector<HTMLCanvasElement>(`canvas[data-soc-canvas="${rd}"]`);
+      if (x && c) drawDesign(c, x, (e.target as HTMLInputElement).value);
+      return;
+    }
     const el = e.target as HTMLInputElement;
     const path = el.dataset.m;
     if (!path || !menuDraft) return;
@@ -644,12 +930,58 @@ const config = {
     else if (p.length === 3) menuDraft.categories[Number(p[1])].name = el.value;
     else menuDraft.categories[Number(p[1])].items[Number(p[3])][p[4]] = el.value;
   });
+  const g2 = (fd: FormData, n: string) => String(fd.get(n) || '');
+  panel.addEventListener('change', async (e) => {
+    const inp = e.target as HTMLInputElement;
+    if (inp.dataset.socPhoto && inp.files?.[0]) {
+      const id = Number(inp.dataset.socPhoto);
+      flash(T.sending);
+      try {
+        const up = await uploadBlob(await shrinkFile(inp.files[0]), 'photo.jpg');
+        if (!up) { flash(T.failed); return; }
+        bgOverride[id] = up;
+        const x = (socCache[site()!.order_id]?.items || []).find((i: any) => i.id === id);
+        const c = root.querySelector<HTMLCanvasElement>(`canvas[data-soc-canvas="${id}"]`);
+        const t = root.querySelector<HTMLInputElement>(`[data-soc-item="${id}"] [name="title"]`);
+        if (x && c) await drawDesign(c, x, t?.value ?? x.title);
+        flash(T.saved);
+      } catch { flash(T.failed); }
+    } else if ('phAdd' in inp.dataset && inp.files?.length) {
+      const box = root.querySelector<HTMLElement>('#ac-soc-photos')!;
+      for (const file of [...inp.files].slice(0, 10)) {
+        try {
+          const up = await uploadBlob(await shrinkFile(file), 'photo.jpg');
+          if (up) box.insertAdjacentHTML('afterbegin', `<span class="ac-ph" data-ph="${up}" style="background-image:url(${imgUrl(up)})"><button type="button" class="ac-x" data-ph-del="${up}" aria-label="${esc(T.remove)}">×</button></span>`);
+        } catch { /* skip */ }
+      }
+      inp.value = '';
+    }
+  });
   panel.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const s = site()!;
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     const fd = new FormData(form);
+    if (form.id === 'ac-soc-brief') {
+      await busy(btn, async () => {
+        const g = (n: string) => String(fd.get(n) || '');
+        const photos = [...root.querySelectorAll<HTMLElement>('#ac-soc-photos [data-ph]')].map((x) => x.dataset.ph!).filter(Boolean);
+        const r = await socApi('save_brief', { about: g('about'), audience: g('audience'), offers: g('offers'), areas: g('areas'), avoid: g('avoid'), voice: g('voice'), lang: g('lang'), time: g('time'), platforms: fd.getAll('platforms').map(String), photos, competitors: g('competitors'), replies: fd.get('replies') ? '1' : '', ads_cap: g('ads_cap'), ads_goal: g('ads_goal'), age_min: g('age_min'), age_max: g('age_max'), special: g('special') });
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        flash(r?.success ? T.saved : T.failed);
+        if (r?.success) await loadSocial(s.order_id, true);
+      });
+      return;
+    }
+    if (form.id === 'ac-meta-select') {
+      await busy(btn, async () => {
+        const r = await socApi('meta_select', { page_id: g2(fd, 'page_id'), ad_account_id: g2(fd, 'ad_account_id') });
+        flash(r?.success ? T.saved : T.failed);
+        if (r?.success) await loadSocial(s.order_id, true);
+      });
+      return;
+    }
     if (form.id === 'ac-seo-brief') {
       await busy(btn, async () => {
         const g = (n: string) => String(fd.get(n) || '');
@@ -782,6 +1114,29 @@ const config = {
   .ac-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .ac-seo-done { list-style: none; display: grid; gap: .5rem; padding: 0; margin: 0; }
   @media (max-width: 600px) { .ac-stats { grid-template-columns: minmax(0, 1fr); } }
+  .ac-sp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin: .8rem 0 1.2rem; }
+  .ac-sp { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; align-content: start; background: #fff; }
+  .ac-sp canvas { width: 100%; height: auto; aspect-ratio: 1; display: block; background: var(--paper); }
+  .ac-sp canvas.ac-reel { aspect-ratio: 9 / 16; width: 62%; margin: .8rem auto 0; border-radius: 10px; }
+  .ac-sp-body { padding: .9rem; display: grid; gap: .55rem; }
+  .ac-sp-body textarea, .ac-ad textarea { width: 100%; font: 400 .92rem/1.6 var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .55rem .65rem; }
+  .ac-sp-head { justify-content: space-between; }
+  .ac-sp .ac-form-grid { margin-top: 0; }
+  .ac-file { cursor: pointer; }
+  .ac-ads { display: grid; gap: 1rem; margin-top: .8rem; }
+  .ac-ad { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; display: grid; gap: .6rem; }
+  .ac-ad-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .5rem 1rem; margin: 0; }
+  .ac-ad-meta dt { font-size: .78rem; color: var(--muted); } .ac-ad-meta dd { margin: 0; font-weight: 600; }
+  .ac-plan-head { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: space-between; }
+  .ac-photos { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .4rem; }
+  .ac-ph { position: relative; width: 74px; height: 74px; border-radius: 10px; background: var(--paper) center / cover no-repeat; border: 1px solid var(--line); }
+  .ac-ph .ac-x { position: absolute; top: -8px; inset-inline-end: -8px; }
+  .ac-ph-add { display: grid; place-items: center; font-size: 1.6rem; color: var(--muted); cursor: pointer; border-style: dashed; }
+  .ac-replies { list-style: none; padding: 0; margin: 0; display: grid; gap: .7rem; }
+  .ac-replies li { border-bottom: 1px dashed var(--line); padding-bottom: .6rem; } .ac-replies p { margin: 0; }
+  details > summary .ac-inline { display: inline; }
+  details > summary { cursor: pointer; list-style: revert; }
+  .st-pending { background: #FFF4D6; color: #8A5A00; } .st-approved { background: #E6F1FB; color: #0B5C99; } .st-published, .st-done, .st-running { background: #E6F6EC; color: #1E6B3A; } .st-failed, .st-rejected { background: #FDECEC; color: #B42318; }
   .ac-seo-head { display: flex; justify-content: flex-end; margin-bottom: .6rem; }
   .ac-print-only { display: none; }
   .ac-leads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
