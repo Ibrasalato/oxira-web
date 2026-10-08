@@ -4,7 +4,7 @@ import { t, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath } from '../i18n/products';
-import { addonIds } from '../builder/addons';
+import { productIds } from '../builder/addons';
 import { catalog } from '../builder/catalog';
 import Base from '../layouts/Base.astro';
 import ProductCards from '../components/ProductCards.astro';
@@ -20,7 +20,7 @@ const ld = [
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: P.index.h1,
-    itemListElement: addonIds.map((id, i) => ({ '@type': 'ListItem', position: i + 1, name: P.items[id].name, url: new URL(link(lang, productPath(id)), site).href })),
+    itemListElement: productIds.map((id, i) => ({ '@type': 'ListItem', position: i + 1, name: P.items[id].name, url: new URL(link(lang, productPath(id)), site).href })),
   },
   {
     '@context': 'https://schema.org',

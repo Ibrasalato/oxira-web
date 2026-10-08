@@ -219,6 +219,61 @@
       ],
       "ctaTitle": "Lancez la vente de billets de votre événement",
       "ctaBody": "Sans abonnement mensuel. Vous payez seulement 5 % par billet vendu."
+    },
+    "seo": {
+      "title": "Référencement Google (SEO) pour votre site | Oxira",
+      "description": "Soyez trouvé sur Google : données Search Console, suggestions mensuelles de titres et descriptions à valider, et rapport mensuel. Dès 299 SAR/mois.",
+      "name": "Référencement Google",
+      "short": "Voyez comment on vous trouve sur Google et améliorez vos pages chaque mois avec des suggestions que vous validez d'abord.",
+      "h1": "Faites trouver votre site sur Google",
+      "lead": "Aidez vos clients à vous trouver quand ils cherchent vos services sur Google. Chaque site Oxira inclut déjà gratuitement les bases du SEO : plan du site, robots.txt, données structurées, titres et descriptions des pages, et pages rapides adaptées au mobile. L'option Référencement Google va plus loin avec un travail mensuel fondé sur de vraies données de recherche, et rien ne change sur votre site sans votre accord.",
+      "features": [
+        { "t": "Google Search Console connectée", "d": "Découvrez les recherches pour lesquelles votre site apparaît sur Google, avec les clics, les impressions et votre position moyenne." },
+        { "t": "Suggestions mensuelles de titres et descriptions", "d": "Chaque mois, l'IA propose de meilleurs titres et méta-descriptions à partir de vraies données de recherche, que vous validez dans Mon compte avant leur mise en ligne." },
+        { "t": "Moteurs de recherche prévenus aussitôt", "d": "Dès qu'une page est publiée, nous prévenons Bing et Yandex via IndexNow et mettons à jour votre plan du site pour Google." },
+        { "t": "Contrôle hebdomadaire du site", "d": "Chaque semaine, nous vérifions que vos pages s'affichent et que les liens du plan du site fonctionnent, et vous écrivons si quelque chose ne va pas." },
+        { "t": "Rapport mensuel par e-mail", "d": "Clics, impressions, principales recherches, évolution par rapport au mois précédent et actions réalisées." },
+        { "t": "Articles et pages locales avec Croissance", "d": "4 articles de blog par mois pour votre activité et votre ville, 2 pages locales et un plan de mots-clés. Chacun est un brouillon que vous relisez d'abord." }
+      ],
+      "steps": [
+        { "t": "Choisissez une formule", "d": "Abonnez-vous à Essentiel ou Croissance depuis Mon compte sur votre site Oxira Studio." },
+        { "t": "Connectez Search Console", "d": "Si votre site utilise votre propre domaine, ajoutez Oxira comme utilisateur de votre Search Console, une seule fois." },
+        { "t": "Relisez et validez", "d": "Suggestions et brouillons arrivent dans Mon compte pour être publiés, modifiés ou refusés, et vous recevez un rapport chaque mois." }
+      ],
+      "faq": [
+        { "q": "Garantissez-vous la première place sur Google ?", "a": "Non, et personne ne peut honnêtement le promettre, car seul Google décide du classement. Nous proposons une amélioration continue fondée sur de vraies données de recherche, dans le respect des consignes de Google : nous n'achetons ni liens ni avis et ne bourrons pas les pages de mots-clés, car cela enfreint les règles de Google et peut faire pénaliser un site." },
+        { "q": "Combien de temps faut-il pour voir des résultats en SEO ?", "a": "Les résultats prennent généralement de 3 à 6 mois et dépendent de votre activité, de votre ville et de la concurrence. Vous suivez les progrès dans le rapport mensuel, qui compare chaque mois au précédent." },
+        { "q": "Combien coûte le référencement Google et quelle différence entre les formules ?", "a": "Essentiel coûte 299 SAR par mois et comprend Search Console, les suggestions mensuelles de titres et descriptions, la notification des moteurs de recherche, le contrôle hebdomadaire et le rapport mensuel. Croissance coûte 799 SAR par mois et ajoute chaque mois 4 articles et 2 pages locales ainsi qu'un plan de mots-clés. Prix hors TVA de 15 %, résiliable à tout moment depuis Mon compte." },
+        { "q": "Quelque chose peut-il être publié sur mon site sans mon accord ?", "a": "Non. Chaque suggestion de titre ou de description et chaque article ou page locale arrive sous forme de brouillon dans Mon compte, où vous le publiez, le modifiez ou le refusez. Rien n'est mis en ligne sans votre accord." },
+        { "q": "Et ma fiche sur Google Maps ?", "a": "Votre fiche d'établissement Google (Google Business Profile) compte beaucoup pour la recherche locale. Nous vous donnons une liste de points pour la compléter, et l'option Avis Google vous aide à recueillir les avis de vos clients, mais nous ne gérons pas la fiche automatiquement à votre place." }
+      ],
+      "ctaTitle": "Aidez vos clients à vous trouver sur Google",
+      "ctaBody": "Commencez avec Essentiel pour 299 SAR par mois, sans engagement.",
+      "plans": {
+        "title": "Formules",
+        "from": "À partir de",
+        "basic": {
+          "name": "Essentiel",
+          "items": [
+            "Google Search Console connectée",
+            "Suggestions mensuelles de titres et descriptions",
+            "Moteurs de recherche prévenus à chaque publication",
+            "Contrôle hebdomadaire du site",
+            "Rapport mensuel par e-mail"
+          ]
+        },
+        "growth": {
+          "name": "Croissance",
+          "items": [
+            "Tout ce que comprend Essentiel",
+            "4 articles par mois pour votre activité et votre ville",
+            "2 pages locales chaque mois",
+            "Plan de mots-clés",
+            "Chaque brouillon relu par vous avant publication"
+          ]
+        },
+        "note": "Personne ne peut garantir la première place sur Google, et les résultats prennent généralement de 3 à 6 mois."
+      }
     }
   }
 }

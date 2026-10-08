@@ -52,6 +52,15 @@ const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.flo
         <div class="pm-line w80"></div><div class="pm-line w60"></div><div class="pm-line w70"></div>
       </div>
     )}
+    {(id === 'seo' || id === 'seogrowth') && (
+      <div class="pm-body">
+        <div class="pm-search"><span>⌕</span><div class="pm-line w70"></div></div>
+        <div class="pm-res on"><small dir="ltr">yourname.oxira.sa</small><b class="pm-line w80 blue"></b><div class="pm-line w90 thin"></div><div class="pm-line w60 thin"></div></div>
+        <div class="pm-res"><b class="pm-line w70 blue"></b><div class="pm-line w80 thin"></div></div>
+        <div class="pm-res"><b class="pm-line w60 blue"></b><div class="pm-line w70 thin"></div></div>
+        <div class="pm-chart">{[22, 30, 28, 40, 46, 52, 64].map((h) => <i style={`height:${h}px`}></i>)}</div>
+      </div>
+    )}
     {id === 'tickets' && (
       <div class="pm-body">
         <div class="pm-ticket">
@@ -116,6 +125,14 @@ const qr = Array.from({ length: 81 }, (_, i) => ((i * 7 + (i % 9) * 3 + Math.flo
   .pm-grid .c1 { background: linear-gradient(135deg, #007DB4, #22C7E6); }
   .pm-grid .c2 { background: linear-gradient(135deg, #0A253E, #10375A); }
   .pm-grid i { width: 40%; height: 6px; border-radius: 3px; background: rgba(255,255,255,.7); }
+  .pm-search { display: flex; align-items: center; gap: .5rem; padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+  .pm-search .pm-line { flex: 1; }
+  .pm-res { display: grid; gap: 5px; padding: .55rem .5rem; border-radius: 10px; }
+  .pm-res.on { background: #FFF6E0; outline: 1.5px solid var(--amber); }
+  .pm-res small { font-size: .62rem; color: #1E6B3A; }
+  .pm-line.blue { background: #8AB4F8; height: 9px; }
+  .pm-chart { display: flex; align-items: flex-end; gap: 6px; height: 70px; padding: .4rem .3rem 0; border-top: 1px solid var(--line); }
+  .pm-chart i { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--amber), #F97316); }
   .pm-ticket { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem; border-radius: 14px; background: linear-gradient(135deg, var(--navy), var(--blue)); }
   .pm-ticket > div:first-child { flex: 1; }
 </style>

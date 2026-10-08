@@ -5,6 +5,7 @@
 //   "slug:<slug>"      for https://<slug>.oxira.sa/ and https://<worker-domain>/<slug>/
 import { renderSite, type SiteAddons, type AddonSettings } from './render';
 import { renderMenuPage, renderReviewPage, renderChatPage, renderTicketPage, renderSuspendedPage, type TicketData } from './addons-render';
+import { renderBlogIndex, renderPost, blogWord, postPath, INDEXNOW_KEY, type SeoData, type Post } from './seo-render';
 import { mergeSpec, sampleSpec, templateIds, siteLangs, imageIdPattern, type Spec, type TemplateId, type SiteLang } from './spec';
 
 interface Env {
@@ -57,6 +58,18 @@ function build(raw: string, siteUrl: string, preview = false, addons?: SiteAddon
   } catch {
     return null;
   }
+}
+
+const attr = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** Approved title/description from the SEO add-on, and a footer link to the blog when it has posts. */
+function applySeo(html: string, seo: SeoData, lang: SiteLang, base: string): string {
+  const t = String(seo.meta?.title || '').slice(0, 90);
+  const d = String(seo.meta?.description || '').slice(0, 200);
+  if (t) html = html.replace(/<title>[^<]*<\/title>/, `<title>${attr(t)}</title>`).replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${attr(t)}">`);
+  if (d) html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${attr(d)}">`).replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${attr(d)}">`);
+  if (seo.posts?.length) html = html.replace('<small>©', `<a class="rate-link" href="${base}/blog">${blogWord(lang)}</a><small>©`);
+  return html;
 }
 
 const securityHeaders = {
@@ -149,12 +162,29 @@ export default {
       new Response(body, { headers: { ...securityHeaders, 'cache-control': 'public, max-age=60', ...extra } });
     rest = rest.replace(/\/+$/, '') || '/';
 
+    // SEO add-on: approved meta overrides and blog / local pages.
+    let seo: SeoData = {};
+    if (order) {
+      try { seo = JSON.parse((await env.SITES.get(`seo:o${order}`)) || '{}'); } catch { seo = {}; }
+    }
+    const posts = Array.isArray(seo.posts) ? seo.posts : [];
+    if (!base && rest === `/${INDEXNOW_KEY}.txt`) return new Response(INDEXNOW_KEY, { headers: { 'content-type': 'text/plain; charset=utf-8' } });
+    const seoOpts = { fontBase: '/_fonts', base, siteUrl };
+    if (rest === '/blog' && posts.length) return html(renderBlogIndex(spec, seoOpts, posts), { 'cache-control': 'public, max-age=300' });
+    const pm = /^\/(blog|services)\/([a-z0-9-]{2,90})$/.exec(rest);
+    if (pm && order) {
+      const meta = posts.find((p) => p.slug === pm[2] && postPath(p) === rest);
+      let post: Post | null = null;
+      if (meta) { try { post = JSON.parse((await env.SITES.get(`post:o${order}:${meta.slug}`)) || 'null'); } catch { post = null; } }
+      if (!post) return page(404, 'الصفحة غير موجودة', 'Not found');
+      return html(renderPost(spec, seoOpts, { ...meta, body: String(post.body || '') }), { 'cache-control': 'public, max-age=300' });
+    }
     // Search engines: every client site gets robots.txt and a sitemap on its own address.
     if (!base && rest === '/robots.txt') {
       return new Response(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${siteUrl}sitemap.xml\n`, { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
     }
     if (!base && rest === '/sitemap.xml') {
-      const pages = [siteUrl, ...(has('menu') ? [`${siteUrl}menu`] : [])];
+      const pages = [siteUrl, ...(has('menu') ? [`${siteUrl}menu`] : []), ...(posts.length ? [`${siteUrl}blog`] : []), ...posts.map((p) => `${siteUrl}${postPath(p).slice(1)}`)];
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url><loc>${p}</loc></url>`).join('\n')}\n</urlset>\n`;
       return new Response(xml, { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
     }
@@ -200,6 +230,6 @@ export default {
       ticketAction: TICKET_ACTION,
     });
     if (!out) return page(500, 'حدث خطأ', 'Something went wrong');
-    return html(out);
+    return html(applySeo(out, seo, spec.lang, base));
   },
 };

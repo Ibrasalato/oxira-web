@@ -135,6 +135,16 @@
             "Each attendee receives a QR ticket by email.",
             "Check in attendees from your account."
           ]
+        },
+        {
+          "id": "seo",
+          "q": "Google SEO (299 or 799 SAR/month)",
+          "a": [
+            "Basic: Google Search Console, monthly page title and description suggestions, search engine notifications when you publish, a weekly site check and a monthly email report.",
+            "Growth: everything in Basic, plus 4 articles and 2 local pages every month and a keyword plan.",
+            "Every suggestion or draft appears in your account for you to publish, edit or reject. Nothing is published without your approval.",
+            "Nobody can guarantee a first-place ranking on Google, and results usually take 3 to 6 months."
+          ]
         }
       ]
     },

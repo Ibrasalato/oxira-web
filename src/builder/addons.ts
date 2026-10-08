@@ -1,6 +1,6 @@
 // Monthly add-ons for published websites. Prices in SAR before VAT.
 // Keep in sync with the "Account" node in n8n workflow "Oxira 13 — Client account (portal)".
-export const addonIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets'] as const;
+export const addonIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo', 'seogrowth'] as const;
 export type AddonId = (typeof addonIds)[number];
 
 export const addonPrices: Record<AddonId, { price: number; feePercent?: number }> = {
@@ -10,7 +10,13 @@ export const addonPrices: Record<AddonId, { price: number; feePercent?: number }
   chat: { price: 199 },
   content: { price: 499 },
   tickets: { price: 0, feePercent: 5 },
+  seo: { price: 299 },
+  seogrowth: { price: 799 },
 };
+
+/** Add-ons with their own product page (the SEO Growth plan is shown on the SEO page). */
+export const productIds = ['booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo'] as const;
+export type ProductId = (typeof productIds)[number];
 
 /** Simple line icons (24×24, stroke). */
 export const addonIcons: Record<AddonId, string> = {
@@ -20,4 +26,6 @@ export const addonIcons: Record<AddonId, string> = {
   chat: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/>',
   content: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>',
   tickets: '<path d="M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 0 0-4V4H3z"/><path d="M13 4v16" stroke-dasharray="2 2"/>',
+  seo: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M7.5 12l2-2.5 2 1.5 2.5-3"/>',
+  seogrowth: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M7.5 12l2-2.5 2 1.5 2.5-3"/>',
 };

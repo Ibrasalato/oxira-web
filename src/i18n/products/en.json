@@ -219,6 +219,61 @@
       ],
       "ctaTitle": "Start selling tickets for your event",
       "ctaBody": "No monthly fee. You only pay 5% on each ticket you sell."
+    },
+    "seo": {
+      "title": "Google SEO Service: Get Your Website Found | Oxira",
+      "description": "Get found on Google: Search Console data, monthly title and description suggestions you approve, search engine pings and a monthly report. From SAR 299/mo.",
+      "name": "Google SEO",
+      "short": "See how people find you on Google and improve your pages every month with suggestions you approve first.",
+      "h1": "Get your website found on Google",
+      "lead": "Help customers find you when they search Google for what you offer. Every Oxira website already includes the SEO basics for free: a sitemap, robots.txt, structured data, page titles and descriptions, and fast, mobile-friendly pages. The Google SEO add-on builds on that with monthly work based on real search data, and nothing changes on your site until you approve it.",
+      "features": [
+        { "t": "Google Search Console connected", "d": "See which searches show your website on Google, plus clicks, impressions and your average position." },
+        { "t": "Monthly title and description suggestions", "d": "Every month AI suggests better page titles and meta descriptions based on real search data, and you approve them in My account before they go live." },
+        { "t": "Search engines notified instantly", "d": "Whenever a page is published we notify Bing and Yandex through IndexNow and update your sitemap for Google." },
+        { "t": "Weekly site health check", "d": "Every week we check that your pages load and your sitemap links work, and email you if something breaks." },
+        { "t": "Monthly email report", "d": "Clicks, impressions, top searches, the change versus last month and the actions we took." },
+        { "t": "Articles and local pages on Growth", "d": "4 blog articles a month for your business and city, 2 local landing pages and a keyword plan. Every one is a draft you review first." }
+      ],
+      "steps": [
+        { "t": "Choose a plan in My account", "d": "Subscribe to Basic or Growth from My account on your Oxira Studio website." },
+        { "t": "Connect Search Console", "d": "If your website uses your own domain, add Oxira as a user in your Search Console once." },
+        { "t": "Review and approve", "d": "Suggestions and drafts arrive in My account to publish, edit or reject, and a report reaches you every month." }
+      ],
+      "faq": [
+        { "q": "Can you guarantee my website will rank first on Google?", "a": "No, and nobody can honestly promise that, because Google alone decides the rankings. What we offer is steady improvement based on real search data while following Google's guidelines: we never buy links or reviews or stuff keywords, because that breaks Google's policies and can get a site penalised." },
+        { "q": "How long does SEO take to show results?", "a": "Results usually take 3 to 6 months and depend on your business, your city and the competition. You can follow progress in the monthly report, which compares each month with the one before." },
+        { "q": "How much does the Google SEO add-on cost, and what is the difference between the plans?", "a": "Basic is SAR 299 per month and includes Search Console, monthly title and description suggestions, search engine notifications, the weekly health check and the monthly report. Growth is SAR 799 per month and adds 4 articles and 2 local pages every month plus a keyword plan. Prices exclude 15% VAT, and you can cancel anytime from My account." },
+        { "q": "Will anything be published on my website without my approval?", "a": "No. Every title or description suggestion and every article or local page arrives as a draft in My account, where you publish, edit or reject it. Nothing goes live without your approval." },
+        { "q": "What about my Google Maps listing?", "a": "Your Google Business Profile matters a lot for local search. We give you a checklist to complete it, and the Google reviews add-on helps you collect reviews from your customers, but we do not manage the profile automatically for you." }
+      ],
+      "ctaTitle": "Help customers find you on Google",
+      "ctaBody": "Start with Basic for SAR 299 per month and cancel anytime.",
+      "plans": {
+        "title": "Plans",
+        "from": "From",
+        "basic": {
+          "name": "Basic",
+          "items": [
+            "Google Search Console connected",
+            "Monthly title and description suggestions",
+            "Search engines notified on every publish",
+            "Weekly site health check",
+            "Monthly email report"
+          ]
+        },
+        "growth": {
+          "name": "Growth",
+          "items": [
+            "Everything in Basic",
+            "4 articles a month for your business and city",
+            "2 local landing pages every month",
+            "Keyword plan",
+            "Every draft reviewed by you before publishing"
+          ]
+        },
+        "note": "Nobody can guarantee a first-place ranking on Google, and results usually take 3 to 6 months."
+      }
     }
   }
 }

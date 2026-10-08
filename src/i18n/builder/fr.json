@@ -479,6 +479,14 @@
       "tickets": {
         "name": "Billetterie d'événements",
         "desc": "Vendez des billets sur le site de votre événement avec paiement en ligne, billets QR par e-mail et contrôle à l'entrée."
+      },
+      "seo": {
+        "name": "Référencement Google — Essentiel",
+        "desc": "Search Console, suggestions mensuelles de titres et descriptions à valider, contrôle hebdomadaire et rapport mensuel."
+      },
+      "seogrowth": {
+        "name": "Référencement Google — Croissance",
+        "desc": "Tout Essentiel, plus 4 articles et 2 pages locales par mois et un plan de mots-clés. Rien n'est publié sans votre accord."
       }
     }
   },
@@ -621,7 +629,32 @@
     },
     "ticketsFee": "Les recettes de billetterie vous sont versées chaque mois, déduction faite de 5% de frais de service.",
     "partner": "Gagnez avec Oxira",
-    "partnerBody": "Recommandez Oxira à d'autres entreprises et touchez une commission sur chaque site qu'elles commandent."
+    "partnerBody": "Recommandez Oxira à d'autres entreprises et touchez une commission sur chaque site qu'elles commandent.",
+    "seoTitle": "Référencement Google",
+    "seoBody": "Relisez ici les suggestions et brouillons : rien n'est mis en ligne sur votre site sans votre accord.",
+    "seoReport": "Les 28 derniers jours sur Google",
+    "seoClicks": "Clics",
+    "seoImpressions": "Impressions",
+    "seoPosition": "Position moyenne",
+    "seoQueries": "Principales recherches",
+    "seoNoData": "Les données de Search Console apparaîtront ici une fois la connexion faite et dès que Google aura des données, ce qui peut prendre quelques jours.",
+    "seoPending": "En attente de votre accord",
+    "seoNone": "Aucune suggestion en attente pour le moment. Les nouvelles arrivent au début de chaque mois.",
+    "seoApprove": "Publier",
+    "seoReject": "Refuser",
+    "seoEdit": "Modifier",
+    "seoPublished": "Publié",
+    "seoRejected": "Refusé",
+    "seoKinds": {
+      "meta": "Titre et description",
+      "article": "Article",
+      "local": "Page locale"
+    },
+    "seoCurrent": "Actuel",
+    "seoSuggested": "Suggéré",
+    "seoHealth": "État du site",
+    "seoHealthOk": "Toutes les pages fonctionnaient lors du dernier contrôle.",
+    "seoHealthBad": "Certaines pages ont des problèmes. Nous vous avons envoyé les détails par e-mail."
   },
   "partners": {
     "pageTitle": "Programme partenaire Oxira | Gagnez sur chaque site",

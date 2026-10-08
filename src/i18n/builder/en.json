@@ -479,6 +479,14 @@
       "tickets": {
         "name": "Event tickets",
         "desc": "Sell tickets on your event website with online payment, QR tickets by email and check-in at the door."
+      },
+      "seo": {
+        "name": "Google SEO — Basic",
+        "desc": "Search Console, monthly title and description suggestions you approve, a weekly health check and a monthly report."
+      },
+      "seogrowth": {
+        "name": "Google SEO — Growth",
+        "desc": "Everything in Basic, plus 4 articles and 2 local pages every month and a keyword plan. Nothing goes live without your approval."
       }
     }
   },
@@ -621,7 +629,32 @@
     },
     "ticketsFee": "Ticket money is transferred to you monthly, minus a 5% service fee.",
     "partner": "Earn with Oxira",
-    "partnerBody": "Recommend Oxira to other businesses and earn a commission on every website they order."
+    "partnerBody": "Recommend Oxira to other businesses and earn a commission on every website they order.",
+    "seoTitle": "Google SEO",
+    "seoBody": "Review suggestions and drafts here. Nothing goes live on your website until you approve it.",
+    "seoReport": "Last 28 days on Google",
+    "seoClicks": "Clicks",
+    "seoImpressions": "Impressions",
+    "seoPosition": "Average position",
+    "seoQueries": "Top searches",
+    "seoNoData": "Search Console data will appear here once it is connected and Google has data, which can take a few days.",
+    "seoPending": "Waiting for your approval",
+    "seoNone": "No suggestions waiting right now. New ones arrive at the start of each month.",
+    "seoApprove": "Publish",
+    "seoReject": "Reject",
+    "seoEdit": "Edit",
+    "seoPublished": "Published",
+    "seoRejected": "Rejected",
+    "seoKinds": {
+      "meta": "Title & description",
+      "article": "Article",
+      "local": "Local page"
+    },
+    "seoCurrent": "Current",
+    "seoSuggested": "Suggested",
+    "seoHealth": "Site health",
+    "seoHealthOk": "All pages were working at the last check.",
+    "seoHealthBad": "Some pages have problems. We emailed you the details."
   },
   "partners": {
     "pageTitle": "Oxira partner program | Earn with every website",

@@ -219,6 +219,61 @@
       ],
       "ctaTitle": "Starten Sie den Ticketverkauf für Ihr Event",
       "ctaBody": "Keine monatliche Gebühr. Sie zahlen nur 5 % pro verkauftem Ticket."
+    },
+    "seo": {
+      "title": "SEO-Service: Bei Google besser gefunden werden | Oxira",
+      "description": "Bei Google gefunden werden: Search-Console-Daten, monatliche Vorschläge für Titel und Beschreibungen zur Freigabe und ein Monatsbericht. Ab 299 SAR/Monat.",
+      "name": "Google-SEO",
+      "short": "Sehen Sie, wie man Sie bei Google findet, und verbessern Sie Ihre Seiten monatlich mit Vorschlägen, die Sie zuerst freigeben.",
+      "h1": "Mit Ihrer Website bei Google gefunden werden",
+      "lead": "Sorgen Sie dafür, dass Kunden Sie finden, wenn sie bei Google nach Ihren Leistungen suchen. Jede Oxira-Website enthält die SEO-Grundlagen bereits kostenlos: Sitemap, robots.txt, strukturierte Daten, Seitentitel und Beschreibungen sowie schnelle, mobilfreundliche Seiten. Die Erweiterung Google-SEO baut darauf auf, mit monatlicher Arbeit auf Basis echter Suchdaten, und auf Ihrer Website ändert sich nichts ohne Ihre Freigabe.",
+      "features": [
+        { "t": "Google Search Console verbunden", "d": "Sehen Sie, bei welchen Suchanfragen Ihre Website bei Google erscheint, dazu Klicks, Impressionen und Ihre durchschnittliche Position." },
+        { "t": "Monatliche Vorschläge für Titel und Beschreibungen", "d": "Jeden Monat schlägt KI auf Basis echter Suchdaten bessere Seitentitel und Meta-Beschreibungen vor, die Sie in Mein Konto freigeben, bevor sie live gehen." },
+        { "t": "Suchmaschinen sofort benachrichtigt", "d": "Sobald eine Seite veröffentlicht wird, informieren wir Bing und Yandex per IndexNow und aktualisieren Ihre Sitemap für Google." },
+        { "t": "Wöchentlicher Website-Check", "d": "Jede Woche prüfen wir, ob Ihre Seiten laden und die Links Ihrer Sitemap funktionieren, und schicken Ihnen eine E-Mail, wenn etwas nicht stimmt." },
+        { "t": "Monatlicher Bericht per E-Mail", "d": "Klicks, Impressionen, die wichtigsten Suchanfragen, die Veränderung zum Vormonat und unsere Maßnahmen." },
+        { "t": "Artikel und lokale Seiten im Paket Wachstum", "d": "4 Blogartikel pro Monat für Ihr Unternehmen und Ihre Stadt, 2 lokale Landingpages und ein Keyword-Plan. Alles als Entwurf, den Sie zuerst prüfen." }
+      ],
+      "steps": [
+        { "t": "Paket in Mein Konto wählen", "d": "Abonnieren Sie Basis oder Wachstum in Mein Konto Ihrer Oxira-Studio-Website." },
+        { "t": "Search Console verbinden", "d": "Nutzt Ihre Website eine eigene Domain, fügen Sie Oxira einmalig als Nutzer in Ihrer Search Console hinzu." },
+        { "t": "Prüfen und freigeben", "d": "Vorschläge und Entwürfe landen in Mein Konto zum Veröffentlichen, Bearbeiten oder Ablehnen, und jeden Monat erhalten Sie einen Bericht." }
+      ],
+      "faq": [
+        { "q": "Garantieren Sie Platz 1 bei Google?", "a": "Nein, und niemand kann das ehrlich versprechen, denn über das Ranking entscheidet allein Google. Wir bieten kontinuierliche Verbesserung auf Basis echter Suchdaten und halten uns an die Richtlinien von Google: Wir kaufen keine Links oder Bewertungen und betreiben kein Keyword-Stuffing, denn das verstößt gegen die Richtlinien von Google und kann zu einer Abstrafung der Website führen." },
+        { "q": "Wie lange dauert es, bis SEO wirkt?", "a": "Ergebnisse zeigen sich in der Regel nach 3 bis 6 Monaten und hängen von Ihrer Branche, Ihrer Stadt und dem Wettbewerb ab. Den Fortschritt verfolgen Sie im Monatsbericht, der jeden Monat mit dem Vormonat vergleicht." },
+        { "q": "Was kostet Google-SEO, und worin unterscheiden sich die Pakete?", "a": "Basis kostet 299 SAR pro Monat und umfasst Search Console, monatliche Vorschläge für Titel und Beschreibungen, die Benachrichtigung der Suchmaschinen, den wöchentlichen Check und den Monatsbericht. Wachstum kostet 799 SAR pro Monat und ergänzt jeden Monat 4 Artikel und 2 lokale Seiten sowie einen Keyword-Plan. Alle Preise zzgl. 15 % MwSt., jederzeit in Mein Konto kündbar." },
+        { "q": "Wird etwas ohne meine Freigabe auf meiner Website veröffentlicht?", "a": "Nein. Jeder Vorschlag für Titel oder Beschreibung und jeder Artikel oder jede lokale Seite kommt als Entwurf in Mein Konto, wo Sie ihn veröffentlichen, bearbeiten oder ablehnen. Ohne Ihre Freigabe geht nichts live." },
+        { "q": "Und mein Eintrag in Google Maps?", "a": "Ihr Google-Unternehmensprofil ist für die lokale Suche sehr wichtig. Wir geben Ihnen eine Checkliste, um es zu vervollständigen, und die Erweiterung Google-Bewertungen hilft Ihnen, Bewertungen Ihrer Kunden zu sammeln. Das Profil selbst verwalten wir jedoch nicht automatisch für Sie." }
+      ],
+      "ctaTitle": "Lassen Sie sich von Kunden bei Google finden",
+      "ctaBody": "Starten Sie mit Basis für 299 SAR pro Monat, jederzeit kündbar.",
+      "plans": {
+        "title": "Pakete",
+        "from": "Ab",
+        "basic": {
+          "name": "Basis",
+          "items": [
+            "Google Search Console verbunden",
+            "Monatliche Vorschläge für Titel und Beschreibungen",
+            "Suchmaschinen bei jeder Veröffentlichung informiert",
+            "Wöchentlicher Website-Check",
+            "Monatlicher Bericht per E-Mail"
+          ]
+        },
+        "growth": {
+          "name": "Wachstum",
+          "items": [
+            "Alles aus Basis",
+            "4 Artikel pro Monat für Ihr Unternehmen und Ihre Stadt",
+            "2 lokale Landingpages pro Monat",
+            "Keyword-Plan",
+            "Jeder Entwurf wird vor der Veröffentlichung von Ihnen geprüft"
+          ]
+        },
+        "note": "Niemand kann Platz 1 bei Google garantieren, und Ergebnisse zeigen sich in der Regel nach 3 bis 6 Monaten."
+      }
     }
   }
 }

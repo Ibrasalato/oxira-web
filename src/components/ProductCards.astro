@@ -4,7 +4,7 @@ import type { Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath } from '../i18n/products';
-import { addonIds, addonPrices, addonIcons } from '../builder/addons';
+import { productIds, addonPrices, addonIcons } from '../builder/addons';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -13,7 +13,7 @@ const b = builderText[lang];
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
 ---
 <ul class="pc">
-  {addonIds.map((id) => (
+  {productIds.map((id) => (
     <li>
       <a href={link(lang, productPath(id))}>
         <span class="pc-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[id]} /></span>

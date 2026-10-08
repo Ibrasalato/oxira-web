@@ -4,11 +4,11 @@ import type { Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath, productFor } from '../i18n/products';
-import { addonIds, addonPrices, addonIcons, type AddonId } from '../builder/addons';
+import { productIds, addonPrices, addonIcons, type ProductId } from '../builder/addons';
 import Base from '../layouts/Base.astro';
 import ProductMock from '../components/ProductMock.astro';
 
-interface Props { lang: Lang; id: AddonId }
+interface Props { lang: Lang; id: ProductId }
 const { lang, id } = Astro.props;
 const P = productsText[lang];
 const c = P.common;
@@ -19,7 +19,11 @@ const path = productPath(id);
 const url = new URL(link(lang, path), site).href;
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
 const pr = addonPrices[id];
-const others = addonIds.filter((x) => x !== id);
+const others = productIds.filter((x) => x !== id);
+// The SEO add-on has two plans (Basic / Growth); its copy carries a `plans` block.
+type Plans = { title: string; from: string; basic: { name: string; items: string[] }; growth: { name: string; items: string[] }; note: string };
+const plans = (it as unknown as { plans?: Plans }).plans;
+const growthPrice = addonPrices.seogrowth.price;
 
 const ld = [
   {
@@ -31,7 +35,7 @@ const ld = [
     url,
     areaServed: { '@type': 'Country', name: 'Saudi Arabia' },
     provider: { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href },
-    offers: {
+    offers: plans ? { '@type': 'AggregateOffer', lowPrice: String(pr.price), highPrice: String(growthPrice), priceCurrency: 'SAR', offerCount: 2, url } : {
       '@type': 'Offer',
       price: String(pr.price),
       priceCurrency: 'SAR',
@@ -72,6 +76,7 @@ const ld = [
           <h1>{it.h1}</h1>
           <p class="lead">{it.lead}</p>
           <p class="pd-price">
+            {plans && <span>{plans.from} </span>}
             {pr.price ? <><b>{fmt.format(pr.price)}</b> {b.packages.sar} <span>{c.perMonth}</span></> : <b>{c.free}</b>}
             {pr.feePercent ? <span> {c.fee}</span> : null}
           </p>
@@ -94,6 +99,25 @@ const ld = [
       </ul>
     </div>
   </section>
+
+  {plans && (
+    <section class="section-tight" aria-labelledby="pd-plans">
+      <div class="wrap">
+        <div class="sh"><h2 id="pd-plans">{plans.title}</h2></div>
+        <div class="pd-plans">
+          {[{ p: plans.basic, price: pr.price, hl: false }, { p: plans.growth, price: growthPrice, hl: true }].map(({ p, price, hl }) => (
+            <div class={`pd-plan${hl ? ' is-hl' : ''}`}>
+              <h3>{p.name}</h3>
+              <p class="pd-plan-price"><b>{fmt.format(price)}</b> {b.packages.sar} {c.perMonth}</p>
+              <ul>{p.items.map((x) => <li>{x}</li>)}</ul>
+              <a class={`btn ${hl ? 'btn-amber' : 'btn-ghost'}`} href={link(lang, '/account/')}>{c.openAccount}</a>
+            </div>
+          ))}
+        </div>
+        <p class="pd-plans-note">{plans.note} {c.vat}</p>
+      </div>
+    </section>
+  )}
 
   <section class="section-tight bg-paper" aria-labelledby="pd-how">
     <div class="wrap">
@@ -175,6 +199,18 @@ const ld = [
   .pd-features h3::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--amber); margin-bottom: .9rem; }
   .pd-features p { color: var(--muted); }
 
+  .pd-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; max-width: 56rem; }
+  .pd-plan { display: flex; flex-direction: column; gap: .9rem; padding: 1.75rem; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .pd-plan.is-hl { border: 2px solid var(--amber); box-shadow: 0 30px 60px -45px rgba(6, 26, 45, .6); }
+  .pd-plan h3 { font-size: 1.3rem; }
+  .pd-plan-price { color: var(--muted); }
+  .pd-plan-price b { font-size: 2rem; color: var(--ink); }
+  .pd-plan ul { list-style: none; display: grid; gap: .55rem; padding: 0; flex: 1; }
+  .pd-plan li { position: relative; padding-inline-start: 1.5rem; }
+  .pd-plan li::before { content: '✓'; position: absolute; inset-inline-start: 0; color: #1E8E4E; font-weight: 700; }
+  .pd-plan .btn { align-self: flex-start; }
+  .pd-plans-note { margin-top: 1rem; color: var(--muted); font-size: .92rem; max-width: 56rem; }
+  @media (max-width: 700px) { .pd-plans { grid-template-columns: minmax(0, 1fr); } }
   .pd-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
   .pd-steps li { display: grid; gap: .6rem; align-content: start; }
   .pd-steps span { width: 44px; height: 44px; border-radius: 12px; background: var(--navy); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 1.1rem; }

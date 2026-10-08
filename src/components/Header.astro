@@ -5,7 +5,7 @@ import Logo from './Logo.astro';
 import LangPicker from './LangPicker.astro';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath } from '../i18n/products';
-import { addonIds, addonIcons } from '../builder/addons';
+import { productIds, addonIcons } from '../builder/addons';
 import { growthText } from '../i18n/growth';
 
 interface Props { lang: Lang; path: string; langs?: Lang[] }
@@ -43,7 +43,7 @@ import { bundleText } from '../i18n/bundle';
             <div class="hd-col">
               <p class="hd-h">{P.nav.addonsTitle}</p>
               <ul class="hd-addons">
-                {addonIds.map((id) => (
+                {productIds.map((id) => (
                   <li><a href={link(lang, productPath(id))} aria-current={path === productPath(id) ? 'page' : undefined}><span class="hd-ic"><svg viewBox="0 0 24 24" set:html={addonIcons[id]} /></span>{P.items[id].name}</a></li>
                 ))}
               </ul>

@@ -479,6 +479,14 @@
       "tickets": {
         "name": "Veranstaltungstickets",
         "desc": "Verkaufen Sie Tickets auf Ihrer Event-Website mit Online-Zahlung, QR-Tickets per E-Mail und Einlasskontrolle."
+      },
+      "seo": {
+        "name": "Google-SEO — Basis",
+        "desc": "Search Console, monatliche Vorschläge für Titel und Beschreibungen zur Freigabe, wöchentlicher Check und Monatsbericht."
+      },
+      "seogrowth": {
+        "name": "Google-SEO — Wachstum",
+        "desc": "Alles aus Basis plus 4 Artikel und 2 lokale Seiten pro Monat und ein Keyword-Plan. Nichts geht ohne Ihre Freigabe live."
       }
     }
   },
@@ -621,7 +629,32 @@
     },
     "ticketsFee": "Ticketerlöse werden monatlich an Sie überwiesen, abzüglich 5% Servicegebühr.",
     "partner": "Mit Oxira verdienen",
-    "partnerBody": "Empfehlen Sie Oxira anderen Unternehmen und erhalten Sie eine Provision für jede bestellte Website."
+    "partnerBody": "Empfehlen Sie Oxira anderen Unternehmen und erhalten Sie eine Provision für jede bestellte Website.",
+    "seoTitle": "Google-SEO",
+    "seoBody": "Prüfen Sie hier Vorschläge und Entwürfe. Auf Ihrer Website geht nichts ohne Ihre Freigabe live.",
+    "seoReport": "Die letzten 28 Tage bei Google",
+    "seoClicks": "Klicks",
+    "seoImpressions": "Impressionen",
+    "seoPosition": "Durchschnittliche Position",
+    "seoQueries": "Wichtigste Suchanfragen",
+    "seoNoData": "Die Daten aus der Search Console erscheinen hier, sobald sie verbunden ist und Google Daten hat. Das kann ein paar Tage dauern.",
+    "seoPending": "Wartet auf Ihre Freigabe",
+    "seoNone": "Gerade warten keine Vorschläge. Neue kommen zu Beginn jedes Monats.",
+    "seoApprove": "Veröffentlichen",
+    "seoReject": "Ablehnen",
+    "seoEdit": "Bearbeiten",
+    "seoPublished": "Veröffentlicht",
+    "seoRejected": "Abgelehnt",
+    "seoKinds": {
+      "meta": "Titel & Beschreibung",
+      "article": "Artikel",
+      "local": "Lokale Seite"
+    },
+    "seoCurrent": "Aktuell",
+    "seoSuggested": "Vorschlag",
+    "seoHealth": "Zustand der Website",
+    "seoHealthOk": "Beim letzten Check funktionierten alle Seiten.",
+    "seoHealthBad": "Einige Seiten haben Probleme. Die Details haben wir Ihnen per E-Mail geschickt."
   },
   "partners": {
     "pageTitle": "Oxira Partnerprogramm | Verdienen Sie an jeder Website",

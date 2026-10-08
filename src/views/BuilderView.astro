@@ -3,7 +3,7 @@
 import type { Lang } from '../i18n/content';
 import { builderText, plans, planIds, renewals, domainPrice } from '../i18n/builder';
 import { catalog } from '../builder/catalog';
-import { addonIds, addonPrices, addonIcons } from '../builder/addons';
+import { addonIds, addonPrices, addonIcons, productIds } from '../builder/addons';
 import { link } from '../lib/routes';
 import { productsText, productPath } from '../i18n/products';
 import Base from '../layouts/Base.astro';
@@ -109,10 +109,10 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
         {addonIds.map((id) => (
           <li>
             <span class="bd-addon-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={addonIcons[id]} /></span>
-            <h3><a href={link(lang, productPath(id))}>{b.addons.items[id].name}</a></h3>
+            <h3><a href={link(lang, productPath(id === 'seogrowth' ? 'seo' : id))}>{b.addons.items[id].name}</a></h3>
             <p>{b.addons.items[id].desc}</p>
             <p class="bd-addon-price">{addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {b.addons.perMonth}</> : <b>{b.addons.free}</b>}{addonPrices[id].feePercent ? <small> {b.addons.fee}</small> : null}</p>
-            <a class="more bd-addon-more" href={link(lang, productPath(id))}>{productsText[lang].common.learnMore}</a>
+            <a class="more bd-addon-more" href={link(lang, productPath(id === 'seogrowth' ? 'seo' : id))}>{productsText[lang].common.learnMore}</a>
           </li>
         ))}
       </ul>
