@@ -140,10 +140,11 @@
           "id": "seo",
           "q": "Google SEO (299 or 799 SAR/month)",
           "a": [
-            "Basic: Google Search Console, monthly page title and description suggestions, search engine notifications when you publish, a weekly site check and a monthly email report.",
-            "Growth: everything in Basic, plus 4 articles and 2 local pages every month and a keyword plan.",
-            "Every suggestion or draft appears in your account for you to publish, edit or reject. Nothing is published without your approval.",
-            "Nobody can guarantee a first-place ranking on Google, and results usually take 3 to 6 months."
+            "Basic (299 SAR): Google Search Console connection, weekly tracking of up to 10 keywords, the number of calls, WhatsApp messages, emails and contact-form messages from your site, monthly title and description suggestions, two Google Maps posts a month, a technical check and a monthly report you can print or save as PDF.",
+            "Growth (799 SAR): everything in Basic plus 4 articles and 2 local pages every month in Arabic and English, tracking of up to 30 keywords, four Google Maps posts and automatic publishing to WordPress.",
+            "In the “Google visibility” tab of your account, fill in “Your business details”: services, cities, what makes you different, target keywords and competitors. Suggestions and rank tracking are built on them.",
+            "Every suggestion or draft appears in your account to publish, edit or reject; nothing goes live without your approval.",
+            "Nobody can guarantee first place on Google; results usually take 3 to 6 months."
           ]
         }
       ]

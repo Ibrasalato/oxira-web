@@ -48,24 +48,66 @@
       "h1": "Online appointment booking system for your website",
       "lead": "Let customers book appointments on your website any time, instead of endless calls and messages. An appointment scheduling system for clinics, dentists, salons, barbers, trainers and consultants, managed entirely from My account.",
       "features": [
-        { "t": "Service, date and time in one flow", "d": "Customers choose a service from your website, then a day and a free time slot, and send the booking in seconds." },
-        { "t": "Your own opening hours", "d": "Set opening and closing times, minutes per appointment, closed weekdays and a note shown to customers." },
-        { "t": "No double bookings", "d": "Choose how many bookings you accept at the same time. Once a slot is full, nobody else can book it." },
-        { "t": "Email alert for every booking", "d": "You get an email for each new booking, then confirm, cancel or mark it as done from My account." },
-        { "t": "Confirmations and reminders", "d": "Customers get an email when their booking is confirmed or cancelled, plus a reminder the day before if they gave an email." },
-        { "t": "Daily schedule in your inbox", "d": "Every day you receive an email with that day's appointments, so you know who is coming and when." }
+        {
+          "t": "Service, date and time in one flow",
+          "d": "Customers choose a service from your website, then a day and a free time slot, and send the booking in seconds."
+        },
+        {
+          "t": "Your own opening hours",
+          "d": "Set opening and closing times, minutes per appointment, closed weekdays and a note shown to customers."
+        },
+        {
+          "t": "No double bookings",
+          "d": "Choose how many bookings you accept at the same time. Once a slot is full, nobody else can book it."
+        },
+        {
+          "t": "Email alert for every booking",
+          "d": "You get an email for each new booking, then confirm, cancel or mark it as done from My account."
+        },
+        {
+          "t": "Confirmations and reminders",
+          "d": "Customers get an email when their booking is confirmed or cancelled, plus a reminder the day before if they gave an email."
+        },
+        {
+          "t": "Daily schedule in your inbox",
+          "d": "Every day you receive an email with that day's appointments, so you know who is coming and when."
+        }
       ],
       "steps": [
-        { "t": "Turn on booking", "d": "Subscribe to the booking add-on from My account on your Oxira Studio website." },
-        { "t": "Set your hours", "d": "Set opening hours, appointment length, bookings per slot and closed days." },
-        { "t": "Receive bookings", "d": "Customers book on your website and you manage each booking from My account." }
+        {
+          "t": "Turn on booking",
+          "d": "Subscribe to the booking add-on from My account on your Oxira Studio website."
+        },
+        {
+          "t": "Set your hours",
+          "d": "Set opening hours, appointment length, bookings per slot and closed days."
+        },
+        {
+          "t": "Receive bookings",
+          "d": "Customers book on your website and you manage each booking from My account."
+        }
       ],
       "faq": [
-        { "q": "How much does the online booking system cost?", "a": "SAR 99 per month before 15% VAT. It is a monthly subscription you can cancel anytime from My account, and it stays active until the end of the paid month." },
-        { "q": "Can customers book appointments from their phone?", "a": "Yes. The booking page is designed for mobile, so customers can book from their phone at any time. It appears in your website's language." },
-        { "q": "Can two customers book the same time slot?", "a": "You decide how many bookings are allowed at the same time, for example one for a single doctor or more for a salon with several staff. When the slot is full it closes automatically." },
-        { "q": "How do I add online booking to my website?", "a": "You need a website built with Oxira Studio. Turn on the booking add-on from My account and set your hours and appointment length. Services are taken from your website's services section, so there is nothing to enter twice." },
-        { "q": "Do customers get an appointment reminder?", "a": "Yes. If the customer gives an email, they get a reminder the day before, as well as an email when the booking is confirmed or cancelled. You get an email for each new booking and a daily list of appointments." }
+        {
+          "q": "How much does the online booking system cost?",
+          "a": "SAR 99 per month before 15% VAT. It is a monthly subscription you can cancel anytime from My account, and it stays active until the end of the paid month."
+        },
+        {
+          "q": "Can customers book appointments from their phone?",
+          "a": "Yes. The booking page is designed for mobile, so customers can book from their phone at any time. It appears in your website's language."
+        },
+        {
+          "q": "Can two customers book the same time slot?",
+          "a": "You decide how many bookings are allowed at the same time, for example one for a single doctor or more for a salon with several staff. When the slot is full it closes automatically."
+        },
+        {
+          "q": "How do I add online booking to my website?",
+          "a": "You need a website built with Oxira Studio. Turn on the booking add-on from My account and set your hours and appointment length. Services are taken from your website's services section, so there is nothing to enter twice."
+        },
+        {
+          "q": "Do customers get an appointment reminder?",
+          "a": "Yes. If the customer gives an email, they get a reminder the day before, as well as an email when the booking is confirmed or cancelled. You get an email for each new booking and a daily list of appointments."
+        }
       ],
       "ctaTitle": "Start taking bookings on your website",
       "ctaBody": "Turn on online booking today for SAR 99 per month and cancel anytime."
@@ -78,24 +120,66 @@
       "h1": "QR code digital menu for restaurants and cafés",
       "lead": "Show your menu or price list on a page made for phones, opened by scanning a QR code on the table. A contactless digital menu for restaurants, cafés and bakeries, and a clear price list for salons, barbers and any business with prices.",
       "features": [
-        { "t": "Mobile-friendly menu page", "d": "A light page made for phones where customers browse items, descriptions and prices with ease." },
-        { "t": "Category tabs", "d": "Organise the menu into sections like hot drinks, desserts and mains, and customers switch between them with a tap." },
-        { "t": "QR code ready to print", "d": "Download the QR code as a PNG or print it as a ready-made table card." },
-        { "t": "Instant edits from My account", "d": "Change items, descriptions and prices from My account. Updates go live immediately, with no reprinting." },
-        { "t": "Menu section on your website", "d": "The menu also appears as a section on your website, so visitors can see it before they arrive." },
-        { "t": "A price list for any business", "d": "Not only for restaurants: salons, barbers and any business with a price list can use it." }
+        {
+          "t": "Mobile-friendly menu page",
+          "d": "A light page made for phones where customers browse items, descriptions and prices with ease."
+        },
+        {
+          "t": "Category tabs",
+          "d": "Organise the menu into sections like hot drinks, desserts and mains, and customers switch between them with a tap."
+        },
+        {
+          "t": "QR code ready to print",
+          "d": "Download the QR code as a PNG or print it as a ready-made table card."
+        },
+        {
+          "t": "Instant edits from My account",
+          "d": "Change items, descriptions and prices from My account. Updates go live immediately, with no reprinting."
+        },
+        {
+          "t": "Menu section on your website",
+          "d": "The menu also appears as a section on your website, so visitors can see it before they arrive."
+        },
+        {
+          "t": "A price list for any business",
+          "d": "Not only for restaurants: salons, barbers and any business with a price list can use it."
+        }
       ],
       "steps": [
-        { "t": "Turn on the menu", "d": "Subscribe to the menu add-on from My account on your Oxira website." },
-        { "t": "Add categories and items", "d": "Enter your categories and items with a description and price for each." },
-        { "t": "Print your QR code", "d": "Download the code or print the table card and place it on tables or at the counter." }
+        {
+          "t": "Turn on the menu",
+          "d": "Subscribe to the menu add-on from My account on your Oxira website."
+        },
+        {
+          "t": "Add categories and items",
+          "d": "Enter your categories and items with a description and price for each."
+        },
+        {
+          "t": "Print your QR code",
+          "d": "Download the code or print the table card and place it on tables or at the counter."
+        }
       ],
       "faq": [
-        { "q": "How much does a QR code menu cost?", "a": "SAR 49 per month before 15% VAT. Cancel anytime from My account, and your menu stays live until the end of the paid month." },
-        { "q": "Do customers need an app to open the QR menu?", "a": "No app is needed. Customers scan the QR code with their phone camera and the menu opens in the browser. You write the items in the language you choose, Arabic, English or both." },
-        { "q": "How do I create a QR menu for my restaurant?", "a": "First you need a website built with Oxira Studio. Turn on the menu from My account and add your categories, items and prices, then download the QR code as a PNG or print it as a table card." },
-        { "q": "Do I need to reprint the menu when prices change?", "a": "No. Change the price in My account and the new price shows immediately. The QR code stays the same, so your table cards keep working." },
-        { "q": "Can salons and barbers use it as a price list?", "a": "Yes. List services like haircuts, colouring and treatments in tabs with their prices. It suits any business that wants to show its prices clearly." }
+        {
+          "q": "How much does a QR code menu cost?",
+          "a": "SAR 49 per month before 15% VAT. Cancel anytime from My account, and your menu stays live until the end of the paid month."
+        },
+        {
+          "q": "Do customers need an app to open the QR menu?",
+          "a": "No app is needed. Customers scan the QR code with their phone camera and the menu opens in the browser. You write the items in the language you choose, Arabic, English or both."
+        },
+        {
+          "q": "How do I create a QR menu for my restaurant?",
+          "a": "First you need a website built with Oxira Studio. Turn on the menu from My account and add your categories, items and prices, then download the QR code as a PNG or print it as a table card."
+        },
+        {
+          "q": "Do I need to reprint the menu when prices change?",
+          "a": "No. Change the price in My account and the new price shows immediately. The QR code stays the same, so your table cards keep working."
+        },
+        {
+          "q": "Can salons and barbers use it as a price list?",
+          "a": "Yes. List services like haircuts, colouring and treatments in tabs with their prices. It suits any business that wants to show its prices clearly."
+        }
       ],
       "ctaTitle": "Turn your paper menu into a digital menu",
       "ctaBody": "Get your QR menu for SAR 49 per month and update prices whenever you like."
@@ -108,24 +192,66 @@
       "h1": "Get more Google reviews from your customers",
       "lead": "Ask every customer to rate their visit in seconds, then give them a one-tap button to post their review on Google, whatever stars they choose. Low ratings and written comments are also emailed to you, so you can reach out quickly and protect your reputation on Google Maps.",
       "features": [
-        { "t": "Review page on your website", "d": "A simple, mobile-friendly page on your website where customers rate their visit from 1 to 5 stars in seconds." },
-        { "t": "A Google button for every customer", "d": "After rating, every customer sees a button that opens your Google review form directly, whatever stars they picked." },
-        { "t": "Instant alerts for low ratings and comments", "d": "Ratings of 1 to 3 stars and any written comment are also emailed to you privately, so you can follow up quickly." },
-        { "t": "Printable QR card", "d": "Print a QR card for the counter, the table or the waiting room so customers rate you before they leave." },
-        { "t": "A link to send after each visit", "d": "Copy your review page link and send it to customers by WhatsApp or SMS after the service." },
-        { "t": "Genuine reviews from real customers", "d": "We never buy or write reviews. Every Google review comes from your own customers, building trust with people who find you on Google Maps." }
+        {
+          "t": "Review page on your website",
+          "d": "A simple, mobile-friendly page on your website where customers rate their visit from 1 to 5 stars in seconds."
+        },
+        {
+          "t": "A Google button for every customer",
+          "d": "After rating, every customer sees a button that opens your Google review form directly, whatever stars they picked."
+        },
+        {
+          "t": "Instant alerts for low ratings and comments",
+          "d": "Ratings of 1 to 3 stars and any written comment are also emailed to you privately, so you can follow up quickly."
+        },
+        {
+          "t": "Printable QR card",
+          "d": "Print a QR card for the counter, the table or the waiting room so customers rate you before they leave."
+        },
+        {
+          "t": "A link to send after each visit",
+          "d": "Copy your review page link and send it to customers by WhatsApp or SMS after the service."
+        },
+        {
+          "t": "Genuine reviews from real customers",
+          "d": "We never buy or write reviews. Every Google review comes from your own customers, building trust with people who find you on Google Maps."
+        }
       ],
       "steps": [
-        { "t": "Turn on reviews", "d": "Subscribe to the add-on from My account and add your Google review link." },
-        { "t": "Share the QR card or link", "d": "Print the card or send the link to customers after each visit." },
-        { "t": "Follow up and grow", "d": "Customers post their reviews on Google, and you get an email for every low rating or comment so you can respond." }
+        {
+          "t": "Turn on reviews",
+          "d": "Subscribe to the add-on from My account and add your Google review link."
+        },
+        {
+          "t": "Share the QR card or link",
+          "d": "Print the card or send the link to customers after each visit."
+        },
+        {
+          "t": "Follow up and grow",
+          "d": "Customers post their reviews on Google, and you get an email for every low rating or comment so you can respond."
+        }
       ],
       "faq": [
-        { "q": "How much does it cost to get more Google reviews with Oxira?", "a": "SAR 79 per month before 15% VAT. You can cancel anytime from My account, and the subscription stays active until the end of the paid month." },
-        { "q": "Can customers leave a rating from their phone?", "a": "Yes. Customers scan the QR code or open the link on their phone and pick their stars on a mobile-friendly page. The page appears in your website's language." },
-        { "q": "How do I find my Google review link?", "a": "In your Google Business Profile, choose the option to ask for reviews and copy the link, then paste it into the add-on settings in My account. The Google button on your review page will then open your review form directly." },
-        { "q": "Do you buy or write reviews?", "a": "No. We never buy, write or filter reviews. Every Google review is written by your real customers themselves, and every customer is offered the same button to review you on Google." },
-        { "q": "What happens when a customer gives a low rating?", "a": "They can still post their review on Google like any other customer. In addition, ratings of 1 to 3 stars and any comment they write are emailed to you privately, so you hear about the problem early and can contact the customer to put it right." }
+        {
+          "q": "How much does it cost to get more Google reviews with Oxira?",
+          "a": "SAR 79 per month before 15% VAT. You can cancel anytime from My account, and the subscription stays active until the end of the paid month."
+        },
+        {
+          "q": "Can customers leave a rating from their phone?",
+          "a": "Yes. Customers scan the QR code or open the link on their phone and pick their stars on a mobile-friendly page. The page appears in your website's language."
+        },
+        {
+          "q": "How do I find my Google review link?",
+          "a": "In your Google Business Profile, choose the option to ask for reviews and copy the link, then paste it into the add-on settings in My account. The Google button on your review page will then open your review form directly."
+        },
+        {
+          "q": "Do you buy or write reviews?",
+          "a": "No. We never buy, write or filter reviews. Every Google review is written by your real customers themselves, and every customer is offered the same button to review you on Google."
+        },
+        {
+          "q": "What happens when a customer gives a low rating?",
+          "a": "They can still post their review on Google like any other customer. In addition, ratings of 1 to 3 stars and any comment they write are emailed to you privately, so you hear about the problem early and can contact the customer to put it right."
+        }
       ],
       "ctaTitle": "Make Google reviews effortless for every customer",
       "ctaBody": "Turn on Google reviews for SAR 79 per month before VAT and cancel anytime."
@@ -138,24 +264,66 @@
       "h1": "AI chatbot for your website that answers 24/7",
       "lead": "An AI assistant on your website that answers visitors about your services, prices and opening hours, in Arabic dialects, English and other languages. It uses only your website content and your notes, never invents prices, and emails you when someone asks for a call back.",
       "features": [
-        { "t": "Instant answers around the clock", "d": "The chatbot answers visitors day and night, including weekends and outside business hours." },
-        { "t": "Replies in the visitor's language", "d": "It understands Arabic dialects and replies in the visitor's language, whether Arabic, English or another language." },
-        { "t": "Answers from your website only", "d": "It uses your services, menu and prices, FAQ, contact details and opening hours from your website." },
-        { "t": "Never invents prices", "d": "If a price or detail is not on your website or in your notes, the assistant does not guess." },
-        { "t": "Extra notes you control", "d": "Add details like delivery areas, payment methods, policies and current offers so it answers them correctly." },
-        { "t": "Call-back leads by email", "d": "When a visitor leaves a name and phone number and asks for a call back, you get the details by email." }
+        {
+          "t": "Instant answers around the clock",
+          "d": "The chatbot answers visitors day and night, including weekends and outside business hours."
+        },
+        {
+          "t": "Replies in the visitor's language",
+          "d": "It understands Arabic dialects and replies in the visitor's language, whether Arabic, English or another language."
+        },
+        {
+          "t": "Answers from your website only",
+          "d": "It uses your services, menu and prices, FAQ, contact details and opening hours from your website."
+        },
+        {
+          "t": "Never invents prices",
+          "d": "If a price or detail is not on your website or in your notes, the assistant does not guess."
+        },
+        {
+          "t": "Extra notes you control",
+          "d": "Add details like delivery areas, payment methods, policies and current offers so it answers them correctly."
+        },
+        {
+          "t": "Call-back leads by email",
+          "d": "When a visitor leaves a name and phone number and asks for a call back, you get the details by email."
+        }
       ],
       "steps": [
-        { "t": "Turn on the chatbot", "d": "Subscribe to the chatbot add-on from My account on your Oxira website." },
-        { "t": "Add your notes", "d": "Write what is not on your website, such as delivery areas, payment methods and offers." },
-        { "t": "Answer and capture leads", "d": "The assistant answers visitors and call-back requests arrive in your inbox." }
+        {
+          "t": "Turn on the chatbot",
+          "d": "Subscribe to the chatbot add-on from My account on your Oxira website."
+        },
+        {
+          "t": "Add your notes",
+          "d": "Write what is not on your website, such as delivery areas, payment methods and offers."
+        },
+        {
+          "t": "Answer and capture leads",
+          "d": "The assistant answers visitors and call-back requests arrive in your inbox."
+        }
       ],
       "faq": [
-        { "q": "How much does a website chatbot cost?", "a": "SAR 199 per month before 15% VAT. You can cancel anytime from My account, and the assistant keeps working until the end of the paid month." },
-        { "q": "Does the chatbot speak Arabic and work on mobile?", "a": "Yes. It understands Saudi and other Arabic dialects and replies in the visitor's language, including English and other languages. It works on your website on both phones and computers." },
-        { "q": "Where does the chatbot get information about my business?", "a": "From your website content: services, menu and prices, FAQ, contact details and opening hours. You can also add notes in My account about delivery, payment, policies and offers, and it uses them in its answers." },
-        { "q": "Can the chatbot give a wrong price?", "a": "The assistant never invents prices and only mentions prices found on your website or in your notes. Keep your website prices up to date and its answers will be too." },
-        { "q": "How do I receive leads from the chatbot?", "a": "When a visitor writes their name and phone number and asks you to call them, you receive an email with their details. That way you do not miss an enquiry, even after hours." }
+        {
+          "q": "How much does a website chatbot cost?",
+          "a": "SAR 199 per month before 15% VAT. You can cancel anytime from My account, and the assistant keeps working until the end of the paid month."
+        },
+        {
+          "q": "Does the chatbot speak Arabic and work on mobile?",
+          "a": "Yes. It understands Saudi and other Arabic dialects and replies in the visitor's language, including English and other languages. It works on your website on both phones and computers."
+        },
+        {
+          "q": "Where does the chatbot get information about my business?",
+          "a": "From your website content: services, menu and prices, FAQ, contact details and opening hours. You can also add notes in My account about delivery, payment, policies and offers, and it uses them in its answers."
+        },
+        {
+          "q": "Can the chatbot give a wrong price?",
+          "a": "The assistant never invents prices and only mentions prices found on your website or in your notes. Keep your website prices up to date and its answers will be too."
+        },
+        {
+          "q": "How do I receive leads from the chatbot?",
+          "a": "When a visitor writes their name and phone number and asks you to call them, you receive an email with their details. That way you do not miss an enquiry, even after hours."
+        }
       ],
       "ctaTitle": "Let your website answer while you are busy",
       "ctaBody": "Turn on the AI chatbot for SAR 199 per month and cancel anytime."
@@ -168,24 +336,66 @@
       "h1": "Ready-made monthly social media content",
       "lead": "Stop wondering what to post: at the start of every month you receive 12 posts written for your business, each with hashtags and an image in your brand colours. Ready-to-use content for Instagram, X, Facebook and LinkedIn that makes managing your social media accounts much easier.",
       "features": [
-        { "t": "12 posts every month", "d": "A mix of posts about your services, tips for customers, behind-the-scenes moments and calls to visit or book." },
-        { "t": "Saudi occasions of the month", "d": "Posts reflect real occasions in Saudi Arabia that month, such as Ramadan, Eid, Founding Day or National Day, when they fall." },
-        { "t": "Hashtags with every post", "d": "Each post comes with hashtags that fit your business and the topic of the post." },
-        { "t": "Branded square image", "d": "Every post has a square image designed in your brand colours, ready to download from My account." },
-        { "t": "Photo or design idea", "d": "Each post includes an idea for a photo or design if you want to create your own visuals." },
-        { "t": "Based on your website", "d": "Copy is written with AI from your website content, with no invented prices or offers." }
+        {
+          "t": "12 posts every month",
+          "d": "A mix of posts about your services, tips for customers, behind-the-scenes moments and calls to visit or book."
+        },
+        {
+          "t": "Saudi occasions of the month",
+          "d": "Posts reflect real occasions in Saudi Arabia that month, such as Ramadan, Eid, Founding Day or National Day, when they fall."
+        },
+        {
+          "t": "Hashtags with every post",
+          "d": "Each post comes with hashtags that fit your business and the topic of the post."
+        },
+        {
+          "t": "Branded square image",
+          "d": "Every post has a square image designed in your brand colours, ready to download from My account."
+        },
+        {
+          "t": "Photo or design idea",
+          "d": "Each post includes an idea for a photo or design if you want to create your own visuals."
+        },
+        {
+          "t": "Based on your website",
+          "d": "Copy is written with AI from your website content, with no invented prices or offers."
+        }
       ],
       "steps": [
-        { "t": "Subscribe from My account", "d": "Turn on the monthly content add-on from My account on your Oxira website." },
-        { "t": "Receive posts each month", "d": "At the start of every month you get an email saying your 12 posts are ready." },
-        { "t": "Download and post", "d": "Download the images, copy the captions and post them whenever it suits you." }
+        {
+          "t": "Subscribe from My account",
+          "d": "Turn on the monthly content add-on from My account on your Oxira website."
+        },
+        {
+          "t": "Receive posts each month",
+          "d": "At the start of every month you get an email saying your 12 posts are ready."
+        },
+        {
+          "t": "Download and post",
+          "d": "Download the images, copy the captions and post them whenever it suits you."
+        }
       ],
       "faq": [
-        { "q": "How much does monthly social media content cost?", "a": "SAR 499 per month before 15% VAT, including 12 ready posts every month. You can cancel anytime from My account, and the subscription stays active until the end of the paid month." },
-        { "q": "Do you post on my accounts or manage them for me?", "a": "No, we do not manage your accounts or post on your behalf. You receive ready posts with caption, hashtags and image, and you or your team publish them when it suits you." },
-        { "q": "Can I download the posts on my phone, and in what language are they?", "a": "Yes. Open My account on your phone, download the square images and copy the captions, then post directly from your social apps. The content is based on your website, so it follows your website's language." },
-        { "q": "Will the content include made-up prices or offers?", "a": "No. The posts are written with AI from your website content and never include invented prices or offers. If you want to promote a specific offer, add it yourself before posting." },
-        { "q": "What kind of posts will I get each month?", "a": "Posts about your services, useful tips for your customers, behind-the-scenes moments, Saudi occasions that fall in that month and calls to visit or book. Each comes with hashtags, an image idea and a ready square image." }
+        {
+          "q": "How much does monthly social media content cost?",
+          "a": "SAR 499 per month before 15% VAT, including 12 ready posts every month. You can cancel anytime from My account, and the subscription stays active until the end of the paid month."
+        },
+        {
+          "q": "Do you post on my accounts or manage them for me?",
+          "a": "No, we do not manage your accounts or post on your behalf. You receive ready posts with caption, hashtags and image, and you or your team publish them when it suits you."
+        },
+        {
+          "q": "Can I download the posts on my phone, and in what language are they?",
+          "a": "Yes. Open My account on your phone, download the square images and copy the captions, then post directly from your social apps. The content is based on your website, so it follows your website's language."
+        },
+        {
+          "q": "Will the content include made-up prices or offers?",
+          "a": "No. The posts are written with AI from your website content and never include invented prices or offers. If you want to promote a specific offer, add it yourself before posting."
+        },
+        {
+          "q": "What kind of posts will I get each month?",
+          "a": "Posts about your services, useful tips for your customers, behind-the-scenes moments, Saudi occasions that fall in that month and calls to visit or book. Each comes with hashtags, an image idea and a ready square image."
+        }
       ],
       "ctaTitle": "Keep your accounts active every month",
       "ctaBody": "Get 12 ready posts every month for SAR 499 and cancel anytime."
@@ -198,55 +408,150 @@
       "h1": "Sell event tickets online from your event website",
       "lead": "Sell tickets for your event, conference or workshop straight from its website, with payment by mada, Visa, Mastercard and Apple Pay. No monthly fee, only 5% per ticket sold, with QR tickets and check-in at the door.",
       "features": [
-        { "t": "Multiple ticket types", "d": "Create several ticket types, such as Standard and VIP, each with its own price and quantity." },
-        { "t": "Automatic sold-out", "d": "When a ticket type sells out it is marked as sold out, so you never sell beyond capacity." },
-        { "t": "mada, cards and Apple Pay", "d": "Guests pay online with mada, Visa, Mastercard or Apple Pay through Moyasar." },
-        { "t": "QR ticket by email", "d": "Every buyer receives a ticket with a QR code by email and shows it on their phone at the door." },
-        { "t": "Check-in at the door", "d": "Scan the QR code with your phone camera or enter the ticket code in My account. Each ticket checks in once." },
-        { "t": "Free invites and live sales", "d": "Issue free invitation tickets for guests and sponsors, and follow a live list of tickets sold." }
+        {
+          "t": "Multiple ticket types",
+          "d": "Create several ticket types, such as Standard and VIP, each with its own price and quantity."
+        },
+        {
+          "t": "Automatic sold-out",
+          "d": "When a ticket type sells out it is marked as sold out, so you never sell beyond capacity."
+        },
+        {
+          "t": "mada, cards and Apple Pay",
+          "d": "Guests pay online with mada, Visa, Mastercard or Apple Pay through Moyasar."
+        },
+        {
+          "t": "QR ticket by email",
+          "d": "Every buyer receives a ticket with a QR code by email and shows it on their phone at the door."
+        },
+        {
+          "t": "Check-in at the door",
+          "d": "Scan the QR code with your phone camera or enter the ticket code in My account. Each ticket checks in once."
+        },
+        {
+          "t": "Free invites and live sales",
+          "d": "Issue free invitation tickets for guests and sponsors, and follow a live list of tickets sold."
+        }
       ],
       "steps": [
-        { "t": "Build your event website", "d": "Create your event website with Oxira Studio, then turn on ticket sales from My account." },
-        { "t": "Add ticket types", "d": "Set each ticket type's name, price and quantity, and issue free invitations if needed." },
-        { "t": "Sell and check in", "d": "Guests buy and receive QR tickets, and you scan them at the door from My account." }
+        {
+          "t": "Build your event website",
+          "d": "Create your event website with Oxira Studio, then turn on ticket sales from My account."
+        },
+        {
+          "t": "Add ticket types",
+          "d": "Set each ticket type's name, price and quantity, and issue free invitations if needed."
+        },
+        {
+          "t": "Sell and check in",
+          "d": "Guests buy and receive QR tickets, and you scan them at the door from My account."
+        }
       ],
       "faq": [
-        { "q": "How much does the event ticketing platform cost?", "a": "There is no monthly fee, only 5% of each ticket sold. Ticket revenue is transferred to you monthly minus that 5%, and fees exclude 15% VAT. Free invitation tickets carry no fee." },
-        { "q": "Can people buy tickets on their phone?", "a": "Yes. The ticket page works on mobile and guests pay with mada, Apple Pay or a card. The ticket arrives by email and they show it on their phone at the entrance." },
-        { "q": "How do I check tickets at the event entrance?", "a": "Open check-in in My account, then scan the QR code with your phone camera or type the ticket code. You see straight away whether the ticket is valid or already used." },
-        { "q": "When do I receive the money from ticket sales?", "a": "Ticket revenue is transferred to the organiser monthly, minus the 5% fee. You can follow tickets sold at any time from the live sales list in My account." },
-        { "q": "Which payment methods can guests use to buy tickets?", "a": "Guests pay with mada, Visa, Mastercard and Apple Pay through the Moyasar payment gateway. You can also issue free invitation tickets that need no payment." }
+        {
+          "q": "How much does the event ticketing platform cost?",
+          "a": "There is no monthly fee, only 5% of each ticket sold. Ticket revenue is transferred to you monthly minus that 5%, and fees exclude 15% VAT. Free invitation tickets carry no fee."
+        },
+        {
+          "q": "Can people buy tickets on their phone?",
+          "a": "Yes. The ticket page works on mobile and guests pay with mada, Apple Pay or a card. The ticket arrives by email and they show it on their phone at the entrance."
+        },
+        {
+          "q": "How do I check tickets at the event entrance?",
+          "a": "Open check-in in My account, then scan the QR code with your phone camera or type the ticket code. You see straight away whether the ticket is valid or already used."
+        },
+        {
+          "q": "When do I receive the money from ticket sales?",
+          "a": "Ticket revenue is transferred to the organiser monthly, minus the 5% fee. You can follow tickets sold at any time from the live sales list in My account."
+        },
+        {
+          "q": "Which payment methods can guests use to buy tickets?",
+          "a": "Guests pay with mada, Visa, Mastercard and Apple Pay through the Moyasar payment gateway. You can also issue free invitation tickets that need no payment."
+        }
       ],
       "ctaTitle": "Start selling tickets for your event",
       "ctaBody": "No monthly fee. You only pay 5% on each ticket you sell."
     },
     "seo": {
       "title": "Google SEO Service: Get Your Website Found | Oxira",
-      "description": "Get found on Google: Search Console data, monthly title and description suggestions you approve, search engine pings and a monthly report. From SAR 299/mo.",
+      "description": "Get found on Google: weekly keyword rank tracking, the number of customers who contacted you from your site, suggestions and articles you approve before publishing, and a monthly report. From 299 SAR a month.",
       "name": "Google SEO",
       "short": "See how people find you on Google and improve your pages every month with suggestions you approve first.",
       "h1": "Get your website found on Google",
       "lead": "Help customers find you when they search Google for what you offer. Every Oxira website already includes the SEO basics for free: a sitemap, robots.txt, structured data, page titles and descriptions, and fast, mobile-friendly pages. The Google SEO add-on builds on that with monthly work based on real search data, and nothing changes on your site until you approve it.",
       "features": [
-        { "t": "Google Search Console connected", "d": "See which searches show your website on Google, plus clicks, impressions and your average position." },
-        { "t": "Monthly title and description suggestions", "d": "Every month AI suggests better page titles and meta descriptions based on real search data, and you approve them in My account before they go live." },
-        { "t": "Search engines notified instantly", "d": "Whenever a page is published we notify Bing and Yandex through IndexNow and update your sitemap for Google." },
-        { "t": "Weekly site health check", "d": "Every week we check that your pages load and your sitemap links work, and email you if something breaks." },
-        { "t": "Monthly email report", "d": "Clicks, impressions, top searches, the change versus last month and the actions we took." },
-        { "t": "Articles and local pages on Growth", "d": "4 blog articles a month for your business and city, 2 local landing pages and a keyword plan. Every one is a draft you review first." }
+        {
+          "t": "Google Search Console connection",
+          "d": "See the searches that show your site, your clicks, impressions and average position, with a monthly chart of your progress."
+        },
+        {
+          "t": "Weekly keyword rank tracking",
+          "d": "Choose the keywords you want to rank for; we check your position every Monday and show the change."
+        },
+        {
+          "t": "Customers who contacted you",
+          "d": "On websites built with Oxira we count calls, WhatsApp messages, emails, contact-form messages and bookings, so you see the real result."
+        },
+        {
+          "t": "Monthly suggestions from your business details",
+          "d": "Titles, descriptions and content written from your services, city, strengths and target keywords. You approve everything before it goes live."
+        },
+        {
+          "t": "Posts for your Google Maps profile",
+          "d": "Two posts a month on Basic and four on Growth, ready to copy and publish on your Google Maps profile."
+        },
+        {
+          "t": "Visible in AI answers",
+          "d": "An llms.txt file and FAQ structured data, so ChatGPT and Google AI Overviews understand your business and can cite it."
+        },
+        {
+          "t": "Monthly and weekly technical checks",
+          "d": "Google mobile speed, layout stability, titles, descriptions and image text, plus a weekly check for broken pages."
+        },
+        {
+          "t": "Professional monthly report",
+          "d": "By email and in your account; print it or save it as PDF to share with a partner or manager."
+        }
       ],
       "steps": [
-        { "t": "Choose a plan in My account", "d": "Subscribe to Basic or Growth from My account on your Oxira Studio website." },
-        { "t": "Connect Search Console", "d": "If your website uses your own domain, add Oxira as a user in your Search Console once." },
-        { "t": "Review and approve", "d": "Suggestions and drafts arrive in My account to publish, edit or reject, and a report reaches you every month." }
+        {
+          "t": "Choose a plan in My account",
+          "d": "Subscribe to Basic or Growth from My account on your Oxira Studio website."
+        },
+        {
+          "t": "Connect Search Console",
+          "d": "If your website uses your own domain, add Oxira as a user in your Search Console once."
+        },
+        {
+          "t": "Review and approve",
+          "d": "Suggestions and drafts arrive in My account to publish, edit or reject, and a report reaches you every month."
+        }
       ],
       "faq": [
-        { "q": "Can you guarantee my website will rank first on Google?", "a": "No, and nobody can honestly promise that, because Google alone decides the rankings. What we offer is steady improvement based on real search data while following Google's guidelines: we never buy links or reviews or stuff keywords, because that breaks Google's policies and can get a site penalised." },
-        { "q": "How long does SEO take to show results?", "a": "Results usually take 3 to 6 months and depend on your business, your city and the competition. You can follow progress in the monthly report, which compares each month with the one before." },
-        { "q": "How much does the Google SEO add-on cost, and what is the difference between the plans?", "a": "Basic is SAR 299 per month and includes Search Console, monthly title and description suggestions, search engine notifications, the weekly health check and the monthly report. Growth is SAR 799 per month and adds 4 articles and 2 local pages every month plus a keyword plan. Prices exclude 15% VAT, and you can cancel anytime from My account." },
-        { "q": "Will anything be published on my website without my approval?", "a": "No. Every title or description suggestion and every article or local page arrives as a draft in My account, where you publish, edit or reject it. Nothing goes live without your approval." },
-        { "q": "What about my Google Maps listing?", "a": "Your Google Business Profile matters a lot for local search. We give you a checklist to complete it, and the Google reviews add-on helps you collect reviews from your customers, but we do not manage the profile automatically for you." },
-        { "q": "Does it work if my website is on another platform (WordPress, Salla, Zid…)?", "a": "Yes. Create a free account, add your website and connect it to Google Search Console in a few minutes. You get the same reports, health checks and suggestions; you copy the approved texts and publish them on your site yourself. On websites built with Oxira, publishing is automatic." }
+        {
+          "q": "Can you guarantee my website will rank first on Google?",
+          "a": "No, and nobody can honestly promise that, because Google alone decides the rankings. What we offer is steady improvement based on real search data while following Google's guidelines: we never buy links or reviews or stuff keywords, because that breaks Google's policies and can get a site penalised."
+        },
+        {
+          "q": "How long does SEO take to show results?",
+          "a": "Results usually take 3 to 6 months and depend on your business, your city and the competition. You can follow progress in the monthly report, which compares each month with the one before."
+        },
+        {
+          "q": "How much does the Google SEO add-on cost, and what is the difference between the plans?",
+          "a": "Basic is 299 SAR a month: Search Console connection, tracking of up to 10 keywords, lead counting, monthly suggestions, two Google Maps posts, technical checks and a monthly report. Growth is 799 SAR a month and adds 4 articles and 2 local pages every month in Arabic and English, tracking of up to 30 keywords and four Google Maps posts. Prices exclude 15% VAT, and you can cancel any time from your account."
+        },
+        {
+          "q": "Will anything be published on my website without my approval?",
+          "a": "No. Every title or description suggestion and every article or local page arrives as a draft in My account, where you publish, edit or reject it. Nothing goes live without your approval."
+        },
+        {
+          "q": "What about my Google Maps listing?",
+          "a": "Yes. Every month we write ready-to-post updates for your Google Maps profile; you copy and publish them in one click. If you add us as a manager, we will post them for you as soon as the direct Google connection is enabled. For reviews, the Google reviews add-on helps you collect and follow them."
+        },
+        {
+          "q": "Does it work if my website is on another platform (WordPress, Salla, Zid…)?",
+          "a": "Yes. Create a free account, add your website and connect Google Search Console in minutes. If your site runs on WordPress, connect it with an application password and we publish the articles you approve automatically; on other platforms you copy the approved text and publish it yourself."
+        }
       ],
       "ctaTitle": "Help customers find you on Google",
       "ctaBody": "Start with Basic for SAR 299 per month and cancel anytime.",
@@ -256,21 +561,23 @@
         "basic": {
           "name": "Basic",
           "items": [
-            "Google Search Console connected",
+            "Google Search Console connection",
+            "Track up to 10 keywords weekly",
+            "Calls and messages from your site",
             "Monthly title and description suggestions",
-            "Search engines notified on every publish",
-            "Weekly site health check",
-            "Monthly email report"
+            "2 Google Maps posts a month",
+            "Technical check and PDF monthly report"
           ]
         },
         "growth": {
           "name": "Growth",
           "items": [
             "Everything in Basic",
-            "4 articles a month for your business and city",
-            "2 local landing pages every month",
-            "Keyword plan",
-            "Every draft reviewed by you before publishing"
+            "Track up to 30 keywords",
+            "4 articles and 2 local pages a month",
+            "Articles in Arabic and English",
+            "4 Google Maps posts a month",
+            "Automatic publishing to WordPress"
           ]
         },
         "note": "Nobody can guarantee a first-place ranking on Google, and results usually take 3 to 6 months."
