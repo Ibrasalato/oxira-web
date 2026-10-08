@@ -640,13 +640,17 @@ html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.4;letter-spacin
     ...(s.contact.address ? { address: s.contact.address } : {}),
     ...(shareImg ? { image: shareImg } : {}),
     ...(m.logo && opt.siteUrl ? { logo: abs(m.logo) } : {}),
-  }).replace(/</g, '\\u003c');
+  });
+  const faqLd = s.sections.includes('faq') && s.faq.items.length
+    ? JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: s.faq.items.slice(0, 20).map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })) })
+    : '';
+  const ldTags = `<script type="application/ld+json">${ld.replace(/</g, '\\u003c')}</script>${faqLd ? `<script type="application/ld+json">${faqLd.replace(/</g, '\\u003c')}</script>` : ''}`;
   return `<!doctype html><html lang="${s.lang}" dir="${rtl ? 'rtl' : 'ltr'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(s.hero.subtitle)}">
 <meta name="theme-color" content="${p}"><link rel="icon" href="${esc(favicon)}">
 ${opt.siteUrl ? `<link rel="canonical" href="${esc(opt.siteUrl)}"><meta property="og:url" content="${esc(opt.siteUrl)}">` : ''}
 <meta property="og:type" content="website"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(s.hero.subtitle)}"><meta property="og:site_name" content="${esc(s.name)}">
 ${shareImg ? `<meta property="og:image" content="${esc(shareImg)}"><meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
-<script type="application/ld+json">${ld}</script>
+${ldTags}
 <style>${css}${s.colors.background ? backgroundCss(s.colors.background) : ''}</style></head><body class="t-${layout} tt-${t}${s.colors.background ? ' has-bg' : ''}">${body}</body></html>`;
 }

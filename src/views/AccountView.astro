@@ -16,6 +16,7 @@ const config = {
   loginEndpoint: `${n8n}/oxira-portal-login`,
   apiEndpoint: `${n8n}/oxira-portal`,
   seoEndpoint: `${n8n}/oxira-seo`,
+  seoSettingsEndpoint: `${n8n}/oxira-seo-settings`,
   extEndpoint: `${n8n}/oxira-site-ext`,
   gscEmail: 'ibrasalato@gmail.com',
   builderUrl: link(lang, '/website-builder/'),
@@ -465,23 +466,93 @@ const config = {
   }
   function seoHtml(v: any) {
     const nf = new Intl.NumberFormat(cfg.numberLocale);
+    const s0 = site()!;
+    const growth = has('seogrowth');
+    const st = v.settings || {}, brief = st.brief || {}, gbp = st.gbp || {}, wp = st.wp || {};
+    const wpOn = !!(v.external && wp.ok);
     const rep = v.report;
     const cur = rep && rep.cur;
-    const report = card(`<h2>${esc(T.seoReport)}</h2>${cur ? `<div class="ac-stats"><div><b>${nf.format(Math.round(cur.clicks))}</b><span>${esc(T.seoClicks)}</span></div><div><b>${nf.format(Math.round(cur.impressions))}</b><span>${esc(T.seoImpressions)}</span></div><div><b>${cur.position ? cur.position.toFixed(1) : '—'}</b><span>${esc(T.seoPosition)}</span></div></div>${(rep.queries || []).length ? `<h3 class="ac-h3">${esc(T.seoQueries)}</h3><ol class="ac-queries">${rep.queries.slice(0, 8).map((q: any) => `<li dir="auto"><span>${esc(q.q)}</span><small>${q.clicks} · ${q.position}</small></li>`).join('')}</ol>` : ''}` : `<p class="ac-muted">${esc(T.seoNoData)}</p>`}`);
+    const head = `<div class="ac-seo-head ac-noprint"><button type="button" class="btn btn-ghost ac-small-btn" data-seo-print>${esc(T.seoPrint)}</button></div>
+      <div class="ac-print-only"><h1>${esc(T.seoReportFor)}</h1><p>${esc(s0.name || s0.domain || '')} · <span dir="ltr">${esc(s0.url || '')}</span> · ${esc(new Date().toLocaleDateString(cfg.lang === 'ar' ? 'ar-SA-u-nu-latn-ca-gregory' : cfg.numberLocale, { day: 'numeric', month: 'long', year: 'numeric' }))}</p></div>`;
+    // Leads (websites hosted by Oxira)
+    const LK = ['tel', 'wa', 'mail', 'form'] as const;
+    const sum = (o: any, keys: readonly string[]) => keys.reduce((a, k) => a + (Number(o?.[k]) || 0), 0);
+    const last = rep?.leads;
+    const leads = v.external ? '' : card(`<h2>${esc(T.seoLeadsTitle)}</h2>
+      <div class="ac-leads">
+        <div><p class="ac-kicker">${esc(T.seoLeadsNow)}</p><b class="ac-big">${nf.format(sum(v.leadsNow, LK))}</b>
+          <ul>${LK.map((k) => `<li><span>${esc(T.seoLeadKinds[k])}</span><b>${nf.format(Number(v.leadsNow?.[k]) || 0)}</b></li>`).join('')}</ul></div>
+        ${last ? `<div><p class="ac-kicker">${esc(T.seoLeadsLast)} <span dir="ltr">${esc(last.month || '')}</span></p><b class="ac-big">${nf.format(sum(last, [...LK, 'bookings']))}</b>
+          <ul>${[...LK, 'bookings'].map((k) => `<li><span>${esc(T.seoLeadKinds[k])}</span><b>${nf.format(Number(last[k]) || 0)}</b></li>`).join('')}</ul></div>` : ''}
+      </div><p class="ac-muted ac-small">${esc(T.seoLeadsNote)}</p>`);
+    // Google: last 28 days + monthly trend
+    const hist = (v.history || []).filter((x: any) => x.cur);
+    const maxC = Math.max(1, ...hist.map((x: any) => x.cur.clicks || 0));
+    const trend = hist.length > 1 ? `<h3 class="ac-h3">${esc(T.seoTrend)}</h3><div class="ac-bars" role="img" aria-label="${esc(T.seoTrend)}">${hist.map((x: any) => `<div><span style="height:${Math.max(4, Math.round((x.cur.clicks || 0) / maxC * 100))}%"></span><b>${nf.format(Math.round(x.cur.clicks || 0))}</b><small dir="ltr">${esc(String(x.month).slice(5))}</small></div>`).join('')}</div>` : '';
+    const report = card(`<h2>${esc(T.seoReport)}</h2>${cur ? `<div class="ac-stats"><div><b>${nf.format(Math.round(cur.clicks))}</b><span>${esc(T.seoClicks)}</span></div><div><b>${nf.format(Math.round(cur.impressions))}</b><span>${esc(T.seoImpressions)}</span></div><div><b>${cur.position ? cur.position.toFixed(1) : '—'}</b><span>${esc(T.seoPosition)}</span></div></div>${(rep.queries || []).length ? `<h3 class="ac-h3">${esc(T.seoQueries)}</h3><ol class="ac-queries">${rep.queries.slice(0, 8).map((q: any) => `<li dir="auto"><span>${esc(q.q)}</span><small>${q.clicks} · ${q.position}</small></li>`).join('')}</ol>` : ''}` : `<p class="ac-muted">${esc(T.seoNoData)}</p>`}${trend}`);
+    // Keyword ranks: latest week vs the first week we have (up to 8 weeks back)
+    const weeks = v.ranks?.data || [];
+    const lastW = weeks[weeks.length - 1] || {}, firstW = weeks.length > 1 ? weeks[0] : {};
+    const kws: string[] = (brief.keywords || []).length ? brief.keywords : Object.keys(lastW);
+    const rankRows = kws.map((k) => {
+      const p = lastW[k]?.p ?? null, p0 = firstW[k]?.p ?? null;
+      const ch = p != null && p0 != null ? Math.round((p0 - p) * 10) / 10 : null;
+      return `<tr><td dir="auto">${esc(k)}</td><td>${p == null ? `<span class="ac-muted">${esc(T.seoNotYet)}</span>` : '#' + p}</td><td>${ch == null || ch === 0 ? '—' : `<span class="${ch > 0 ? 'ac-up' : 'ac-down'}">${ch > 0 ? '▲' : '▼'} ${Math.abs(ch)}</span>`}</td><td>${nf.format(lastW[k]?.c || 0)}</td></tr>`;
+    }).join('');
+    const ranks = card(`<h2>${esc(T.seoRanks)}</h2>${!kws.length ? `<p class="ac-muted">${esc(T.seoRanksEmpty)}</p>` : !weeks.length ? `<p class="ac-muted">${esc(T.seoRanksWait)}</p>` : `<div class="ac-table-wrap"><table class="ac-table"><thead><tr><th>${esc(T.seoKw)}</th><th>${esc(T.seoPos)}</th><th>${esc(T.seoChange)}</th><th>${esc(T.seoClicks)}</th></tr></thead><tbody>${rankRows}</tbody></table></div><p class="ac-muted ac-small" dir="ltr">${esc(v.ranks.weeks[v.ranks.weeks.length - 1] || '')}</p>`}`);
+    // Technical check
+    const tech = rep?.tech;
     const h = v.health;
-    const health = h ? card(`<h2>${esc(T.seoHealth)}</h2><p class="${h.ok ? 'ac-ok' : 'ac-bad'}">${esc(h.ok ? T.seoHealthOk : T.seoHealthBad)} <small class="ac-muted" dir="ltr">${esc(h.date || '')}</small></p>`) : '';
+    const techCard = tech || h ? card(`<h2>${esc(T.seoTech)}</h2>${tech ? `<div class="ac-stats">${tech.performance != null ? `<div><b>${tech.performance}</b><span>${esc(T.seoSpeed)} /100</span></div>` : ''}${tech.lcp ? `<div><b dir="ltr">${esc(tech.lcp)}</b><span>${esc(T.seoLcp)}</span></div>` : ''}${tech.cls ? `<div><b dir="ltr">${esc(tech.cls)}</b><span>${esc(T.seoCls)}</span></div>` : ''}</div>
+      <ul class="ac-checks">${Object.entries(tech.checks || {}).map(([k, ok]) => `<li class="${ok ? 'ok' : 'bad'}"><i aria-hidden="true">${ok ? '✓' : '✗'}</i>${esc(T.seoChecks[k] || k)}</li>`).join('')}</ul>` : ''}${h ? `<p class="${h.ok ? 'ac-ok' : 'ac-bad'}">${esc(h.ok ? T.seoHealthOk : T.seoHealthBad)} <small class="ac-muted" dir="ltr">${esc(h.date || '')}</small></p>` : ''}`) : '';
+    // Suggestions waiting for approval
     const pending = (v.items || []).filter((x: any) => x.status === 'pending');
     const done = (v.items || []).filter((x: any) => x.status !== 'pending');
+    const manual = (x: any) => x.kind === 'gbp' || x.kind === 'llms' || (v.external && !(wpOn && (x.kind === 'article' || x.kind === 'local')));
+    const pubLabel = (x: any) => (x.kind === 'gbp' ? T.seoPosted : manual(x) ? T.seoMarkDone : wpOn ? T.seoWpPublish : T.seoApprove);
+    const note = (x: any) => (x.kind === 'gbp' ? T.seoGbpNote : x.kind === 'llms' ? T.seoLlmsNote : '');
     const item = (x: any) => `<article class="ac-seo-item" data-seo-item="${x.id}">
-      <p class="ac-chip">${esc(T.seoKinds[x.kind] || x.kind)}</p>
-      <label class="ac-field">${esc(T.seoSuggested)}<input name="title" value="${esc(x.title)}" maxlength="90" dir="auto"></label>
-      <label class="ac-field"><textarea name="description" rows="2" maxlength="180" dir="auto">${esc(x.description)}</textarea></label>
-      ${x.kind !== 'meta' ? `<details${v.external ? ' open' : ''}><summary>${esc(T.seoEdit)}</summary><textarea name="body" rows="14" dir="auto" class="ac-seo-body">${esc(x.body)}</textarea></details>` : ''}
-      <div class="ac-row">${v.external ? `<button type="button" class="btn btn-ghost ac-small-btn" data-seo-copy="${x.id}">${esc(T.seoCopy)}</button>` : ''}<button type="button" class="btn btn-amber ac-small-btn" data-seo-pub="${x.id}">${esc(v.external ? T.seoMarkDone : T.seoApprove)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-seo-rej="${x.id}">${esc(T.seoReject)}</button></div>
+      <p class="ac-chip">${esc(T.seoKinds[x.kind] || x.kind)}${x.lang && x.lang !== cfg.lang ? ` · ${esc(x.lang.toUpperCase())}` : ''}</p>
+      ${note(x) ? `<p class="ac-muted ac-small">${esc(note(x))}</p>` : ''}
+      ${x.kind !== 'llms' ? `<label class="ac-field">${esc(T.seoSuggested)}<input name="title" value="${esc(x.title)}" maxlength="90" dir="auto"></label>` : ''}
+      ${x.kind !== 'gbp' && x.kind !== 'llms' ? `<label class="ac-field"><textarea name="description" rows="2" maxlength="180" dir="auto">${esc(x.description)}</textarea></label>` : ''}
+      ${x.kind !== 'meta' ? `<details${manual(x) ? ' open' : ''}><summary>${esc(T.seoEdit)}</summary><textarea name="body" rows="${x.kind === 'gbp' ? 5 : 14}" dir="${x.kind === 'llms' ? 'auto' : 'auto'}" class="ac-seo-body">${esc(x.body)}</textarea></details>` : ''}
+      <div class="ac-row">${manual(x) ? `<button type="button" class="btn btn-ghost ac-small-btn" data-seo-copy="${x.id}">${esc(T.seoCopy)}</button>` : ''}<button type="button" class="btn btn-amber ac-small-btn" data-seo-pub="${x.id}">${esc(pubLabel(x))}</button><button type="button" class="btn btn-ghost ac-small-btn" data-seo-rej="${x.id}">${esc(T.seoReject)}</button></div>
     </article>`;
-    const list = card(`<h2>${esc(T.seoPending)}</h2><p class="ac-muted">${esc(v.external ? T.seoExtNote : T.seoBody)}</p>${pending.length ? pending.map(item).join('') : `<p class="ac-muted">${esc(T.seoNone)}</p>`}`);
-    const history = done.length ? card(`<ul class="ac-seo-done">${done.map((x: any) => `<li><span class="ac-chip ${x.status === 'published' ? 'st-active' : ''}">${esc(x.status === 'published' ? T.seoPublished : T.seoRejected)}</span> <span dir="auto">${esc(x.title)}</span> ${x.url ? `<a class="ac-link" href="${esc(x.url)}" target="_blank" rel="noopener">↗</a>` : ''}</li>`).join('')}</ul>`) : '';
-    return report + health + list + history;
+    const list = card(`<h2>${esc(T.seoPending)}</h2><p class="ac-muted">${esc(v.external && !wpOn ? T.seoExtNote : T.seoBody)}</p>${pending.length ? pending.map(item).join('') : `<p class="ac-muted">${esc(T.seoNone)}</p>`}`, 'ac-noprint');
+    const history = done.length ? card(`<ul class="ac-seo-done">${done.map((x: any) => `<li><span class="ac-chip ${x.status === 'published' ? 'st-active' : ''}">${esc(x.status === 'published' ? T.seoPublished : T.seoRejected)}</span> <span class="ac-muted ac-small">${esc(T.seoKinds[x.kind] || x.kind)}</span> <span dir="auto">${esc(x.title)}</span> ${x.url ? `<a class="ac-link" href="${esc(x.url)}" target="_blank" rel="noopener">↗</a>` : ''}</li>`).join('')}</ul>`) : '';
+    // The owner's brief: used by the writer and for rank tracking
+    const maxKw = growth ? 30 : 10;
+    const ta = (name: string, label: string, val: string, rows = 2, extra = '') => `<label class="ac-field">${esc(label)}<textarea name="${name}" rows="${rows}" dir="auto" ${extra}>${esc(val || '')}</textarea></label>`;
+    const briefCard = card(`<h2>${esc(T.seoBrief)}</h2><p class="ac-muted">${esc(T.seoBriefBody)}</p>
+      <form id="ac-seo-brief" class="ac-form-grid">
+        ${ta('services', T.seoServices, brief.services, 3, 'maxlength="1500"')}
+        ${ta('areas', T.seoAreas, brief.areas, 2, 'maxlength="500"')}
+        ${ta('audience', T.seoAudience, brief.audience, 2, 'maxlength="500"')}
+        ${ta('usp', T.seoUsp, brief.usp, 2, 'maxlength="800"')}
+        ${ta('keywords', T.seoKeywords, (brief.keywords || []).join('\n'), 5)}
+        <p class="ac-muted ac-small ac-wide">${esc(T.seoKeywordsHint.replace('{n}', String(maxKw)))}</p>
+        ${ta('competitors', T.seoCompetitors, (brief.competitors || []).join('\n'), 3)}
+        ${ta('notes', T.seoNotes, brief.notes, 3, 'maxlength="1500"')}
+        <label class="ac-check ac-wide"><input type="checkbox" name="lang_en" ${(brief.langs || []).includes('en') ? 'checked' : ''} ${growth ? '' : 'disabled'}> ${esc(T.seoLangEn)}${growth ? '' : ` <small class="ac-muted">(${esc(T.seoLangGrowth)})</small>`}</label>
+        <div class="ac-wide ac-gbp"><h3 class="ac-h3">${esc(T.seoGbpTitle)}</h3><p class="ac-muted ac-small">${esc(T.seoGbpBody)}</p><p class="ac-mono" dir="ltr">${esc(cfg.gscEmail)}</p>
+          <label class="ac-field">${esc(T.seoGbpMaps)}<input name="gbp_maps" type="url" dir="ltr" maxlength="400" value="${esc(gbp.maps || '')}" placeholder="https://maps.app.goo.gl/…"></label>
+          <label class="ac-check"><input type="checkbox" name="gbp_manager" ${gbp.manager ? 'checked' : ''}> ${esc(T.seoGbpManager)}</label></div>
+        <button type="submit" class="btn btn-navy">${esc(T.seoSave)}</button>
+      </form>`, 'ac-noprint');
+    const wpCard = !v.external ? '' : card(`<h2>${esc(T.seoWp)}</h2>${wp.url ? `<p class="ac-ok">${esc(T.seoWpConnected)}: <span dir="ltr">${esc(wp.url)}</span> (${esc(wp.user || '')})</p><p><button type="button" class="btn btn-ghost ac-small-btn" data-wp-off>${esc(T.seoWpDisconnect)}</button></p>`
+      : `<p class="ac-muted">${esc(T.seoWpBody)}</p><form id="ac-wp" class="ac-form-grid">
+        <label class="ac-field">${esc(T.seoWpUrl)}<input name="wp_url" type="url" dir="ltr" required maxlength="200" value="${esc(s0.url ? String(s0.url).replace(/\/$/, '') : '')}"></label>
+        <label class="ac-field">${esc(T.seoWpUser)}<input name="wp_user" dir="ltr" required maxlength="80" autocomplete="off"></label>
+        <label class="ac-field ac-wide">${esc(T.seoWpPass)}<input name="wp_pass" dir="ltr" required maxlength="80" autocomplete="off" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx"></label>
+        <p class="ac-muted ac-small ac-wide">${esc(T.seoWpHow)}</p>
+        <button type="submit" class="btn btn-navy">${esc(T.seoWpConnect)}</button></form>`}`, 'ac-noprint');
+    return head + leads + report + ranks + techCard + list + briefCard + wpCard + history;
+  }
+
+  async function seoSettings(action: string, data: Record<string, unknown>) {
+    const res = await fetch(cfg.seoSettingsEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
+    return res.json().catch(() => ({ success: false }));
   }
 
   function seo(_s: Site) { return `<div id="ac-seo"><p class="ac-muted">${esc(T.loading)}</p></div>`; }
@@ -538,6 +609,15 @@ const config = {
       scan();
     } else if ('extCheck' in btn.dataset) {
       await checkExternal(s, btn);
+    } else if ('seoPrint' in btn.dataset) {
+      window.print();
+    } else if ('wpOff' in btn.dataset) {
+      await busy(btn, async () => {
+        const r = await seoSettings('wp_disconnect', {});
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        flash(r?.success ? T.saved : T.failed);
+        await loadSeo(s.order_id, true);
+      });
     } else if (btn.dataset.seoCopy) {
       const el = root.querySelector<HTMLElement>(`[data-seo-item="${btn.dataset.seoCopy}"]`)!;
       const v = (n: string) => (el.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${n}"]`)?.value ?? '');
@@ -550,7 +630,7 @@ const config = {
         const r = await seoApi(btn.dataset.seoPub
           ? { action: 'publish', order_id: String(s.order_id), item_id: id, edited: '1', title: val('title'), description: val('description'), body: val('body') }
           : { action: 'reject', order_id: String(s.order_id), item_id: id });
-        flash(r?.success ? T.saved : T.failed);
+        flash(r?.success ? T.saved : (T.seoWpErr[r?.reason] || T.failed));
         await loadSeo(s.order_id, true);
       });
     }
@@ -570,6 +650,25 @@ const config = {
     const s = site()!;
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     const fd = new FormData(form);
+    if (form.id === 'ac-seo-brief') {
+      await busy(btn, async () => {
+        const g = (n: string) => String(fd.get(n) || '');
+        const r = await seoSettings('save', { services: g('services'), areas: g('areas'), audience: g('audience'), usp: g('usp'), notes: g('notes'), keywords: g('keywords'), competitors: g('competitors'), langs: fd.get('lang_en') ? ['ar', 'en'] : [], gbp_maps: g('gbp_maps'), gbp_manager: fd.get('gbp_manager') ? '1' : '' });
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        flash(r?.success ? T.saved : T.failed);
+        if (r?.success) await loadSeo(site()!.order_id, true);
+      });
+      return;
+    }
+    if (form.id === 'ac-wp') {
+      await busy(btn, async () => {
+        const r = await seoSettings('wp_connect', { wp_url: String(fd.get('wp_url') || ''), wp_user: String(fd.get('wp_user') || ''), wp_pass: String(fd.get('wp_pass') || '') });
+        if (r?.reason === 'expired') { signOut(T.expired); return; }
+        flash(r?.success ? T.saved : (T.seoWpErr[r?.reason] || T.failed));
+        if (r?.success) await loadSeo(site()!.order_id, true);
+      });
+      return;
+    }
     if (form.id === 'ac-ext-add') {
       await busy(btn, async () => {
         const res = await fetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'add', domain: String(fd.get('domain') || ''), name: String(fd.get('name') || ''), lang: cfg.lang }) });
@@ -683,6 +782,36 @@ const config = {
   .ac-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .ac-seo-done { list-style: none; display: grid; gap: .5rem; padding: 0; margin: 0; }
   @media (max-width: 600px) { .ac-stats { grid-template-columns: minmax(0, 1fr); } }
+  .ac-seo-head { display: flex; justify-content: flex-end; margin-bottom: .6rem; }
+  .ac-print-only { display: none; }
+  .ac-leads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .ac-leads > div { padding: 1rem; border: 1px solid var(--line); border-radius: 12px; }
+  .ac-leads ul { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .3rem; }
+  .ac-leads li { display: flex; justify-content: space-between; gap: 1rem; font-size: .92rem; }
+  .ac-big { display: block; font-size: 2rem; line-height: 1.2; color: var(--navy); }
+  .ac-bars { display: flex; align-items: flex-end; gap: .5rem; height: 150px; padding-top: .5rem; }
+  .ac-bars > div { flex: 1; display: grid; grid-template-rows: 1fr auto auto; justify-items: center; height: 100%; gap: 2px; min-width: 0; }
+  .ac-bars span { align-self: end; width: 70%; max-width: 42px; background: linear-gradient(180deg, var(--amber), #F97316); border-radius: 6px 6px 0 0; }
+  .ac-bars b { font-size: .78rem; } .ac-bars small { font-size: .72rem; color: var(--muted); }
+  .ac-up { color: #1E8E4E; font-weight: 700; } .ac-down { color: #B42318; font-weight: 700; }
+  .ac-checks { list-style: none; padding: 0; margin: .8rem 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .35rem 1rem; font-size: .92rem; }
+  .ac-checks i { font-style: normal; font-weight: 700; margin-inline-end: .45rem; }
+  .ac-checks .ok i { color: #1E8E4E; } .ac-checks .bad i { color: #B42318; }
+  .ac-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem 1rem; margin-top: .8rem; }
+  .ac-form-grid .ac-wide, .ac-form-grid > .btn { grid-column: 1 / -1; }
+  .ac-form-grid > .btn { justify-self: start; }
+  .ac-form-grid textarea { width: 100%; font: 400 .95rem/1.6 var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .6rem .7rem; }
+  .ac-check { display: flex; align-items: center; gap: .5rem; font-size: .95rem; }
+  .ac-gbp { padding: 1rem; border: 1px dashed var(--line); border-radius: 12px; display: grid; gap: .5rem; }
+  @media (max-width: 760px) { .ac-leads, .ac-checks, .ac-form-grid { grid-template-columns: minmax(0, 1fr); } }
+  @media print {
+    body * { visibility: hidden; }
+    #ac-seo, #ac-seo * { visibility: visible; }
+    #ac-seo { position: absolute; inset: 0 auto auto 0; width: 100%; }
+    #ac-seo .ac-noprint { display: none !important; }
+    #ac-seo .ac-print-only { display: block; margin-bottom: 1rem; }
+    #ac-seo .ac-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+  }
   .ac-empty { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .ac-ext-form { display: grid; gap: .75rem; margin-top: .8rem; max-width: 28rem; }
   .ac-ext-form .btn { justify-self: start; }

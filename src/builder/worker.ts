@@ -5,11 +5,36 @@
 //   "slug:<slug>"      for https://<slug>.oxira.sa/ and https://<worker-domain>/<slug>/
 import { renderSite, type SiteAddons, type AddonSettings } from './render';
 import { renderMenuPage, renderReviewPage, renderChatPage, renderTicketPage, renderSuspendedPage, type TicketData } from './addons-render';
-import { renderBlogIndex, renderPost, blogWord, postPath, INDEXNOW_KEY, type SeoData, type Post } from './seo-render';
+import { renderBlogIndex, renderPost, renderLlms, blogWord, postPath, INDEXNOW_KEY, type SeoData, type Post } from './seo-render';
 import { mergeSpec, sampleSpec, templateIds, siteLangs, imageIdPattern, type Spec, type TemplateId, type SiteLang } from './spec';
 
 interface Env {
-  SITES: { get(key: string): Promise<string | null>; get(key: string, type: 'arrayBuffer'): Promise<ArrayBuffer | null> };
+  SITES: {
+    get(key: string): Promise<string | null>;
+    get(key: string, type: 'arrayBuffer'): Promise<ArrayBuffer | null>;
+    put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+  };
+}
+
+/** Leads counter for the SEO report: "hits:o<order>:<yyyy-mm>" = { tel, wa, mail, form }. Riyadh time. */
+const LEAD_KINDS = ['tel', 'wa', 'mail', 'form'] as const;
+async function countLead(env: Env, order: number, kind: string) {
+  if (!order || !(LEAD_KINDS as readonly string[]).includes(kind)) return;
+  const month = new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 7);
+  const key = `hits:o${order}:${month}`;
+  let cur: Record<string, number> = {};
+  try { cur = JSON.parse((await env.SITES.get(key)) || '{}'); } catch { cur = {}; }
+  cur[kind] = (Number(cur[kind]) || 0) + 1;
+  await env.SITES.put(key, JSON.stringify(cur), { expirationTtl: 60 * 60 * 24 * 400 });
+}
+
+/** Marks contact links so a click is counted (HTML "ping", no JavaScript). */
+function trackLinks(html: string, base: string) {
+  const ping = (k: string) => `<a ping="${base}/__ox/hit?t=${k}" href="`;
+  return html
+    .replace(/<a href="tel:/g, `${ping('tel')}tel:`)
+    .replace(/<a href="mailto:/g, `${ping('mail')}mailto:`)
+    .replace(/<a (class="wa-float" )?href="https:\/\/wa\.me\//g, (_m, cls) => `<a ${cls || ''}ping="${base}/__ox/hit?t=wa" href="https://wa.me/`);
 }
 
 const FONT_ORIGIN = 'https://oxira.sa/builder/fonts/';
@@ -41,14 +66,14 @@ function parseSpec(raw: string): Spec | null {
   }
 }
 
-function build(raw: string, siteUrl: string, preview = false, addons?: SiteAddons): string | null {
+function build(raw: string, siteUrl: string, preview = false, addons?: SiteAddons, formAction = FORM_ACTION): string | null {
   try {
     const data = JSON.parse(raw);
     const order = Number(data?._order) || 0;
     const t = (templateIds as string[]).includes(data?.template) ? (data.template as TemplateId) : 'corporate';
     const l = (siteLangs as string[]).includes(data?.lang) ? (data.lang as SiteLang) : 'ar';
     const spec: Spec = mergeSpec(sampleSpec(t, l), data);
-    let html = renderSite(spec, { fontBase: '/_fonts', siteUrl, formAction: FORM_ACTION, siteId: order ? String(order) : '', addons });
+    let html = renderSite(spec, { fontBase: '/_fonts', siteUrl, formAction, siteId: order ? String(order) : '', addons });
     if (preview) {
       html = html
         .replace('<head>', '<head><meta name="robots" content="noindex,nofollow">')
@@ -76,7 +101,7 @@ const securityHeaders = {
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
-  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action ${N8N}/; frame-ancestors 'self' https://oxira.sa https://www.oxira.sa https://ibrasalato.github.io`,
+  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self' ${N8N}/; frame-ancestors 'self' https://oxira.sa https://www.oxira.sa https://ibrasalato.github.io`,
 };
 
 export default {
@@ -170,6 +195,31 @@ export default {
     const posts = Array.isArray(seo.posts) ? seo.posts : [];
     if (!base && rest === `/${INDEXNOW_KEY}.txt`) return new Response(INDEXNOW_KEY, { headers: { 'content-type': 'text/plain; charset=utf-8' } });
     const seoOpts = { fontBase: '/_fonts', base, siteUrl };
+    // Lead counting for the SEO report: link pings (calls, WhatsApp, email) and the contact form.
+    if (rest === '/__ox/hit' && isPost) {
+      ctx.waitUntil(countLead(env, order, String(url.searchParams.get('t') || '')).catch(() => undefined));
+      return new Response(null, { status: 204 });
+    }
+    if (rest === '/api/contact' && isPost) {
+      try {
+        const res = await fetch(FORM_ACTION, {
+          method: 'POST',
+          body: await request.arrayBuffer(),
+          headers: { 'content-type': request.headers.get('content-type') || 'application/x-www-form-urlencoded', 'x-forwarded-for': request.headers.get('cf-connecting-ip') || '' },
+          redirect: 'manual',
+        });
+        if (res.status < 400) ctx.waitUntil(countLead(env, order, 'form').catch(() => undefined));
+        const headers = new Headers({ 'cache-control': 'no-store' });
+        for (const h of ['content-type', 'location']) { const v = res.headers.get(h); if (v) headers.set(h, v); }
+        return new Response(res.body, { status: res.status, headers });
+      } catch {
+        return page(502, 'تعذر الإرسال', 'Please try again');
+      }
+    }
+    // AI assistants and AI search: a plain-text summary of the business.
+    if (!base && rest === '/llms.txt') {
+      return new Response(renderLlms(spec, siteUrl, posts), { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+    }
     if (rest === '/blog' && posts.length) return html(renderBlogIndex(spec, seoOpts, posts), { 'cache-control': 'public, max-age=300' });
     const pm = /^\/(blog|services)\/([a-z0-9-]{2,90})$/.exec(rest);
     if (pm && order) {
@@ -228,8 +278,8 @@ export default {
       base,
       bookingAction: BOOKING_ACTION,
       ticketAction: TICKET_ACTION,
-    });
+    }, `${base}/api/contact`);
     if (!out) return page(500, 'حدث خطأ', 'Something went wrong');
-    return html(applySeo(out, seo, spec.lang, base));
+    return html(trackLinks(applySeo(out, seo, spec.lang, base), base));
   },
 };

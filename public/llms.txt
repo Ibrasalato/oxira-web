@@ -1,0 +1,38 @@
+# Oxira (أوكسيرا)
+
+> Oxira is a Saudi digital transformation and IT company based in Riyadh. It builds websites for small businesses in minutes, sells monthly add-ons that bring them customers, and develops custom software and AI agents for companies.
+
+Commercial registration: 7050917793 · VAT: 314064774700003 · Address: 426 Al-Sulaymaniyah, Al-Urubah Road, Riyadh, Saudi Arabia · Email: info@oxira.sa · Phone/WhatsApp: +966 59 669 4021
+
+## Website builder
+
+- [Website builder (Oxira Studio)](https://oxira.sa/website-builder/): pick a design, describe the business and edit it live with an AI designer. Hosting, domain, logo and support included.
+- [Online in a day](https://oxira.sa/online-in-a-day/): one bundle that launches a business online within a working day: website with domain and hosting, an AI agent that answers customers on WhatsApp, and the Google Maps business profile.
+- [Free website audit](https://oxira.sa/website-audit/): checks speed, SEO basics and mobile readiness of any website and emails a report.
+
+## Add-ons (monthly subscriptions)
+
+- [Google visibility (SEO)](https://oxira.sa/products/google-seo/): Search Console connection, monthly title and description improvements, helpful articles and local service pages approved by the owner, keyword rank tracking, lead counting (calls, WhatsApp, forms) and a monthly report. Basic 299 SAR, Growth 799 SAR per month. Works for websites built with Oxira and for external websites (WordPress auto-publishing).
+- [Online booking](https://oxira.sa/products/booking-system/)
+- [Digital menu and QR](https://oxira.sa/products/digital-menu-qr/)
+- [More Google reviews](https://oxira.sa/products/google-reviews/)
+- [AI chat assistant](https://oxira.sa/products/ai-chatbot/)
+- [Monthly social media content](https://oxira.sa/products/social-media-content/)
+- [Event tickets](https://oxira.sa/products/event-tickets/)
+
+Prices exclude 15% VAT.
+
+## Services for companies
+
+- [Services](https://oxira.sa/services/): digital transformation consulting, custom software and mobile apps, IT infrastructure, smart home systems, AI solutions.
+- [AI agents](https://oxira.sa/ai-agents/): an AI agent on WhatsApp and the website that answers customers 24/7 in their dialect, understands voice notes and logs requests.
+- [Classti](https://oxira.sa/classti/): K-12 school management platform by Oxira.
+
+## Help
+
+- [Help center](https://oxira.sa/help/)
+- [Trust and security](https://oxira.sa/trust/)
+- [Terms](https://oxira.sa/terms/) · [Privacy](https://oxira.sa/privacy/)
+- [Contact](https://oxira.sa/contact/)
+
+Languages: Arabic (default), English (https://oxira.sa/en/), German, French, Russian.
