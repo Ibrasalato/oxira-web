@@ -36,7 +36,7 @@ interface Props {
 }
 const { lang, path, title, description, app = false, noindex = false, langs } = Astro.props;
 // Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
-const gaId = import.meta.env.PUBLIC_GA_ID || '';
+const gaId = import.meta.env.PUBLIC_GA_ID || 'G-3WN4EW3DPX';
 const c = t[lang];
 const site = Astro.site!;
 const canonical = new URL(link(lang, path), site).href;
@@ -84,7 +84,7 @@ const org = {
     <script type="application/ld+json" set:html={JSON.stringify(org)} />
     <script is:inline>try{var r=new URLSearchParams(location.search).get('ref');if(r&&/^[a-z0-9]{3,20}$/i.test(r))localStorage.setItem('oxira-ref',JSON.stringify({c:r.toLowerCase(),t:Date.now()}))}catch(e){}</script>
     {gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
-    {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',gaId,{anonymize_ip:true});</script>}
+    {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());var q=new URLSearchParams(location.search),k=new URLSearchParams();q.forEach(function(v,n){if(/^utm_|^gclid$/.test(n))k.set(n,v);});var s=k.toString();gtag('config',gaId,{page_location:location.origin+location.pathname+(s?'?'+s:''),allow_google_signals:false,allow_ad_personalization_signals:false});</script>}
   </head>
   <body>
     <a class="skip" href="#main">{c.site.skip}</a>
