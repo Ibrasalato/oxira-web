@@ -14,6 +14,7 @@ const extra = {
   trust: { ar: 'الثقة والأمان', en: 'Trust & security', de: 'Vertrauen & Sicherheit', fr: 'Confiance et sécurité', ru: 'Доверие и безопасность' }[lang],
 };
 const c = t[lang];
+import { bundleText } from '../i18n/bundle';
 ---
 <footer class="ft">
   <div class="wrap">
@@ -31,6 +32,7 @@ const c = t[lang];
           <li><a href={link(lang, '/products/')}>{productsText[lang].nav.products}</a></li>
           <li><a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a></li>
           {lang === 'ar' && <li><a href={link(lang, '/blog/')}>المدونة</a></li>}
+          <li><a href={link(lang, '/online-in-a-day/')}>{bundleText[lang].nav}</a></li>
           <li><a href={link(lang, '/website-audit/')}>{growthText[lang].audit.nav}</a></li>
           <li><a href={link(lang, '/help/')}>{extra.help}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>

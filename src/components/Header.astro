@@ -15,6 +15,7 @@ const b = builderText[lang];
 const P = productsText[lang];
 const onProducts = path === '/website-builder/' || path === '/studio/' || path.startsWith('/products/');
 const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? 'AI';
+import { bundleText } from '../i18n/bundle';
 ---
 <header class="hd" id="hd">
   <div class="wrap hd-row">
@@ -52,6 +53,7 @@ const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? '
               <ul class="hd-other">
                 <li><a href={link(lang, '/classti/')}><b>Classti</b><small>{P.nav.classtiDesc}</small></a></li>
                 <li><a href={link(lang, '/ai-agents/')}><b>{agentsLabel}</b><small>{P.nav.agentsDesc}</small></a></li>
+                <li><a href={link(lang, '/online-in-a-day/')}><b>{bundleText[lang].nav}</b><small>{bundleText[lang].navDesc}</small></a></li>
                 <li><a href={link(lang, '/website-audit/')}><b>{growthText[lang].audit.nav}</b><small dir="ltr">SEO · HTTPS · Mobile</small></a></li>
               </ul>
               <a class="more hd-all" href={link(lang, '/products/')}>{P.nav.all}</a>

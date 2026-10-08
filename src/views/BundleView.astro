@@ -1,0 +1,136 @@
+---
+// "Your business online in a day" bundle: website + AI WhatsApp agent + Google profile.
+// Orders go to the n8n workflow "Oxira 19 — Online in a day" (lead, Moyasar invoice, emails).
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { bundleText, BUNDLE } from '../i18n/bundle';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const B = bundleText[lang];
+const endpoint = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-bundle-order';
+const nf = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
+const cfg = { endpoint, lang, t: { sending: B.sending, ok: B.ok('{id}'), payDown: B.payDown, err: B.err, missing: B.missing, submit: B.submit } };
+const site = Astro.site!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Service', name: B.h1, description: B.description,
+  url: new URL(link(lang, '/online-in-a-day/'), site).href, provider: { '@type': 'Organization', name: 'Oxira' }, areaServed: 'SA',
+  offers: { '@type': 'Offer', price: String(BUNDLE.price), priceCurrency: 'SAR' },
+};
+---
+<Base lang={lang} path="/online-in-a-day/" title={B.title} description={B.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero bd-hero">
+    <div class="wrap">
+      <p class="label">{B.kicker}</p>
+      <h1>{B.h1}</h1>
+      <p class="lead">{B.lead}</p>
+      <a class="btn btn-amber" href="#bd-order">{B.formTitle}</a>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <h2 class="bd-h">{B.includedTitle}</h2>
+      <div class="bd-cards">
+        {B.included.map((x, i) => <article><b>{i + 1}</b><h3>{x.t}</h3><p>{x.d}</p></article>)}
+      </div>
+      <h2 class="bd-h">{B.stepsTitle}</h2>
+      <ol class="bd-steps">{B.steps.map((s) => <li>{s}</li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section-tight bd-buy" id="bd-order">
+    <div class="wrap bd-grid">
+      <div class="bd-price">
+        <p class="label">{B.priceLabel}</p>
+        <p class="bd-amount"><b>{nf.format(BUNDLE.price)}</b> {B.sar}</p>
+        <p class="bd-vat">{B.vat}</p>
+        <p class="bd-note">{B.priceNote}</p>
+      </div>
+      <form class="bd-form" id="bd-form" data-cfg={JSON.stringify(cfg)} novalidate>
+        <h2>{B.formTitle}</h2>
+        <label>{B.name}<input name="name" required maxlength="80" autocomplete="name" /></label>
+        <label>{B.business}<input name="business" required maxlength="100" autocomplete="organization" /></label>
+        <div class="bd-row">
+          <label>{B.activity}<input name="activity" maxlength="80" placeholder={B.activityPh} /></label>
+          <label>{B.city}<input name="city" maxlength="60" autocomplete="address-level2" /></label>
+        </div>
+        <div class="bd-row">
+          <label>{B.phone}<input name="phone" required type="tel" maxlength="30" dir="ltr" autocomplete="tel" /></label>
+          <label>{B.email}<input name="email" required type="email" maxlength="160" dir="ltr" autocomplete="email" /></label>
+        </div>
+        <label>{B.whatsapp}<input name="whatsapp" type="tel" maxlength="30" dir="ltr" /></label>
+        <label>{B.notes}<textarea name="notes" rows="2" maxlength="1000"></textarea></label>
+        <input class="bd-hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="btn btn-amber">{B.submit}</button>
+        <p class="bd-status" role="status" hidden></p>
+        <p class="bd-privacy">{B.privacy} <a href={link(lang, '/privacy/')}>↗</a></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap bd-faq">
+      <h2 class="bd-h">{B.faqTitle}</h2>
+      {B.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('bd-form') as HTMLFormElement;
+  const c = JSON.parse(form.dataset.cfg!);
+  const status = form.querySelector<HTMLElement>('.bd-status')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const say = (msg: string, err = false) => { status.hidden = false; status.textContent = msg; status.classList.toggle('is-error', err); };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const v = (k: string) => String(f.get(k) || '').trim();
+    if (!v('name') || !v('business') || v('phone').replace(/\D/g, '').length < 7 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('email'))) { say(c.t.missing, true); return; }
+    btn.disabled = true; btn.textContent = c.t.sending;
+    try {
+      const body = { name: v('name'), business: v('business'), activity: v('activity'), city: v('city'), phone: v('phone'), email: v('email'), whatsapp: v('whatsapp'), notes: v('notes'), company_website: v('company_website'), lang: c.lang, returnUrl: location.origin + location.pathname };
+      const r = await (await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
+      if (r.success && r.payUrl) { location.href = r.payUrl; return; }
+      if (r.success) { say(c.t.ok.replace('{id}', String(r.id)) + ' ' + c.t.payDown); form.reset(); }
+      else say(r.reason === 'invalid' ? c.t.missing : c.t.err, true);
+    } catch { say(c.t.err, true); }
+    btn.disabled = false; btn.textContent = c.t.submit;
+  });
+  const q = new URLSearchParams(location.search);
+  if (q.has('paid')) say(c.t.ok.replace('{id}', q.get('paid') || ''));
+</script>
+
+<style>
+  .bd-hero .btn { margin-top: 1.5rem; }
+  .bd-h { font-size: var(--s3, 2rem); margin: 0 0 1.25rem; }
+  .bd-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+  .bd-cards article { padding: 1.4rem; border-radius: var(--radius, 18px); border: 1px solid var(--line); background: #fff; }
+  .bd-cards b { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--amber); color: var(--navy); }
+  .bd-cards h3 { font-size: 1.1rem; margin: .7rem 0 .4rem; }
+  .bd-cards p { color: var(--muted); font-size: .95rem; }
+  .bd-steps { display: grid; gap: .6rem; padding-inline-start: 1.25rem; color: var(--ink); }
+  .bd-buy { background: var(--paper); }
+  .bd-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 2rem; align-items: start; }
+  .bd-amount { margin-top: .5rem; color: var(--navy); }
+  .bd-amount b { font-size: clamp(2.6rem, 6vw, 3.6rem); }
+  .bd-vat { color: var(--muted); }
+  .bd-note { color: var(--muted); margin-top: 1rem; max-width: 28rem; font-size: .95rem; }
+  .bd-form { display: grid; gap: .85rem; padding: 1.8rem; border-radius: var(--radius-lg, 28px); background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(6, 26, 45, .5); }
+  .bd-form h2 { font-size: 1.4rem; }
+  .bd-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; }
+  .bd-form input, .bd-form textarea { font: 400 1rem var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .75rem .85rem; color: var(--ink); min-width: 0; }
+  .bd-form input:focus, .bd-form textarea:focus { outline: none; border-color: var(--blue); }
+  .bd-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+  .bd-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .bd-status { padding: .75rem .9rem; border-radius: 10px; background: #E7F6EF; color: #0B5E45; font-weight: 600; }
+  .bd-status.is-error { background: #FDECEA; color: #8A1F12; }
+  .bd-privacy { font-size: .82rem; color: var(--muted); }
+  .bd-faq details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+  .bd-faq summary { cursor: pointer; font-weight: 700; }
+  .bd-faq p { color: var(--muted); margin-top: .5rem; }
+  @media (max-width: 860px) { .bd-grid, .bd-row { grid-template-columns: 1fr; } }
+</style>
