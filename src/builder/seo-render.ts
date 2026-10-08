@@ -92,11 +92,12 @@ export function renderPost(s: Spec, o: Opts, p: Post) {
   const w = sw[s.lang] ?? sw.en;
   const url = `${o.siteUrl}${postPath(p).slice(1)}`;
   const body = `<main class="wrap"><nav class="crumb"><a href="${o.base}/">${esc(s.name)}</a> / <a href="${o.base}/blog">${p.kind === 'local' ? w.services : w.blog}</a></nav>
-<h1>${esc(p.title)}</h1><p class="lead">${esc(p.description)}</p>${p.kind === 'article' ? `<p class="date">${esc(fmtDate(p.date, s.lang))}</p>` : '<div style="height:20px"></div>'}
+<h1>${esc(p.title.replace(new RegExp(`\\s*[|\\-–]\\s*${s.name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}$`), ''))}</h1><p class="lead">${esc(p.description)}</p>${p.kind === 'article' ? `<p class="date">${esc(fmtDate(p.date, s.lang))}</p>` : '<div style="height:20px"></div>'}
 <article class="body">${md(p.body)}</article>
 <div class="cta"><b>${esc(s.name)}</b><a class="btn" href="${o.base}/#contact">${esc(s.hero.cta || w.read)}</a></div></main>`;
   const ld = p.kind === 'article'
     ? { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: p.description, datePublished: p.date, url, inLanguage: s.lang, author: { '@type': 'Organization', name: s.name }, publisher: { '@type': 'Organization', name: s.name } }
     : { '@context': 'https://schema.org', '@type': 'Service', name: p.title, description: p.description, url, provider: { '@type': 'LocalBusiness', name: s.name, ...(s.contact.address ? { address: s.contact.address } : {}), ...(s.contact.phone ? { telephone: s.contact.phone } : {}) } };
-  return shell(s, o, `${p.title} | ${s.name}`, p.description, url, body, ld);
+  const docTitle = p.title.includes(s.name) ? p.title : `${p.title} | ${s.name}`;
+  return shell(s, o, docTitle, p.description, url, body, ld);
 }
