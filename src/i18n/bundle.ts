@@ -17,7 +17,7 @@ type Copy = {
 
 const ar: Copy = {
   nav: 'نشاطك أونلاين في يوم', navDesc: 'موقع + واتساب ذكي + جوجل',
-  title: 'نشاطك أونلاين في يوم | موقع ووكيل واتساب ذكي وملف جوجل | أوكسيرا',
+  title: 'نشاطك أونلاين في يوم: موقع ووكيل واتساب ذكي | أوكسيرا',
   description: 'باقة واحدة تطلق نشاطك على الإنترنت خلال يوم عمل: موقع احترافي بنطاق واستضافة، وكيل ذكاء اصطناعي يرد على عملائك في واتساب، وملف نشاطك على خرائط جوجل.',
   kicker: 'باقة الإطلاق السريع',
   h1: 'نشاطك أونلاين في يوم واحد',
@@ -44,8 +44,8 @@ const ar: Copy = {
 
 const en: Copy = {
   nav: 'Online in a day', navDesc: 'Website + AI WhatsApp + Google',
-  title: 'Your business online in a day | Website, AI WhatsApp agent, Google profile | Oxira',
-  description: 'One bundle that launches your business online within a working day: a professional website with domain and hosting, an AI agent that answers customers on WhatsApp, and your Google Maps business profile.',
+  title: 'Online in a day: website, WhatsApp AI agent | Oxira',
+  description: 'Launch your business online within one working day: a website with domain and hosting, an AI agent that answers on WhatsApp, and your Google Maps profile.',
   kicker: 'Fast launch bundle',
   h1: 'Your business online in one day',
   lead: 'Send us your business name, logo and photos. Within one working day we hand you a professional website, an AI agent that answers your customers on WhatsApp around the clock, and your business profile on Google Maps.',
@@ -71,7 +71,7 @@ const en: Copy = {
 
 const de: Copy = { ...en,
   nav: 'Online an einem Tag', navDesc: 'Website + KI-WhatsApp + Google',
-  title: 'Ihr Geschäft an einem Tag online | Website, KI-WhatsApp-Agent, Google-Profil | Oxira',
+  title: 'An einem Tag online: Website & WhatsApp-KI | Oxira',
   description: 'Ein Paket, das Ihr Geschäft an einem Arbeitstag online bringt: professionelle Website mit Domain und Hosting, KI-Agent für WhatsApp und Ihr Google-Unternehmensprofil.',
   kicker: 'Schnellstart-Paket', h1: 'Ihr Geschäft an einem Tag online',
   lead: 'Senden Sie uns Name, Logo und Fotos. Innerhalb eines Arbeitstags erhalten Sie eine professionelle Website, einen KI-Agenten, der Kunden rund um die Uhr auf WhatsApp antwortet, und Ihr Profil auf Google Maps.',
@@ -82,7 +82,7 @@ const de: Copy = { ...en,
 };
 const fr: Copy = { ...en,
   nav: 'En ligne en un jour', navDesc: 'Site + WhatsApp IA + Google',
-  title: 'Votre activité en ligne en un jour | Site, agent WhatsApp IA, fiche Google | Oxira',
+  title: 'En ligne en un jour : site et agent WhatsApp IA | Oxira',
   description: 'Un pack qui met votre activité en ligne en un jour ouvré : site professionnel avec domaine et hébergement, agent IA sur WhatsApp et fiche Google Business.',
   kicker: 'Pack lancement rapide', h1: 'Votre activité en ligne en un jour',
   lead: 'Envoyez-nous le nom, le logo et des photos. En un jour ouvré, vous recevez un site professionnel, un agent IA qui répond à vos clients sur WhatsApp 24 h/24 et votre fiche sur Google Maps.',
@@ -93,7 +93,7 @@ const fr: Copy = { ...en,
 };
 const ru: Copy = { ...en,
   nav: 'Онлайн за один день', navDesc: 'Сайт + ИИ в WhatsApp + Google',
-  title: 'Ваш бизнес онлайн за один день | Сайт, ИИ-агент WhatsApp, профиль Google | Oxira',
+  title: 'Бизнес онлайн за день: сайт и ИИ-агент WhatsApp | Oxira',
   description: 'Один пакет, который выводит бизнес в онлайн за рабочий день: профессиональный сайт с доменом и хостингом, ИИ-агент в WhatsApp и профиль компании в Google.',
   kicker: 'Пакет быстрого запуска', h1: 'Ваш бизнес онлайн за один день',
   lead: 'Пришлите название, логотип и фото. За один рабочий день вы получите профессиональный сайт, ИИ-агента, который круглосуточно отвечает клиентам в WhatsApp, и профиль компании на Google Картах.',

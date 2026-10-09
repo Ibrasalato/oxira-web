@@ -328,8 +328,8 @@ const base = {
     },
     pages: {
       home: { title: 'أوكسيرا | للتحول الرقمي وتقنية المعلومات', description: 'أوكسيرا شركة سعودية للتحول الرقمي وتقنية المعلومات: تطوير البرمجيات، البنية التحتية، الذكاء الاصطناعي ووكلاء الأتمتة، ومنظومة Classti لإدارة المدارس.' },
-      services: { title: 'الخدمات | أوكسيرا', h1: 'خدمات تقنية متكاملة', lead: 'من البنية التحتية حتى الذكاء الاصطناعي، يتولى فريق واحد مشروعك الرقمي من الاستشارة إلى التشغيل والدعم.', description: 'خدمات أوكسيرا: التحول الرقمي، تطوير البرمجيات، البنية التحتية، أنظمة المنزل الذكي، حلول الذكاء الاصطناعي، ووكلاء الذكاء الاصطناعي والأتمتة.' },
-      agents: { title: 'وكلاء الذكاء الاصطناعي | أوكسيرا', description: 'وكيل ذكاء اصطناعي على واتساب وموقعك يرد على العملاء 24/7 بلهجتهم، يفهم الرسائل الصوتية ويسجل الطلبات، لكل القطاعات.' },
+      services: { title: 'خدماتنا: برمجة ومواقع وتحول رقمي وذكاء اصطناعي | أوكسيرا', h1: 'خدمات تقنية متكاملة', lead: 'من البنية التحتية حتى الذكاء الاصطناعي، يتولى فريق واحد مشروعك الرقمي من الاستشارة إلى التشغيل والدعم.', description: 'خدمات أوكسيرا: التحول الرقمي، تطوير البرمجيات، البنية التحتية، أنظمة المنزل الذكي، حلول الذكاء الاصطناعي، ووكلاء الذكاء الاصطناعي والأتمتة.' },
+      agents: { title: 'وكيل ذكاء اصطناعي على واتساب للشركات | أوكسيرا', description: 'وكيل ذكاء اصطناعي على واتساب وموقعك يرد على العملاء 24/7 بلهجتهم السعودية أو المصرية، يفهم الرسائل الصوتية ويسجل الطلبات والحجوزات، لكل القطاعات.' },
       classti: { title: 'Classti | منظومة إدارة المدارس من أوكسيرا', description: 'Classti منظومة سعودية لإدارة المدارس الأهلية والدولية: منصة المدرسة، تطبيق الطالب، تطبيق المعلم، وتطبيقا ولي الأمر والسائق.' },
       work: { title: 'أعمالنا | أوكسيرا', h1: 'أعمالنا وعملاؤنا', lead: 'مواقع ومنصات وأنظمة نفذناها لجهات حكومية وشركات في أنحاء المملكة.', description: 'نماذج من مشاريع أوكسيرا وعملائها من الجهات الحكومية والشركات الرائدة في المملكة.' },
       about: { title: 'من نحن | أوكسيرا', h1: 'من نحن', description: 'تعرّف على أوكسيرا: شركة سعودية للتحول الرقمي وتقنية المعلومات، رؤيتها ورسالتها ومزاياها.' },
@@ -655,12 +655,12 @@ const base = {
     },
     pages: {
       home: { title: 'Oxira | Digital Transformation & IT', description: 'Oxira is a Saudi digital transformation and IT company: software, infrastructure, AI and automation agents, and the Classti school management suite.' },
-      services: { title: 'Services | Oxira', h1: 'Integrated technology services', lead: 'From infrastructure to AI, one team takes your digital project from consultation to operation and support.', description: 'Oxira services: digital transformation, software development, infrastructure, smart home systems, AI solutions, and AI agent automation.' },
-      agents: { title: 'AI Agents | Oxira', description: 'An AI agent on your WhatsApp and website that answers customers 24/7 in their dialect, understands voice notes and logs requests, for every sector.' },
+      services: { title: 'IT & Software Services in Saudi Arabia | Oxira', h1: 'Integrated technology services', lead: 'From infrastructure to AI, one team takes your digital project from consultation to operation and support.', description: 'Oxira services: digital transformation, software development, infrastructure, smart home systems, AI solutions, and AI agent automation.' },
+      agents: { title: 'AI WhatsApp Agents for Businesses | Oxira', description: 'An AI agent on your WhatsApp and website that answers customers 24/7 in their dialect, understands voice notes and logs requests, for every sector.' },
       classti: { title: 'Classti | School management suite by Oxira', description: 'Classti is a Saudi school management suite for private and international schools: school platform, Student app, Teacher app, plus Parent and Driver apps.' },
       work: { title: 'Work | Oxira', h1: 'Our work and clients', lead: 'Websites, platforms and systems we delivered for government bodies and companies across Saudi Arabia.', description: 'Selected Oxira projects and clients from government and leading companies in Saudi Arabia.' },
       about: { title: 'About | Oxira', h1: 'About Oxira', description: 'About Oxira: a Saudi digital transformation and IT company, its vision, mission and strengths.' },
-      contact: { title: 'Contact | Oxira', description: 'Contact Oxira for a project, a free consultation or technical support. Riyadh, Saudi Arabia.' },
+      contact: { title: 'Contact Oxira | Riyadh, Saudi Arabia', description: 'Contact Oxira for a project, a free consultation or technical support. Riyadh, Saudi Arabia.' },
     },
     process: {
       title: 'How we work',

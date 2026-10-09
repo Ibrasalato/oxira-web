@@ -4,12 +4,22 @@ import { link } from '../lib/routes';
 import Base from '../layouts/Base.astro';
 import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { landings, landingPath } from '../i18n/landing';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
 const a = c.agents;
 const other = lang === 'ar' ? 'en' : 'ar';
+// Related service, location and blog pages (Arabic and English only).
+const lp = lang === 'ar' || lang === 'en' ? lang : null;
+const rel = lp
+  ? [
+      ...['business-automation', 'egypt', 'gulf'].map((slug) => landings.find((l) => l.slug === slug)!).map((l) => ({ href: link(lang, landingPath(l)), label: l[lp].name })),
+      { href: link(lang, '/products/ai-chatbot/'), label: lp === 'ar' ? 'الشات بوت للموقع' : 'Website chatbot' },
+      ...(lp === 'ar' ? [{ href: link('ar', '/blog/whatsapp-ai-agent-benefits/'), label: 'فوائد وكيل الذكاء الاصطناعي على واتساب' }] : []),
+    ]
+  : [];
 const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.services.list.find((s) => s.icon === 'agent')!.name)}`;
 ---
 <Base lang={lang} path="/ai-agents/" title={c.pages.agents.title} description={c.pages.agents.description}>
@@ -70,7 +80,14 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
     </div>
   </section>
 
-  <div style="height: var(--section)"></div>
+  {rel.length > 0 ? (
+    <section class="section-tight ag-rel" aria-labelledby="ag-rel-title">
+      <div class="wrap">
+        <h2 id="ag-rel-title">{lp === 'ar' ? 'صفحات ذات صلة' : 'Related pages'}</h2>
+        <ul>{rel.map((r) => <li><a href={r.href}>{r.label}</a></li>)}</ul>
+      </div>
+    </section>
+  ) : <div style="height: var(--section)"></div>}
   <CtaBand lang={lang} />
 </Base>
 
@@ -105,6 +122,10 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
   .steps h3 { font-size: var(--s1); }
   .steps p { color: var(--muted-on-navy); }
   .pricing { margin-top: clamp(2.5rem, 5vw, 4rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.75rem 2rem; border-radius: var(--radius); background: rgba(255,255,255,.06); }
+  .ag-rel h2 { font-size: var(--s1); margin-bottom: 1rem; }
+  .ag-rel ul { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; }
+  .ag-rel a { display: inline-block; padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; }
+  .ag-rel a:hover { border-color: var(--navy); }
   .pricing p { font-size: 1.15rem; max-width: 46rem; }
   @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }

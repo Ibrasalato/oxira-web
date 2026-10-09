@@ -1,0 +1,185 @@
+---
+// Service and location landing pages (/services/<slug>/, /locations/<slug>/). Arabic and English only.
+// Copy lives in src/i18n/landing.ts. Styling follows the product pages.
+import { t } from '../i18n/content';
+import { link } from '../lib/routes';
+import { landingPath, landingLangs, type Landing, type LandingLang } from '../i18n/landing';
+import { productsText } from '../i18n/products';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+
+interface Props { lang: LandingLang; page: Landing }
+const { lang, page } = Astro.props;
+const c = t[lang];
+const P = productsText[lang].common;
+const it = page[lang];
+const path = landingPath(page);
+const site = Astro.site!;
+const url = new URL(link(lang, path), site).href;
+const ar = lang === 'ar';
+const parent = page.kind === 'service'
+  ? { name: ar ? 'الخدمات' : 'Services', path: '/services/' }
+  : null;
+const serviceName = c.services.list.find((s) => s.icon === page.icon)!.name;
+const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(serviceName)}`;
+const L = ar
+  ? { consult: c.hero.cta, chat: c.chat.open, faq: P.faqTitle, related: 'صفحات ذات صلة', studio: P.buildSite, address: c.contact.address }
+  : { consult: c.hero.cta, chat: c.chat.open, faq: P.faqTitle, related: 'Related pages', studio: P.buildSite, address: c.contact.address };
+
+// [label](/path/) → internal link in this language. Everything else is escaped.
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const rich = (s: string) => esc(s).replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, (_, label, p) => `<a href="${link(lang, p)}">${label}</a>`);
+const plain = (s: string) => s.replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, '$1');
+
+const crumbs = [
+  { name: P.home, item: new URL(link(lang, '/'), site).href },
+  ...(parent ? [{ name: parent.name, item: new URL(link(lang, parent.path), site).href }] : []),
+  { name: it.name, item: url },
+];
+const org = { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href };
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: it.name,
+    serviceType: it.name,
+    description: it.description,
+    url,
+    inLanguage: lang,
+    areaServed: page.area.map((a) => ({ '@type': a.type === 'Place' ? 'Place' : a.type, name: a.name })),
+    provider: {
+      ...org,
+      ...(page.kind === 'location' && page.slug === 'riyadh'
+        ? { address: { '@type': 'PostalAddress', streetAddress: '426 Al Sulaymaniyah, Al Urubah Rd.', addressLocality: 'Riyadh', addressCountry: 'SA' } }
+        : {}),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: it.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((cr, i) => ({ '@type': 'ListItem', position: i + 1, name: cr.name, item: cr.item })),
+  },
+];
+---
+<Base lang={lang} path={path} langs={landingLangs} title={it.title} description={it.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+  <section class="page-hero lp-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label={ar ? 'مسار الصفحة' : 'Breadcrumb'}>
+        <a href={link(lang, '/')}>{P.home}</a><span aria-hidden="true">/</span>
+        {parent && <><a href={link(lang, parent.path)}>{parent.name}</a><span aria-hidden="true">/</span></>}
+        <span aria-current="page">{it.name}</span>
+      </nav>
+      <p class="label lp-kicker"><span class="lp-ic"><Icon name={page.kind === 'location' ? 'pin' : page.icon} /></span>{it.kicker}</p>
+      <h1>{it.h1}</h1>
+      <p class="lead">{it.lead}</p>
+      <div class="lp-ctas">
+        {page.studio
+          ? <><a class="btn btn-amber" href={link(lang, '/website-builder/')}>{L.studio}</a><a class="btn btn-ghost" href={contactHref}>{L.consult}</a></>
+          : <a class="btn btn-amber" href={contactHref}>{L.consult}</a>}
+        <button type="button" class="btn btn-ghost" data-open-chat>{L.chat}</button>
+      </div>
+    </div>
+  </section>
+
+  {it.sections.map((s, i) => (
+    <section class={`section-tight${i % 2 === 1 ? ' bg-paper' : ''}`} aria-labelledby={`lp-s${i}`}>
+      <div class="wrap lp-body">
+        <h2 id={`lp-s${i}`}>{s.h}</h2>
+        {s.p?.map((x) => <p set:html={rich(x)} />)}
+        {s.list && <ul class="lp-list">{s.list.map((x) => <li set:html={rich(x)} />)}</ul>}
+        {s.cards && (
+          <ul class="lp-cards">
+            {s.cards.map((cd) => <li><h3>{cd.t}</h3><p set:html={rich(cd.d)} /></li>)}
+          </ul>
+        )}
+        {s.after?.map((x) => <p set:html={rich(x)} />)}
+      </div>
+    </section>
+  ))}
+
+  <section class="section-tight" aria-labelledby="lp-faq">
+    <div class="wrap lp-body">
+      <h2 id="lp-faq">{L.faq}</h2>
+      <div class="lp-faq">
+        {it.faq.map((f, i) => <details open={i === 0}><summary>{f.q}</summary><p>{plain(f.a)}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight lp-pt0">
+    <div class="wrap">
+      <div class="lp-cta">
+        <div><h2>{it.ctaTitle}</h2><p>{it.ctaBody}</p></div>
+        <div class="lp-ctas">
+          <a class="btn btn-amber" href={contactHref}>{L.consult}</a>
+          <button type="button" class="btn btn-ghost-light" data-open-chat>{L.chat}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight lp-pt0" aria-labelledby="lp-rel">
+    <div class="wrap">
+      <h2 id="lp-rel" class="lp-rel-h">{L.related}</h2>
+      <ul class="lp-rel">
+        {it.related.map((r) => <li><a href={link(lang, r.path)}>{r.label}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll('[data-open-chat]').forEach((b) =>
+    b.addEventListener('click', () => (document.getElementById('ox-fab') as HTMLButtonElement | null)?.click())
+  );
+</script>
+
+<style>
+  .crumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .9rem; color: var(--muted); margin-bottom: 2rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--blue); }
+  .crumbs [aria-current] { color: var(--ink); font-weight: 600; }
+  .lp-hero { padding-top: clamp(2rem, 4vw, 3rem); }
+  .lp-hero h1 { font-size: var(--s4); max-width: 22ch; }
+  .lp-kicker { display: inline-flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+  .lp-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; flex: none; font-size: 24px; }
+  .lp-ctas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+
+  .lp-body { max-width: 56rem; display: grid; gap: 1rem; }
+  .lp-body h2 { font-size: var(--s2); margin-bottom: .25rem; }
+  .lp-body p { font-size: 1.08rem; }
+  .lp-body :global(a) { color: #00699A; font-weight: 600; }
+  .lp-list { list-style: none; display: grid; gap: .75rem; }
+  .lp-list li { position: relative; padding-inline-start: 1.5rem; font-size: 1.06rem; }
+  .lp-list li::before { content: ''; position: absolute; inset-inline-start: 0; top: .7em; width: 8px; height: 8px; border-radius: 2px; background: var(--amber); }
+  .lp-cards { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: .5rem; }
+  .lp-cards li { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; display: grid; gap: .5rem; align-content: start; }
+  .lp-cards h3 { font-size: 1.12rem; }
+  .lp-cards h3::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--amber); margin-bottom: .9rem; }
+  .lp-cards p { color: var(--muted); font-size: 1rem; }
+  @media (max-width: 700px) { .lp-cards { grid-template-columns: minmax(0, 1fr); } }
+
+  .lp-faq { display: grid; gap: .75rem; }
+  .lp-faq details { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .lp-faq summary { cursor: pointer; font-weight: 700; font-size: 1.08rem; }
+  .lp-faq details p { margin-top: .75rem; color: var(--muted); }
+
+  .lp-pt0 { padding-top: 0; }
+  .lp-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem 3rem; padding: clamp(1.75rem, 4vw, 3rem); border-radius: var(--radius-lg); background: var(--navy); color: #fff; }
+  .lp-cta > div:first-child { max-width: 38rem; }
+  .lp-cta h2 { font-size: var(--s3); }
+  .lp-cta p { color: var(--muted-on-navy); margin-top: .6rem; }
+  .lp-cta .lp-ctas { margin-top: 0; }
+
+  .lp-rel-h { font-size: var(--s1); margin-bottom: 1rem; }
+  .lp-rel { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; }
+  .lp-rel a { display: inline-block; padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; }
+  .lp-rel a:hover { border-color: var(--navy); }
+</style>

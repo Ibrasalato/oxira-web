@@ -29,6 +29,20 @@ Prices exclude 15% VAT.
 - [Services](https://oxira.sa/services/): digital transformation consulting, custom software and mobile apps, IT infrastructure, smart home systems, AI solutions.
 - [AI agents](https://oxira.sa/ai-agents/): an AI agent on WhatsApp and the website that answers customers 24/7 in their dialect, understands voice notes and logs requests.
 - [Classti](https://oxira.sa/classti/): K-12 school management platform by Oxira.
+- [Company website design](https://oxira.sa/services/web-design/): bilingual company websites, from a ready site in a day to custom platforms.
+- [E-commerce store design](https://oxira.sa/services/ecommerce-store/): custom online stores with payments and shipping; AI agents for stores on Salla, Zid and Shopify.
+- [Software development](https://oxira.sa/services/software-development/): custom business systems, web platforms, integrations.
+- [Mobile app development](https://oxira.sa/services/mobile-app-development/): iOS and Android apps with a dashboard.
+- [Digital transformation](https://oxira.sa/services/digital-transformation/): assessment, roadmap and delivery for public entities and companies.
+- [Business automation](https://oxira.sa/services/business-automation/): system integration, automatic reports, AI document reading.
+
+## Locations
+
+- [Riyadh](https://oxira.sa/locations/riyadh/): head office, 426 Al Sulaymaniyah, Al Urubah Rd.
+- [Gulf](https://oxira.sa/locations/gulf/): UAE, Qatar, Kuwait, Bahrain and Oman, served remotely.
+- [Egypt](https://oxira.sa/locations/egypt/): AI WhatsApp agents that reply in Egyptian Arabic, websites and automation, served remotely.
+
+Service and location pages are in Arabic and English (/en/...). The blog (https://oxira.sa/blog/) is in Arabic.
 
 ## Help
 

@@ -2,10 +2,12 @@ import type { APIRoute } from 'astro';
 import { langCodes, type Lang } from '../i18n/content';
 import { productSlugs } from '../i18n/products';
 import { getCollection } from 'astro:content';
+import { landingPaths, landingLangs } from '../i18n/landing';
 
 const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/website-audit/', '/online-in-a-day/', '/help/', '/trust/', '/privacy/', '/terms/'];
 
 export const GET: APIRoute = async ({ site }) => {
+  // Service and location pages exist in Arabic and English only (landingPaths).
   // Arabic-only pages (the blog): no language alternates.
   const arOnly = ['/blog/', ...(await getCollection('blog')).map((p) => `/blog/${p.id}/`)];
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -15,6 +17,11 @@ export const GET: APIRoute = async ({ site }) => {
 ${paths.flatMap((p) => langCodes.map((lang) => `  <url>
     <loc>${url(lang, p)}</loc>
 ${langCodes.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
+  </url>`)).join('\n')}
+${landingPaths.flatMap((p) => landingLangs.map((lang) => `  <url>
+    <loc>${url(lang, p)}</loc>
+${landingLangs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
   </url>`)).join('\n')}
 ${arOnly.map((p) => `  <url>\n    <loc>${url('ar', p)}</loc>\n  </url>`).join('\n')}

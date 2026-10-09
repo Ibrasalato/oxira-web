@@ -1,0 +1,10 @@
+---
+import View from '../../../views/LandingView.astro';
+import { landings } from '../../../i18n/landing';
+
+export function getStaticPaths() {
+  return landings.filter((l) => l.kind === 'location').map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<View lang="en" page={page} />

@@ -12,7 +12,7 @@ const ld = {
   blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title.replace(/ \| أوكسيرا$/, ''), url: new URL(link('ar', `/blog/${p.id}/`), site).href, datePublished: p.data.date.toISOString().slice(0, 10) })),
 };
 ---
-<Base lang="ar" path="/blog/" langs={['ar']} title="مدونة أوكسيرا: أدلة عملية للمواقع والتسويق الرقمي" description="مقالات عملية لأصحاب الأعمال في السعودية: تكلفة تصميم المواقع، أنظمة الحجز، المنيو الإلكتروني، تقييمات قوقل والشات بوت.">
+<Base lang="ar" path="/blog/" langs={['ar']} title="مدونة أوكسيرا: أدلة عملية للمواقع والتسويق الرقمي" description="مقالات عملية لأصحاب الأعمال في السعودية: تصميم المواقع والمتاجر، وكلاء واتساب الذكية، أتمتة الأعمال، أنظمة الحجز، المنيو الإلكتروني وتقييمات قوقل.">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   <section class="page-hero">
     <div class="wrap">

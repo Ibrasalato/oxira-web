@@ -18,6 +18,9 @@ const extra = {
 };
 const c = t[lang];
 import { bundleText } from '../i18n/bundle';
+import { serviceLandings, locationLandings, landingPath } from '../i18n/landing';
+// Service and location pages exist in Arabic and English only.
+const lp = lang === 'ar' || lang === 'en' ? lang : null;
 ---
 <footer class="ft">
   <div class="wrap">
@@ -45,7 +48,12 @@ import { bundleText } from '../i18n/bundle';
       <nav aria-label={c.site.footerCols.services}>
         <h2>{c.site.footerCols.services}</h2>
         <ul>
-          {c.services.list.map((s) => <li><a href={`${link(lang, '/services/')}#${s.icon}`}>{s.name}</a></li>)}
+          {lp
+            ? <>{serviceLandings.map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
+                <li><a href={link(lang, '/ai-agents/')}>{c.site.nav.find((n) => n.path === '/ai-agents/')?.label}</a></li>
+                {locationLandings.map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
+                <li><a href={link(lang, '/services/')}>{c.home.servicesLink}</a></li></>
+            : c.services.list.map((s) => <li><a href={`${link(lang, '/services/')}#${s.icon}`}>{s.name}</a></li>)}
         </ul>
       </nav>
 

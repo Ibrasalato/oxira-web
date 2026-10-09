@@ -5,6 +5,8 @@ import Base from '../../layouts/Base.astro';
 import { link } from '../../lib/routes';
 import { productsText, productPath } from '../../i18n/products';
 import type { AddonId } from '../../builder/addons';
+import { landings, landingPath } from '../../i18n/landing';
+import { t } from '../../i18n/content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -19,7 +21,13 @@ const url = new URL(link('ar', `/blog/${post.id}/`), site).href;
 const fmt = new Intl.DateTimeFormat('ar-SA-u-nu-latn-ca-gregory', { day: 'numeric', month: 'long', year: 'numeric' });
 const P = productsText.ar;
 const prod = d.product && d.product !== 'builder' ? (d.product as AddonId) : null;
-const others = all.filter((p) => p.id !== post.id).slice(0, 3);
+// Call to action: a service page when the article names one, else the product, else the website builder.
+const svcPage = d.service ? landings.find((l) => landingPath(l) === d.service) : undefined;
+const svc = svcPage
+  ? { href: link('ar', d.service!), name: svcPage.ar.name, short: svcPage.ar.ctaBody }
+  : d.service === '/ai-agents/' ? { href: link('ar', '/ai-agents/'), name: t.ar.agents.title, short: t.ar.home.agentsBody } : null;
+// Newest first, so new articles show up under "other articles".
+const others = all.filter((p) => p.id !== post.id).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 const toc = headings.filter((h) => h.depth === 2);
 const ld = [
   {
@@ -62,7 +70,12 @@ const ld = [
 
   <section class="section-tight">
     <div class="wrap ar-narrow">
-      {prod ? (
+      {svc ? (
+        <a class="ar-cta" href={svc.href}>
+          <div><b>{svc.name}</b><span>{svc.short}</span></div>
+          <span class="btn btn-amber">{P.common.learnMore}</span>
+        </a>
+      ) : prod ? (
         <a class="ar-cta" href={link('ar', productPath(prod))}>
           <div><b>{P.items[prod].name}</b><span>{P.items[prod].short}</span></div>
           <span class="btn btn-amber">{P.common.learnMore}</span>

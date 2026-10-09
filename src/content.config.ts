@@ -9,7 +9,9 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    product: z.enum(['builder', 'booking', 'menu', 'reviews', 'chat', 'content', 'tickets']).optional(),
+    product: z.enum(['builder', 'booking', 'menu', 'reviews', 'chat', 'content', 'tickets', 'seo', 'social', 'ads']).optional(),
+    /** Path of a service page (or /ai-agents/) for the call to action, e.g. '/services/web-design/'. Takes priority over product. */
+    service: z.string().optional(),
   }),
 });
 

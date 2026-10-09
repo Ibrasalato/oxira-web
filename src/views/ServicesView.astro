@@ -6,12 +6,15 @@ import Icon from '../components/Icon.astro';
 import CtaBand from '../components/CtaBand.astro';
 import ProductCards from '../components/ProductCards.astro';
 import { productsText } from '../i18n/products';
+import { landingsByIcon, locationLandings, landingPath } from '../i18n/landing';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
 const pg = c.pages.services;
 const other = lang === 'ar' ? 'en' : 'ar';
+// Service and location pages exist in Arabic and English only.
+const lp = lang === 'ar' || lang === 'en' ? lang : null;
 ---
 <Base lang={lang} path="/services/" title={pg.title} description={pg.description}>
   <section class="page-hero">
@@ -34,9 +37,16 @@ const other = lang === 'ar' ? 'en' : 'ar';
               <h2>{s.name}</h2>
               {lang === 'ar' && <p class="svc-alt" lang="en">{s.en}</p>}
             </div>
-            <ul class="svc-items">
-              {s.items.map((it) => <li>{it}</li>)}
-            </ul>
+            <div>
+              <ul class="svc-items">
+                {s.items.map((it) => <li>{it}</li>)}
+              </ul>
+              {lp && landingsByIcon(s.icon).length > 0 && (
+                <ul class="svc-pages">
+                  {landingsByIcon(s.icon).map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
+                </ul>
+              )}
+            </div>
             <div class="svc-go">
               {s.icon === 'agent'
                 ? <a class="more" href={link(lang, '/ai-agents/')}>{c.home.agentsLink}</a>
@@ -47,6 +57,17 @@ const other = lang === 'ar' ? 'en' : 'ar';
       </ol>
     </div>
   </section>
+
+  {lp && (
+    <section class="section-tight svc-where" aria-labelledby="where-title">
+      <div class="wrap">
+        <h2 id="where-title">{lp === 'ar' ? 'نخدمك أينما كنت' : 'Where we work'}</h2>
+        <ul class="svc-pages">
+          {locationLandings.map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
 
   <section class="section bg-paper" id="monthly" aria-labelledby="monthly-title">
     <div class="wrap">
@@ -91,6 +112,11 @@ const other = lang === 'ar' ? 'en' : 'ar';
   .svc-items li { position: relative; padding-inline-start: 1.5rem; font-size: 1.08rem; }
   .svc-items li::before { content: ''; position: absolute; inset-inline-start: 0; top: .7em; width: 8px; height: 8px; border-radius: 2px; background: var(--amber); }
   .svc-go { align-self: end; }
+  .svc-pages { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+  .svc-pages a { display: inline-block; text-decoration: none; font-weight: 600; font-size: .95rem; padding: .5rem 1rem; border-radius: 999px; border: 1px solid var(--line); color: #00699A; }
+  .svc-pages a:hover { border-color: var(--navy); }
+  .svc-where { padding-top: 0; }
+  .svc-where h2 { font-size: var(--s1); }
   @media (max-width: 960px) { .svc-row { grid-template-columns: 1fr; } }
 
   .process { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
