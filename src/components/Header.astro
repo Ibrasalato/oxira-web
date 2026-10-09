@@ -14,6 +14,8 @@ const c = t[lang];
 const b = builderText[lang];
 const P = productsText[lang];
 const onProducts = path === '/website-builder/' || path === '/studio/' || path.startsWith('/products/');
+const acct = b.account as any;
+const bellText = { title: acct.notifTitle, empty: acct.notifEmpty, t: acct.notif, names: { ...(acct.products || {}), ...Object.fromEntries(productIds.map((id) => [id, P.items[id].name])) } };
 const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? 'AI';
 import { bundleText } from '../i18n/bundle';
 ---
@@ -70,6 +72,13 @@ import { bundleText } from '../i18n/bundle';
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
         <span>{P.nav.signIn}</span>
       </a>
+      <div class="hd-bell" id="hd-bell" data-t={JSON.stringify(bellText)} data-acc={link(lang, '/account/')}>
+        <button type="button" class="hd-bell-btn" id="hd-bell-btn" aria-expanded="false" aria-controls="hd-bell-menu" aria-label={P.nav.notifications}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" /><path d="M10 20a2 2 0 0 0 4 0" /></svg>
+          <span class="hd-badge" hidden></span>
+        </button>
+        <div class="hd-bell-menu" id="hd-bell-menu"><p class="hd-bell-h">{P.nav.notifications}</p><ul id="hd-bell-list"></ul></div>
+      </div>
       <div class="hd-user" id="hd-user">
         <button type="button" class="hd-user-btn" id="hd-user-btn" aria-expanded="false" aria-controls="hd-user-menu" aria-label={P.nav.accountMenu}>
           <span class="hd-av" data-av></span>
@@ -149,10 +158,51 @@ import { bundleText } from '../i18n/bundle';
   userBox.querySelector('[data-hd-out]')!.addEventListener('click', () => {
     const k = read(KEY);
     if (k) fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
-    try { localStorage.removeItem(KEY); localStorage.removeItem(ME); } catch { /* ignore */ }
+    try { localStorage.removeItem(KEY); localStorage.removeItem(ME); sessionStorage.removeItem('oxira-notif'); } catch { /* ignore */ }
     setUser(false);
     paintUser();
     if (/\/account\/?$/.test(location.pathname)) location.reload();
+  });
+
+  // Notifications bell (signed-in): from the account API, cached for 5 minutes in this tab.
+  const bell = document.getElementById('hd-bell')!;
+  const bellBtn = document.getElementById('hd-bell-btn') as HTMLButtonElement;
+  const BT = JSON.parse(bell.dataset.t || '{}');
+  const escH = (v: unknown) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  function paintBell(items: any[]) {
+    const badge = bell.querySelector<HTMLElement>('.hd-badge')!;
+    badge.hidden = !items.length; badge.textContent = items.length > 9 ? '9+' : String(items.length);
+    const list = document.getElementById('hd-bell-list')!;
+    if (!items.length) { list.innerHTML = `<li class="hd-bell-empty">${escH(BT.empty)}</li>`; return; }
+    list.innerHTML = items.map((x) => {
+      const txt = String(BT.t?.[x.type] || x.type).replace('{product}', BT.names?.[x.product] || x.product || '').replace('{site}', x.site || '').replace('{n}', String(x.n ?? '')).replace('{date}', x.date || '').replace('{subject}', x.subject || '');
+      return `<li><a href="${escH(bell.dataset.acc + '#' + (x.href || 'home'))}" data-order="${escH(x.order_id || '')}"><i class="hd-n-${escH(x.type)}"></i><span>${escH(txt)}</span></a></li>`;
+    }).join('');
+  }
+  async function loadBell(force = false) {
+    const k = read(KEY);
+    if (!k) { paintBell([]); return; }
+    try { const c = JSON.parse(sessionStorage.getItem('oxira-notif') || 'null'); if (!force && c && c.k === k && Date.now() - c.at < 300000) { paintBell(c.items); return; } } catch { /* ignore */ }
+    try {
+      const res = await fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-account', { method: 'POST', body: new URLSearchParams({ k, action: 'notifications', lang: document.documentElement.lang || 'ar' }) });
+      const r = await res.json();
+      const items = r?.success ? r.items : [];
+      try { sessionStorage.setItem('oxira-notif', JSON.stringify({ k, at: Date.now(), items })); } catch { /* ignore */ }
+      paintBell(items);
+    } catch { paintBell([]); }
+  }
+  loadBell();
+  window.addEventListener('ox-notif-refresh', () => loadBell(true));
+  window.addEventListener('ox-me', () => loadBell());
+  const setBell = (open: boolean) => { bell.classList.toggle('is-open', open); bellBtn.setAttribute('aria-expanded', String(open)); };
+  bellBtn.addEventListener('click', () => { setUser(false); setBell(!bell.classList.contains('is-open')); });
+  document.addEventListener('click', (e) => { if (!bell.contains(e.target as Node)) setBell(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setBell(false); });
+  bell.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest<HTMLAnchorElement>('a[data-order]');
+    if (!a) return;
+    if (a.dataset.order) { try { localStorage.setItem('oxira-portal-site', a.dataset.order); } catch { /* ignore */ } }
+    setBell(false);
   });
 
   const onScroll = () => hd.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -207,6 +257,34 @@ import { bundleText } from '../i18n/bundle';
   .hd-acct svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 
   .hd-end { display: flex; align-items: center; gap: .75rem; }
+
+  .hd-bell { display: none; position: relative; }
+  :global(html.ox-in) .hd-bell { display: block; }
+  .hd-bell-btn { position: relative; width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; color: var(--ink); }
+  .hd-bell-btn:hover, .hd-bell.is-open .hd-bell-btn { border-color: var(--navy); }
+  .hd-bell-btn svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .hd-badge { position: absolute; top: -6px; inset-inline-end: -6px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: #D92D20; color: #fff; font-size: .7rem; font-weight: 700; display: grid; place-items: center; border: 2px solid #fff; }
+  .hd-badge[hidden] { display: none; }
+  .hd-bell-menu { display: none; position: absolute; top: calc(100% + .6rem); inset-inline-end: -3.5rem; width: min(22rem, calc(100vw - 2rem)); max-height: 70vh; overflow: auto; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px -24px rgba(6, 26, 45, .45); padding: .5rem; z-index: 50; }
+  .hd-bell.is-open .hd-bell-menu { display: block; }
+  .hd-bell-h { margin: 0; padding: .5rem .6rem .7rem; font-weight: 800; border-bottom: 1px solid var(--line); }
+  .hd-bell-menu ul { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; gap: .1rem; }
+  .hd-bell-menu :global(a) { display: flex; gap: .6rem; align-items: flex-start; padding: .6rem; border-radius: 10px; text-decoration: none; color: var(--ink); font-size: .9rem; line-height: 1.5; }
+  .hd-bell-menu :global(a:hover) { background: var(--paper); }
+  .hd-bell-menu :global(i) { flex: none; width: 8px; height: 8px; margin-top: .45rem; border-radius: 50%; background: var(--amber); }
+  .hd-bell-menu :global(i.hd-n-pay), .hd-bell-menu :global(i.hd-n-meta), .hd-bell-menu :global(i.hd-n-ticket_admin) { background: #D92D20; }
+  .hd-bell-menu :global(i.hd-n-ticket), .hd-bell-menu :global(i.hd-n-booking) { background: #2E90FA; }
+  .hd-bell-menu :global(.hd-bell-empty) { padding: 1.2rem .6rem; color: var(--muted); text-align: center; font-size: .9rem; }
+  @media (max-width: 1200px) { .hd-bell-btn { width: 40px; height: 40px; } }
+  @media (max-width: 600px) {
+    .hd-end { gap: .35rem; }
+    .hd-bell-btn { width: 38px; height: 38px; border-radius: 10px; }
+    .hd-user-btn { height: 38px; padding: 0 .2rem; }
+    .hd-user-btn .hd-chev { display: none; }
+    .hd-av { width: 30px; height: 30px; font-size: .75rem; }
+    .hd-bell-menu { position: fixed; top: 4.4rem; inset-inline: 1rem; width: auto; }
+    .hd-user-menu { position: fixed; top: 4.4rem; inset-inline: 1rem; width: auto; }
+  }
   .hd-user { display: none; position: relative; }
   :global(html.ox-in) .hd-user { display: block; }
   :global(html.ox-in) .hd-signin { display: none; }

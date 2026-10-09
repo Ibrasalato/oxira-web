@@ -15,7 +15,8 @@
     "mySites": "Mes sites",
     "billing": "Abonnements et factures",
     "profile": "Profil",
-    "accountMenu": "Menu du compte"
+    "accountMenu": "Menu du compte",
+    "notifications": "Notifications"
   },
   "common": {
     "start": "Commencer",

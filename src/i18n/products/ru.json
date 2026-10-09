@@ -15,7 +15,8 @@
     "mySites": "Мои сайты",
     "billing": "Подписки и счета",
     "profile": "Профиль",
-    "accountMenu": "Меню аккаунта"
+    "accountMenu": "Меню аккаунта",
+    "notifications": "Уведомления"
   },
   "common": {
     "start": "Начать",

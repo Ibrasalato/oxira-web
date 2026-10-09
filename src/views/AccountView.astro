@@ -5,6 +5,7 @@ import { builderText } from '../i18n/builder';
 import { link } from '../lib/routes';
 import { addonIds, addonPrices, addonIcons } from '../builder/addons';
 import Base from '../layouts/Base.astro';
+import { company } from '../lib/company';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -14,6 +15,8 @@ const n8n = 'https://ibrasalato.app.n8n.cloud/webhook';
 const config = {
   lang,
   authEndpoint: `${n8n}/oxira-auth`,
+  accountEndpoint: `${n8n}/oxira-account`,
+  company: { nameAr: company.legalName.ar, nameEn: company.legalName.en, cr: company.cr, vat: company.vat, address: a.invAddress },
   apiEndpoint: `${n8n}/oxira-portal`,
   seoEndpoint: `${n8n}/oxira-seo`,
   seoSettingsEndpoint: `${n8n}/oxira-seo-settings`,
@@ -40,6 +43,8 @@ const ic = {
   home: '<path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/>',
   site: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/>',
   billing: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  tickets: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+  team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.4.2 4.2 1.7 5 4.3"/>',
   profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
   support: '<path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/>',
   out: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>',
@@ -131,11 +136,11 @@ const ic = {
       <div class="ac-shell">
         <aside class="ac-side">
           <div class="ac-me"><span class="ac-avatar" id="ac-avatar" aria-hidden="true"></span><div><b id="ac-name"></b><small id="ac-email" dir="ltr"></small></div></div>
+          <div class="ac-switch" id="ac-switch" hidden></div>
           <nav class="ac-nav" id="ac-nav" aria-label={a.navMenu}>
-            {(['home', 'site', 'billing', 'profile'] as const).map((k) => <button type="button" data-sec={k}><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic[k]} /><span>{({ home: a.navHome, site: a.navSites, billing: a.navBilling, profile: a.navProfile })[k]}</span></button>)}
+            {(['home', 'site', 'billing', 'support', 'team', 'profile'] as const).map((k) => <button type="button" data-sec={k}><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic[k === 'support' ? 'tickets' : k]} /><span>{({ home: a.navHome, site: a.navSites, billing: a.navBilling, support: a.navSupport2, team: a.navTeam, profile: a.navProfile })[k]}</span></button>)}
           </nav>
           <div class="ac-side-foot">
-            <a href={link(lang, '/contact/')}><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic.support} />{a.navSupport}</a>
             <button type="button" id="ac-signout"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={ic.out} />{a.signOut}</button>
           </div>
         </aside>
@@ -144,10 +149,13 @@ const ic = {
             <div><h1 id="ac-title">{a.title}</h1><p class="ac-muted" id="ac-sub"></p></div>
             <div class="ac-head-tools"><select id="ac-site" aria-label={a.site}></select></div>
           </header>
+          <p class="ac-acting" id="ac-acting" hidden></p>
           <p class="ac-note" id="ac-flash" hidden></p>
           <div data-sec-panel="home" id="ac-home"></div>
           <div data-sec-panel="site"><nav class="ac-tabs" id="ac-tabs" role="tablist"></nav><main id="ac-panel" class="ac-panel"></main></div>
           <div data-sec-panel="billing" id="ac-billing"></div>
+          <div data-sec-panel="support" id="ac-support"></div>
+          <div data-sec-panel="team" id="ac-team"></div>
           <div data-sec-panel="profile" id="ac-profile"></div>
         </div>
       </div>
@@ -191,6 +199,7 @@ const ic = {
   // ---- Sign in / create account (Oxira 26 API: oxira-auth) ----
   const PW_OK = /^(?=.*[A-Za-z؀-ۿ])(?=.*\d).{8,128}$/;
   let authEmail = '';
+  let authPurpose = 'verify';
   const authStatus = () => $<HTMLElement>('#ac-login-status');
   function authMsg(text: string, ok = false) { const el = authStatus(); el.textContent = text; el.className = 'ac-status ' + (ok ? 'is-ok' : 'is-error'); el.hidden = !text; }
   function step(name: string) {
@@ -199,6 +208,8 @@ const ic = {
     tabsEl.hidden = !['login', 'signup'].includes(name);
     tabsEl.querySelectorAll<HTMLButtonElement>('[data-auth]').forEach((x) => x.setAttribute('aria-selected', String(x.dataset.auth === name)));
     root.querySelectorAll<HTMLElement>('[data-auth-email]').forEach((x) => { x.textContent = authEmail; });
+    const vt = root.querySelector<HTMLElement>('[data-step="verify"] h1');
+    if (vt) vt.textContent = authPurpose === 'login' ? T.authTwofaTitle : T.authVerifyTitle;
     authMsg('');
     const f = root.querySelector<HTMLFormElement>(`[data-step="${name}"]`)!;
     if (authEmail) f.querySelectorAll<HTMLInputElement>('input[name=email]').forEach((i) => { if (!i.value) i.value = authEmail; });
@@ -271,7 +282,7 @@ const ic = {
     if (rs) {
       (async () => {
         rs.disabled = true;
-        const r = await auth('resend', { email: authEmail, purpose: rs.dataset.resend! });
+        const r = await auth('resend', { email: authEmail, purpose: rs.dataset.resend === 'verify' ? authPurpose : rs.dataset.resend! });
         if (r?.success) { authMsg(T.authCodeSent, true); cooldown(60); } else { authMsg(errText(r)); cooldown(r?.seconds || 5); }
       })();
     }
@@ -287,7 +298,8 @@ const ic = {
         if (!password) { authMsg(T.authErr.invalid); return; }
         const r = await auth('login', { email, password });
         if (r?.success && r.k) { enter(r.k); return; }
-        if (r?.reason === 'unverified') { authEmail = email; step('verify'); authMsg(T.authErr.unverified, true); cooldown(60); return; }
+        if (r?.reason === 'unverified') { authEmail = email; authPurpose = 'verify'; step('verify'); authMsg(T.authErr.unverified, true); cooldown(60); return; }
+        if (r?.reason === 'twofa') { authEmail = email; authPurpose = 'login'; step('verify'); authMsg(T.authTwofa, true); cooldown(60); return; }
         authMsg(errText(r));
       } else if (name === 'signup') {
         const email = val(f, 'email'), nm = val(f, 'name'); const pw = (f.elements.namedItem('password') as HTMLInputElement).value, pw2 = (f.elements.namedItem('password2') as HTMLInputElement).value;
@@ -296,12 +308,12 @@ const ic = {
         if (!PW_OK.test(pw)) { authMsg(T.authErr.weak); return; }
         if (pw !== pw2) { authMsg(T.authErr.mismatch); return; }
         const r = await auth('signup', { email, name: nm, phone: val(f, 'phone'), company: val(f, 'company'), password: pw });
-        if (r?.success) { authEmail = email; step('verify'); authMsg(T.authCodeSent, true); cooldown(60); return; }
+        if (r?.success) { authEmail = email; authPurpose = 'verify'; step('verify'); authMsg(T.authCodeSent, true); cooldown(60); return; }
         authMsg(errText(r));
       } else if (name === 'verify') {
         const code = otpOf(f);
         if (code.length !== 6) { authMsg(T.authErr.code); return; }
-        const r = await auth('verify', { email: authEmail, code });
+        const r = await auth('verify', { email: authEmail, code, purpose: authPurpose });
         if (r?.success && r.k) { enter(r.k); return; }
         f.querySelectorAll<HTMLInputElement>('[data-otp] input').forEach((i) => { i.value = ''; });
         f.querySelector<HTMLInputElement>('[data-otp] input')!.focus();
@@ -343,7 +355,7 @@ const ic = {
   // ---- Data ----
   let view: View | null = null;
   let siteId = Number(store.get(SITE_KEY)) || 0;
-  const SECS = ['home', 'billing', 'profile'];
+  const SECS = ['home', 'billing', 'support', 'team', 'profile'];
   const hash0 = location.hash.slice(1);
   let sec = SECS.includes(hash0) ? hash0 : hash0 && hash0 !== 'signup' ? 'site' : 'home';
   let tab = sec === 'site' ? hash0 : 'overview';
@@ -361,9 +373,12 @@ const ic = {
       if (!v?.success) throw new Error('load');
       view = v as View;
       me = m?.success ? m : { email: v.email, name: '' };
+      invCache = null; sup.list = null; teamCache = null; devCache = null; extra.loaded = false; extra.soc = {}; extra.seo = {}; extra.partner = undefined;
       if (view.sites.length && !view.sites.some((s) => s.order_id === siteId)) siteId = view.sites[0].order_id;
       $<HTMLElement>('#ac-email').textContent = view.email;
       paintMe();
+      paintSwitch();
+      notifRefresh();
       const sel = $<HTMLSelectElement>('#ac-site');
       sel.replaceChildren(...view.sites.map((s) => new Option(`${s.name || '#' + s.order_id}${s.external ? ' · ' + T.extBadge : ''}`, String(s.order_id), false, s.order_id === siteId)));
       sel.hidden = view.sites.length < 2;
@@ -428,12 +443,14 @@ const ic = {
     root.querySelectorAll<HTMLElement>('[data-sec-panel]').forEach((p) => { p.hidden = p.dataset.secPanel !== sec; });
     $<HTMLSelectElement>('#ac-site').hidden = sec !== 'site' || (view?.sites.length ?? 0) < 2;
     const first = String(me?.name || '').split(/\s+/)[0];
-    $<HTMLElement>('#ac-title').textContent = sec === 'home' ? (first ? String(T.dashHello).replace('{name}', first) : T.dashHelloNoName) : sec === 'site' ? T.navSites : sec === 'billing' ? T.navBilling : T.navProfile;
+    $<HTMLElement>('#ac-title').textContent = sec === 'home' ? (first ? String(T.dashHello).replace('{name}', first) : T.dashHelloNoName) : ({ site: T.navSites, billing: T.navBilling, support: T.navSupport2, team: T.navTeam, profile: T.navProfile } as Record<string, string>)[sec];
     $<HTMLElement>('#ac-sub').textContent = sec === 'home' ? T.dashSub : '';
     if (sec === 'site') drawSite();
-    else if (sec === 'home') $<HTMLElement>('#ac-home').innerHTML = homeHtml();
-    else if (sec === 'billing') $<HTMLElement>('#ac-billing').innerHTML = billingAllHtml();
-    else $<HTMLElement>('#ac-profile').innerHTML = profileHtml();
+    else if (sec === 'home') { $<HTMLElement>('#ac-home').innerHTML = homeHtml(); loadHomeExtras(); }
+    else if (sec === 'billing') { $<HTMLElement>('#ac-billing').innerHTML = billingAllHtml() + `<section class="ac-card" id="ac-invoices"><p class="ac-muted">${esc(T.loading)}</p></section>`; loadInvoices(); }
+    else if (sec === 'support') { $<HTMLElement>('#ac-support').innerHTML = supportHtml(); loadTickets(); }
+    else if (sec === 'team') { $<HTMLElement>('#ac-team').innerHTML = teamHtml(); loadTeam(); }
+    else { $<HTMLElement>('#ac-profile').innerHTML = profileHtml() + (me?.has_password ? securityHtml() : ''); loadDevices(); }
   }
   function goTo(next: string, nextTab = '', order = 0) {
     sec = next;
@@ -488,7 +505,7 @@ const ic = {
     const kpis = `<div class="ac-kpis">${kpi('<path d="M4 12l5 5L20 6"/>', fmt.format(subs.length), T.kpiServices)}${kpi('<path d="M12 3v18M17 7H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>', monthly ? esc(money(monthly)) : '—', T.kpiMonthly)}${kpi('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', esc(niceDate(next)), T.kpiNext)}${kpi(GEN_IC, fmt.format(sites.length), T.kpiSites)}</div>`;
     const due = unpaid();
     const alert = due.length ? card(`<h2>${esc(T.needsPay)}</h2><ul class="ac-due">${due.map((x) => `<li><span><b>${esc(productName(x.product))}</b> <small class="ac-muted">${esc(siteLabel(x.order_id))}</small></span><span>${esc(priceOf(x))}</span><a class="btn btn-amber ac-small-btn" href="${esc(x.invoice_url)}">${esc(T.payNow)}</a></li>`).join('')}</ul>`, 'ac-alert') : '';
-    if (!sites.length) return kpis + emptyState();
+    if (!sites.length) return onboardingHtml() + kpis + emptyState() + partnerHtml();
     const svc = subs.length ? `<div class="ac-svc">${subs.map((x) => `<article class="ac-svc-item">
         <span class="ac-svc-ic">${svgIc(cfg.icons[x.product] || GEN_IC)}</span>
         <div class="ac-svc-txt"><b>${esc(productName(x.product))}</b><small>${esc(siteLabel(x.order_id))} · ${esc(priceOf(x))}</small></div>
@@ -502,11 +519,12 @@ const ic = {
       [`a href="${esc(cfg.contactUrl)}"`, '<path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/>', T.qSupport],
     ].map(([tag, icon, label]) => `<${tag} class="ac-quick">${svgIc(icon)}<span>${esc(label)}</span></${tag.split(' ')[0]}>`).join('');
     const siteList = sites.map((x) => `<li><div><b>${esc(x.name || x.domain || '#' + x.order_id)}</b>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener" dir="ltr">${esc(x.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>` : ''}</div><button type="button" class="ac-link" data-goto="site:overview:${x.order_id}">${esc(T.manage)}</button></li>`).join('');
-    return kpis + alert + `<div class="ac-dash">
+    return onboardingHtml() + kpis + alert + summaryHtml() + `<div class="ac-dash">
       <section class="ac-card ac-dash-main"><div class="ac-card-head"><h2>${esc(T.myServices)}</h2>${subs.length ? `<button type="button" class="ac-link" data-goto="site:addons">${esc(T.browseAddons)} →</button>` : ''}</div>${svc}</section>
       <div class="ac-dash-side">
         ${card(`<h2>${esc(T.quickTitle)}</h2><div class="ac-quicks">${quick}</div>`)}
         ${card(`<h2>${esc(T.mySites)}</h2><ul class="ac-sites">${siteList}</ul>`)}
+        ${partnerHtml()}
       </div></div>`;
   }
   function billingAllHtml() {
@@ -596,6 +614,322 @@ const ic = {
     });
   });
 
+  // ---- Account extras (Oxira 27 API: oxira-account) ----
+  async function xapi(action: string, data: Record<string, unknown> = {}): Promise<any> {
+    try {
+      const res = await fetch(cfg.accountEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, lang: cfg.lang, data: JSON.stringify(data) }) });
+      const r = await res.json();
+      if (r?.reason === 'session') { signOut(T.expired); return { success: false, reason: 'session' }; }
+      return r;
+    } catch { return { success: false, reason: 'network' }; }
+  }
+  const xmsg = (r: any) => (r?.reason === 'viewer' || r?.reason === 'forbidden' ? T.viewerErr : r?.reason === 'email' ? T.authErr.email : T.failed);
+  const isViewer = () => me?.role === 'viewer';
+  const notifRefresh = () => { try { sessionStorage.removeItem('oxira-notif'); } catch { /* ignore */ } window.dispatchEvent(new Event('ox-notif-refresh')); };
+
+  // Account switcher and "working on someone else's account" banner
+  function paintSwitch() {
+    const box = $<HTMLElement>('#ac-switch');
+    const list: { owner: string; role: string }[] = me?.memberships || [];
+    const acting = me?.acting_as || '';
+    box.hidden = !list.length && !acting;
+    if (!box.hidden) {
+      box.innerHTML = `<label class="ac-field ac-small">${esc(T.switchTitle)}<select id="ac-switch-sel">
+        <option value="${esc(me?.email || '')}"${acting ? '' : ' selected'}>${esc(T.switchMine)}</option>
+        ${list.map((m) => `<option value="${esc(m.owner)}"${acting === m.owner ? ' selected' : ''}>${esc(m.owner)} · ${esc(m.role === 'viewer' ? T.teamViewer : T.teamFull)}</option>`).join('')}</select></label>`;
+    }
+    const banner = $<HTMLElement>('#ac-acting');
+    banner.hidden = !acting;
+    if (acting) banner.innerHTML = `<span>${esc(T.switchActing)} <b dir="ltr">${esc(acting)}</b>${isViewer() ? ` · ${esc(T.viewerNote)}` : ''}</span><button type="button" class="btn btn-ghost ac-small-btn" data-switch="${esc(me?.email || '')}">${esc(T.switchBack)}</button>`;
+  }
+  async function switchTo(owner: string) {
+    const r = await auth('switch', { k: token, owner });
+    if (r?.success && r.k) { token = r.k; store.set(KEY, r.k); siteId = 0; store.del(SITE_KEY); tab = 'overview'; sec = 'home'; history.replaceState(null, '', location.pathname); notifRefresh(); load(); }
+    else flash(T.failed);
+  }
+  root.addEventListener('change', (e) => { const t = e.target as HTMLSelectElement; if (t.id === 'ac-switch-sel') switchTo(t.value); });
+  root.addEventListener('click', (e) => { const b = (e.target as Element).closest<HTMLButtonElement>('[data-switch]'); if (b) switchTo(b.dataset.switch!); });
+
+  // ---- Invoices (in the billing section) ----
+  let invCache: any[] | null = null;
+  async function loadInvoices() {
+    const box = root.querySelector<HTMLElement>('#ac-invoices');
+    if (!box) return;
+    if (!invCache) { const r = await xapi('invoices'); invCache = r?.success ? r.invoices : []; }
+    const list = invCache || [];
+    const item = (x: any) => (x.product ? productName(x.product) : x.kind === 'order' ? T.invOrder : x.description) + (x.site ? ' · ' + x.site : '');
+    box.innerHTML = `<h2>${esc(T.invTitle)}</h2>${list.length ? `<div class="ac-table-wrap"><table class="ac-table"><thead><tr><th>${esc(T.invNo)}</th><th>${esc(T.invDate)}</th><th>${esc(T.invFor)}</th><th>${esc(T.invTotal)}</th><th></th></tr></thead><tbody>${list.map((x, i) => `<tr>
+      <td dir="ltr"><b>${esc(x.number)}</b></td><td>${esc(niceDate(x.paid_at))}</td><td>${esc(item(x))}</td><td>${esc(money(x.total))}</td>
+      <td class="ac-actions"><button type="button" class="btn btn-ghost ac-small-btn" data-inv="${i}">${esc(T.invView)}</button></td></tr>`).join('')}</tbody></table></div>` : `<p class="ac-muted">${esc(T.invEmpty)}</p>`}`;
+  }
+  // ZATCA simplified tax invoice QR: TLV (seller, VAT no., time, total, VAT) in base64.
+  function zatcaQr(total: number, vat: number, at: string) {
+    const enc = new TextEncoder();
+    const bytes: number[] = [];
+    [cfg.company.nameAr, cfg.company.vat, new Date(at).toISOString(), total.toFixed(2), vat.toFixed(2)].forEach((v, i) => { const b = enc.encode(String(v)); bytes.push(i + 1, b.length, ...b); });
+    let bin = ''; bytes.forEach((x) => { bin += String.fromCharCode(x); });
+    return btoa(bin);
+  }
+  function printInvoice(x: any) {
+    const w = window.open('', '_blank');
+    if (!w) return;
+    const rtl = cfg.lang === 'ar';
+    const item = x.product ? productName(x.product) : x.kind === 'order' ? T.invOrder : x.description;
+    const n2 = (v: number) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
+    const when = new Date(x.paid_at).toLocaleString(rtl ? 'ar-SA-u-nu-latn-ca-gregory' : cfg.numberLocale, { dateStyle: 'medium', timeStyle: 'short' });
+    const row = (ar: string, en: string, v: string, strong = false) => `<tr${strong ? ' class="t"' : ''}><td>${ar}<small>${en}</small></td><td dir="ltr">${v}</td></tr>`;
+    w.document.write(`<!doctype html><html dir="${rtl ? 'rtl' : 'ltr'}" lang="${cfg.lang}"><meta charset="utf-8"><title>${esc(x.number)}</title><style>
+      *{box-sizing:border-box}body{font-family:Tahoma,system-ui,sans-serif;color:#0A253E;margin:0;padding:32px;background:#fff;font-size:14px;line-height:1.6}
+      .inv{max-width:760px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:3px solid #FFC400;padding-bottom:18px}
+      h1{margin:0;font-size:22px}h1 small{display:block;font-size:13px;color:#556779;font-weight:400}.brand{font-size:26px;font-weight:800;letter-spacing:.5px}
+      .meta{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}.box{background:#F4F6F9;border-radius:12px;padding:14px 16px}.box b{display:block;margin-bottom:4px}
+      .box p{margin:0;color:#334}.lbl{font-size:12px;color:#556779}table{width:100%;border-collapse:collapse;margin-top:6px}
+      td,th{padding:10px 12px;border-bottom:1px solid #E5E9EF;text-align:start;vertical-align:top}th{background:#0A253E;color:#fff;font-weight:600}td small,th small{display:block;font-size:11px;color:#8A98A8;font-weight:400}
+      th small{color:#C9D3DE}.sum{width:60%;margin-inline-start:auto;margin-top:16px}.sum td:last-child{text-align:end;white-space:nowrap}.t td{font-weight:800;font-size:16px;border-top:2px solid #0A253E}
+      .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-top:28px}.qr{width:140px;height:140px}.qr svg{width:100%;height:100%}
+      .paid{display:inline-block;background:#E7F6EC;color:#1E6B3A;font-weight:700;border-radius:999px;padding:3px 12px;font-size:12px}.np{margin:22px auto 0;max-width:760px;text-align:center}
+      .np button{font:600 14px Tahoma,sans-serif;background:#0A253E;color:#fff;border:0;border-radius:10px;padding:10px 22px;cursor:pointer}@media print{.np{display:none}body{padding:0}@page{margin:14mm}}
+    </style><div class="inv">
+      <div class="top"><div><h1>فاتورة ضريبية مبسطة<small>Simplified Tax Invoice</small></h1><p style="margin:10px 0 0"><span class="lbl">رقم الفاتورة / Invoice No.</span><br><b dir="ltr">${esc(x.number)}</b></p><p style="margin:6px 0 0"><span class="lbl">التاريخ / Date</span><br>${esc(when)}</p><p style="margin:8px 0 0"><span class="paid">مدفوعة · Paid</span></p></div><div class="brand">Oxira</div></div>
+      <div class="meta"><div class="box"><span class="lbl">البائع / Seller</span><b>${esc(cfg.company.nameAr)} · ${esc(cfg.company.nameEn)}</b><p>السجل التجاري / CR: <span dir="ltr">${esc(cfg.company.cr)}</span></p><p>الرقم الضريبي / VAT: <span dir="ltr">${esc(cfg.company.vat)}</span></p><p>${esc(cfg.company.address)}</p></div>
+        <div class="box"><span class="lbl">العميل / Customer</span><b>${esc(x.buyer || me?.name || '')}</b><p dir="ltr">${esc(view?.email || '')}</p>${x.site ? `<p>${esc(x.site)}</p>` : ''}</div></div>
+      <table><thead><tr><th>الوصف<small>Description</small></th><th>الكمية<small>Qty</small></th><th>المبلغ<small>Amount (SAR)</small></th></tr></thead><tbody><tr><td>${esc(item)}${x.site ? `<small>${esc(x.site)}</small>` : ''}</td><td dir="ltr">1</td><td dir="ltr">${n2(x.subtotal)}</td></tr></tbody></table>
+      <table class="sum"><tbody>${row('المبلغ قبل الضريبة', 'Subtotal', n2(x.subtotal) + ' SAR')}${row('ضريبة القيمة المضافة 15%', 'VAT 15%', n2(x.vat) + ' SAR')}${row('الإجمالي شامل الضريبة', 'Total incl. VAT', n2(x.total) + ' SAR', true)}</tbody></table>
+      <div class="foot"><div><p style="margin:0">${esc(T.invThanks)}</p><p style="margin:4px 0 0;color:#8A98A8;font-size:12px">oxira.sa · info@oxira.sa · +966 59 669 4021</p></div><div class="qr">${qrSvg(zatcaQr(Number(x.total), Number(x.vat), x.paid_at))}</div></div>
+    </div><div class="np"><button onclick="print()">${esc(T.invPrint)}</button></div>`);
+    w.document.close();
+  }
+  root.addEventListener('click', (e) => { const b = (e.target as Element).closest<HTMLButtonElement>('[data-inv]'); if (b && invCache) printInvoice(invCache[Number(b.dataset.inv)]); });
+
+  // ---- Support tickets ----
+  const sup: { list: any[] | null; admin: boolean; open: number; compose: boolean; files: string[] } = { list: null, admin: false, open: 0, compose: false, files: [] };
+  async function loadTickets(force = false) {
+    if (!sup.list || force) { const r = await xapi('tickets'); sup.list = r?.success ? r.tickets : []; sup.admin = !!r?.admin; }
+    if (sec === 'support') $<HTMLElement>('#ac-support').innerHTML = supportHtml();
+  }
+  const chipSt = (s: string) => `<span class="ac-chip st-${s === 'closed' ? 'cancelled' : s === 'answered' ? 'active' : 'pending'}">${esc(T.supStates[s] || s)}</span>`;
+  const thumbs = (ids: string[]) => (ids?.length ? `<div class="ac-thumbs">${ids.map((id) => `<a href="${esc(cfg.imageBase + id)}" target="_blank" rel="noopener"><img src="${esc(cfg.imageBase + id)}" alt="" loading="lazy"></a>`).join('')}</div>` : '');
+  const attachRow = () => `<div class="ac-row ac-attach"><label class="btn btn-ghost ac-small-btn ac-file">📎 ${esc(T.supAttach)}<input type="file" accept="image/jpeg,image/png,image/webp" multiple hidden data-sup-file></label><span class="ac-thumbs" data-sup-files>${sup.files.map((id) => `<img src="${esc(cfg.imageBase + id)}" alt="">`).join('')}</span></div>`;
+  function supportHtml() {
+    if (sup.list === null) return card(`<p class="ac-muted">${esc(T.loading)}</p>`);
+    if (sup.compose) {
+      const sites = view?.sites ?? [];
+      return card(`<p><button type="button" class="ac-link" data-sup-back>← ${esc(T.supBack)}</button></p><h2>${esc(T.supNew)}</h2><form id="ac-sup-new" class="ac-form-grid">
+        <label class="ac-field ac-wide">${esc(T.supSubject)}<input name="subject" required maxlength="140" dir="auto"></label>
+        <label class="ac-field">${esc(T.supCategory)}<select name="category">${Object.entries(T.supCats).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('')}</select></label>
+        <label class="ac-field">${esc(T.supSite)}<select name="order_id"><option value="0">${esc(T.supSiteNone)}</option>${sites.map((s) => `<option value="${s.order_id}"${s.order_id === site()?.order_id ? ' selected' : ''}>${esc(s.name || s.domain || '#' + s.order_id)}</option>`).join('')}</select></label>
+        <label class="ac-field ac-wide">${esc(T.supMessage)}<textarea name="message" rows="6" required maxlength="4000" dir="auto"></textarea></label>
+        <div class="ac-wide">${attachRow()}</div>
+        <div class="ac-wide"><button type="submit" class="btn btn-amber">${esc(T.supSend)}</button></div></form>`);
+    }
+    const t = sup.open ? (sup.list || []).find((x) => x.id === sup.open) : null;
+    if (t) {
+      const msgs = (t.messages || []).map((m: any) => `<div class="ac-msg ${m.from === 'oxira' ? 'is-team' : 'is-me'}"><p class="ac-msg-by">${esc(m.from === 'oxira' ? T.supTeam : sup.admin ? m.by : T.supYou)} · <span dir="ltr">${esc(niceDate(m.at))} ${esc(String(m.at || '').slice(11, 16))}</span></p><p class="ac-msg-text" dir="auto">${esc(m.text)}</p>${thumbs(m.images)}</div>`).join('');
+      return card(`<p><button type="button" class="ac-link" data-sup-back>← ${esc(T.supBack)}</button></p>
+        <div class="ac-card-head"><h2 dir="auto">${esc(t.subject)}</h2>${chipSt(t.status)}</div>
+        <p class="ac-muted ac-small"><span dir="ltr">${esc(t.number)}</span> · ${esc(T.supCats[t.category] || t.category)}${t.site ? ' · ' + esc(t.site) : ''}${t.email ? ` · <span dir="ltr">${esc(t.email)}</span>` : ''}</p>
+        <div class="ac-thread">${msgs}</div>
+        ${t.status === 'closed' ? `<p><button type="button" class="btn btn-ghost ac-small-btn" data-sup-reopen="${t.id}">${esc(T.supReopen)}</button></p>` : `<form id="ac-sup-reply" data-id="${t.id}" class="ac-sup-reply"><label class="ac-field">${esc(T.supReply)}<textarea name="message" rows="4" required maxlength="4000" dir="auto"></textarea></label>${attachRow()}<div class="ac-row"><button type="submit" class="btn btn-amber">${esc(T.supReplyBtn)}</button><button type="button" class="btn btn-ghost" data-sup-close="${t.id}">${esc(T.supClose)}</button></div></form>`}`);
+    }
+    const list = sup.list || [];
+    return (sup.admin ? `<p class="ac-note">${esc(T.supAdminNote)}</p>` : '') + card(`<div class="ac-card-head"><h2>${esc(T.supTitle)}</h2><button type="button" class="btn btn-amber ac-small-btn" data-sup-new>${esc(T.supNew)}</button></div>
+      ${list.length ? `<ul class="ac-tickets">${list.map((x) => `<li><button type="button" data-sup-open="${x.id}">
+        <span class="ac-tk-main">${x.unread ? '<i class="ac-dot" aria-hidden="true"></i>' : ''}<b dir="auto">${esc(x.subject)}</b><small class="ac-muted"><span dir="ltr">${esc(x.number)}</span> · ${esc(T.supCats[x.category] || x.category)}${x.site ? ' · ' + esc(x.site) : ''}${x.email ? ` · <span dir="ltr">${esc(x.email)}</span>` : ''}</small></span>
+        <span class="ac-tk-side">${chipSt(x.status)}<small class="ac-muted">${esc(niceDate(x.updated))}</small></span></button></li>`).join('')}</ul>` : `<p class="ac-muted">${esc(T.supEmpty)}</p>`}`);
+  }
+  async function supUpload(files: FileList) {
+    for (const f of [...files].slice(0, 4 - sup.files.length)) {
+      const fd = new FormData();
+      fd.append('file', await shrinkFile(f, 1600), 'ticket.jpg');
+      fd.append('sessionId', 'support');
+      const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+      const d = await res.json().catch(() => ({}));
+      if (d?.success && typeof d.id === 'string') sup.files.push(d.id);
+    }
+    root.querySelectorAll<HTMLElement>('[data-sup-files]').forEach((el) => { el.innerHTML = sup.files.map((id) => `<img src="${esc(cfg.imageBase + id)}" alt="">`).join(''); });
+  }
+  const supBox = () => $<HTMLElement>('#ac-support');
+  supBox().addEventListener('click', async (e) => {
+    const t = e.target as Element;
+    if (t.closest('[data-sup-new]')) { sup.compose = true; sup.open = 0; sup.files = []; supBox().innerHTML = supportHtml(); return; }
+    if (t.closest('[data-sup-back]')) { sup.compose = false; sup.open = 0; sup.files = []; supBox().innerHTML = supportHtml(); return; }
+    const o = t.closest<HTMLElement>('[data-sup-open]');
+    if (o) {
+      sup.open = Number(o.dataset.supOpen); sup.files = [];
+      supBox().innerHTML = supportHtml();
+      const x = (sup.list || []).find((y) => y.id === sup.open);
+      if (x?.unread) { x.unread = false; xapi('ticket_read', { id: x.id }).then(notifRefresh); }
+      return;
+    }
+    const c = t.closest<HTMLButtonElement>('[data-sup-close], [data-sup-reopen]');
+    if (c) await busy(c, async () => { const r = await xapi(c.dataset.supClose ? 'ticket_close' : 'ticket_reopen', { id: Number(c.dataset.supClose || c.dataset.supReopen) }); if (!r?.success) { flash(xmsg(r)); return; } await loadTickets(true); });
+  });
+  supBox().addEventListener('change', async (e) => {
+    const inp = e.target as HTMLInputElement;
+    if (!inp.matches('[data-sup-file]') || !inp.files?.length) return;
+    const lbl = inp.closest('label')!; lbl.classList.add('is-busy');
+    try { await supUpload(inp.files); } catch { flash(T.avatarErr); } finally { lbl.classList.remove('is-busy'); inp.value = ''; }
+  });
+  supBox().addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+    const btn = f.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    await busy(btn, async () => {
+      if (f.id === 'ac-sup-new') {
+        const r = await xapi('ticket_new', { subject: val(f, 'subject'), category: val(f, 'category'), order_id: Number(val(f, 'order_id')) || 0, message: (f.elements.namedItem('message') as HTMLTextAreaElement).value, images: sup.files });
+        if (!r?.success) { flash(xmsg(r)); return; }
+        sup.compose = false; sup.files = []; flash(T.supCreated); await loadTickets(true);
+      } else if (f.id === 'ac-sup-reply') {
+        const r = await xapi('ticket_reply', { id: Number(f.dataset.id), message: (f.elements.namedItem('message') as HTMLTextAreaElement).value, images: sup.files });
+        if (!r?.success) { flash(xmsg(r)); return; }
+        sup.files = []; await loadTickets(true); notifRefresh();
+      }
+    });
+  });
+
+  // ---- Team ----
+  let teamCache: any = null;
+  async function loadTeam(force = false) {
+    if (!teamCache || force) { const r = await xapi('team'); teamCache = r?.success ? r : { role: me?.role || 'owner', members: [] }; }
+    if (sec === 'team') $<HTMLElement>('#ac-team').innerHTML = teamHtml();
+  }
+  function teamHtml() {
+    if (!teamCache) return card(`<p class="ac-muted">${esc(T.loading)}</p>`);
+    if (teamCache.role !== 'owner') return card(`<p class="ac-note">${esc(T.teamNotOwner)}</p>`);
+    const rows = (teamCache.members || []).map((m: any) => `<li><span class="ac-avatar ac-avatar-sm" aria-hidden="true">${esc(initialsOf(m.name || m.email))}</span><div class="ac-tm-main"><b>${esc(m.name || m.email)}</b><small dir="ltr">${esc(m.email)}</small></div>
+      <span class="ac-chip st-${m.joined ? 'active' : 'pending'}">${esc(m.joined ? T.teamJoined : T.teamPending)}</span>
+      <select data-tm-role="${m.id}" aria-label="${esc(T.teamRole)}"><option value="full"${m.role === 'full' ? ' selected' : ''}>${esc(T.teamFull)}</option><option value="viewer"${m.role === 'viewer' ? ' selected' : ''}>${esc(T.teamViewer)}</option></select>
+      <button type="button" class="ac-link is-danger" data-tm-del="${m.id}">${esc(T.teamRemove)}</button></li>`).join('');
+    return card(`<h2>${esc(T.teamTitle)}</h2><p class="ac-muted">${esc(T.teamBody)}</p><form id="ac-team-form" class="ac-team-form">
+        <label class="ac-field">${esc(T.teamEmail)}<input name="email" type="email" dir="ltr" required maxlength="160"></label>
+        <label class="ac-field">${esc(T.teamRole)}<select name="role"><option value="full">${esc(T.teamFull)}</option><option value="viewer">${esc(T.teamViewer)}</option></select></label>
+        <button type="submit" class="btn btn-navy">${esc(T.teamInvite)}</button></form><p class="ac-muted ac-small">${esc(T.teamRoleHelp)}</p>`)
+      + card(rows ? `<ul class="ac-team">${rows}</ul>` : `<p class="ac-muted">${esc(T.teamEmpty)}</p>`);
+  }
+  const teamBox = () => $<HTMLElement>('#ac-team');
+  teamBox().addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+    await busy(f.querySelector('button[type=submit]')!, async () => {
+      const r = await xapi('team_invite', { email: val(f, 'email'), role: val(f, 'role') });
+      if (!r?.success) { flash(xmsg(r)); return; }
+      flash(T.teamInvited); await loadTeam(true);
+    });
+  });
+  teamBox().addEventListener('change', async (e) => {
+    const s = e.target as HTMLSelectElement;
+    if (!s.dataset.tmRole) return;
+    const r = await xapi('team_role', { id: Number(s.dataset.tmRole), role: s.value });
+    flash(r?.success ? T.saved : xmsg(r));
+  });
+  teamBox().addEventListener('click', async (e) => {
+    const b = (e.target as Element).closest<HTMLButtonElement>('[data-tm-del]');
+    if (!b) return;
+    await busy(b, async () => { const r = await xapi('team_remove', { id: Number(b.dataset.tmDel) }); if (!r?.success) { flash(xmsg(r)); return; } await loadTeam(true); });
+  });
+
+  // ---- Security: 2-step sign-in and devices (Oxira 26 API) ----
+  let devCache: any[] | null = null;
+  async function loadDevices(force = false) {
+    const box = root.querySelector<HTMLElement>('#ac-devices');
+    if (!box) return;
+    if (!devCache || force) { const r = await auth('sessions', { k: token }); devCache = r?.success ? r.sessions : []; }
+    box.innerHTML = `<h2>${esc(T.secDevices)}</h2><p class="ac-muted ac-small">${esc(T.secAlerts)}</p><ul class="ac-devices">${(devCache || []).map((d) => `<li>
+      <span class="ac-dev-ic" aria-hidden="true">${svgIc(/iOS|Android/.test(d.device) ? '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>' : '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/>')}</span>
+      <div><b>${esc(d.device)}</b><small class="ac-muted">${esc(niceDate(d.created))}${d.ip ? ` · <span dir="ltr">${esc(d.ip)}</span>` : ''}${d.acting_as ? ` · ${esc(T.secAs)} <span dir="ltr">${esc(d.acting_as)}</span>` : ''}</small></div>
+      ${d.current ? `<span class="ac-chip st-active">${esc(T.secThis)}</span>` : `<button type="button" class="ac-link is-danger" data-dev-out="${d.id}">${esc(T.secOut)}</button>`}</li>`).join('')}</ul>
+      ${(devCache || []).length > 1 ? `<p><button type="button" class="btn btn-ghost ac-small-btn" data-dev-all>${esc(T.secOutAll)}</button></p>` : ''}`;
+  }
+  function securityHtml() {
+    const on = !!me?.twofa;
+    return card(`<div class="ac-card-head"><h2>${esc(T.secTitle2)}</h2><span class="ac-chip st-${on ? 'active' : 'pending'}">${esc(on ? T.sec2On : T.sec2Off)}</span></div><p class="ac-muted">${esc(T.secBody2)}</p>
+      <form id="ac-2fa-form" class="ac-row ac-2fa"><input type="password" name="current" dir="ltr" required maxlength="128" placeholder="${esc(T.sec2Confirm)}" autocomplete="current-password" aria-label="${esc(T.sec2Confirm)}"><button type="submit" class="btn ${on ? 'btn-ghost' : 'btn-navy'}">${esc(on ? T.sec2Disable : T.sec2Enable)}</button></form>`)
+      + `<section class="ac-card" id="ac-devices"><p class="ac-muted">${esc(T.loading)}</p></section>`;
+  }
+  $<HTMLElement>('#ac-profile').addEventListener('click', async (e) => {
+    const t = e.target as Element;
+    const one = t.closest<HTMLButtonElement>('[data-dev-out]');
+    const all = t.closest<HTMLButtonElement>('[data-dev-all]');
+    if (one) await busy(one, async () => { const r = await auth('revoke', { k: token, id: one.dataset.devOut! }); if (!r?.success) { flash(T.failed); return; } await loadDevices(true); });
+    if (all) await busy(all, async () => { const r = await auth('revoke_all', { k: token }); if (!r?.success) { flash(T.failed); return; } flash(T.secOutAllDone); await loadDevices(true); });
+  });
+  $<HTMLElement>('#ac-profile').addEventListener('submit', async (e) => {
+    const f = e.target as HTMLFormElement;
+    if (f.id !== 'ac-2fa-form') return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    await busy(f.querySelector('button[type=submit]')!, async () => {
+      const r = await auth('twofa', { k: token, current: (f.elements.namedItem('current') as HTMLInputElement).value, on: me?.twofa ? '0' : '1' });
+      if (!r?.success) { flash(r?.reason === 'invalid' ? T.authErr.invalid : T.failed); return; }
+      me = { ...me, twofa: !!r.twofa }; draw(); flash(T.saved);
+    });
+  }, true);
+
+  // ---- Dashboard extras: getting started, this month, partner ----
+  const extra: { soc: Record<number, any>; seo: Record<number, any>; partner: any; loaded: boolean } = { soc: {}, seo: {}, partner: undefined, loaded: false };
+  async function loadHomeExtras() {
+    if (extra.loaded) return;
+    extra.loaded = true;
+    const sites = view?.sites ?? [];
+    const subsOn = (id: number, p: string[]) => subsOf(id).some((x) => p.includes(x.product) && (x.status === 'active' || x.status === 'cancelling'));
+    const jobs: Promise<void>[] = [];
+    for (const s of sites) {
+      if (subsOn(s.order_id, ['social', 'socialpro', 'ads'])) jobs.push(fetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id), data: '{}' }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.soc[s.order_id] = v; }).catch(() => undefined));
+      if (subsOn(s.order_id, ['seo', 'seogrowth'])) jobs.push(fetch(cfg.seoEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id) }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.seo[s.order_id] = v; }).catch(() => undefined));
+    }
+    jobs.push(xapi('partner').then((r) => { extra.partner = r?.success ? r.partner : null; }));
+    await Promise.all(jobs);
+    if (sec === 'home') draw();
+  }
+  function onboardingHtml() {
+    try { if (localStorage.getItem('oxira-ob-hide') === '1') return ''; } catch { /* ignore */ }
+    const sites = view?.sites ?? [];
+    const subs = activeSubs();
+    const social = subs.some((x) => ['social', 'socialpro', 'ads'].includes(x.product));
+    const socs = Object.values(extra.soc);
+    const steps: [string, boolean][] = [
+      ['profile', !!(me?.name && me?.phone)], ['photo', !!me?.avatar], ['site', sites.length > 0],
+      ['verify', sites.some((s) => (s.external ? !!s.verified : isLive(s)))], ['service', subs.length > 0],
+    ];
+    if (social) steps.push(['meta', socs.some((v) => v?.settings?.meta?.connected || v?.settings?.meta?.connected_at)], ['brief', socs.some((v) => !!v?.settings?.brief?.about)], ['approve', socs.some((v) => (v.items || []).some((i: any) => ['approved', 'published', 'done'].includes(i.status)))]);
+    const done = steps.filter(([, d]) => d).length;
+    if (done === steps.length) return '';
+    const go: Record<string, string> = { profile: 'profile', photo: 'profile', site: 'site:overview', verify: 'site:overview', service: 'site:addons', meta: 'site:social', brief: 'site:social', approve: 'site:social' };
+    return card(`<div class="ac-card-head"><h2>${esc(T.obTitle)}</h2><button type="button" class="ac-link ac-small" data-ob-hide>${esc(T.obHide)}</button></div>
+      <div class="ac-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${steps.length}" aria-valuenow="${done}"><i style="width:${Math.round(done / steps.length * 100)}%"></i></div>
+      <p class="ac-muted ac-small">${esc(String(T.obDone).replace('{n}', String(done)).replace('{t}', String(steps.length)))}</p>
+      <ol class="ac-steps">${steps.map(([k, d]) => `<li class="${d ? 'is-done' : ''}">${d ? `<span>${esc(T.ob[k])}</span>` : `<button type="button" data-goto="${go[k]}">${esc(T.ob[k])} →</button>`}</li>`).join('')}</ol>`, 'ac-ob');
+  }
+  function summaryHtml() {
+    const seo = Object.values(extra.seo), soc = Object.values(extra.soc);
+    if (!seo.length && !soc.length) return '';
+    const nf = new Intl.NumberFormat(cfg.numberLocale);
+    const tiles: [string, string][] = [];
+    if (seo.length) {
+      tiles.push([T.sumClicks, nf.format(Math.round(seo.reduce((n, v) => n + (Number(v?.report?.cur?.clicks) || 0), 0)))]);
+      tiles.push([T.sumLeads, nf.format(seo.reduce((n, v) => n + ['tel', 'wa', 'mail', 'form'].reduce((m, k) => m + (Number(v?.leadsNow?.[k]) || 0), 0), 0))]);
+    }
+    if (soc.length) {
+      const t = (k: string) => soc.reduce((n, v) => n + (Number(v?.report?.totals?.[k]) || 0), 0);
+      tiles.push([T.sumReach, nf.format(t('reach'))], [T.sumEng, nf.format(t('reactions') + t('comments') + t('shares'))]);
+      if (t('spend')) tiles.push([T.sumSpend, esc(money(t('spend')))]);
+    }
+    const any = tiles.some(([, v]) => v !== '0');
+    return card(`<h2>${esc(T.sumTitle)}</h2>${any ? `<div class="ac-sum">${tiles.map(([l, v]) => `<div><b>${v}</b><small>${esc(l)}</small></div>`).join('')}</div>` : `<p class="ac-muted">${esc(T.sumEmpty)}</p>`}`);
+  }
+  function partnerHtml() {
+    if (extra.partner === undefined) return '';
+    const p = extra.partner;
+    if (!p) return card(`<h2>${esc(T.ptTitle)}</h2><p class="ac-muted">${esc(String(T.ptBody).replace('{rate}', '15'))}</p><p><a class="btn btn-ghost ac-small-btn" href="${esc(cfg.partnersUrl)}">${esc(T.ptJoin)}</a></p>`, 'ac-soft');
+    return card(`<h2>${esc(T.ptTitle)}</h2><p class="ac-muted ac-small">${esc(String(T.ptBody).replace('{rate}', String(Math.round(p.rate * 100))))}</p>
+      <label class="ac-field ac-small">${esc(T.ptLink)}<span class="ac-copy"><input readonly dir="ltr" value="${esc(p.link)}"><button type="button" class="btn btn-navy ac-small-btn" data-pt-copy>${esc(T.ptCopy)}</button></span></label>
+      <div class="ac-sum ac-sum-sm"><div><b>${fmt.format(p.referrals)}</b><small>${esc(T.ptRefs)}</small></div><div><b>${fmt.format(p.paid_orders)}</b><small>${esc(T.ptPaid)}</small></div><div><b>${esc(money(p.due))}</b><small>${esc(T.ptDue)}</small></div><div><b>${esc(money(p.paid))}</b><small>${esc(T.ptPaidOut)}</small></div></div>`, 'ac-soft');
+  }
+  $<HTMLElement>('#ac-home').addEventListener('click', async (e) => {
+    const t = e.target as Element;
+    if (t.closest('[data-ob-hide]')) { try { localStorage.setItem('oxira-ob-hide', '1'); } catch { /* ignore */ } draw(); return; }
+    if (t.closest('[data-pt-copy]')) { const i = $<HTMLElement>('#ac-home').querySelector<HTMLInputElement>('.ac-copy input')!; try { await navigator.clipboard.writeText(i.value); } catch { i.select(); document.execCommand('copy'); } flash(T.ptCopied); }
+  });
+
   const productName = (p: string) => T.products[p] || cfg.addons.items[p]?.name || p;
   const money = (n: number) => `${fmt.format(n)} ${cfg.sar}`;
   const card = (inner: string, cls = '') => `<section class="ac-card ${cls}">${inner}</section>`;
@@ -607,7 +941,7 @@ const ic = {
   async function save(action: string, data: Record<string, unknown>, btn?: HTMLButtonElement) {
     const run = async () => {
       const r = await api(action, data);
-      if (!r?.success) { flash(T.failed); return; }
+      if (!r?.success) { flash(r?.reason === 'viewer' ? T.viewerErr : T.failed); return; }
       flash(T.saved);
       await reload();
     };
@@ -1783,4 +2117,57 @@ const ic = {
   .ac-photo-av { flex: none; width: 88px; height: 88px; border-radius: 50%; overflow: hidden; background: var(--navy, #0A253E); color: var(--amber); display: grid; place-items: center; font-weight: 800; font-size: 1.9rem; box-shadow: 0 0 0 4px #fff, 0 0 0 5px var(--line); }
   .ac-photo .ac-row { margin-top: .6rem; }
   .ac-file.is-busy { opacity: .6; pointer-events: none; }
+
+  /* ---- Account extras ---- */
+  .ac-switch { padding: 0 .2rem; }
+  .ac-switch .ac-field { font-size: .8rem; color: var(--muted); }
+  .ac-switch select { padding: .45rem .6rem !important; font-size: .88rem !important; }
+  .ac-acting { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between; background: #EAF2FF; border: 1px solid #C7DAF7; color: var(--navy, #0A253E); padding: .7rem 1rem; border-radius: 12px; margin-bottom: 1rem; }
+  .ac-acting[hidden] { display: none; }
+  .ac-ob { border-color: #F3D88A; }
+  .ac-progress { height: 8px; border-radius: 8px; background: var(--paper); overflow: hidden; margin: .2rem 0 .4rem; }
+  .ac-progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--amber), #FFD24D); border-radius: 8px; }
+  .ac-steps { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .5rem; }
+  .ac-steps li { display: flex; align-items: center; gap: .55rem; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 11px; font-size: .9rem; }
+  .ac-steps li::before { content: ''; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); }
+  .ac-steps li.is-done { color: var(--muted); background: var(--paper); border-color: transparent; }
+  .ac-steps li.is-done::before { border-color: #12B76A; background: #12B76A url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / 11px no-repeat; }
+  .ac-steps button { border: 0; background: none; padding: 0; font: 600 .9rem var(--font); color: var(--blue); cursor: pointer; text-align: start; }
+  .ac-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .7rem; }
+  .ac-sum div { display: grid; gap: .1rem; background: var(--paper); border-radius: 12px; padding: .8rem .9rem; }
+  .ac-sum b { font-size: 1.35rem; } .ac-sum small { color: var(--muted); font-size: .82rem; }
+  .ac-sum-sm { grid-template-columns: 1fr 1fr; margin-top: .8rem; } .ac-sum-sm div { background: #fff; } .ac-sum-sm b { font-size: 1.05rem; }
+  .ac-copy { display: flex; gap: .4rem; } .ac-copy input { flex: 1; min-width: 0; font-size: .85rem !important; }
+  .ac-tickets { list-style: none; padding: 0; margin: .4rem 0 0; display: grid; gap: .5rem; }
+  .ac-tickets button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; text-align: start; font: inherit; color: inherit; }
+  .ac-tickets button:hover { border-color: #C9D3DE; }
+  .ac-tk-main { display: grid; gap: .1rem; min-width: 0; position: relative; } .ac-tk-main small { font-size: .82rem; }
+  .ac-tk-side { display: grid; justify-items: end; gap: .2rem; flex: none; } .ac-tk-side .ac-chip { margin: 0; }
+  .ac-dot { position: absolute; inset-inline-start: -.6rem; top: .45rem; width: 7px; height: 7px; border-radius: 50%; background: #D92D20; }
+  .ac-thread { display: grid; gap: .7rem; margin: 1rem 0; }
+  .ac-msg { max-width: 85%; padding: .75rem .95rem; border-radius: 14px; background: var(--paper); }
+  .ac-msg.is-team { background: #EAF2FF; justify-self: end; }
+  .ac-msg-by { margin: 0 0 .2rem; font-size: .78rem; color: var(--muted); }
+  .ac-msg-text { margin: 0; white-space: pre-wrap; }
+  .ac-thumbs { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+  .ac-thumbs img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }
+  .ac-attach { align-items: center; }
+  .ac-sup-reply { display: grid; gap: .7rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+  .ac-team-form { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) auto; gap: .7rem; align-items: end; margin: .6rem 0; }
+  .ac-team { list-style: none; padding: 0; margin: 0; display: grid; }
+  .ac-team li { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; padding: .7rem 0; border-top: 1px solid var(--line); }
+  .ac-team li:first-child { border-top: 0; }
+  .ac-avatar-sm { width: 34px !important; height: 34px !important; font-size: .78rem !important; border-radius: 50% !important; }
+  .ac-tm-main { display: grid; flex: 1; min-width: 10rem; } .ac-tm-main small { color: var(--muted); font-size: .8rem; text-align: start; }
+  .ac-team select { font: 400 .88rem var(--font); border: 1.5px solid var(--line); border-radius: 9px; padding: .4rem .5rem; background: #fff; }
+  .ac-team .ac-chip { margin: 0; }
+  .ac-2fa { margin-top: .6rem; } .ac-2fa input { flex: 1; min-width: 12rem; font: 400 1rem var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .6rem .8rem; }
+  .ac-devices { list-style: none; padding: 0; margin: .6rem 0; display: grid; }
+  .ac-devices li { display: flex; align-items: center; gap: .8rem; padding: .7rem 0; border-top: 1px solid var(--line); }
+  .ac-devices li:first-child { border-top: 0; }
+  .ac-devices li > div { display: grid; flex: 1; min-width: 0; } .ac-devices small { font-size: .8rem; }
+  .ac-devices .ac-chip { margin: 0; }
+  .ac-dev-ic { width: 38px; height: 38px; border-radius: 10px; background: var(--paper); display: grid; place-items: center; flex: none; }
+  .ac-dev-ic svg { width: 20px; height: 20px; fill: none; stroke: var(--navy, #0A253E); stroke-width: 1.7; stroke-linecap: round; }
+  @media (max-width: 640px) { .ac-team-form { grid-template-columns: minmax(0, 1fr); } .ac-msg { max-width: 100%; } .ac-tickets button { flex-direction: column; align-items: flex-start; } .ac-tk-side { justify-items: start; grid-auto-flow: column; align-items: center; } }
 </style>

@@ -15,7 +15,8 @@
     "mySites": "My websites",
     "billing": "Subscriptions & invoices",
     "profile": "Profile",
-    "accountMenu": "Account menu"
+    "accountMenu": "Account menu",
+    "notifications": "Notifications"
   },
   "common": {
     "start": "Get started",
