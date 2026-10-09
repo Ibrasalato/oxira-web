@@ -53,9 +53,9 @@
           "id": "sign-in",
           "q": "How do I sign in to my account?",
           "a": [
-            "Go to /account/ and enter your email.",
-            "We'll email you a sign-in link — there's no password to remember.",
-            "The link stays valid for 30 days."
+            "First time? Go to /account/ and choose “Create account”: enter your name, email and a password, then type the 6-digit code we email you.",
+            "After that, sign in any time with your email and password.",
+            "Forgot your password? Choose “Forgot password?” and we will email you a code to set a new one."
           ]
         },
         {

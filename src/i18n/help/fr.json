@@ -53,9 +53,9 @@
           "id": "sign-in",
           "q": "Comment me connecter à mon compte ?",
           "a": [
-            "Rendez-vous sur /account/ et saisissez votre adresse e-mail.",
-            "Nous vous envoyons un lien de connexion par e-mail : aucun mot de passe à retenir.",
-            "Le lien reste valable 30 jours."
+            "Première fois ? Rendez-vous sur /account/ et choisissez « Créer un compte » : saisissez votre nom, votre e-mail et un mot de passe, puis le code à 6 chiffres reçu par e-mail.",
+            "Ensuite, connectez-vous à tout moment avec votre e-mail et votre mot de passe.",
+            "Mot de passe oublié ? Choisissez « Mot de passe oublié ? » et nous vous enverrons un code pour en définir un nouveau."
           ]
         },
         {

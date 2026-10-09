@@ -53,9 +53,9 @@
           "id": "sign-in",
           "q": "Wie melde ich mich an?",
           "a": [
-            "Rufen Sie /account/ auf und geben Sie Ihre E-Mail-Adresse ein.",
-            "Wir senden Ihnen einen Anmeldelink per E-Mail – ein Passwort brauchen Sie nicht.",
-            "Der Link ist 30 Tage gültig."
+            "Zum ersten Mal hier? Öffnen Sie /account/ und wählen Sie „Konto erstellen“: Name, E-Mail und Passwort eingeben, dann den 6-stelligen Code aus der E-Mail eintippen.",
+            "Danach melden Sie sich jederzeit mit E-Mail und Passwort an.",
+            "Passwort vergessen? Wählen Sie „Passwort vergessen?“ und wir senden Ihnen einen Code für ein neues Passwort."
           ]
         },
         {
