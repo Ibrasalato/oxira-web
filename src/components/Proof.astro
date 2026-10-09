@@ -21,7 +21,7 @@ const P = growthText[lang].proof;
 <script>
   const root = document.querySelector<HTMLElement>('[data-proof]');
   if (root) {
-    fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-proof').then((r) => r.json()).then((d) => {
+    fetch('https://api.oxira.sa/oxira-proof').then((r) => r.json()).then((d) => {
       const lang = root.dataset.lang!;
       const esc = (s: string) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
       let any = false;

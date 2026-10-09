@@ -17,9 +17,9 @@ const { lang } = Astro.props;
 const b = builderText[lang];
 const s = b.studio;
 const legal = t[lang].legal;
-const builderEndpoint = import.meta.env.PUBLIC_BUILDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-builder';
-const orderEndpoint = import.meta.env.PUBLIC_ORDER_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-order';
-const n8nBase = 'https://ibrasalato.app.n8n.cloud/webhook';
+const builderEndpoint = 'https://api.oxira.sa/oxira-site-builder';
+const orderEndpoint = 'https://api.oxira.sa/oxira-site-order';
+const n8nBase = 'https://api.oxira.sa';
 const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { maximumFractionDigits: 0 });
 const config = {
   lang,

@@ -157,7 +157,7 @@ import { bundleText } from '../i18n/bundle';
   userBox.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setUser(false)));
   userBox.querySelector('[data-hd-out]')!.addEventListener('click', () => {
     const k = read(KEY);
-    if (k) fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
+    if (k) fetch('https://api.oxira.sa/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
     try { localStorage.removeItem(KEY); localStorage.removeItem(ME); sessionStorage.removeItem('oxira-notif'); } catch { /* ignore */ }
     setUser(false);
     paintUser();
@@ -184,7 +184,7 @@ import { bundleText } from '../i18n/bundle';
     if (!k) { paintBell([]); return; }
     try { const c = JSON.parse(sessionStorage.getItem('oxira-notif') || 'null'); if (!force && c && c.k === k && Date.now() - c.at < 300000) { paintBell(c.items); return; } } catch { /* ignore */ }
     try {
-      const res = await fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-account', { method: 'POST', body: new URLSearchParams({ k, action: 'notifications', lang: document.documentElement.lang || 'ar' }) });
+      const res = await fetch('https://api.oxira.sa/oxira-account', { method: 'POST', body: new URLSearchParams({ k, action: 'notifications', lang: document.documentElement.lang || 'ar' }) });
       const r = await res.json();
       const items = r?.success ? r.items : [];
       try { sessionStorage.setItem('oxira-notif', JSON.stringify({ k, at: Date.now(), items })); } catch { /* ignore */ }

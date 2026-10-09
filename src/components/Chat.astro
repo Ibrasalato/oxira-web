@@ -7,7 +7,7 @@ import Logo from './Logo.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang].chat;
-const endpoint = import.meta.env.PUBLIC_CHAT_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-website-chat';
+const endpoint = 'https://api.oxira.sa/oxira-website-chat';
 ---
 <div class="oxchat" id="oxchat"
      data-endpoint={endpoint}

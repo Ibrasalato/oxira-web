@@ -7,7 +7,7 @@ import { link } from '../lib/routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
-const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || 'https://ibrasalato.app.n8n.cloud/webhook/oxira-website-contact';
+const formEndpoint = 'https://api.oxira.sa/oxira-website-contact';
 ---
 <form class="form" id="lead-form" novalidate
       data-endpoint={formEndpoint}

@@ -8,7 +8,7 @@ import Base from '../layouts/Base.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const A = growthText[lang].audit;
-const endpoint = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-site-audit';
+const endpoint = 'https://api.oxira.sa/oxira-site-audit';
 const labels = { checks: A.checks, tips: A.tips, scores: A.scores, passed: A.passed, toFix: A.toFix, errUrl: A.errUrl, errEmail: A.errEmail, errFailed: A.errFailed, running: A.running };
 const site = Astro.site!;
 const ld = {

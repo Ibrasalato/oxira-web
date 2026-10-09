@@ -9,7 +9,7 @@ import Base from '../layouts/Base.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const B = bundleText[lang];
-const endpoint = 'https://ibrasalato.app.n8n.cloud/webhook/oxira-bundle-order';
+const endpoint = 'https://api.oxira.sa/oxira-bundle-order';
 const nf = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
 const cfg = { endpoint, lang, t: { sending: B.sending, ok: B.ok('{id}'), payDown: B.payDown, err: B.err, missing: B.missing, submit: B.submit } };
 const site = Astro.site!;
