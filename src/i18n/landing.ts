@@ -255,6 +255,7 @@ export const landings: Landing[] = [
         { path: '/services/web-design/', label: 'تصميم مواقع الشركات' },
         { path: '/products/ads-management/', label: 'إدارة الحملات الإعلانية' },
         { path: '/ai-agents/', label: 'وكيل ذكاء اصطناعي على واتساب' },
+        { path: '/whatsapp-agent/', label: 'جرّب موظف واتساب ذكي مجاناً' },
         { path: '/blog/start-online-store-saudi/', label: 'دليل إنشاء متجر إلكتروني' },
       ],
     },
@@ -309,6 +310,7 @@ export const landings: Landing[] = [
         { path: '/services/web-design/', label: 'Company website design' },
         { path: '/products/ads-management/', label: 'Ads management' },
         { path: '/ai-agents/', label: 'AI agent on WhatsApp' },
+        { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
       ],
     },
   },
@@ -781,6 +783,7 @@ export const landings: Landing[] = [
       ctaBody: 'صف لنا إجراءً واحداً متكرراً في عملك، ونقترح عليك كيف نؤتمته.',
       related: [
         { path: '/ai-agents/', label: 'وكيل ذكاء اصطناعي على واتساب' },
+        { path: '/whatsapp-agent/', label: 'جرّب موظف واتساب ذكي مجاناً' },
         { path: '/services/digital-transformation/', label: 'التحول الرقمي' },
         { path: '/services/software-development/', label: 'تطوير البرمجيات' },
       ],
@@ -822,6 +825,7 @@ export const landings: Landing[] = [
       ctaBody: 'Describe one repeated process and we will suggest how to automate it.',
       related: [
         { path: '/ai-agents/', label: 'AI agents' },
+        { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
         { path: '/services/digital-transformation/', label: 'Digital transformation' },
       ],
     },
@@ -1026,6 +1030,7 @@ export const landings: Landing[] = [
       ctaBody: 'احجز اجتماع فيديو مجاني، أو جرّب مساعدنا الذكي الآن.',
       related: [
         { path: '/ai-agents/', label: 'وكلاء الذكاء الاصطناعي' },
+        { path: '/whatsapp-agent/', label: 'جرّب موظف واتساب ذكي مجاناً' },
         { path: '/services/web-design/', label: 'تصميم مواقع الشركات' },
         { path: '/locations/egypt/', label: 'خدماتنا في مصر' },
         { path: '/locations/riyadh/', label: 'مقرنا في الرياض' },
@@ -1070,6 +1075,7 @@ export const landings: Landing[] = [
       ctaBody: 'Book a free video call, or try our AI assistant now.',
       related: [
         { path: '/ai-agents/', label: 'AI agents' },
+        { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
         { path: '/services/web-design/', label: 'Website design' },
         { path: '/locations/egypt/', label: 'Oxira in Egypt' },
       ],
@@ -1155,6 +1161,7 @@ export const landings: Landing[] = [
       ctaBody: 'احجز اجتماع فيديو مجاني، أو كلّم مساعدنا الذكي الآن وشوف بنفسك.',
       related: [
         { path: '/ai-agents/', label: 'وكلاء الذكاء الاصطناعي' },
+        { path: '/whatsapp-agent/', label: 'جرّب موظف واتساب ذكي مجاناً' },
         { path: '/blog/whatsapp-ai-agent-benefits/', label: 'فوائد وكيل واتساب الذكي' },
         { path: '/locations/gulf/', label: 'خدماتنا في الخليج' },
         { path: '/products/ai-chatbot/', label: 'شات بوت للموقع' },
@@ -1204,6 +1211,7 @@ export const landings: Landing[] = [
       ctaBody: 'Book a free video call, or chat with our AI assistant now.',
       related: [
         { path: '/ai-agents/', label: 'AI agents' },
+        { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
         { path: '/locations/gulf/', label: 'Oxira in the Gulf' },
         { path: '/products/ai-chatbot/', label: 'Website chatbot' },
       ],

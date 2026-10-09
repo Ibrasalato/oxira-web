@@ -19,6 +19,7 @@ const extra = {
 const c = t[lang];
 import { bundleText } from '../i18n/bundle';
 import { serviceLandings, locationLandings, landingPath } from '../i18n/landing';
+import { waText, waPath } from '../i18n/waAgent';
 // Service and location pages exist in Arabic and English only.
 const lp = lang === 'ar' || lang === 'en' ? lang : null;
 ---
@@ -51,6 +52,7 @@ const lp = lang === 'ar' || lang === 'en' ? lang : null;
           {lp
             ? <>{serviceLandings.map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
                 <li><a href={link(lang, '/ai-agents/')}>{c.site.nav.find((n) => n.path === '/ai-agents/')?.label}</a></li>
+                <li><a href={link(lang, waPath)}>{waText[lp].name}</a></li>
                 {locationLandings.map((l) => <li><a href={link(lang, landingPath(l))}>{l[lp].name}</a></li>)}
                 <li><a href={link(lang, '/services/')}>{c.home.servicesLink}</a></li></>
             : c.services.list.map((s) => <li><a href={`${link(lang, '/services/')}#${s.icon}`}>{s.name}</a></li>)}

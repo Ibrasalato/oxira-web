@@ -18,6 +18,8 @@ const acct = b.account as any;
 const bellText = { title: acct.notifTitle, empty: acct.notifEmpty, t: acct.notif, names: { ...(acct.products || {}), ...Object.fromEntries(productIds.map((id) => [id, P.items[id].name])) } };
 const agentsLabel = c.site.nav.find((n) => n.path === '/ai-agents/')?.label ?? 'AI';
 import { bundleText } from '../i18n/bundle';
+import { waText, isWaLang, waPath } from '../i18n/waAgent';
+const wa = isWaLang(lang) ? waText[lang] : null;
 ---
 <header class="hd" id="hd">
   <div class="wrap hd-row">
@@ -54,6 +56,7 @@ import { bundleText } from '../i18n/bundle';
               <p class="hd-h">{P.nav.otherTitle}</p>
               <ul class="hd-other">
                 <li><a href={link(lang, '/classti/')}><b>Classti</b><small>{P.nav.classtiDesc}</small></a></li>
+                {wa && <li><a href={link(lang, waPath)} aria-current={path === waPath ? 'page' : undefined}><b>{wa.name} <span class="hd-new">{wa.home.badge}</span></b><small>{wa.navDesc}</small></a></li>}
                 <li><a href={link(lang, '/ai-agents/')}><b>{agentsLabel}</b><small>{P.nav.agentsDesc}</small></a></li>
                 <li><a href={link(lang, '/online-in-a-day/')}><b>{bundleText[lang].nav}</b><small>{bundleText[lang].navDesc}</small></a></li>
                 <li><a href={link(lang, '/website-audit/')}><b>{growthText[lang].audit.nav}</b><small dir="ltr">SEO · HTTPS · Mobile</small></a></li>

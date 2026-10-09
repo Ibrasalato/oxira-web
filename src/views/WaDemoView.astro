@@ -1,0 +1,313 @@
+---
+// AI WhatsApp employee: live demo chat (/whatsapp-agent/demo/?d=ID). Not indexed, not in the sitemap.
+// Loads the demo from oxira-agent-demo, chats through oxira-agent-chat, subscribe form posts to oxira-agent-subscribe.
+import { link } from '../lib/routes';
+import { waText, waLangs, waPath, waDemoPath, type WaLang } from '../i18n/waAgent';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import WaSubscribe from '../components/WaSubscribe.astro';
+
+interface Props { lang: WaLang }
+const { lang } = Astro.props;
+const W = waText[lang];
+const D = W.demo;
+const cfg = {
+  demoEndpoint: 'https://api.oxira.sa/oxira-agent-demo',
+  chatEndpoint: 'https://api.oxira.sa/oxira-agent-chat',
+  lang,
+  t: { h1For: D.h1For, typing: D.typing, left: D.left, limit: D.limit, chatErr: D.chatErr, copied: D.copied, shareText: D.shareText, loadErr: D.loadErr },
+};
+---
+<Base lang={lang} path={waDemoPath} langs={waLangs} title={D.title} description={D.description} noindex nochat>
+  <section class="wd" id="wd" data-cfg={JSON.stringify(cfg)}>
+    <div class="wrap">
+      <div class="wd-state" id="wd-loading" role="status">
+        <span class="wd-spin" aria-hidden="true"></span>
+        <p>{D.loading}</p>
+      </div>
+
+      <div class="wd-state wd-missing" id="wd-missing" hidden>
+        <span class="wd-ic" aria-hidden="true"><Icon name="whatsapp" /></span>
+        <h2 class="wd-mh">{D.h1}</h2>
+        <p id="wd-missing-msg">{D.notFound}</p>
+        <div class="wd-btns">
+          <a class="btn btn-amber" href={link(lang, waPath)}>{D.notFoundCta}</a>
+          <button type="button" class="btn btn-ghost" id="wd-retry" hidden>{D.retry}</button>
+        </div>
+      </div>
+
+      <div class="wd-grid" id="wd-ready" hidden>
+        <div class="wd-side">
+          <p class="label">{D.kicker}</p>
+          <h1 id="wd-h1">{D.h1}</h1>
+          <p class="wd-body">{D.body}</p>
+          <div class="wd-btns">
+            <button type="button" class="btn btn-amber" data-wa-sub>{D.subscribe}</button>
+            <button type="button" class="btn btn-ghost" id="wd-share">{D.share}</button>
+          </div>
+          <div class="wd-sharebox" id="wd-sharebox" hidden>
+            <a class="btn btn-ghost wd-wa" id="wd-share-wa" href="#" target="_blank" rel="noopener"><Icon name="whatsapp" />{D.shareWa}</a>
+            <button type="button" class="btn btn-ghost" id="wd-copy">{D.copy}</button>
+            <p class="wd-copied" role="status"></p>
+          </div>
+          <p class="wd-links"><a class="more" href={`${link(lang, waPath)}#plans`}>{D.plansLink}</a> <a class="more" href={link(lang, waPath)}>{D.newTry}</a></p>
+        </div>
+
+        <div class="wd-phone">
+          <div class="wd-screen" role="region" aria-label={D.chatLabel}>
+            <div class="wd-head">
+              <span class="wd-av"><Icon name="agent" /></span>
+              <span class="wd-who"><strong id="wd-biz"></strong><small>{D.online}</small></span>
+            </div>
+            <ol class="wd-log" id="wd-log" aria-live="polite"></ol>
+            <div class="wd-sugs" id="wd-sugs" role="group" aria-label={D.suggestions}></div>
+            <p class="wd-left" id="wd-left" hidden></p>
+            <form class="wd-input" id="wd-form">
+              <label class="sr-only" for="wd-msg">{D.inputLabel}</label>
+              <textarea id="wd-msg" rows="1" maxlength="1000" placeholder={D.inputPh} dir="auto" autocomplete="off"></textarea>
+              <button type="submit" class="wd-send" aria-label={D.send}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5 21 12 3 3.5l2.6 7.2L14 12l-8.4 1.3z" /></svg></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WaSubscribe lang={lang} demo />
+</Base>
+
+<script>
+  type Turn = { role: 'user' | 'assistant'; content: string };
+  const root = document.getElementById('wd')!;
+  const c = JSON.parse(root.dataset.cfg!);
+  const $ = (id: string) => document.getElementById(id)!;
+  const log = $('wd-log');
+  const sugs = $('wd-sugs');
+  const leftEl = $('wd-left');
+  const form = $('wd-form') as HTMLFormElement;
+  const input = $('wd-msg') as HTMLTextAreaElement;
+  const sendBtn = form.querySelector('button') as HTMLButtonElement;
+  const demoId = (new URLSearchParams(location.search).get('d') || '').trim().slice(0, 100);
+  const history: Turn[] = [];
+  let business = '';
+  let pending = false;
+  let done = false;
+
+  const esc = (s: string) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
+  // Plain text only: escape everything, then *bold* → <b> and line breaks → <br>.
+  const fmt = (s: string) => esc(s).replace(/\*([^*\n]+)\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  const now = () => new Date().toLocaleTimeString(c.lang === 'ar' ? 'ar-SA-u-nu-latn' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
+  const scroll = () => { log.scrollTop = log.scrollHeight; };
+
+  function bubble(role: 'user' | 'assistant' | 'note', text: string) {
+    const li = document.createElement('li');
+    li.className = `wd-msg wd-${role}`;
+    li.setAttribute('dir', 'auto');
+    if (role === 'note') li.textContent = text;
+    else li.innerHTML = `<span class="wd-txt">${fmt(text)}</span><time>${now()}${role === 'user' ? '<span class="wd-ticks" aria-hidden="true">✓✓</span>' : ''}</time>`;
+    log.append(li); scroll();
+    return li;
+  }
+
+  function typing(on: boolean) {
+    log.querySelector('.wd-typing')?.remove();
+    if (!on) return;
+    const li = document.createElement('li');
+    li.className = 'wd-msg wd-assistant wd-typing';
+    li.innerHTML = `<span class="sr-only">${esc(c.t.typing)}</span><i></i><i></i><i></i>`;
+    log.append(li); scroll();
+  }
+
+  function setLeft(n: unknown) {
+    const k = Number(n);
+    if (!Number.isFinite(k)) return;
+    if (k <= 0) { lock(); return; }
+    leftEl.hidden = k > 5;
+    leftEl.textContent = c.t.left.replace('{n}', String(k));
+  }
+
+  function lock() {
+    done = true;
+    leftEl.hidden = false; leftEl.textContent = c.t.limit; leftEl.classList.add('is-end');
+    input.disabled = true; sendBtn.disabled = true; sugs.hidden = true;
+  }
+
+  async function send(text: string, fromInput = false) {
+    text = text.trim();
+    if (!text || pending || done) return;
+    pending = true; sendBtn.disabled = true; sugs.hidden = true;
+    bubble('user', text);
+    const past = history.slice(-10);
+    history.push({ role: 'user', content: text });
+    typing(true);
+    let r: any = null;
+    try {
+      const res = await fetch(c.chatEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ demoId, message: text, history: past }) });
+      r = await res.json();
+    } catch { r = null; }
+    typing(false);
+    if (r && r.success && typeof r.reply === 'string') {
+      bubble('assistant', r.reply);
+      history.push({ role: 'assistant', content: r.reply });
+      setLeft(r.left);
+    } else {
+      history.pop();
+      if (r && typeof r.reply === 'string' && r.reply) bubble('assistant', r.reply);
+      if (r && r.error === 'limit') lock();
+      else if (r && r.error === 'notfound') { bubble('note', c.t.chatErr); lock(); }
+      else bubble('note', c.t.chatErr);
+    }
+    pending = false;
+    // Keep focus in the box on desktop; on phones refocusing would reopen the keyboard and jump the page.
+    if (!done) { sendBtn.disabled = false; if (fromInput && !matchMedia('(pointer: coarse)').matches) input.focus({ preventScroll: true }); }
+  }
+
+  form.addEventListener('submit', (e) => { e.preventDefault(); const v = input.value; input.value = ''; grow(); send(v, true); });
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); } });
+  const grow = () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; };
+  input.addEventListener('input', grow);
+
+  function show(which: 'loading' | 'missing' | 'ready') {
+    $('wd-loading').hidden = which !== 'loading';
+    $('wd-missing').hidden = which !== 'missing';
+    $('wd-ready').hidden = which !== 'ready';
+  }
+
+  async function load() {
+    show('loading');
+    if (!demoId) { show('missing'); return; }
+    let r: any = null; let net = false;
+    try {
+      const res = await fetch(`${c.demoEndpoint}?d=${encodeURIComponent(demoId)}`);
+      r = await res.json();
+    } catch { net = true; }
+    if (!r || !r.success) {
+      if (net) { $('wd-missing-msg').textContent = c.t.loadErr; $('wd-retry').hidden = false; }
+      show('missing');
+      return;
+    }
+    business = String(r.business || '').trim();
+    if (business) {
+      $('wd-h1').textContent = c.t.h1For.replace('{business}', business);
+      document.title = `${c.t.h1For.replace('{business}', business)} | ${c.lang === 'ar' ? 'أوكسيرا' : 'Oxira'}`;
+    }
+    $('wd-biz').textContent = business || '—';
+    log.replaceChildren();
+    if (r.welcome) { bubble('assistant', String(r.welcome)); history.push({ role: 'assistant', content: String(r.welcome) }); }
+    sugs.replaceChildren();
+    (Array.isArray(r.suggestions) ? r.suggestions : []).slice(0, 3).forEach((s: unknown) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'wd-sug'; b.textContent = String(s); b.setAttribute('dir', 'auto');
+      b.addEventListener('click', () => send(String(s)));
+      sugs.append(b);
+    });
+    sugs.hidden = !sugs.children.length;
+    // Subscribe form: this demo and the business name.
+    const sf = document.getElementById('ws-form') as HTMLFormElement | null;
+    if (sf) {
+      (sf.elements.namedItem('demoId') as HTMLInputElement).value = demoId;
+      const bi = sf.elements.namedItem('business') as HTMLInputElement;
+      if (business) bi.value = business;
+    }
+    try { localStorage.setItem('oxira-wa-demo', JSON.stringify({ id: demoId, business })); } catch { /* ignore */ }
+    show('ready');
+    scroll();
+  }
+  $('wd-retry').addEventListener('click', load);
+  load();
+
+  // Share: native share sheet when available, otherwise WhatsApp link + copy.
+  const shareUrl = () => `${location.origin}${location.pathname}?d=${encodeURIComponent(demoId)}`;
+  const shareMsg = () => `${c.t.shareText.replace('{business}', business || '')} ${shareUrl()}`;
+  const box = $('wd-sharebox');
+  $('wd-share').addEventListener('click', async () => {
+    const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
+    if (nav.share) {
+      try { await nav.share({ title: document.title, text: c.t.shareText.replace('{business}', business || ''), url: shareUrl() }); return; }
+      catch (e) { if ((e as Error)?.name === 'AbortError') return; }
+    }
+    ($('wd-share-wa') as HTMLAnchorElement).href = `https://wa.me/?text=${encodeURIComponent(shareMsg())}`;
+    box.hidden = !box.hidden;
+  });
+  $('wd-copy').addEventListener('click', async () => {
+    const url = shareUrl();
+    try { await navigator.clipboard.writeText(url); }
+    catch {
+      const t = document.createElement('textarea'); t.value = url; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.append(t); t.select(); try { document.execCommand('copy'); } catch { /* ignore */ } t.remove();
+    }
+    box.querySelector('.wd-copied')!.textContent = c.t.copied;
+  });
+</script>
+
+<style>
+  .wd { padding-block: clamp(1.5rem, 4vw, 3.5rem) clamp(3rem, 6vw, 5rem); }
+  .wd-state { display: grid; justify-items: center; text-align: center; gap: 1rem; padding: clamp(3rem, 10vw, 6rem) 0; max-width: 34rem; margin-inline: auto; }
+  .wd-state[hidden], .wd-grid[hidden] { display: none; }
+  .wd-spin { width: 48px; height: 48px; border-radius: 50%; border: 5px solid #E7F6EC; border-top-color: #0B8A6E; animation: wd-spin 1s linear infinite; }
+  @keyframes wd-spin { to { transform: rotate(360deg); } }
+  .wd-ic { width: 64px; height: 64px; border-radius: 18px; background: #E7F6EC; color: #0B8A6E; display: grid; place-items: center; font-size: 38px; }
+  .wd-mh { font-size: var(--s3); }
+  .wd-missing p { color: var(--muted); font-size: 1.08rem; }
+
+  .wd-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .wd-side h1 { font-size: var(--s3); margin-top: .6rem; text-wrap: balance; overflow-wrap: anywhere; }
+  .wd-body { color: var(--muted); font-size: 1.08rem; margin-top: 1rem; max-width: 34rem; }
+  .wd-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+  .wd-state .wd-btns { justify-content: center; margin-top: .5rem; }
+  .wd-btns .btn[hidden] { display: none; }
+  .wd-sharebox { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: .9rem; padding: .9rem; border-radius: 14px; background: var(--paper); }
+  .wd-sharebox[hidden] { display: none; }
+  .wd-sharebox .btn { padding: .75rem 1.1rem; }
+  .wd-wa { color: #0B6E58; }
+  .wd-wa :global(svg) { width: 20px; height: 20px; }
+  .wd-copied { color: #0B5E45; font-weight: 600; font-size: .92rem; }
+  .wd-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.75rem; }
+
+  .wd-phone { width: min(380px, 100%); border-radius: 44px; padding: 12px; background: var(--navy-deep); box-shadow: 0 40px 70px -35px rgba(10,37,62,.7), inset 0 0 0 2px #22384F; }
+  .wd-screen { border-radius: 34px; overflow: hidden; background: #EFE7DE; height: min(640px, 78vh); min-height: 460px; display: flex; flex-direction: column; color: var(--ink); }
+  .wd-head { display: flex; align-items: center; gap: .7rem; background: #0B5C4E; color: #fff; padding: 1.6rem 1rem .8rem; flex: none; }
+  .wd-av { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; color: var(--navy); font-size: 22px; flex: none; }
+  .wd-who { display: grid; min-width: 0; }
+  .wd-who strong { font-size: 1rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wd-who small { font-size: .78rem; opacity: .85; line-height: 1.3; }
+  .wd-log {
+    list-style: none; margin: 0; padding: 1rem .8rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; overflow-y: auto; overscroll-behavior: contain;
+    background-image: radial-gradient(rgba(10,37,62,.06) 1.2px, transparent 1.2px); background-size: 16px 16px;
+  }
+  .wd-log :global(.wd-msg) { max-width: 84%; padding: .45rem .7rem .3rem; border-radius: 10px; font-size: .94rem; line-height: 1.6; box-shadow: 0 1px 1px rgba(0,0,0,.08); overflow-wrap: anywhere; }
+  .wd-log :global(.wd-user) { align-self: flex-end; background: #D9FDD3; border-start-end-radius: 2px; }
+  .wd-log :global(.wd-assistant) { align-self: flex-start; background: #fff; border-start-start-radius: 2px; }
+  .wd-log :global(.wd-note) { align-self: center; background: #FFF4D6; color: #7A4F00; font-size: .85rem; text-align: center; max-width: 92%; }
+  .wd-log :global(.wd-txt) { display: block; }
+  .wd-log :global(time) { display: block; text-align: end; font-size: .68rem; color: #54626B; margin-top: .1rem; }
+  .wd-log :global(.wd-ticks) { color: #53BDEB; margin-inline-start: .3rem; letter-spacing: -.25em; }
+  .wd-log :global(.wd-typing) { display: flex; gap: 4px; padding: .7rem .8rem; }
+  .wd-log :global(.wd-typing i) { width: 7px; height: 7px; border-radius: 50%; background: #8696A0; animation: wd-dot 1.2s infinite ease-in-out; }
+  .wd-log :global(.wd-typing i:nth-of-type(2)) { animation-delay: .15s; }
+  .wd-log :global(.wd-typing i:nth-of-type(3)) { animation-delay: .3s; }
+  @keyframes wd-dot { 0%, 60%, 100% { opacity: .35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+  .wd-sugs { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 .8rem .5rem; flex: none; }
+  .wd-sugs[hidden] { display: none; }
+  .wd-sugs :global(.wd-sug) { font: 600 .85rem/1.35 var(--font); padding: .45rem .8rem; border-radius: 999px; border: 1px solid #B8D8CF; background: #fff; color: #0B5C4E; cursor: pointer; text-align: start; max-width: 100%; }
+  .wd-sugs :global(.wd-sug:hover) { background: #E7F6EC; }
+  .wd-left { margin: 0 .8rem .4rem; padding: .35rem .7rem; border-radius: 8px; background: rgba(255,255,255,.85); font-size: .8rem; color: #54626B; text-align: center; flex: none; }
+  .wd-left.is-end { background: #FFF4D6; color: #7A4F00; font-weight: 600; }
+  .wd-left[hidden] { display: none; }
+  .wd-input { display: flex; align-items: flex-end; gap: .5rem; padding: .5rem .7rem .9rem; flex: none; }
+  .wd-input textarea { flex: 1; min-width: 0; resize: none; font: 400 .95rem/1.4 var(--font); border: 0; border-radius: 22px; padding: .6rem 1rem; background: #fff; color: var(--ink); max-height: 120px; }
+  .wd-input textarea:focus { outline: 2px solid #0B8A6E; outline-offset: 0; }
+  .wd-send { width: 44px; height: 44px; border-radius: 50%; border: 0; background: #0B8A6E; color: #fff; display: grid; place-items: center; cursor: pointer; flex: none; }
+  .wd-send:disabled { opacity: .5; cursor: default; }
+  .wd-send svg { width: 20px; height: 20px; fill: currentColor; }
+  html[dir='rtl'] .wd-send svg { transform: scaleX(-1); }
+
+  @media (max-width: 900px) {
+    .wd-grid { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+    .wd-side { width: 100%; }
+    .wd-phone { width: 100%; max-width: 420px; padding: 8px; border-radius: 32px; }
+    .wd-screen { border-radius: 26px; height: min(620px, 80vh); }
+    .wd-head { padding-top: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .wd-spin, .wd-log :global(.wd-typing i) { animation-duration: 3s; } }
+</style>

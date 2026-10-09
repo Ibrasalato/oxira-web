@@ -10,6 +10,7 @@ import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import FeaturedProducts from '../components/FeaturedProducts.astro';
 import WhyOxira from '../components/WhyOxira.astro';
+import { waText, isWaLang, waPath } from '../i18n/waAgent';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -17,6 +18,7 @@ const c = t[lang];
 const h = c.home;
 const featured = c.work.projects.slice(0, 2);
 const firstChat = c.agents.chats[0];
+const wa = isWaLang(lang) ? waText[lang] : null;
 ---
 <Base lang={lang} path="/" title={c.pages.home.title} description={c.pages.home.description}>
   <!-- Hero -->
@@ -52,6 +54,16 @@ const firstChat = c.agents.chats[0];
       </div>
     </div>
   </section>
+
+  {wa && (
+    <div class="wrap wa-band-wrap">
+      <a class="wa-band" href={link(lang, waPath)}>
+        <span class="wa-band-ic" aria-hidden="true"><Icon name="whatsapp" /></span>
+        <span class="wa-band-txt"><span class="wa-band-new">{wa.home.badge}</span> {wa.home.text}</span>
+        <span class="btn btn-amber wa-band-go">{wa.home.cta}</span>
+      </a>
+    </div>
+  )}
 
   <!-- Clients -->
   <section class="section-tight trusted" aria-label={h.trusted}>
@@ -99,7 +111,10 @@ const firstChat = c.agents.chats[0];
             <li><strong>{cap.name}</strong><span>{cap.text}</span></li>
           ))}
         </ul>
-        <a class="btn btn-amber" href={link(lang, '/ai-agents/')}>{h.agentsLink}</a>
+        <div class="ag-btns">
+          {wa && <a class="btn btn-amber" href={link(lang, waPath)}>{wa.agentsCta}</a>}
+          <a class={`btn ${wa ? 'btn-ghost-light' : 'btn-amber'}`} href={link(lang, '/ai-agents/')}>{h.agentsLink}</a>
+        </div>
       </div>
       <AgentsDemo lang={lang} tone="dark" />
     </div>
@@ -213,6 +228,15 @@ const firstChat = c.agents.chats[0];
   .ag-caps li { display: grid; gap: .25rem; border-top: 1px solid rgba(255,255,255,.14); padding-top: 1rem; }
   .ag-caps span { color: var(--muted-on-navy); font-size: .97rem; line-height: 1.6; }
   @media (max-width: 960px) { .ag-grid { grid-template-columns: 1fr; } }
+  .ag-btns { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .wa-band-wrap { margin-top: clamp(.5rem, 2vw, 1rem); }
+  .wa-band { display: flex; align-items: center; gap: 1rem 1.25rem; padding: 1rem 1.25rem; border-radius: var(--radius); background: var(--navy); color: #fff; text-decoration: none; box-shadow: 0 24px 50px -36px rgba(6, 26, 45, .7); }
+  .wa-band:hover .wa-band-go { background: var(--amber-deep); }
+  .wa-band-ic { width: 44px; height: 44px; flex: none; border-radius: 12px; background: #25D366; color: #fff; display: grid; place-items: center; font-size: 26px; }
+  .wa-band-txt { flex: 1; font-weight: 600; font-size: 1.05rem; line-height: 1.5; }
+  .wa-band-new { display: inline-block; font-size: .72rem; font-weight: 700; line-height: 1; padding: .3rem .5rem; border-radius: 999px; background: var(--amber); color: var(--navy); vertical-align: .15em; }
+  .wa-band-go { flex: none; padding: .8rem 1.2rem; }
+  @media (max-width: 640px) { .wa-band { flex-wrap: wrap; } .wa-band-txt { flex-basis: calc(100% - 64px); } .wa-band-go { width: 100%; } }
   @media (max-width: 520px) { .ag-caps { grid-template-columns: 1fr; } }
 
   /* Classti */

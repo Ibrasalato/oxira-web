@@ -8,12 +8,14 @@ import { productIds } from '../builder/addons';
 import { catalog } from '../builder/catalog';
 import Base from '../layouts/Base.astro';
 import ProductCards from '../components/ProductCards.astro';
+import { waText, isWaLang, waPath } from '../i18n/waAgent';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const P = productsText[lang];
 const c = P.common;
 const b = builderText[lang];
+const wa = isWaLang(lang) ? waText[lang] : null;
 const site = Astro.site!;
 const ld = [
   {
@@ -70,6 +72,7 @@ const ld = [
       <div class="sh"><h2 id="ps-other">{P.nav.otherTitle}</h2></div>
       <ul class="ps-other">
         <li><a href={link(lang, '/classti/')}><b>Classti</b><span>{P.nav.classtiDesc}</span></a></li>
+        {wa && <li><a href={link(lang, waPath)}><b>{wa.name}</b><span>{wa.navDesc}</span></a></li>}
         <li><a href={link(lang, '/ai-agents/')}><b>{t[lang].site.nav.find((n) => n.path === '/ai-agents/')!.label}</b><span>{P.nav.agentsDesc}</span></a></li>
         <li><a href={link(lang, '/partners/')}><b>{b.account.partner}</b><span>{c.partnerStrip}</span></a></li>
       </ul>
@@ -87,7 +90,7 @@ const ld = [
   .ps-builder p { color: var(--muted-on-navy); }
   .ps-new { display: inline-block; font-size: .75rem; font-weight: 700; padding: .3rem .6rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
   .ps-vat { margin-top: 1.25rem; color: var(--muted); font-size: .9rem; }
-  .ps-other { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .ps-other { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem; }
   .ps-other a { display: grid; gap: .4rem; height: 100%; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; text-decoration: none; }
   .ps-other a:hover { border-color: var(--navy); }
   .ps-other b { font-size: 1.15rem; }

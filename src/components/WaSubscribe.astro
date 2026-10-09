@@ -1,0 +1,130 @@
+---
+// Subscribe form for the AI WhatsApp employee (landing and demo pages). Opened by any [data-wa-sub] button
+// (optional data-plan="basic|pro"). Posts to oxira-agent-subscribe; the team then calls and sends an invoice.
+import { link } from '../lib/routes';
+import { waText, WA_PRICES, type WaLang } from '../i18n/waAgent';
+
+interface Props { lang: WaLang; demo?: boolean }
+const { lang, demo = false } = Astro.props;
+const W = waText[lang];
+const S = W.sub;
+const nf = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : 'en');
+const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-subscribe', lang, t: { submit: S.submit, sending: S.sending, ok: S.ok, missing: S.missing, err: S.err } };
+---
+<section class="section-tight ws" id="wa-sub" aria-labelledby="wa-sub-title" hidden>
+  <div class="wrap">
+    <form class="ws-form" id="ws-form" data-cfg={JSON.stringify(cfg)} novalidate>
+      <div class="ws-head">
+        <h2 id="wa-sub-title" tabindex="-1">{S.title}</h2>
+        <p>{S.body}</p>
+        {!demo && <p class="ws-nodemo" id="ws-nodemo">{S.noDemo}</p>}
+      </div>
+      <fieldset class="ws-plans">
+        <legend>{S.plan}</legend>
+        {(['basic', 'pro'] as const).map((id) => (
+          <label class="ws-plan">
+            <input type="radio" name="plan" value={id} checked={id === 'pro'} />
+            <span><b>{W.plans[id].name}</b><small>{nf.format(WA_PRICES[id])} {W.sar} {W.perMonth}</small></span>
+          </label>
+        ))}
+      </fieldset>
+      <div class="ws-row">
+        <label>{S.name}<input name="name" required maxlength="80" autocomplete="name" /></label>
+        <label>{S.business}<input name="business" required maxlength="100" autocomplete="organization" /></label>
+      </div>
+      <div class="ws-row">
+        <label>{S.email}<input name="email" type="email" required maxlength="160" dir="ltr" autocomplete="email" /></label>
+        <label>{S.phone}<input name="phone" type="tel" required maxlength="30" dir="ltr" autocomplete="tel" /></label>
+      </div>
+      <div class="ws-row">
+        <label>{S.whatsapp}<input name="whatsapp" type="tel" required maxlength="30" dir="ltr" placeholder={S.whatsappPh} /></label>
+        <label><span>{S.city} <span class="ws-opt">({S.optional})</span></span><input name="city" maxlength="60" autocomplete="address-level2" /></label>
+      </div>
+      <label><span>{S.notes} <span class="ws-opt">({S.optional})</span></span><textarea name="notes" rows="2" maxlength="1000"></textarea></label>
+      <input type="hidden" name="demoId" value="" />
+      <input class="ws-hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <p class="ws-notes">{W.planNotes.join(' ')}</p>
+      <button type="submit" class="btn btn-amber">{S.submit}</button>
+      <p class="ws-status" role="status" hidden></p>
+      <p class="ws-privacy">{W.form.privacy} <a href={link(lang, '/privacy/')}>{W.form.privacyLink}</a></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const sec = document.getElementById('wa-sub') as HTMLElement;
+  const form = document.getElementById('ws-form') as HTMLFormElement;
+  const c = JSON.parse(form.dataset.cfg!);
+  const status = form.querySelector<HTMLElement>('.ws-status')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const say = (msg: string, err = false) => { status.hidden = false; status.textContent = msg; status.classList.toggle('is-error', err); };
+  const field = (n: string) => form.elements.namedItem(n) as HTMLInputElement;
+
+  // Landing page: attach the visitor's last demo (if any) so the team sees what they tried.
+  try {
+    const last = JSON.parse(localStorage.getItem('oxira-wa-demo') || 'null');
+    if (last && last.id && !field('demoId').value) {
+      field('demoId').value = String(last.id);
+      if (last.business && !field('business').value) field('business').value = String(last.business);
+      document.getElementById('ws-nodemo')?.setAttribute('hidden', '');
+    }
+  } catch { /* ignore */ }
+
+  document.addEventListener('click', (e) => {
+    const b = (e.target as Element).closest<HTMLElement>('[data-wa-sub]');
+    if (!b) return;
+    e.preventDefault();
+    const plan = b.dataset.plan;
+    if (plan) form.querySelectorAll<HTMLInputElement>('input[name=plan]').forEach((r) => { r.checked = r.value === plan; });
+    sec.hidden = false;
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => (document.getElementById('wa-sub-title') as HTMLElement).focus({ preventScroll: true }), 400);
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const v = (k: string) => String(f.get(k) || '').trim();
+    if (!v('name') || !v('business') || v('phone').replace(/\D/g, '').length < 7 || v('whatsapp').replace(/\D/g, '').length < 7 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('email'))) { say(c.t.missing, true); return; }
+    btn.disabled = true; btn.textContent = c.t.sending; status.hidden = true;
+    try {
+      const body = { demoId: v('demoId'), plan: v('plan') === 'basic' ? 'basic' : 'pro', name: v('name'), business: v('business'), email: v('email'), phone: v('phone'), whatsapp: v('whatsapp'), city: v('city'), notes: v('notes'), lang: c.lang, company_website: v('company_website') };
+      const r = await (await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
+      if (r && r.success) {
+        say(c.t.ok.replace('{id}', String(r.id ?? '')));
+        form.querySelectorAll<HTMLElement>('fieldset, .ws-row, label, .ws-notes, button[type=submit]').forEach((el) => { el.hidden = true; });
+      } else say(r && r.error === 'input' ? c.t.missing : c.t.err, true);
+    } catch { say(c.t.err, true); }
+    btn.disabled = false; btn.textContent = c.t.submit;
+  });
+</script>
+
+<style>
+  .ws { background: var(--paper); scroll-margin-top: 4.75rem; }
+  .ws-form { max-width: 46rem; margin-inline: auto; position: relative; display: grid; gap: .9rem; padding: clamp(1.25rem, 4vw, 2rem); border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(6, 26, 45, .5); }
+  .ws-head { display: grid; gap: .4rem; margin-bottom: .3rem; }
+  .ws-head h2 { font-size: var(--s2); }
+  .ws-head h2:focus { outline: none; }
+  .ws-head p { color: var(--muted); }
+  .ws-nodemo { font-size: .92rem; padding: .6rem .85rem; border-radius: 10px; background: var(--blue-soft); color: var(--navy) !important; }
+  .ws-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; align-content: start; }
+  .ws-opt { color: var(--muted); font-weight: 400; }
+  .ws-form input:not([type=radio]), .ws-form textarea { font: 400 1rem var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .75rem .85rem; color: var(--ink); min-width: 0; width: 100%; }
+  .ws-form input:focus, .ws-form textarea:focus { outline: none; border-color: var(--blue); }
+  .ws-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .9rem; }
+  .ws-plans { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; min-width: 0; }
+  .ws-plans legend { font-weight: 600; font-size: .92rem; margin-bottom: .4rem; padding: 0; }
+  .ws-form label.ws-plan { display: flex; align-items: center; gap: .7rem; padding: .85rem 1rem; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; }
+  .ws-plan:has(input:checked) { border-color: var(--navy); background: var(--blue-soft); }
+  .ws-plan input { width: 18px; height: 18px; accent-color: var(--navy); flex: none; margin: 0; }
+  .ws-plan span { display: grid; gap: .1rem; }
+  .ws-plan small { color: var(--muted); font-weight: 400; }
+  .ws-form .ws-hp { position: absolute; inset-inline-start: 0; padding: 0; border: 0; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+  .ws-notes { font-size: .88rem; color: var(--muted); }
+  .ws-status { padding: .8rem 1rem; border-radius: 10px; background: #E7F6EF; color: #0B5E45; font-weight: 600; }
+  .ws-status.is-error { background: #FDECEA; color: #8A1F12; }
+  .ws-privacy { font-size: .82rem; color: var(--muted); }
+  .ws-privacy a { color: var(--blue); }
+  .ws-form [hidden] { display: none !important; }
+  @media (max-width: 640px) { .ws-row, .ws-plans { grid-template-columns: minmax(0, 1fr); } }
+</style>

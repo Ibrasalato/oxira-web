@@ -3,11 +3,14 @@ import { langCodes, type Lang } from '../i18n/content';
 import { productSlugs } from '../i18n/products';
 import { getCollection } from 'astro:content';
 import { landingPaths, landingLangs } from '../i18n/landing';
+import { waPath } from '../i18n/waAgent';
 
 const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/website-audit/', '/online-in-a-day/', '/help/', '/trust/', '/privacy/', '/terms/'];
 
 export const GET: APIRoute = async ({ site }) => {
-  // Service and location pages exist in Arabic and English only (landingPaths).
+  // Service and location pages and the AI WhatsApp employee page exist in Arabic and English only.
+  // (Its demo page, /whatsapp-agent/demo/, is noindex and left out.)
+  const arEn = [...landingPaths, waPath];
   // Arabic-only pages (the blog): no language alternates.
   const arOnly = ['/blog/', ...(await getCollection('blog')).map((p) => `/blog/${p.id}/`)];
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,7 +22,7 @@ ${paths.flatMap((p) => langCodes.map((lang) => `  <url>
 ${langCodes.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
   </url>`)).join('\n')}
-${landingPaths.flatMap((p) => landingLangs.map((lang) => `  <url>
+${arEn.flatMap((p) => landingLangs.map((lang) => `  <url>
     <loc>${url(lang, p)}</loc>
 ${landingLangs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>

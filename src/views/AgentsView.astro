@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { landings, landingPath } from '../i18n/landing';
+import { waText, isWaLang, waPath } from '../i18n/waAgent';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -15,11 +16,13 @@ const other = lang === 'ar' ? 'en' : 'ar';
 const lp = lang === 'ar' || lang === 'en' ? lang : null;
 const rel = lp
   ? [
+      { href: link(lang, waPath), label: waText[lp].name },
       ...['business-automation', 'egypt', 'gulf'].map((slug) => landings.find((l) => l.slug === slug)!).map((l) => ({ href: link(lang, landingPath(l)), label: l[lp].name })),
       { href: link(lang, '/products/ai-chatbot/'), label: lp === 'ar' ? 'الشات بوت للموقع' : 'Website chatbot' },
       ...(lp === 'ar' ? [{ href: link('ar', '/blog/whatsapp-ai-agent-benefits/'), label: 'فوائد وكيل الذكاء الاصطناعي على واتساب' }] : []),
     ]
   : [];
+const wa = isWaLang(lang) ? waText[lang] : null;
 const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.services.list.find((s) => s.icon === 'agent')!.name)}`;
 ---
 <Base lang={lang} path="/ai-agents/" title={c.pages.agents.title} description={c.pages.agents.description}>
@@ -30,8 +33,9 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
         <h1>{a.title}</h1>
         <p class="lead">{a.body}</p>
         <div class="ag-actions">
-          <a class="btn btn-amber" href={contactHref}>{a.cta}</a>
-          <button type="button" class="btn btn-ghost" data-open-chat>{c.chat.open}</button>
+          {wa
+            ? <><a class="btn btn-amber" href={link(lang, waPath)}>{wa.agentsCta}</a><a class="btn btn-ghost" href={contactHref}>{a.cta}</a></>
+            : <><a class="btn btn-amber" href={contactHref}>{a.cta}</a><button type="button" class="btn btn-ghost" data-open-chat>{c.chat.open}</button></>}
         </div>
       </div>
       <AgentsDemo lang={lang} />
@@ -75,7 +79,10 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
       </ol>
       <div class="pricing">
         <p>{a.pricing}</p>
-        <a class="btn btn-amber" href={contactHref}>{a.cta}</a>
+        <div class="ag-actions ag-actions-tight">
+          {wa && <a class="btn btn-amber" href={link(lang, waPath)}>{wa.agentsCta}</a>}
+          <a class={`btn ${wa ? 'btn-ghost-light' : 'btn-amber'}`} href={contactHref}>{a.cta}</a>
+        </div>
       </div>
     </div>
   </section>
@@ -101,6 +108,7 @@ const contactHref = `${link(lang, '/contact/')}?service=${encodeURIComponent(c.s
   .ag-hero-grid { display: grid; grid-template-columns: 1fr auto; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
   .ag-hero h1 { margin-top: .75rem; font-size: var(--s4); max-width: 14ch; }
   .ag-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+  .ag-actions-tight { margin-top: 0; }
   @media (max-width: 960px) { .ag-hero-grid { grid-template-columns: 1fr; } }
 
   .caps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.25rem 2rem; }

@@ -1,0 +1,327 @@
+---
+// AI WhatsApp employee: landing page with the free try form (oxira-agent-try), plans and subscribe form.
+// Arabic and English only. Copy in src/i18n/waAgent.ts.
+import { link } from '../lib/routes';
+import { waText, waLangs, waPath, waDemoPath, WA_PRICES, type WaLang } from '../i18n/waAgent';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import WaSubscribe from '../components/WaSubscribe.astro';
+
+interface Props { lang: WaLang }
+const { lang } = Astro.props;
+const W = waText[lang];
+const F = W.form;
+const site = Astro.site!;
+const url = new URL(link(lang, waPath), site).href;
+const nf = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : 'en');
+const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-try', demo: link(lang, waDemoPath), lang, t: { submit: F.submit, progress: F.progress, errors: F.errors } };
+const plans = (['basic', 'pro'] as const).map((id) => ({ id, price: WA_PRICES[id], ...W.plans[id] }));
+
+const crumbs = [
+  { name: W.crumbs.home, item: new URL(link(lang, '/'), site).href },
+  { name: W.crumbs.agents, item: new URL(link(lang, '/ai-agents/'), site).href },
+  { name: W.name, item: url },
+];
+const org = { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href };
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: W.name,
+    serviceType: lang === 'ar' ? 'وكيل ذكاء اصطناعي على واتساب' : 'AI WhatsApp agent',
+    description: W.description,
+    url,
+    inLanguage: lang,
+    areaServed: { '@type': 'Country', name: 'Saudi Arabia' },
+    provider: org,
+    offers: plans.map((p) => ({
+      '@type': 'Offer',
+      name: p.name,
+      price: String(p.price),
+      priceCurrency: 'SAR',
+      url: `${url}#plans`,
+      priceSpecification: { '@type': 'UnitPriceSpecification', price: String(p.price), priceCurrency: 'SAR', unitCode: 'MON', valueAddedTaxIncluded: false },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: W.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((cr, i) => ({ '@type': 'ListItem', position: i + 1, name: cr.name, item: cr.item })),
+  },
+];
+---
+<Base lang={lang} path={waPath} langs={waLangs} title={W.title} description={W.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+  <section class="page-hero wa-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label={W.crumbs.label}>
+        <a href={link(lang, '/')}>{W.crumbs.home}</a><span aria-hidden="true">/</span>
+        <a href={link(lang, '/ai-agents/')}>{W.crumbs.agents}</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{W.name}</span>
+      </nav>
+      <div class="wa-grid">
+        <div class="wa-intro">
+          <p class="label wa-kicker"><span class="wa-ic"><Icon name="whatsapp" /></span>{W.kicker}</p>
+          <h1>{W.h1}</h1>
+          <p class="lead">{W.lead}</p>
+        </div>
+
+        <div class="wa-card">
+          <form class="wa-form" id="wa-form" data-cfg={JSON.stringify(cfg)} novalidate aria-labelledby="wa-form-title">
+            <h2 id="wa-form-title">{F.title}</h2>
+            <label><span>{F.url} <span class="wa-opt">({F.urlHint})</span></span><input name="url" type="url" maxlength="300" placeholder={F.urlPh} dir="ltr" inputmode="url" autocomplete="url" /></label>
+            <label>{F.business}<input name="business" required maxlength="100" autocomplete="organization" /></label>
+            <label>
+              <span>{F.notes}</span>
+              <textarea name="notes" rows="3" maxlength="1500" placeholder={F.notesPh} aria-describedby="wa-notes-hint"></textarea>
+              <small id="wa-notes-hint" class="wa-hint">{F.notesHint} <span class="wa-count" aria-hidden="true">0/1500</span></small>
+            </label>
+            <div class="wa-row">
+              <label>
+                {F.email}
+                <input name="email" type="email" required maxlength="160" dir="ltr" autocomplete="email" aria-describedby="wa-email-hint" />
+                <small id="wa-email-hint" class="wa-hint">{F.emailHint}</small>
+              </label>
+              <label><span>{F.phone} <span class="wa-opt">({F.optional})</span></span><input name="phone" type="tel" maxlength="30" dir="ltr" autocomplete="tel" /></label>
+            </div>
+            <input class="wa-hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn btn-amber">{F.submit}</button>
+            <p class="wa-status is-error" role="alert" hidden></p>
+            <p class="wa-privacy">{F.privacy} <a href={link(lang, '/privacy/')}>{F.privacyLink}</a></p>
+          </form>
+          <div class="wa-progress" id="wa-progress" hidden>
+            <span class="wa-spin" aria-hidden="true"></span>
+            <p class="wa-pmsg" aria-live="polite">{F.progress[0]}</p>
+            <span class="wa-bar" aria-hidden="true"><i></i></span>
+            <p class="wa-pnote">{F.progressNote}</p>
+          </div>
+        </div>
+
+        <ul class="wa-points">{W.points.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight bg-navy" aria-labelledby="wa-steps">
+    <div class="wrap">
+      <div class="sh"><h2 id="wa-steps">{W.stepsTitle}</h2></div>
+      <ol class="wa-steps">
+        {W.steps.map((s, i) => (
+          <li><span class="wa-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h3>{s.t}</h3><p>{s.d}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="wa-can">
+    <div class="wrap">
+      <div class="sh"><h2 id="wa-can">{W.canTitle}</h2><p>{W.canBody}</p></div>
+      <ul class="wa-cards">
+        {W.can.map((x) => <li><h3>{x.t}{x.pro && <span class="wa-pro">{W.proBadge}</span>}</h3><p>{x.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight bg-paper" id="plans" aria-labelledby="wa-plans">
+    <div class="wrap">
+      <div class="sh"><h2 id="wa-plans">{W.plansTitle}</h2><p>{W.plansBody}</p></div>
+      <div class="wa-plans">
+        {plans.map((p) => (
+          <article class={`wa-plan${p.id === 'pro' ? ' is-pro' : ''}`}>
+            {p.id === 'pro' && <span class="wa-tag">{W.popular}</span>}
+            <h3>{p.name}</h3>
+            <p class="wa-price"><b>{nf.format(p.price)}</b> {W.sar} <span>{W.perMonth}</span></p>
+            {p.intro && <p class="wa-pintro">{p.intro}</p>}
+            <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
+            <button type="button" class={`btn ${p.id === 'pro' ? 'btn-amber' : 'btn-navy'}`} data-wa-sub data-plan={p.id}>{p.cta}</button>
+          </article>
+        ))}
+      </div>
+      <ul class="wa-pnotes">{W.planNotes.map((n) => <li>{n}</li>)}</ul>
+      <a class="more wa-tryfirst" href="#wa-form">{W.tryFirst}</a>
+    </div>
+  </section>
+
+  <WaSubscribe lang={lang} />
+
+  <section class="section-tight" aria-labelledby="wa-faq">
+    <div class="wrap wa-body">
+      <h2 id="wa-faq">{W.faqTitle}</h2>
+      <div class="wa-faq">
+        {W.faq.map((f, i) => <details open={i === 0}><summary>{f.q}</summary><p>{f.a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight wa-pt0" aria-labelledby="wa-rel">
+    <div class="wrap">
+      <h2 id="wa-rel" class="wa-rel-h">{W.related}</h2>
+      <ul class="wa-rel">{W.relatedLinks.map((r) => <li><a href={link(lang, r.path)}>{r.label}</a></li>)}</ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('wa-form') as HTMLFormElement;
+  const c = JSON.parse(form.dataset.cfg!);
+  const E = c.t.errors as Record<string, string>;
+  const status = form.querySelector<HTMLElement>('.wa-status')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const prog = document.getElementById('wa-progress')!;
+  const pmsg = prog.querySelector<HTMLElement>('.wa-pmsg')!;
+  const notes = form.elements.namedItem('notes') as HTMLTextAreaElement;
+  const count = form.querySelector<HTMLElement>('.wa-count')!;
+  notes.addEventListener('input', () => { count.textContent = `${notes.value.length}/1500`; });
+
+  const fail = (code: string) => {
+    status.hidden = false;
+    status.textContent = E[code] || E.server;
+    const hasBiz = !!(form.elements.namedItem('business') as HTMLInputElement).value.trim();
+    const focus = ({ url: 'url', email: 'email', fetch: 'notes', content: 'notes', input: hasBiz ? 'notes' : 'business' } as Record<string, string>)[code];
+    if (focus) (form.elements.namedItem(focus) as HTMLElement).focus();
+  };
+
+  let timer = 0;
+  const busy = (on: boolean) => {
+    form.hidden = on; prog.hidden = !on; btn.disabled = on;
+    clearInterval(timer);
+    if (on) {
+      let i = 0; pmsg.textContent = c.t.progress[0];
+      prog.classList.remove('is-run'); void prog.offsetWidth; prog.classList.add('is-run');
+      timer = window.setInterval(() => { i = Math.min(i + 1, c.t.progress.length - 1); pmsg.textContent = c.t.progress[i]; if (i === c.t.progress.length - 1) clearInterval(timer); }, 9000);
+    }
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.hidden = true;
+    const f = new FormData(form);
+    const v = (k: string) => String(f.get(k) || '').trim();
+    let url = v('url');
+    if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+    if (url && !/^https?:\/\/[^\s/]+\.[^\s/]{2,}/i.test(url)) return fail('url');
+    if (!v('business') || (!url && !v('notes'))) return fail('input');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('email'))) return fail('email');
+    busy(true);
+    const ac = new AbortController();
+    const to = setTimeout(() => ac.abort(), 90000);
+    let r: any = null; let code = 'server';
+    try {
+      const body = { url, business: v('business'), notes: v('notes').slice(0, 1500), email: v('email'), phone: v('phone'), lang: c.lang, company_website: v('company_website') };
+      const res = await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac.signal });
+      r = await res.json();
+    } catch (err) { if ((err as Error)?.name === 'AbortError') code = 'timeout'; }
+    clearTimeout(to);
+    if (r && r.success && r.demoId) {
+      try { localStorage.setItem('oxira-wa-demo', JSON.stringify({ id: r.demoId, business: r.business || v('business') })); } catch { /* ignore */ }
+      location.href = `${c.demo}?d=${encodeURIComponent(r.demoId)}`;
+      return;
+    }
+    busy(false);
+    fail(r && r.error ? String(r.error) : code);
+  });
+</script>
+
+<style>
+  .crumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .9rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--blue); }
+  .crumbs [aria-current] { color: var(--ink); font-weight: 600; }
+  .wa-hero { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  #plans, .wa-card { scroll-margin-top: 5.5rem; }
+  .wa-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); grid-template-areas: 'intro card' 'points card'; gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: start; }
+  .wa-intro { grid-area: intro; }
+  .wa-card { grid-area: card; }
+  .wa-points { grid-area: points; }
+  .wa-hero h1 { font-size: clamp(1.85rem, 3.6vw, 3rem); max-width: 20ch; }
+  .wa-kicker { display: inline-flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+  .wa-ic { width: 40px; height: 40px; border-radius: 12px; background: #E7F6EC; color: #0B8A6E; display: grid; place-items: center; flex: none; font-size: 24px; }
+  .wa-points { list-style: none; display: grid; gap: .6rem; }
+  .wa-points li { position: relative; padding-inline-start: 1.7rem; font-weight: 600; }
+  .wa-points li::before { content: '✓'; position: absolute; inset-inline-start: 0; color: #0B8A6E; font-weight: 800; }
+
+  .wa-card { border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(6, 26, 45, .5); padding: clamp(1.25rem, 3vw, 1.8rem); }
+  .wa-form { display: grid; gap: .8rem; position: relative; }
+  .wa-form h2 { font-size: 1.35rem; }
+  .wa-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; align-content: start; }
+  .wa-opt { color: var(--muted); font-weight: 400; }
+  .wa-hint { color: var(--muted); font-weight: 400; font-size: .82rem; line-height: 1.5; display: flex; justify-content: space-between; gap: .5rem; }
+  .wa-count { direction: ltr; flex: none; }
+  .wa-form input, .wa-form textarea { font: 400 1rem var(--font); border: 1.5px solid var(--line); border-radius: 10px; padding: .75rem .85rem; color: var(--ink); min-width: 0; width: 100%; }
+  .wa-form textarea { resize: vertical; min-height: 5.5rem; }
+  .wa-form input:focus, .wa-form textarea:focus { outline: none; border-color: var(--blue); }
+  .wa-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .8rem; }
+  .wa-form .wa-hp { position: absolute; inset-inline-start: 0; padding: 0; border: 0; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+  .wa-status.is-error { padding: .7rem 1rem; border-radius: 10px; background: #FEF3F2; color: #B42318; }
+  .wa-privacy { color: var(--muted); font-size: .82rem; }
+  .wa-privacy a { color: var(--blue); }
+  .wa-form[hidden], .wa-progress[hidden] { display: none; }
+
+  .wa-progress { display: grid; justify-items: center; text-align: center; gap: 1rem; padding: 2.5rem 1rem; }
+  .wa-spin { width: 56px; height: 56px; border-radius: 50%; border: 5px solid #E7F6EC; border-top-color: #0B8A6E; animation: wa-spin 1s linear infinite; }
+  .wa-pmsg { font-size: 1.2rem; font-weight: 700; }
+  .wa-bar { width: 100%; max-width: 20rem; height: 8px; border-radius: 999px; background: var(--paper); overflow: hidden; }
+  .wa-bar i { display: block; height: 100%; width: 0; background: #0B8A6E; border-radius: inherit; }
+  .wa-progress.is-run .wa-bar i { animation: wa-fill 60s cubic-bezier(.2, .7, .3, 1) forwards; }
+  .wa-pnote { color: var(--muted); font-size: .9rem; }
+  @keyframes wa-spin { to { transform: rotate(360deg); } }
+  @keyframes wa-fill { from { width: 3%; } to { width: 94%; } }
+  @media (prefers-reduced-motion: reduce) { .wa-spin { animation-duration: 3s; } }
+
+  .wa-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .wa-steps li { display: grid; gap: .6rem; align-content: start; border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.25rem; }
+  .wa-n { font-weight: 700; font-size: 2.2rem; line-height: 1; color: var(--amber); }
+  .wa-steps h3 { font-size: var(--s1); }
+  .wa-steps p { color: var(--muted-on-navy); }
+
+  .wa-cards { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.25rem; }
+  .wa-cards li { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; display: grid; gap: .5rem; align-content: start; }
+  .wa-cards h3 { font-size: 1.12rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  .wa-cards li::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--amber); margin-bottom: .4rem; }
+  .wa-cards p { color: var(--muted); }
+  .wa-pro { font-size: .72rem; font-weight: 700; line-height: 1; padding: .3rem .5rem; border-radius: 999px; background: var(--blue-soft); color: var(--blue); }
+
+  .wa-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; max-width: 60rem; }
+  .wa-plan { position: relative; display: flex; flex-direction: column; gap: .8rem; padding: clamp(1.4rem, 3vw, 2rem); border-radius: var(--radius-lg); background: #fff; border: 1.5px solid var(--line); }
+  .wa-plan.is-pro { border-color: var(--navy); box-shadow: 0 30px 60px -45px rgba(6, 26, 45, .6); }
+  .wa-tag { position: absolute; top: -.8rem; inset-inline-end: 1.5rem; font-size: .78rem; font-weight: 700; padding: .35rem .7rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
+  .wa-plan h3 { font-size: var(--s1); }
+  .wa-price { color: var(--navy); font-weight: 600; }
+  .wa-price b { font-size: clamp(2.2rem, 5vw, 2.8rem); line-height: 1.1; }
+  .wa-price span { color: var(--muted); font-weight: 400; }
+  .wa-pintro { font-weight: 700; }
+  .wa-plan ul { list-style: none; display: grid; gap: .55rem; margin-bottom: .5rem; }
+  .wa-plan li { position: relative; padding-inline-start: 1.6rem; }
+  .wa-plan li::before { content: '✓'; position: absolute; inset-inline-start: 0; color: #0B8A6E; font-weight: 800; }
+  .wa-plan .btn { margin-top: auto; }
+  .wa-pnotes { list-style: none; display: grid; gap: .4rem; margin-top: 1.5rem; max-width: 60rem; color: var(--muted); font-size: .95rem; }
+  .wa-pnotes li { position: relative; padding-inline-start: 1.2rem; }
+  .wa-pnotes li::before { content: ''; position: absolute; inset-inline-start: 0; top: .75em; width: 6px; height: 6px; border-radius: 2px; background: var(--amber); }
+  .wa-tryfirst { margin-top: 1.25rem; }
+
+  .wa-body { max-width: 56rem; display: grid; gap: 1rem; }
+  .wa-body h2 { font-size: var(--s2); margin-bottom: .25rem; }
+  .wa-faq { display: grid; gap: .75rem; }
+  .wa-faq details { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .wa-faq summary { cursor: pointer; font-weight: 700; font-size: 1.08rem; }
+  .wa-faq details p { margin-top: .75rem; color: var(--muted); }
+
+  .wa-pt0 { padding-top: 0; }
+  .wa-rel-h { font-size: var(--s1); margin-bottom: 1rem; }
+  .wa-rel { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; }
+  .wa-rel a { display: inline-block; padding: .6rem 1.1rem; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; }
+  .wa-rel a:hover { border-color: var(--navy); }
+
+  @media (max-width: 960px) {
+    .wa-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'intro' 'card' 'points'; }
+    .wa-hero .lead { margin-top: .75rem; font-size: 1.05rem; }
+    .wa-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  }
+  @media (max-width: 640px) { .wa-row, .wa-plans { grid-template-columns: minmax(0, 1fr); } }
+</style>

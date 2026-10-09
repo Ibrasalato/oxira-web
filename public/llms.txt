@@ -28,6 +28,7 @@ Prices exclude 15% VAT.
 
 - [Services](https://oxira.sa/services/): digital transformation consulting, custom software and mobile apps, IT infrastructure, smart home systems, AI solutions.
 - [AI agents](https://oxira.sa/ai-agents/): an AI agent on WhatsApp and the website that answers customers 24/7 in their dialect, understands voice notes and logs requests.
+- [AI WhatsApp employee, free trial](https://oxira.sa/whatsapp-agent/) ([English](https://oxira.sa/en/whatsapp-agent/)): enter a website link or a short business description and get a live demo of an AI WhatsApp employee trained on the business in about a minute, with a shareable demo link. Basic 399 SAR per month (answers customer questions 24/7 from the business info, replies in the customer's dialect and language, hands the chat to staff). Pro 799 SAR per month (adds bookings and orders, voice notes, instant notifications, handover with a chat summary). Prices exclude 15% VAT; the WhatsApp number is connected with the Oxira team on a short call, and the team sends an invoice after the subscription request. Meta message fees, if any, depend on usage.
 - [Classti](https://oxira.sa/classti/): K-12 school management platform by Oxira.
 - [Company website design](https://oxira.sa/services/web-design/): bilingual company websites, from a ready site in a day to custom platforms.
 - [E-commerce store design](https://oxira.sa/services/ecommerce-store/): custom online stores with payments and shipping; AI agents for stores on Salla, Zid and Shopify.
@@ -42,7 +43,7 @@ Prices exclude 15% VAT.
 - [Gulf](https://oxira.sa/locations/gulf/): UAE, Qatar, Kuwait, Bahrain and Oman, served remotely.
 - [Egypt](https://oxira.sa/locations/egypt/): AI WhatsApp agents that reply in Egyptian Arabic, websites and automation, served remotely.
 
-Service and location pages are in Arabic and English (/en/...). The blog (https://oxira.sa/blog/) is in Arabic.
+Service and location pages and the AI WhatsApp employee page are in Arabic and English (/en/...). The blog (https://oxira.sa/blog/) is in Arabic.
 
 ## Help
 

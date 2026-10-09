@@ -33,8 +33,10 @@ interface Props {
   noindex?: boolean;
   /** Languages this page exists in (default: all). Others get no hreflang and the picker sends them home. */
   langs?: Lang[];
+  /** Hide the site chat bubble (pages that have their own chat). */
+  nochat?: boolean;
 }
-const { lang, path, title, description, app = false, noindex = false, langs } = Astro.props;
+const { lang, path, title, description, app = false, noindex = false, langs, nochat = false } = Astro.props;
 // Visitor analytics: set the repo variable GA_ID (e.g. G-XXXXXXX) to turn on Google Analytics 4.
 const gaId = import.meta.env.PUBLIC_GA_ID || 'G-3WN4EW3DPX';
 const c = t[lang];
@@ -93,7 +95,7 @@ const org = {
       <slot />
     </main>
     {!app && <Footer lang={lang} path={path} langs={langs} />}
-    {!app && <Chat lang={lang} />}
+    {!app && !nochat && <Chat lang={lang} />}
   </body>
 </html>
 
