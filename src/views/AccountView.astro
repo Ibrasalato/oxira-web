@@ -603,7 +603,7 @@ const config = {
             ${noPages ? '' : `<label class="ac-field">${esc(T.socPage)}<select name="page_id">${(m.pages || []).map((p: any) => opt(p.id, p.name + (p.ig_username ? ' · @' + p.ig_username : ''), m.page_id)).join('')}</select></label>`}
             ${v.ads ? `<label class="ac-field">${esc(T.socAdAcc)}<select name="ad_account_id"><option value="">—</option>${(m.adaccounts || []).map((a: any) => opt(a.id, a.name + ' (' + a.currency + ')', m.ad_account_id)).join('')}</select></label>` : ''}
             ${noPages ? '' : `<p class="ac-wide ac-muted ac-small">${m.ig_username ? `${esc(T.socIg)}: <b dir="ltr">@${esc(m.ig_username)}</b>` : esc(T.socNoIg)}</p>`}
-            <div class="ac-row ac-wide"><button type="submit" class="btn btn-navy ac-small-btn">${esc(T.socSave)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-connect>${esc(T.socReconnect)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-disconnect>${esc(T.socDisconnect)}</button></div>
+            <div class="ac-row ac-wide">${noPages ? '' : `<button type="submit" class="btn btn-navy ac-small-btn">${esc(T.socSave)}</button>`}<button type="button" class="btn btn-ghost ac-small-btn" data-soc-connect>${esc(T.socReconnect)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-disconnect>${esc(T.socDisconnect)}</button></div>
           </form>
         </div>`
       : `<p class="ac-muted">${esc(T.socConnectBody)}</p>${v.metaReady ? `<p><button type="button" class="btn btn-navy" data-soc-connect>${esc(T.socConnect)}</button></p>` : `<p class="ac-note">${esc(T.socNotReady)}</p>`}`}`);
