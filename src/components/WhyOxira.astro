@@ -1,0 +1,190 @@
+---
+// Home page: "Why Oxira?" — an honest comparison with a typical agency (no competitor named) and four strengths.
+// Only list what Oxira does today. Add automatic social publishing once the Meta connection is live.
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  ar: {
+    kicker: 'لماذا أوكسيرا؟', title: 'ما الذي يختلف عندنا؟', body: 'مقارنة صريحة بين طريقة عملنا والطريقة المعتادة لدى الوكالات التقليدية.',
+    aspect: 'البند', us: 'أوكسيرا', them: 'الوكالة التقليدية',
+    rows: [
+      ['السعر', 'معلن على الموقع، وتشترك وتلغي من حسابك في أي وقت', 'عرض سعر لكل عميل، وغالباً عقود طويلة'],
+      ['سرعة البدء', 'موقعك جاهز في دقائق، أو نشاطك أونلاين في يوم عمل', 'أسابيع من الاجتماعات والمسودات'],
+      ['التحكم', 'لا يُنشر شيء ولا يبدأ أي إعلان قبل موافقتك', 'تعرف ما نُشر بعد نشره'],
+      ['قياس النتيجة', 'نعدّ الاتصالات ورسائل واتساب والنماذج القادمة من موقعك', 'تقارير إعجابات ومشاهدات'],
+      ['ميزانية الإعلانات', 'تدفعها لـ Meta مباشرة، ولكل حملة حد أقصى وتاريخ انتهاء', 'غالباً تُدفع عبر الوكالة'],
+      ['كل شيء في مكان واحد', 'موقعك وجوجل والسوشيال والإعلانات ووكيل واتساب في حساب واحد وتقرير واحد', 'كل خدمة لدى جهة مختلفة'],
+      ['خارج أوقات العمل', 'وكيل ذكي يرد على عملائك على مدار الساعة', 'مرتبط بساعات عمل الفريق'],
+      ['الشفافية', 'شركة سعودية، سجلها التجاري ورقمها الضريبي معلنان على الموقع', 'تختلف من جهة لأخرى'],
+    ],
+    points: [
+      ['تقنية نبنيها بأنفسنا', 'منتجاتنا من تطويرنا، فنطوّرها بسرعة بحسب احتياج السوق السعودي.'],
+      ['ذكاء اصطناعي في كل خطوة', 'في كتابة المحتوى والتصاميم والاقتراحات والرد على العملاء.'],
+      ['تقرير واحد يقيس ما يهمك', 'كم عميلاً تواصل معك من موقعك وجوجل، لا أرقاماً شكلية.'],
+      ['بلا عقود ولا رسوم خفية', 'أسعار واضحة قبل ضريبة القيمة المضافة، وإلغاء من حسابك متى شئت.'],
+    ],
+    cta: 'ابدأ بموقعك الآن', cta2: 'احجز استشارة مجانية',
+  },
+  en: {
+    kicker: 'Why Oxira?', title: 'What makes us different?', body: 'A straight comparison between how we work and how a typical traditional agency works.',
+    aspect: 'Item', us: 'Oxira', them: 'Traditional agency',
+    rows: [
+      ['Price', 'Listed on the website; subscribe and cancel from your account any time', 'A quote per client, often with long contracts'],
+      ['Getting started', 'Your website is ready in minutes, or your business is online in one working day', 'Weeks of meetings and drafts'],
+      ['Control', 'Nothing is published and no ad starts before you approve it', 'You see what was posted after it was posted'],
+      ['Measuring results', 'We count the calls, WhatsApp messages and forms that come from your website', 'Reports of likes and views'],
+      ['Ad budget', 'You pay Meta directly, and every campaign has a spending cap and end date', 'Often paid through the agency'],
+      ['All in one place', 'Website, Google, social media, ads and a WhatsApp agent in one account and one report', 'Each service with a different provider'],
+      ['After hours', 'An AI agent answers your customers around the clock', 'Tied to the team’s working hours'],
+      ['Transparency', 'A Saudi company with its commercial registration and VAT numbers shown on the website', 'Varies from one provider to another'],
+    ],
+    points: [
+      ['Technology we build ourselves', 'Our products are developed in-house, so we improve them quickly for the Saudi market.'],
+      ['AI at every step', 'For writing content, designs, suggestions and answering customers.'],
+      ['One report that measures what matters', 'How many customers contacted you from your website and Google, not vanity numbers.'],
+      ['No contracts, no hidden fees', 'Clear prices before VAT, and cancel from your account whenever you like.'],
+    ],
+    cta: 'Start with your website', cta2: 'Book a free consultation',
+  },
+  de: {
+    kicker: 'Warum Oxira?', title: 'Was uns unterscheidet', body: 'Ein ehrlicher Vergleich zwischen unserer Arbeitsweise und der einer typischen klassischen Agentur.',
+    aspect: 'Punkt', us: 'Oxira', them: 'Klassische Agentur',
+    rows: [
+      ['Preis', 'Auf der Website veröffentlicht; jederzeit im Konto buchen und kündigen', 'Angebot pro Kunde, oft lange Verträge'],
+      ['Start', 'Website in Minuten fertig oder Ihr Unternehmen an einem Arbeitstag online', 'Wochen mit Meetings und Entwürfen'],
+      ['Kontrolle', 'Nichts wird veröffentlicht und keine Anzeige startet ohne Ihre Freigabe', 'Sie sehen Beiträge erst nach der Veröffentlichung'],
+      ['Ergebnisse messen', 'Wir zählen Anrufe, WhatsApp-Nachrichten und Formulare von Ihrer Website', 'Berichte über Likes und Aufrufe'],
+      ['Werbebudget', 'Sie zahlen direkt an Meta; jede Kampagne hat ein Ausgabenlimit und Enddatum', 'Oft über die Agentur bezahlt'],
+      ['Alles an einem Ort', 'Website, Google, Social Media, Anzeigen und WhatsApp-Agent in einem Konto und einem Bericht', 'Jede Leistung bei einem anderen Anbieter'],
+      ['Nach Feierabend', 'Ein KI-Agent antwortet Ihren Kunden rund um die Uhr', 'An die Arbeitszeiten des Teams gebunden'],
+      ['Transparenz', 'Saudisches Unternehmen mit Handelsregister- und USt-Nummer auf der Website', 'Je nach Anbieter verschieden'],
+    ],
+    points: [
+      ['Eigene Technologie', 'Unsere Produkte entwickeln wir selbst und verbessern sie schnell für den saudischen Markt.'],
+      ['KI in jedem Schritt', 'Für Texte, Designs, Vorschläge und Kundenantworten.'],
+      ['Ein Bericht, der zählt', 'Wie viele Kunden Sie über Website und Google kontaktiert haben – keine Eitelkeitszahlen.'],
+      ['Keine Verträge, keine versteckten Gebühren', 'Klare Preise zzgl. MwSt., Kündigung jederzeit im Konto.'],
+    ],
+    cta: 'Mit Ihrer Website starten', cta2: 'Kostenlose Beratung buchen',
+  },
+  fr: {
+    kicker: 'Pourquoi Oxira ?', title: 'Ce qui nous distingue', body: 'Une comparaison franche entre notre façon de travailler et celle d’une agence traditionnelle typique.',
+    aspect: 'Critère', us: 'Oxira', them: 'Agence traditionnelle',
+    rows: [
+      ['Prix', 'Affiché sur le site ; abonnement et résiliation depuis votre compte à tout moment', 'Devis au cas par cas, souvent avec de longs contrats'],
+      ['Démarrage', 'Votre site prêt en quelques minutes, ou votre activité en ligne en un jour ouvré', 'Des semaines de réunions et de maquettes'],
+      ['Contrôle', 'Rien n’est publié et aucune annonce ne démarre sans votre accord', 'Vous découvrez les publications après coup'],
+      ['Mesure des résultats', 'Nous comptons les appels, messages WhatsApp et formulaires venus de votre site', 'Des rapports de likes et de vues'],
+      ['Budget publicitaire', 'Payé directement à Meta, avec un plafond et une date de fin par campagne', 'Souvent payé via l’agence'],
+      ['Tout au même endroit', 'Site, Google, réseaux sociaux, publicité et agent WhatsApp dans un seul compte et un seul rapport', 'Chaque service chez un prestataire différent'],
+      ['Hors heures de bureau', 'Un agent IA répond à vos clients jour et nuit', 'Limité aux heures de l’équipe'],
+      ['Transparence', 'Société saoudienne, numéros de registre du commerce et de TVA affichés sur le site', 'Variable selon le prestataire'],
+    ],
+    points: [
+      ['Une technologie maison', 'Nos produits sont développés en interne et améliorés rapidement pour le marché saoudien.'],
+      ['L’IA à chaque étape', 'Rédaction, designs, suggestions et réponses aux clients.'],
+      ['Un rapport qui mesure l’essentiel', 'Le nombre de clients qui vous ont contacté via votre site et Google, pas des chiffres de vanité.'],
+      ['Sans contrat ni frais cachés', 'Prix clairs hors TVA, résiliation depuis votre compte quand vous voulez.'],
+    ],
+    cta: 'Commencer par votre site', cta2: 'Réserver une consultation gratuite',
+  },
+  ru: {
+    kicker: 'Почему Oxira?', title: 'Чем мы отличаемся', body: 'Честное сравнение нашего подхода с работой типичного традиционного агентства.',
+    aspect: 'Пункт', us: 'Oxira', them: 'Традиционное агентство',
+    rows: [
+      ['Цена', 'Указана на сайте; подписка и отмена в личном кабинете в любой момент', 'Цена по запросу, часто долгие договоры'],
+      ['Старт', 'Сайт готов за минуты, или бизнес онлайн за один рабочий день', 'Недели встреч и черновиков'],
+      ['Контроль', 'Ничего не публикуется и реклама не запускается без вашего одобрения', 'О публикации вы узнаёте постфактум'],
+      ['Измерение результата', 'Считаем звонки, сообщения WhatsApp и заявки с вашего сайта', 'Отчёты о лайках и просмотрах'],
+      ['Рекламный бюджет', 'Вы платите Meta напрямую; у каждой кампании лимит расходов и дата окончания', 'Часто оплачивается через агентство'],
+      ['Всё в одном месте', 'Сайт, Google, соцсети, реклама и агент WhatsApp в одном кабинете и одном отчёте', 'Каждая услуга у разных подрядчиков'],
+      ['В нерабочее время', 'ИИ-агент отвечает клиентам круглосуточно', 'Зависит от рабочих часов команды'],
+      ['Прозрачность', 'Саудовская компания, номера коммерческой регистрации и НДС указаны на сайте', 'По-разному у разных подрядчиков'],
+    ],
+    points: [
+      ['Собственные технологии', 'Наши продукты разработаны нами, поэтому мы быстро улучшаем их для саудовского рынка.'],
+      ['ИИ на каждом шаге', 'В текстах, дизайне, предложениях и ответах клиентам.'],
+      ['Один отчёт о главном', 'Сколько клиентов обратились через сайт и Google, а не «пустые» цифры.'],
+      ['Без договоров и скрытых платежей', 'Понятные цены без НДС, отмена в кабинете в любой момент.'],
+    ],
+    cta: 'Начать с сайта', cta2: 'Бесплатная консультация',
+  },
+}[lang];
+const icons = [
+  '<path d="M8 3h8v4H8zM5 7h14v14H5z"/><path d="M9 12h6M9 16h4"/>',
+  '<path d="M12 3l1.8 4.6L18 9l-4.2 1.6L12 15l-1.8-4.4L6 9l4.2-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+  '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  '<path d="M12 3l8 4v5c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+];
+---
+<section class="section bg-paper wo" aria-labelledby="wo-title">
+  <div class="wrap">
+    <div class="sh">
+      <p class="label">{T.kicker}</p>
+      <h2 id="wo-title">{T.title}</h2>
+      <p>{T.body}</p>
+    </div>
+    <div class="wo-table" role="table" aria-label={T.title}>
+      <div class="wo-row wo-head" role="row">
+        <span role="columnheader">{T.aspect}</span>
+        <span role="columnheader" class="wo-us">{T.us}</span>
+        <span role="columnheader" class="wo-them">{T.them}</span>
+      </div>
+      {T.rows.map(([k, us, them]) => (
+        <div class="wo-row" role="row">
+          <span role="rowheader" class="wo-k">{k}</span>
+          <span role="cell" class="wo-us"><i aria-hidden="true">✓</i><span><b class="wo-m">{T.us}: </b>{us}</span></span>
+          <span role="cell" class="wo-them"><i aria-hidden="true">–</i><span><b class="wo-m">{T.them}: </b>{them}</span></span>
+        </div>
+      ))}
+    </div>
+    <ul class="wo-points">
+      {T.points.map(([h, p], i) => (
+        <li><span class="wo-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons[i]} /></span><h3>{h}</h3><p>{p}</p></li>
+      ))}
+    </ul>
+    <p class="wo-cta">
+      <a class="btn btn-amber" href={link(lang, '/website-builder/')}>{T.cta}</a>
+      <a class="btn btn-ghost" href={link(lang, '/contact/')}>{T.cta2}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .wo .label { color: var(--blue); font-weight: 700; margin-bottom: .4rem; }
+  .wo .sh { margin-bottom: 2rem; }
+  .wo-table { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .wo-row { display: grid; grid-template-columns: 1fr 1.6fr 1.3fr; }
+  .wo-row + .wo-row { border-top: 1px solid var(--line); }
+  .wo-row > span { padding: 1rem 1.25rem; display: flex; gap: .6rem; align-items: flex-start; }
+  .wo-head > span { font-weight: 700; font-size: .95rem; padding-block: 1.1rem; }
+  .wo-head .wo-us { background: var(--navy); color: #fff; }
+  .wo-head .wo-them { color: var(--muted); }
+  .wo-k { font-weight: 700; color: var(--ink); }
+  .wo-us { background: color-mix(in srgb, var(--amber) 9%, #fff); color: var(--ink); }
+  .wo-us i { color: #1E8E4E; font-style: normal; font-weight: 800; }
+  .wo-them { color: var(--muted); }
+  .wo-them i { color: #A0AAB6; font-style: normal; font-weight: 800; }
+  .wo-m { display: none; }
+  .wo-points { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
+  .wo-points li { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; display: grid; gap: .5rem; align-content: start; }
+  .wo-points h3 { font-size: 1.08rem; }
+  .wo-points p { color: var(--muted); }
+  .wo-ic { width: 46px; height: 46px; border-radius: 13px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; margin-bottom: .3rem; }
+  .wo-ic svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .wo-cta { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  @media (max-width: 900px) { .wo-points { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) {
+    .wo-head { display: none; }
+    .wo-row { grid-template-columns: minmax(0, 1fr); padding: .4rem 0; }
+    .wo-row > span { padding: .45rem 1rem; }
+    .wo-k { padding-top: .8rem !important; }
+    .wo-us { margin-inline: .6rem; border-radius: 10px; }
+    .wo-m { display: inline; font-weight: 700; }
+    .wo-points { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

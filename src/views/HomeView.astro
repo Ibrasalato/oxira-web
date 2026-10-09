@@ -9,6 +9,7 @@ import Proof from '../components/Proof.astro';
 import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import FeaturedProducts from '../components/FeaturedProducts.astro';
+import WhyOxira from '../components/WhyOxira.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -60,6 +61,7 @@ const firstChat = c.agents.chats[0];
   </section>
 
   <FeaturedProducts lang={lang} />
+  <WhyOxira lang={lang} />
 
   <!-- Services -->
   <section class="section" aria-labelledby="svc-title">
@@ -139,19 +141,6 @@ const firstChat = c.agents.chats[0];
             </div>
           </li>
         ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- Why Oxira -->
-  <section class="section" aria-labelledby="why-title">
-    <div class="wrap">
-      <div class="sh-row">
-        <div class="sh"><h2 id="why-title">{c.advantages.title}</h2></div>
-        <a class="more" href={link(lang, '/about/')}>{h.aboutLink}</a>
-      </div>
-      <ul class="why">
-        {c.advantages.list.map((a) => <li><h3>{a.name}</h3><p>{a.text}</p></li>)}
       </ul>
     </div>
   </section>
