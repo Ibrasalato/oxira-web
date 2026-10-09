@@ -594,13 +594,15 @@ const config = {
     const pro = v.plan === 'pro';
     const hasSocial = !!v.plan;
     // Connection
-    const connect = card(`<h2>${esc(T.socConnectTitle)}</h2>${m.connected ? `
+    const noPages = !(m.pages || []).length;
+    const connect = card(`<h2>${esc(T.socConnectTitle)}</h2>${m.connected || m.connected_at ? `
         <div class="ac-conn">
           <p><span class="ac-chip st-active">${esc(T.socConnected)}</span> ${m.user_name ? esc(m.user_name) : ''}</p>
+          ${noPages ? `<p class="ac-note">${esc(T.socNoPages)}</p>` : ''}
           <form id="ac-meta-select" class="ac-form-grid">
-            <label class="ac-field">${esc(T.socPage)}<select name="page_id">${(m.pages || []).map((p: any) => opt(p.id, p.name + (p.ig_username ? ' · @' + p.ig_username : ''), m.page_id)).join('')}</select></label>
+            ${noPages ? '' : `<label class="ac-field">${esc(T.socPage)}<select name="page_id">${(m.pages || []).map((p: any) => opt(p.id, p.name + (p.ig_username ? ' · @' + p.ig_username : ''), m.page_id)).join('')}</select></label>`}
             ${v.ads ? `<label class="ac-field">${esc(T.socAdAcc)}<select name="ad_account_id"><option value="">—</option>${(m.adaccounts || []).map((a: any) => opt(a.id, a.name + ' (' + a.currency + ')', m.ad_account_id)).join('')}</select></label>` : ''}
-            <p class="ac-wide ac-muted ac-small">${m.ig_username ? `${esc(T.socIg)}: <b dir="ltr">@${esc(m.ig_username)}</b>` : esc(T.socNoIg)}</p>
+            ${noPages ? '' : `<p class="ac-wide ac-muted ac-small">${m.ig_username ? `${esc(T.socIg)}: <b dir="ltr">@${esc(m.ig_username)}</b>` : esc(T.socNoIg)}</p>`}
             <div class="ac-row ac-wide"><button type="submit" class="btn btn-navy ac-small-btn">${esc(T.socSave)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-connect>${esc(T.socReconnect)}</button><button type="button" class="btn btn-ghost ac-small-btn" data-soc-disconnect>${esc(T.socDisconnect)}</button></div>
           </form>
         </div>`

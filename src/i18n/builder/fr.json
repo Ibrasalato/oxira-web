@@ -788,6 +788,7 @@
     "socDisconnectConfirm": "Nous supprimerons l’accès enregistré et arrêterons les publications et les publicités. Êtes-vous sûr ?",
     "socPage": "Page Facebook",
     "socIg": "Compte Instagram",
+    "socNoPages": "Connexion réussie, mais Meta n’a partagé aucune Page Facebook. Cliquez sur « Se reconnecter », choisissez « Modifier l’accès » dans la fenêtre Meta, sélectionnez votre Page (et le compte Instagram lié), puis confirmez.",
     "socNoIg": "Aucun compte Instagram professionnel n’est associé à cette page. Associez-le dans les paramètres de la page, puis reconnectez-vous ici.",
     "socAdAcc": "Compte publicitaire",
     "socNeedAdAcc": "Choisissez votre compte publicitaire dans « Connecter Facebook et Instagram » afin que nous puissions diffuser les publicités que vous approuvez.",

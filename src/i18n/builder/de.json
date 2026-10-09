@@ -788,6 +788,7 @@
     "socDisconnectConfirm": "Wir löschen den gespeicherten Zugriff und stoppen Veröffentlichungen und Anzeigen. Sind Sie sicher?",
     "socPage": "Facebook-Seite",
     "socIg": "Instagram-Konto",
+    "socNoPages": "Angemeldet, aber Meta hat keine Facebook-Seite freigegeben. Klicken Sie auf „Erneut verbinden“, wählen Sie im Meta-Fenster „Zugriff bearbeiten“, markieren Sie Ihre Seite (und das verknüpfte Instagram-Konto) und bestätigen Sie.",
     "socNoIg": "Mit dieser Seite ist kein Instagram-Business-Konto verknüpft. Verknüpfen Sie es in den Seiteneinstellungen und verbinden Sie sich dann hier erneut.",
     "socAdAcc": "Werbekonto",
     "socNeedAdAcc": "Wählen Sie Ihr Werbekonto unter „Facebook und Instagram verbinden“, damit wir die von Ihnen freigegebenen Anzeigen schalten können.",

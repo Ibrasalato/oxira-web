@@ -788,6 +788,7 @@
     "socDisconnectConfirm": "We will delete the saved access and stop publishing and ads. Are you sure?",
     "socPage": "Facebook page",
     "socIg": "Instagram account",
+    "socNoPages": "Signed in, but Meta did not share any Facebook Page. Press \"Reconnect\", choose \"Edit access\" in the Meta window, select your Page (and its linked Instagram account), then confirm.",
     "socNoIg": "No Instagram business account is linked to this page. Link it in the page settings, then reconnect here.",
     "socAdAcc": "Ad account",
     "socNeedAdAcc": "Choose your ad account under “Connect Facebook and Instagram” so we can run the ads you approve.",
