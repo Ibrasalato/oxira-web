@@ -65,7 +65,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
       <aside class="st-side">
         <!-- 2. Basics -->
         <form class="st-basics" id="st-basics" data-panel="2" novalidate>
-          <h1>{s.basicsTitle}</h1>
+          <h2 class="st-h">{s.basicsTitle}</h2>
           <p class="st-muted">{s.basicsBody}</p>
           <fieldset class="st-kinds">
             <legend>{s.kind}</legend>
@@ -213,7 +213,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
         <!-- 4. Order -->
         <form class="st-order" id="st-order" data-panel="4" novalidate>
-          <h1>{s.orderTitle}</h1>
+          <h2 class="st-h">{s.orderTitle}</h2>
           <p class="st-muted">{s.orderBody}</p>
 
           <h2>{s.packagesTitle}</h2>
@@ -270,7 +270,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
             <span class="i-wait"></span>
             <svg class="i-warn" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5" /></svg>
           </span>
-          <h1 id="st-done-title">{s.doneTitle}</h1>
+          <h2 class="st-h" id="st-done-title">{s.doneTitle}</h2>
           <p id="st-done-body"></p>
           <div class="st-done-steps">
             <h2>{s.doneNext}</h2>
@@ -1029,7 +1029,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   .st-work { grid-template-columns: minmax(340px, 420px) 1fr; height: calc(100vh - var(--top) - var(--bar)); }
   .st-side { background: #fff; border-inline-end: 1px solid var(--line); overflow-y: auto; }
   .st-side > form, .st-side > .st-done { padding: 1.75rem; }
-  .st-side h1 { font-size: 1.6rem; }
+  .st-side h1, .st-side .st-h { font-size: 1.6rem; }
   .st-side h2 { font-size: 1.05rem; margin: 1.6rem 0 .75rem; }
   .st-muted { color: var(--muted); margin: .4rem 0 1.25rem; }
   .st-field { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; margin-bottom: .9rem; }
