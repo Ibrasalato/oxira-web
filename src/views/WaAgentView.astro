@@ -6,6 +6,7 @@ import { waText, waLangs, waPath, waDemoPath, WA_PRICES, type WaLang } from '../
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import WaSubscribe from '../components/WaSubscribe.astro';
+import waExamples from '../data/wa-examples.json';
 
 interface Props { lang: WaLang }
 const { lang } = Astro.props;
@@ -15,6 +16,26 @@ const site = Astro.site!;
 const url = new URL(link(lang, waPath), site).href;
 const nf = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : 'en');
 const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-try', demo: link(lang, waDemoPath), lang, t: { submit: F.submit, progress: F.progress, errors: F.errors } };
+// Example businesses (fictional, always labelled as examples) with real replies from the live agent.
+const esc = (t: string) => t.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
+const fmt = (t: string) => esc(t).replace(/\*([^*\n]+)\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+const exs = waExamples.examples.map((e) => ({
+  key: e.key,
+  demo: `${link(lang, waDemoPath)}?d=${e.demoId}`,
+  business: e.business,
+  label: lang === 'ar' ? e.label_ar : e.label_en,
+  city: lang === 'ar' ? e.city_ar : e.city_en,
+  dialect: lang === 'ar' ? e.dialect_ar : e.dialect_en,
+  messages: e.messages.map((m) => ({ role: m.role === 'user' ? 'user' : 'agent', text: m.text })),
+}));
+const liveData = exs.map(({ business, label, city, messages }) => ({ business, sub: `${label} · ${city}`, messages }));
+const first = exs[0];
+const exIcons: Record<string, string> = {
+  restaurant: '<path d="M14 6v13a4 4 0 0 0 8 0V6M18 6v36M34 42V6c-4 2-6 7-6 14v6h6" />',
+  clinic: '<path d="M16 7c-5 0-8 4-8 9 0 6 3 9 4 15 1 7 2 11 5 11 3 0 3-8 7-8s4 8 7 8c3 0 4-4 5-11 1-6 4-9 4-15 0-5-3-9-8-9-3 0-5 2-8 2s-5-2-8-2z" />',
+  salon: '<circle cx="13" cy="36" r="5" /><circle cx="35" cy="36" r="5" /><path d="M16.5 32.5 36 6M31.5 32.5 12 6" />',
+  store: '<path d="M18 6h12v6H18zM20 12v4M28 12v4" /><rect x="11" y="16" width="26" height="26" rx="5" /><path d="M18 29h12" />',
+};
 const plans = (['basic', 'pro'] as const).map((id) => ({ id, price: WA_PRICES[id], ...W.plans[id] }));
 
 const crumbs = [
@@ -104,7 +125,46 @@ const ld = [
         </div>
 
         <ul class="wa-points">{W.points.map((p) => <li>{p}</li>)}</ul>
+
+        <figure class="wa-live" id="wa-live" data-ex={JSON.stringify(liveData)} data-tag={W.live.tag}>
+          <div class="wa-phone" role="img" aria-label={W.live.label}>
+            <div class="wa-lhead">
+              <span class="wa-av" aria-hidden="true"><Icon name="agent" /></span>
+              <span class="wa-who"><strong class="wa-biz">{first.business}</strong><small><span class="wa-sub">{first.label} · {first.city}</span><span class="wa-on"> · {W.live.online}</span></small></span>
+              <span class="wa-ltag">{W.live.tag}</span>
+            </div>
+            <div class="wa-screen">
+              <ol class="wa-log" aria-hidden="true">
+                {first.messages.slice(0, 2).map((m) => <li class={`wa-msg wa-${m.role}`} dir="auto" set:html={fmt(m.text)} />)}
+              </ol>
+            </div>
+          </div>
+          <figcaption>{W.live.note}</figcaption>
+        </figure>
       </div>
+    </div>
+  </section>
+
+  <section class="section-tight wa-exs" id="examples" aria-labelledby="wa-ex">
+    <div class="wrap">
+      <div class="sh"><h2 id="wa-ex">{W.examples.title}</h2><p>{W.examples.body}</p></div>
+      <ul class="wa-excards">
+        {exs.map((e) => (
+          <li>
+            <a href={e.demo}>
+              <span class="wa-exhead">
+                <span class="wa-exic" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" set:html={exIcons[e.key]} /></span>
+                <span class="wa-extag">{W.examples.tag}</span>
+              </span>
+              <strong class="wa-exlabel">{e.label}</strong>
+              <span class="wa-exmeta">{e.city} · {e.dialect}</span>
+              <q class="wa-exq" dir="auto">{e.messages[0].text}</q>
+              <span class="more">{W.examples.cta}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="btn btn-navy wa-exown" href="#wa-form">{W.examples.own}</a>
     </div>
   </section>
 
@@ -168,6 +228,54 @@ const ld = [
 </Base>
 
 <script>
+  // Hero: replays the example conversations (typing, user, typing, agent). Static when reduced motion is on.
+  const live = document.getElementById('wa-live');
+  if (live && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    type Ex = { business: string; sub: string; messages: { role: string; text: string }[] };
+    const exs: Ex[] = JSON.parse(live.dataset.ex!);
+    const log = live.querySelector<HTMLElement>('.wa-log')!;
+    const biz = live.querySelector<HTMLElement>('.wa-biz')!;
+    const sub = live.querySelector<HTMLElement>('.wa-sub')!;
+    const esc = (t: string) => t.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
+    const fmt = (t: string) => esc(t).replace(/\*([^*\n]+)\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+    const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+    let visible = false;
+    const until = () => new Promise<void>((r) => { const t = () => (visible && !document.hidden ? r() : setTimeout(t, 400)); t(); });
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; }).observe(live);
+    const add = (cls: string, html: string) => {
+      const li = document.createElement('li');
+      li.className = `wa-msg ${cls} is-in`; li.setAttribute('dir', 'auto'); li.innerHTML = html;
+      log.append(li);
+      return li;
+    };
+    const dots = (who: string) => add(`wa-${who} wa-typing`, '<i></i><i></i><i></i>');
+    (async () => {
+      let ex = 0; let step = 2; // the page already shows the first exchange
+      for (;;) {
+        const e = exs[ex];
+        const m = e.messages[step];
+        if (m) {
+          await until();
+          const t = dots(m.role === 'user' ? 'user' : 'agent');
+          await wait(m.role === 'user' ? 1100 : 1500);
+          t.remove();
+          add(`wa-${m.role === 'user' ? 'user' : 'agent'}`, fmt(m.text));
+          await wait(m.role === 'user' ? 500 : 2600 + Math.min(m.text.length * 12, 2400));
+          step++;
+          continue;
+        }
+        await wait(1200);
+        log.classList.add('is-out');
+        await wait(450);
+        ex = (ex + 1) % exs.length; step = 0;
+        const n = exs[ex];
+        log.replaceChildren(); log.classList.remove('is-out');
+        biz.textContent = n.business; sub.textContent = n.sub;
+        await wait(500);
+      }
+    })();
+  }
+
   const form = document.getElementById('wa-form') as HTMLFormElement;
   const c = JSON.parse(form.dataset.cfg!);
   const E = c.t.errors as Record<string, string>;
@@ -234,8 +342,8 @@ const ld = [
   .crumbs a:hover { color: var(--blue); }
   .crumbs [aria-current] { color: var(--ink); font-weight: 600; }
   .wa-hero { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
-  #plans, .wa-card { scroll-margin-top: 5.5rem; }
-  .wa-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); grid-template-areas: 'intro card' 'points card'; gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: start; }
+  #plans, .wa-card, #wa-form, #examples { scroll-margin-top: 5.5rem; }
+  .wa-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); grid-template-areas: 'intro card' 'points card' 'live card'; gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: start; }
   .wa-intro { grid-area: intro; }
   .wa-card { grid-area: card; }
   .wa-points { grid-area: points; }
@@ -245,6 +353,47 @@ const ld = [
   .wa-points { list-style: none; display: grid; gap: .6rem; }
   .wa-points li { position: relative; padding-inline-start: 1.7rem; font-weight: 600; }
   .wa-points li::before { content: '✓'; position: absolute; inset-inline-start: 0; color: #0B8A6E; font-weight: 800; }
+
+  .wa-live { grid-area: live; width: min(25rem, 100%); margin: 0; }
+  .wa-phone { border-radius: 30px; padding: 9px; background: var(--navy-deep); box-shadow: 0 30px 60px -35px rgba(10,37,62,.6), inset 0 0 0 2px #22384F; }
+  .wa-lhead { display: flex; align-items: center; gap: .6rem; background: #0B5C4E; color: #fff; padding: .75rem .85rem; border-radius: 22px 22px 0 0; }
+  .wa-av { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--navy); font-size: 20px; flex: none; }
+  .wa-who { display: grid; min-width: 0; flex: 1; }
+  .wa-who strong { font-size: .95rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wa-who small { font-size: .75rem; opacity: .85; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wa-ltag { flex: none; font-size: .7rem; font-weight: 700; line-height: 1; padding: .35rem .55rem; border-radius: 999px; background: var(--amber); color: var(--navy); }
+  .wa-log {
+    list-style: none; margin: 0; padding: .9rem .75rem; height: 24rem; display: flex; flex-direction: column; justify-content: flex-end; gap: .45rem; overflow: hidden; 
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 2.5rem); mask-image: linear-gradient(to bottom, transparent 0, #000 2.5rem);
+    transition: opacity .4s ease;
+  }
+  .wa-screen { border-radius: 0 0 22px 22px; overflow: hidden; background: #EFE7DE radial-gradient(rgba(10,37,62,.06) 1.2px, transparent 1.2px) 0 0 / 16px 16px; }
+  .wa-log.is-out { opacity: 0; }
+  .wa-log :global(.wa-msg) { flex: none; max-width: 86%; padding: .4rem .65rem; border-radius: 10px; font-size: .86rem; line-height: 1.6; box-shadow: 0 1px 1px rgba(0,0,0,.08); overflow-wrap: anywhere; color: var(--ink); }
+  .wa-log :global(.wa-user) { align-self: flex-end; background: #D9FDD3; border-start-end-radius: 2px; }
+  .wa-log :global(.wa-agent) { align-self: flex-start; background: #fff; border-start-start-radius: 2px; }
+  .wa-log :global(.is-in) { animation: wa-in .28s ease-out; }
+  .wa-log :global(.wa-typing) { display: flex; gap: 4px; padding: .65rem .75rem; }
+  .wa-log :global(.wa-typing i) { width: 7px; height: 7px; border-radius: 50%; background: #8696A0; animation: wa-dot 1.2s infinite ease-in-out; }
+  .wa-log :global(.wa-typing i:nth-of-type(2)) { animation-delay: .15s; }
+  .wa-log :global(.wa-typing i:nth-of-type(3)) { animation-delay: .3s; }
+  @keyframes wa-in { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes wa-dot { 0%, 60%, 100% { opacity: .35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+  .wa-live figcaption { margin-top: .7rem; font-size: .85rem; color: var(--muted); }
+
+  .wa-exs { padding-top: clamp(1rem, 2vw, 2rem); }
+  .wa-excards { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); gap: 1.25rem; }
+  .wa-excards a { height: 100%; display: flex; flex-direction: column; gap: .45rem; padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; color: var(--ink); text-decoration: none; transition: border-color .2s, box-shadow .2s; }
+  .wa-excards a:hover { border-color: var(--navy); box-shadow: 0 20px 40px -30px rgba(6, 26, 45, .5); }
+  .wa-exhead { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .4rem; }
+  .wa-exic { width: 46px; height: 46px; border-radius: 14px; background: #E7F6EC; color: #0B8A6E; display: grid; place-items: center; flex: none; }
+  .wa-exic svg { width: 28px; height: 28px; }
+  .wa-extag { font-size: .74rem; font-weight: 700; line-height: 1; padding: .35rem .6rem; border-radius: 999px; background: #FFF4D6; color: #7A4F00; }
+  .wa-exlabel { font-size: 1.12rem; }
+  .wa-exmeta { color: var(--muted); font-size: .9rem; }
+  .wa-exq { quotes: none; display: block; margin: .4rem 0 .6rem; padding: .55rem .75rem; border-radius: 10px; border-start-end-radius: 2px; background: #D9FDD3; font-size: .92rem; line-height: 1.55; }
+  .wa-excards .more { margin-top: auto; }
+  .wa-exown { margin-top: 1.75rem; }
 
   .wa-card { border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(6, 26, 45, .5); padding: clamp(1.25rem, 3vw, 1.8rem); }
   .wa-form { display: grid; gap: .8rem; position: relative; }
@@ -272,7 +421,7 @@ const ld = [
   .wa-pnote { color: var(--muted); font-size: .9rem; }
   @keyframes wa-spin { to { transform: rotate(360deg); } }
   @keyframes wa-fill { from { width: 3%; } to { width: 94%; } }
-  @media (prefers-reduced-motion: reduce) { .wa-spin { animation-duration: 3s; } }
+  @media (prefers-reduced-motion: reduce) { .wa-spin { animation-duration: 3s; } .wa-log { transition: none; } .wa-log :global(.is-in) { animation: none; } }
 
   .wa-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
   .wa-steps li { display: grid; gap: .6rem; align-content: start; border-top: 1px solid rgba(255,255,255,.15); padding-top: 1.25rem; }
@@ -319,9 +468,11 @@ const ld = [
   .wa-rel a:hover { border-color: var(--navy); }
 
   @media (max-width: 960px) {
-    .wa-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'intro' 'card' 'points'; }
+    .wa-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'intro' 'card' 'live' 'points'; }
+    .wa-live { justify-self: center; }
     .wa-hero .lead { margin-top: .75rem; font-size: 1.05rem; }
     .wa-steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   }
+  @media (max-width: 440px) { .wa-on { display: none; } }
   @media (max-width: 640px) { .wa-row, .wa-plans { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -47,6 +47,19 @@ const ar = {
       timeout: 'استغرق التجهيز وقتاً أطول من المعتاد. حاول مرة أخرى، ويُفضّل إضافة وصف مختصر لنشاطك.',
     },
   },
+  live: {
+    label: 'مثال متحرك لمحادثة واتساب مع موظف ذكي لنشاط تجريبي',
+    tag: 'نشاط تجريبي',
+    online: 'موظف ذكي',
+    note: 'ردود حقيقية من النظام على أنشطة تجريبية صممناها للعرض.',
+  },
+  examples: {
+    title: 'جرّب أمثلة جاهزة',
+    body: 'هذه أنشطة تجريبية صممناها بنفس النظام، لتجرّب الموظف خلال ثانيتين بدون تعبئة أي بيانات. بعدها جرّبه على نشاطك من النموذج أعلى الصفحة.',
+    tag: 'نشاط تجريبي',
+    cta: 'جرّب المحادثة',
+    own: 'جرّبه على نشاطك',
+  },
   stepsTitle: 'كيف تعمل التجربة',
   steps: [
     { t: 'أدخل موقعك أو وصف نشاطك', d: 'رابط موقعك أو حسابك، أو بضعة أسطر عن خدماتك وأسعارك ومواعيدك.' },
@@ -155,6 +168,8 @@ const ar = {
     plansLink: 'قارن الباقات',
     newTry: 'جهّز تجربة لنشاط آخر',
     chatLabel: 'محادثة التجربة',
+    exampleBanner: 'هذا نشاط تجريبي صممناه للعرض.',
+    exampleCta: 'جرّب موظفك على نشاطك',
   },
   home: {
     badge: 'جديد',
@@ -204,6 +219,19 @@ const en: WaText = {
       server: 'Something went wrong. Please try again in a moment.',
       timeout: 'Setup took longer than usual. Please try again, ideally with a short description of your business.',
     },
+  },
+  live: {
+    label: 'Animated example of a WhatsApp chat with an AI employee for an example business',
+    tag: 'Example',
+    online: 'AI employee',
+    note: 'Real replies from the system, for example businesses we built for this demo.',
+  },
+  examples: {
+    title: 'Try ready-made examples',
+    body: 'These are example businesses we built with the same system, so you can try the employee in 2 seconds without filling anything in. Then try it on your own business with the form above.',
+    tag: 'Example business',
+    cta: 'Try the chat',
+    own: 'Try it on your business',
   },
   stepsTitle: 'How the trial works',
   steps: [
@@ -313,6 +341,8 @@ const en: WaText = {
     plansLink: 'Compare plans',
     newTry: 'Set up a demo for another business',
     chatLabel: 'Demo chat',
+    exampleBanner: 'This is an example business we built for the demo.',
+    exampleCta: 'Try your own employee on your business',
   },
   home: {
     badge: 'New',

@@ -40,6 +40,7 @@ const cfg = {
         <div class="wd-side">
           <p class="label">{D.kicker}</p>
           <h1 id="wd-h1">{D.h1}</h1>
+          <p class="wd-example" id="wd-example" hidden>{D.exampleBanner} <a href={`${link(lang, waPath)}#wa-form`}>{D.exampleCta} <span aria-hidden="true">{lang === 'ar' ? '←' : '→'}</span></a></p>
           <p class="wd-body">{D.body}</p>
           <div class="wd-btns">
             <button type="button" class="btn btn-amber" data-wa-sub>{D.subscribe}</button>
@@ -92,6 +93,7 @@ const cfg = {
   let business = '';
   let pending = false;
   let done = false;
+  let example = false; // fictional example business: no message-limit warning, not remembered as the visitor's own demo
 
   const esc = (s: string) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
   // Plain text only: escape everything, then *bold* → <b> and line breaks → <br>.
@@ -122,6 +124,7 @@ const cfg = {
     const k = Number(n);
     if (!Number.isFinite(k)) return;
     if (k <= 0) { lock(); return; }
+    if (example) { leftEl.hidden = true; return; }
     leftEl.hidden = k > 5;
     leftEl.textContent = c.t.left.replace('{n}', String(k));
   }
@@ -187,6 +190,8 @@ const cfg = {
       return;
     }
     business = String(r.business || '').trim();
+    example = r.example === true;
+    $('wd-example').hidden = !example;
     if (business) {
       $('wd-h1').textContent = c.t.h1For.replace('{business}', business);
       document.title = `${c.t.h1For.replace('{business}', business)} | ${c.lang === 'ar' ? 'أوكسيرا' : 'Oxira'}`;
@@ -207,9 +212,9 @@ const cfg = {
     if (sf) {
       (sf.elements.namedItem('demoId') as HTMLInputElement).value = demoId;
       const bi = sf.elements.namedItem('business') as HTMLInputElement;
-      if (business) bi.value = business;
+      if (business && !example) bi.value = business;
     }
-    try { localStorage.setItem('oxira-wa-demo', JSON.stringify({ id: demoId, business })); } catch { /* ignore */ }
+    if (!example) { try { localStorage.setItem('oxira-wa-demo', JSON.stringify({ id: demoId, business })); } catch { /* ignore */ } }
     show('ready');
     scroll();
   }
@@ -252,6 +257,9 @@ const cfg = {
 
   .wd-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
   .wd-side h1 { font-size: var(--s3); margin-top: .6rem; text-wrap: balance; overflow-wrap: anywhere; }
+  .wd-example { margin-top: 1rem; max-width: 34rem; padding: .75rem 1rem; border-radius: 12px; background: #FFF4D6; color: #7A4F00; font-weight: 600; font-size: .95rem; }
+  .wd-example[hidden] { display: none; }
+  .wd-example a { color: #00699A; font-weight: 700; }
   .wd-body { color: var(--muted); font-size: 1.08rem; margin-top: 1rem; max-width: 34rem; }
   .wd-btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
   .wd-state .wd-btns { justify-content: center; margin-top: .5rem; }
