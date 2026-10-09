@@ -8,7 +8,14 @@
     "classtiDesc": "Plateforme complète de gestion scolaire",
     "agentsDesc": "Agents IA et automatisation pour les entreprises",
     "all": "Tous les produits",
-    "account": "Mon compte"
+    "account": "Mon compte",
+    "signIn": "Connexion",
+    "signOut": "Se déconnecter",
+    "dashboard": "Tableau de bord",
+    "mySites": "Mes sites",
+    "billing": "Abonnements et factures",
+    "profile": "Profil",
+    "accountMenu": "Menu du compte"
   },
   "common": {
     "start": "Commencer",

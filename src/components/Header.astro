@@ -66,10 +66,25 @@ import { bundleText } from '../i18n/bundle';
 
     <div class="hd-end">
       <LangPicker lang={lang} path={path} langs={langs} />
-      <a class="hd-acct" href={link(lang, '/account/')} aria-label={P.nav.account} title={P.nav.account} aria-current={path === '/account/' ? 'page' : undefined}>
+      <a class="hd-acct hd-signin" href={link(lang, '/account/')} aria-current={path === '/account/' ? 'page' : undefined}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
-        <span>{P.nav.account}</span>
+        <span>{P.nav.signIn}</span>
       </a>
+      <div class="hd-user" id="hd-user">
+        <button type="button" class="hd-user-btn" id="hd-user-btn" aria-expanded="false" aria-controls="hd-user-menu" aria-label={P.nav.accountMenu}>
+          <span class="hd-av" data-av></span>
+          <svg class="hd-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+        </button>
+        <div class="hd-user-menu" id="hd-user-menu">
+          <div class="hd-user-head"><span class="hd-av hd-av-lg" data-av></span><div><b data-me-name></b><small data-me-email dir="ltr"></small></div></div>
+          <a href={`${link(lang, '/account/')}#home`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z" /></svg>{P.nav.dashboard}</a>
+          <a href={`${link(lang, '/account/')}#overview`}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2" /><path d="M3 8h18M8 21h8" /></svg>{P.nav.mySites}</a>
+          <a href={`${link(lang, '/account/')}#billing`}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 10h18M7 15h4" /></svg>{P.nav.billing}</a>
+          <a href={`${link(lang, '/account/')}#profile`}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>{P.nav.profile}</a>
+          <button type="button" data-hd-out><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4" /></svg>{P.nav.signOut}</button>
+        </div>
+      </div>
+      <script is:inline>try { if (localStorage.getItem('oxira-portal-k')) document.documentElement.classList.add('ox-in'); } catch (e) {}</script>
       <a class="btn btn-navy hd-cta" href={link(lang, '/contact/')} aria-current={path === '/contact/' ? 'page' : undefined}>{c.site.contactCta}</a>
       <button type="button" class="hd-menu" id="hd-menu" aria-controls="hd-nav" aria-expanded="false">
         <span class="sr-only">{c.site.menu}</span>
@@ -100,6 +115,45 @@ import { bundleText } from '../i18n/bundle';
   document.addEventListener('click', (e) => { if (!dd.contains(e.target as Node) && hover.matches) setDd(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && dd.classList.contains('is-dd')) { setDd(false); ddBtn.focus(); } });
   dd.addEventListener('focusout', (e) => { if (hover.matches && !dd.contains(e.relatedTarget as Node)) setDd(false); });
+
+  // Signed-in user: avatar menu instead of the sign-in button (session from the account page, kept in localStorage).
+  const KEY = 'oxira-portal-k', ME = 'oxira-portal-me';
+  const userBox = document.getElementById('hd-user')!;
+  const userBtn = document.getElementById('hd-user-btn') as HTMLButtonElement;
+  const read = (k: string) => { try { return localStorage.getItem(k) || ''; } catch { return ''; } };
+  function paintUser() {
+    const signed = !!read(KEY);
+    document.documentElement.classList.toggle('ox-in', signed);
+    let me: { name?: string; email?: string; avatar?: string } = {};
+    try { me = JSON.parse(read(ME) || '{}'); } catch { me = {}; }
+    const name = String(me.name || '') || String(me.email || '').split('@')[0];
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    const initials = ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase();
+    userBox.querySelectorAll<HTMLElement>('[data-av]').forEach((el) => {
+      el.replaceChildren();
+      if (me.avatar && /^https:\/\/[^\s"']+$/.test(me.avatar)) { const img = new Image(); img.src = me.avatar; img.alt = ''; img.decoding = 'async'; el.append(img); }
+      else if (initials) el.textContent = initials;
+      else el.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>';
+    });
+    userBox.querySelector<HTMLElement>('[data-me-name]')!.textContent = name;
+    userBox.querySelector<HTMLElement>('[data-me-email]')!.textContent = String(me.email || '');
+  }
+  paintUser();
+  window.addEventListener('ox-me', paintUser);
+  window.addEventListener('storage', (e) => { if (e.key === KEY || e.key === ME) paintUser(); });
+  const setUser = (open: boolean) => { userBox.classList.toggle('is-open', open); userBtn.setAttribute('aria-expanded', String(open)); };
+  userBtn.addEventListener('click', () => setUser(!userBox.classList.contains('is-open')));
+  document.addEventListener('click', (e) => { if (!userBox.contains(e.target as Node)) setUser(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && userBox.classList.contains('is-open')) { setUser(false); userBtn.focus(); } });
+  userBox.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setUser(false)));
+  userBox.querySelector('[data-hd-out]')!.addEventListener('click', () => {
+    const k = read(KEY);
+    if (k) fetch('https://ibrasalato.app.n8n.cloud/webhook/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
+    try { localStorage.removeItem(KEY); localStorage.removeItem(ME); } catch { /* ignore */ }
+    setUser(false);
+    paintUser();
+    if (/\/account\/?$/.test(location.pathname)) location.reload();
+  });
 
   const onScroll = () => hd.classList.toggle('is-scrolled', window.scrollY > 8);
   onScroll();
@@ -153,8 +207,29 @@ import { bundleText } from '../i18n/bundle';
   .hd-acct svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 
   .hd-end { display: flex; align-items: center; gap: .75rem; }
+  .hd-user { display: none; position: relative; }
+  :global(html.ox-in) .hd-user { display: block; }
+  :global(html.ox-in) .hd-signin { display: none; }
+  .hd-user-btn { display: inline-flex; align-items: center; gap: .3rem; height: 44px; padding: 0 .45rem 0 .3rem; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; color: var(--ink); }
+  .hd-user-btn:hover, .hd-user.is-open .hd-user-btn { border-color: var(--navy); }
+  .hd-user.is-open .hd-chev { transform: rotate(180deg); }
+  .hd-av { width: 34px; height: 34px; border-radius: 50%; background: var(--navy); color: var(--amber); display: grid; place-items: center; font-weight: 800; font-size: .85rem; overflow: hidden; flex: none; }
+  .hd-av :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hd-av :global(svg) { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+  .hd-av-lg { width: 44px; height: 44px; font-size: 1rem; }
+  .hd-user-menu { display: none; position: absolute; top: calc(100% + .6rem); inset-inline-end: 0; width: 16.5rem; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px -24px rgba(6, 26, 45, .45); padding: .5rem; z-index: 50; }
+  .hd-user.is-open .hd-user-menu { display: grid; gap: .1rem; }
+  .hd-user-head { display: flex; gap: .7rem; align-items: center; padding: .6rem .6rem .8rem; margin-bottom: .3rem; border-bottom: 1px solid var(--line); min-width: 0; }
+  .hd-user-head > div { display: grid; min-width: 0; }
+  .hd-user-head b, .hd-user-head small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hd-user-head small { color: var(--muted); font-size: .8rem; text-align: start; }
+  .hd-user-menu a, .hd-user-menu button { display: flex; align-items: center; gap: .65rem; padding: .6rem .65rem; border-radius: 10px; border: 0; background: none; font: 600 .93rem var(--font); color: var(--ink); text-decoration: none; cursor: pointer; text-align: start; width: 100%; }
+  .hd-user-menu a:hover, .hd-user-menu button:hover { background: var(--paper); }
+  .hd-user-menu svg { width: 19px; height: 19px; flex: none; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .hd-user-menu button { color: #B42318; margin-top: .2rem; border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; }
+  .hd-user-menu button svg { stroke: #B42318; }
   .hd-cta { padding: .8rem 1.25rem; font-size: .95rem; white-space: nowrap; }
-  @media (max-width: 1480px) { .hd-acct { width: 44px; padding: 0; justify-content: center; } .hd-acct span { display: none; } }
+
 
   .hd-menu { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; position: relative; }
   .hd-menu i { position: absolute; inset-inline: 12px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s, top .2s; }

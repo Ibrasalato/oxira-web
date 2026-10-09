@@ -8,7 +8,14 @@
     "classtiDesc": "All-in-one school management platform",
     "agentsDesc": "AI agents and automation for businesses",
     "all": "All products",
-    "account": "My account"
+    "account": "My account",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "dashboard": "Dashboard",
+    "mySites": "My websites",
+    "billing": "Subscriptions & invoices",
+    "profile": "Profile",
+    "accountMenu": "Account menu"
   },
   "common": {
     "start": "Get started",

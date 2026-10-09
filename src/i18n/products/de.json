@@ -8,7 +8,14 @@
     "classtiDesc": "Komplettplattform für die Schulverwaltung",
     "agentsDesc": "KI-Agenten und Automatisierung für Unternehmen",
     "all": "Alle Produkte",
-    "account": "Mein Konto"
+    "account": "Mein Konto",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "dashboard": "Dashboard",
+    "mySites": "Meine Websites",
+    "billing": "Abos & Rechnungen",
+    "profile": "Profil",
+    "accountMenu": "Kontomenü"
   },
   "common": {
     "start": "Jetzt starten",

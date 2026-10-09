@@ -333,7 +333,8 @@ const ic = {
   }
   function signOut(message = '') {
     if (token && !message) auth('logout', { k: token });
-    store.del(KEY); token = ''; me = null;
+    store.del(KEY); store.del('oxira-portal-me'); token = ''; me = null;
+    window.dispatchEvent(new Event('ox-me'));
     show('signin'); step('login');
     if (message) authMsg(message);
   }
@@ -450,12 +451,25 @@ const ic = {
     const g = t.closest<HTMLElement>('[data-goto]');
     if (g) { const [x, y, z] = g.dataset.goto!.split(':'); goTo(x, y || 'overview', Number(z) || 0); }
   });
+  const ME_KEY = 'oxira-portal-me';
+  const avatarUrl = () => (me?.avatar ? cfg.imageBase + me.avatar : '');
+  const initialsOf = (nm: string) => { const parts = nm.trim().split(/\s+/).filter(Boolean); return ((parts[0]?.[0] || '·') + (parts[1]?.[0] || '')).toUpperCase(); };
+  const avatarHtml = (cls = '') => (avatarUrl() ? `<img src="${esc(avatarUrl())}" alt="" class="${cls}">` : esc(initialsOf(String(me?.name || '') || String(view?.email || '').split('@')[0])));
   function paintMe() {
     const nm = String(me?.name || '') || String(view?.email || '').split('@')[0];
     $<HTMLElement>('#ac-name').textContent = nm;
-    const parts = nm.trim().split(/\s+/).filter(Boolean);
-    $<HTMLElement>('#ac-avatar').textContent = (/^[A-Za-z]/.test(parts[0] || '') ? (parts[0][0] + (parts[1]?.[0] || '')) : (parts[0]?.[0] || '·')).toUpperCase();
+    $<HTMLElement>('#ac-avatar').innerHTML = avatarHtml();
+    store.set(ME_KEY, JSON.stringify({ name: me?.name || '', email: view?.email || me?.email || '', avatar: avatarUrl() }));
+    window.dispatchEvent(new Event('ox-me'));
   }
+  window.addEventListener('hashchange', () => {
+    if (!view || root.dataset.state !== 'app') return;
+    const h = location.hash.slice(1);
+    if (!h) return;
+    if (SECS.includes(h)) { if (sec !== h) { sec = h; flash(''); draw(); } }
+    else if (h !== tab || sec !== 'site') { sec = 'site'; tab = h; flash(''); draw(); }
+    window.scrollTo({ top: 0 });
+  });
   const dateLocale = cfg.lang === 'ar' ? 'ar-SA-u-nu-latn-ca-gregory' : cfg.numberLocale;
   const niceDate = (d: string) => (d && d < '2070' ? new Date(d.length === 10 ? d + 'T12:00:00' : d).toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' }) : '—');
   const activeSubs = () => (view?.subs ?? []).filter((x) => x.status === 'active' || x.status === 'cancelling');
@@ -509,7 +523,9 @@ const ic = {
     const m = me || {};
     const info = card(`<h2>${esc(T.secTitle)}</h2><dl class="ac-dl"><div><dt>${esc(T.email)}</dt><dd dir="ltr">${esc(view?.email || '')}</dd></div>${m.since ? `<div><dt>${esc(T.memberSince)}</dt><dd>${esc(niceDate(m.since))}</dd></div>` : ''}${m.last_login ? `<div><dt>${esc(T.lastLogin)}</dt><dd>${esc(niceDate(m.last_login))}</dd></div>` : ''}</dl><p><button type="button" class="btn btn-ghost ac-small-btn" data-signout>${esc(T.signOutBtn)}</button></p>`);
     if (!m.has_password) return card(`<p class="ac-note">${esc(T.profNoPw)}</p>`) + info;
-    return `<div class="ac-prof">${card(`<h2>${esc(T.profTitle)}</h2><form id="ac-prof-form" class="ac-form-grid">
+    const photo = card(`<div class="ac-photo"><span class="ac-photo-av">${avatarHtml()}</span><div><h2>${esc(T.avatarTitle)}</h2><p class="ac-muted ac-small">${esc(T.avatarHint)}</p>
+        <div class="ac-row"><label class="btn btn-navy ac-small-btn ac-file">${esc(T.avatarChange)}<input type="file" accept="image/jpeg,image/png,image/webp" data-avatar-file hidden></label>${m.avatar ? `<button type="button" class="btn btn-ghost ac-small-btn" data-avatar-del>${esc(T.avatarRemove)}</button>` : ''}</div></div></div>`);
+    return photo + `<div class="ac-prof">${card(`<h2>${esc(T.profTitle)}</h2><form id="ac-prof-form" class="ac-form-grid">
         <label class="ac-field ac-wide">${esc(T.authName)}<input name="name" required maxlength="80" value="${esc(m.name || '')}" dir="auto" autocomplete="name"></label>
         <label class="ac-field">${esc(T.authPhone)}<input name="phone" type="tel" dir="ltr" maxlength="20" value="${esc(m.phone || '')}" autocomplete="tel"></label>
         <label class="ac-field">${esc(T.authCompany)}<input name="company" maxlength="120" value="${esc(m.company || '')}" dir="auto"></label>
@@ -521,7 +537,42 @@ const ic = {
         <p class="ac-muted ac-small ac-wide">${esc(T.authPwHint)}</p>
         <div class="ac-wide"><button type="submit" class="btn btn-navy">${esc(T.pwSave)}</button></div></form>`)}</div>` + info;
   }
-  $<HTMLElement>('#ac-profile').addEventListener('click', (e) => { if ((e.target as Element).closest('[data-signout]')) signOut(); });
+  $<HTMLElement>('#ac-profile').addEventListener('click', async (e) => {
+    const t = e.target as Element;
+    if (t.closest('[data-signout]')) { signOut(); return; }
+    const del = t.closest<HTMLButtonElement>('[data-avatar-del]');
+    if (del) await busy(del, () => saveAvatar(''));
+  });
+  async function saveAvatar(id: string) {
+    const r = await auth('profile', { k: token, name: me?.name || '', phone: me?.phone || '', company: me?.company || '', avatar: id });
+    if (r?.reason === 'session') { signOut(T.expired); return; }
+    if (!r?.success) { flash(errText(r)); return; }
+    me = { ...me, avatar: r.avatar || '' };
+    paintMe(); draw(); flash(T.avatarSaved);
+  }
+  // Square-crop the photo to 400×400 JPEG in the browser, then upload it like other images.
+  async function squareJpeg(file: File): Promise<Blob> {
+    const bmp = await createImageBitmap(file);
+    const side = Math.min(bmp.width, bmp.height);
+    const c = document.createElement('canvas'); c.width = c.height = 400;
+    c.getContext('2d')!.drawImage(bmp, (bmp.width - side) / 2, (bmp.height - side) / 2, side, side, 0, 0, 400, 400);
+    return new Promise((ok, fail) => c.toBlob((b) => (b ? ok(b) : fail(new Error('encode'))), 'image/jpeg', 0.88));
+  }
+  $<HTMLElement>('#ac-profile').addEventListener('change', async (e) => {
+    const inp = e.target as HTMLInputElement;
+    if (!inp.matches('[data-avatar-file]') || !inp.files?.[0]) return;
+    const lbl = inp.closest('label')!;
+    lbl.classList.add('is-busy');
+    try {
+      const fd = new FormData();
+      fd.append('file', await squareJpeg(inp.files[0]), 'avatar.jpg');
+      fd.append('sessionId', 'avatar');
+      const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!data?.success || typeof data.id !== 'string') { flash(T.avatarErr); return; }
+      await saveAvatar(data.id);
+    } catch { flash(T.avatarErr); } finally { lbl.classList.remove('is-busy'); inp.value = ''; }
+  });
   $<HTMLElement>('#ac-profile').addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = e.target as HTMLFormElement;
@@ -1724,4 +1775,12 @@ const ic = {
     .ac-svc-item > .btn { grid-column: 1 / -1; justify-content: center; }
     .ac-quicks { grid-template-columns: 1fr 1fr; }
   }
+
+  .ac-avatar img, .ac-photo-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ac-avatar { overflow: hidden; }
+  .ac-photo { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+  .ac-photo h2 { margin-bottom: .2rem; }
+  .ac-photo-av { flex: none; width: 88px; height: 88px; border-radius: 50%; overflow: hidden; background: var(--navy, #0A253E); color: var(--amber); display: grid; place-items: center; font-weight: 800; font-size: 1.9rem; box-shadow: 0 0 0 4px #fff, 0 0 0 5px var(--line); }
+  .ac-photo .ac-row { margin-top: .6rem; }
+  .ac-file.is-busy { opacity: .6; pointer-events: none; }
 </style>

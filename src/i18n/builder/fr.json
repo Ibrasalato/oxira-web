@@ -1017,7 +1017,13 @@
     "memberSince": "Membre depuis",
     "lastLogin": "Dernière connexion",
     "profNoPw": "Cette session vient d’un ancien lien e-mail. Déconnectez-vous puis choisissez « Créer un compte » avec le même e-mail.",
-    "signOutBtn": "Se déconnecter"
+    "signOutBtn": "Se déconnecter",
+    "avatarTitle": "Photo de profil",
+    "avatarChange": "Importer une photo",
+    "avatarRemove": "Supprimer la photo",
+    "avatarHint": "JPG ou PNG. Recadrée en carré automatiquement.",
+    "avatarSaved": "Photo mise à jour.",
+    "avatarErr": "Échec de l’import. Essayez une autre photo."
   },
   "partners": {
     "pageTitle": "Programme partenaire Oxira | Gagnez sur chaque site",

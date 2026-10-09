@@ -1017,7 +1017,13 @@
     "memberSince": "Mitglied seit",
     "lastLogin": "Letzte Anmeldung",
     "profNoPw": "Diese Sitzung stammt von einem alten E-Mail-Link. Melden Sie sich ab und wählen Sie „Konto erstellen“ mit derselben E-Mail.",
-    "signOutBtn": "Abmelden"
+    "signOutBtn": "Abmelden",
+    "avatarTitle": "Profilbild",
+    "avatarChange": "Foto hochladen",
+    "avatarRemove": "Foto entfernen",
+    "avatarHint": "JPG oder PNG. Wir schneiden es quadratisch zu.",
+    "avatarSaved": "Foto aktualisiert.",
+    "avatarErr": "Upload fehlgeschlagen. Versuchen Sie ein anderes Foto."
   },
   "partners": {
     "pageTitle": "Oxira Partnerprogramm | Verdienen Sie an jeder Website",

@@ -1017,7 +1017,13 @@
     "memberSince": "Member since",
     "lastLogin": "Last sign-in",
     "profNoPw": "This session was opened from an old email link. To sign in with a password, sign out and choose “Create account” with the same email.",
-    "signOutBtn": "Sign out"
+    "signOutBtn": "Sign out",
+    "avatarTitle": "Profile photo",
+    "avatarChange": "Upload photo",
+    "avatarRemove": "Remove photo",
+    "avatarHint": "JPG or PNG. We crop it to a square for you.",
+    "avatarSaved": "Your photo is updated.",
+    "avatarErr": "Could not upload the photo. Try another one."
   },
   "partners": {
     "pageTitle": "Oxira partner program | Earn with every website",
