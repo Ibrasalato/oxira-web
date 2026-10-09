@@ -8,6 +8,7 @@ import ClientStrip from '../components/ClientStrip.astro';
 import Proof from '../components/Proof.astro';
 import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
+import FeaturedProducts from '../components/FeaturedProducts.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -57,6 +58,8 @@ const firstChat = c.agents.chats[0];
       <ClientStrip lang={lang} title={h.trusted} />
     </div>
   </section>
+
+  <FeaturedProducts lang={lang} />
 
   <!-- Services -->
   <section class="section" aria-labelledby="svc-title">

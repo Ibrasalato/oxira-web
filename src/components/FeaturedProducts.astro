@@ -1,0 +1,158 @@
+---
+// Home page: "Oxira's top products" — the ready-made products (websites, marketing, AI, sales tools, Classti),
+// filterable by keyword. Add-on names, texts and prices come from the product catalogue so they stay in sync.
+import type { Lang } from '../i18n/content';
+import { link } from '../lib/routes';
+import { productsText, productPath } from '../i18n/products';
+import { addonPrices, addonIcons } from '../builder/addons';
+import { plans } from '../i18n/builder';
+import { BUNDLE } from '../i18n/bundle';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const P = productsText[lang];
+const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
+
+type Tag = 'sites' | 'marketing' | 'google' | 'social' | 'ai' | 'sales' | 'edu';
+const T = {
+  ar: {
+    kicker: 'منتجات جاهزة', title: 'أبرز منتجات أوكسيرا', body: 'حلول جاهزة بأسعار واضحة تبدأ بها اليوم: موقعك، وظهورك في جوجل، وتسويقك على السوشيال، ومساعدك الذكي.',
+    all: 'الكل', more: 'كل المنتجات', from: 'من', sar: 'ريال', month: 'شهرياً', once: 'دفعة واحدة', free: 'مجاناً', quote: 'اطلب عرض سعر', view: 'التفاصيل',
+    tags: { sites: 'مواقع', marketing: 'تسويق', google: 'ظهور في جوجل', social: 'سوشيال وإعلانات', ai: 'ذكاء اصطناعي', sales: 'مبيعات وحجوزات', edu: 'تعليم' },
+    builder: ['منشئ المواقع', 'موقع احترافي لنشاطك في دقائق: اختر تصميماً وعدّله مع مصمم ذكي، مع الاستضافة والنطاق والدعم.'],
+    bundle: ['نشاطك أونلاين في يوم', 'موقع بنطاق واستضافة، ووكيل ذكي يرد على عملائك في واتساب، وملفك على خرائط جوجل خلال يوم عمل.'],
+    audit: ['فحص موقعك مجاناً', 'تقرير فوري عن سرعة موقعك وظهوره في جوجل وتوافقه مع الجوال، يصلك بالبريد.'],
+    classti: ['Classti لإدارة المدارس', 'منظومة للمدارس: لوحة للإدارة وتطبيقات للطالب والمعلم وولي الأمر والسائق، للدروس والجداول والدرجات والنقل.'],
+  },
+  en: {
+    kicker: 'Ready-made products', title: 'Oxira’s top products', body: 'Ready solutions with clear prices you can start today: your website, your Google visibility, your social media marketing and your AI assistant.',
+    all: 'All', more: 'All products', from: 'From', sar: 'SAR', month: '/ month', once: 'one-time', free: 'Free', quote: 'Request a quote', view: 'Details',
+    tags: { sites: 'Websites', marketing: 'Marketing', google: 'Google SEO', social: 'Social & ads', ai: 'AI', sales: 'Sales & bookings', edu: 'Education' },
+    builder: ['Website builder', 'A professional website for your business in minutes: pick a design and edit it with an AI designer, with hosting, domain and support.'],
+    bundle: ['Online in a day', 'A website with domain and hosting, an AI agent answering customers on WhatsApp and your Google Maps profile, within one working day.'],
+    audit: ['Free website audit', 'An instant report on your site’s speed, Google visibility and mobile readiness, sent by email.'],
+    classti: ['Classti school management', 'A school system: an admin dashboard plus apps for students, teachers, parents and drivers, covering lessons, timetables, grades and transport.'],
+  },
+  de: {
+    kicker: 'Fertige Produkte', title: 'Die wichtigsten Oxira-Produkte', body: 'Fertige Lösungen mit klaren Preisen, mit denen Sie heute starten: Website, Sichtbarkeit bei Google, Social-Media-Marketing und KI-Assistent.',
+    all: 'Alle', more: 'Alle Produkte', from: 'Ab', sar: 'SAR', month: '/ Monat', once: 'einmalig', free: 'Kostenlos', quote: 'Angebot anfragen', view: 'Details',
+    tags: { sites: 'Websites', marketing: 'Marketing', google: 'Google-SEO', social: 'Social & Anzeigen', ai: 'KI', sales: 'Vertrieb & Buchungen', edu: 'Bildung' },
+    builder: ['Website-Baukasten', 'Eine professionelle Website in Minuten: Design wählen und mit einem KI-Designer anpassen, inklusive Hosting, Domain und Support.'],
+    bundle: ['Online an einem Tag', 'Website mit Domain und Hosting, ein KI-Agent für WhatsApp und Ihr Google-Maps-Profil – an einem Arbeitstag.'],
+    audit: ['Kostenloser Website-Check', 'Sofortbericht zu Geschwindigkeit, Google-Sichtbarkeit und Mobiltauglichkeit Ihrer Website per E-Mail.'],
+    classti: ['Classti Schulverwaltung', 'Schulsystem: Verwaltungs-Dashboard und Apps für Schüler, Lehrkräfte, Eltern und Fahrer – für Unterricht, Stundenpläne, Noten und Transport.'],
+  },
+  fr: {
+    kicker: 'Produits prêts à l’emploi', title: 'Les produits phares d’Oxira', body: 'Des solutions prêtes, à prix clairs, pour démarrer aujourd’hui : votre site, votre visibilité sur Google, votre marketing social et votre assistant IA.',
+    all: 'Tout', more: 'Tous les produits', from: 'À partir de', sar: 'SAR', month: '/ mois', once: 'paiement unique', free: 'Gratuit', quote: 'Demander un devis', view: 'Détails',
+    tags: { sites: 'Sites web', marketing: 'Marketing', google: 'Référencement Google', social: 'Réseaux & pub', ai: 'IA', sales: 'Ventes & réservations', edu: 'Éducation' },
+    builder: ['Créateur de sites', 'Un site professionnel en quelques minutes : choisissez un design et modifiez-le avec un designer IA, hébergement, domaine et support inclus.'],
+    bundle: ['En ligne en un jour', 'Un site avec domaine et hébergement, un agent IA sur WhatsApp et votre fiche Google Maps, en un jour ouvré.'],
+    audit: ['Audit de site gratuit', 'Un rapport immédiat sur la vitesse, la visibilité Google et la compatibilité mobile de votre site, envoyé par e-mail.'],
+    classti: ['Classti, gestion scolaire', 'Un système scolaire : un tableau de bord pour l’administration et des applications pour élèves, enseignants, parents et chauffeurs (cours, emplois du temps, notes, transport).'],
+  },
+  ru: {
+    kicker: 'Готовые продукты', title: 'Ключевые продукты Oxira', body: 'Готовые решения с понятными ценами, с которых можно начать сегодня: сайт, видимость в Google, маркетинг в соцсетях и ИИ-помощник.',
+    all: 'Все', more: 'Все продукты', from: 'От', sar: 'SAR', month: '/ мес.', once: 'разово', free: 'Бесплатно', quote: 'Запросить цену', view: 'Подробнее',
+    tags: { sites: 'Сайты', marketing: 'Маркетинг', google: 'SEO в Google', social: 'Соцсети и реклама', ai: 'ИИ', sales: 'Продажи и записи', edu: 'Образование' },
+    builder: ['Конструктор сайтов', 'Профессиональный сайт за минуты: выберите дизайн и настройте его с ИИ-дизайнером, хостинг, домен и поддержка включены.'],
+    bundle: ['Онлайн за один день', 'Сайт с доменом и хостингом, ИИ-агент в WhatsApp и профиль в Google Картах за один рабочий день.'],
+    audit: ['Бесплатный аудит сайта', 'Мгновенный отчёт о скорости, видимости в Google и мобильной версии сайта на почту.'],
+    classti: ['Classti для школ', 'Система для школ: панель администрации и приложения для учеников, учителей, родителей и водителей — уроки, расписание, оценки и транспорт.'],
+  },
+}[lang];
+
+const ic = {
+  builder: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M8 13h5M8 16h8"/>',
+  bundle: '<path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.4 7.2 17.9l.9-5.4L4.2 8.7l5.4-.8z"/>',
+  audit: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M8 11l2 2 4-4"/>',
+  classti: '<path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/>',
+};
+const price = (n: number, per: 'month' | 'none', from = false) => `${from ? T.from + ' ' : ''}<b>${fmt.format(n)}</b> ${T.sar}${per === 'month' ? ' ' + T.month : ''}`;
+const addon = (id: 'seo' | 'social' | 'ads' | 'chat' | 'booking', tags: Tag[], fromPlan = false) => ({
+  key: id, href: link(lang, productPath(id)), name: P.items[id].name, text: P.items[id].short, icon: addonIcons[id], tags,
+  price: price(addonPrices[id].price, 'month', fromPlan),
+});
+const cards = [
+  { key: 'builder', href: link(lang, '/website-builder/'), name: T.builder[0], text: T.builder[1], icon: ic.builder, tags: ['sites'] as Tag[], price: price(plans.starter.price, 'none', true), hot: true },
+  { key: 'bundle', href: link(lang, '/online-in-a-day/'), name: T.bundle[0], text: T.bundle[1], icon: ic.bundle, tags: ['sites', 'ai', 'marketing'] as Tag[], price: price(BUNDLE.price, 'none') },
+  { ...addon('seo', ['marketing', 'google'], true), hot: true },
+  { ...addon('social', ['marketing', 'social'], true), hot: true },
+  addon('ads', ['marketing', 'social']),
+  addon('chat', ['ai', 'sales']),
+  addon('booking', ['sales']),
+  { key: 'audit', href: link(lang, '/website-audit/'), name: T.audit[0], text: T.audit[1], icon: ic.audit, tags: ['sites', 'google'] as Tag[], price: `<b>${T.free}</b>` },
+  { key: 'classti', href: link(lang, '/classti/'), name: T.classti[0], text: T.classti[1], icon: ic.classti, tags: ['edu', 'ai'] as Tag[], price: T.quote },
+];
+const tagIds = Object.keys(T.tags) as Tag[];
+---
+<section class="section fp" aria-labelledby="fp-title">
+  <div class="wrap">
+    <div class="sh-row">
+      <div class="sh">
+        <p class="label">{T.kicker}</p>
+        <h2 id="fp-title">{T.title}</h2>
+        <p>{T.body}</p>
+      </div>
+      <a class="more" href={link(lang, '/products/')}>{T.more}</a>
+    </div>
+    <div class="fp-tags" role="group" aria-label={T.title}>
+      <button type="button" class="fp-tag" aria-pressed="true" data-fp="all">{T.all}</button>
+      {tagIds.map((t) => <button type="button" class="fp-tag" aria-pressed="false" data-fp={t}>{T.tags[t]}</button>)}
+    </div>
+    <ul class="fp-grid">
+      {cards.map((c) => (
+        <li data-tags={c.tags.join(' ')}>
+          <a class={`fp-card${(c as any).hot ? ' is-hot' : ''}`} href={c.href}>
+            <span class="fp-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={c.icon} /></span>
+            <h3>{c.name}</h3>
+            <p class="fp-text">{c.text}</p>
+            <p class="fp-chips">{c.tags.map((t) => <span>{T.tags[t]}</span>)}</p>
+            <p class="fp-foot"><span class="fp-price" set:html={c.price} /><span class="fp-go" aria-hidden="true">←</span></p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Keyword filter: show only the products with the chosen keyword.
+  for (const box of document.querySelectorAll<HTMLElement>('.fp')) {
+    const btns = box.querySelectorAll<HTMLButtonElement>('.fp-tag');
+    btns.forEach((b) => b.addEventListener('click', () => {
+      const t = b.dataset.fp || 'all';
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      box.querySelectorAll<HTMLElement>('.fp-grid > li').forEach((li) => { li.hidden = t !== 'all' && !(li.dataset.tags || '').split(' ').includes(t); });
+    }));
+  }
+</script>
+
+<style>
+  .fp .label { color: var(--blue); font-weight: 700; margin-bottom: .4rem; }
+  .fp-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.6rem; }
+  .fp-tag { font: 600 .92rem var(--font); padding: .5rem 1rem; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; transition: border-color .15s, background .15s, color .15s; }
+  .fp-tag:hover { border-color: var(--navy); }
+  .fp-tag[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .fp-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .fp-grid > li[hidden] { display: none; }
+  .fp-card { position: relative; display: flex; flex-direction: column; gap: .6rem; height: 100%; padding: 1.6rem; border-radius: var(--radius); border: 1px solid var(--line); background: #fff; text-decoration: none; color: inherit; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .fp-card:hover { border-color: transparent; transform: translateY(-2px); box-shadow: 0 24px 50px -28px rgba(10,37,62,.35), 0 0 0 1px var(--line); }
+  .fp-card.is-hot { border-color: color-mix(in srgb, var(--amber) 55%, var(--line)); }
+  .fp-ic { width: 50px; height: 50px; border-radius: 14px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
+  .is-hot .fp-ic { background: color-mix(in srgb, var(--amber) 22%, #fff); color: #8A5A00; }
+  .fp-ic svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .fp-card h3 { font-size: 1.18rem; }
+  .fp-text { color: var(--muted); flex: 1; }
+  .fp-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .fp-chips span { font-size: .78rem; font-weight: 600; padding: .2rem .6rem; border-radius: 999px; background: var(--paper); color: var(--muted); }
+  .fp-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: .8rem; border-top: 1px solid var(--line); margin-top: .2rem; }
+  .fp-price { color: var(--ink); font-size: .95rem; }
+  .fp-price :global(b) { font-size: 1.25rem; }
+  .fp-go { color: var(--blue); font-weight: 700; transition: transform .2s; }
+  :global([dir="ltr"]) .fp-go { transform: scaleX(-1); }
+  .fp-card:hover .fp-go { transform: translateX(-4px); }
+  :global([dir="ltr"]) .fp-card:hover .fp-go { transform: scaleX(-1) translateX(-4px); }
+  @media (max-width: 900px) { .fp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  @media (max-width: 600px) { .fp-grid { grid-template-columns: minmax(0, 1fr); } .fp-tags { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding-inline: 16px; scrollbar-width: none; } .fp-tag { flex: none; } }
+</style>
