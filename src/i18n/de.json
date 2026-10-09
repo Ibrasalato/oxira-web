@@ -740,7 +740,7 @@
   "policy": {
    "title": "Datenschutzerklärung | Oxira",
    "h1": "Datenschutzerklärung",
-   "updated": "Zuletzt aktualisiert: 7. Oktober 2026",
+   "updated": "Zuletzt aktualisiert: 9. Oktober 2026",
    "description": "Wie Oxira personenbezogene Daten auf seiner Website erhebt, nutzt und schützt, und welche Rechte Sie nach dem saudischen Gesetz zum Schutz personenbezogener Daten haben.",
    "intro": "Oxira („Oxira“, „wir“) verpflichtet sich, Ihre personenbezogenen Daten zu schützen und sie im Einklang mit dem Gesetz zum Schutz personenbezogener Daten (PDPL) des Königreichs Saudi-Arabien und den zugehörigen Durchführungsbestimmungen zu verarbeiten. Diese Erklärung erläutert, welche Daten wir auf dieser Website erheben, zu welchem Zweck, wie wir sie schützen und welche Rechte Sie haben.",
    "sections": [
@@ -774,6 +774,19 @@
      "h": "Der KI-Assistent",
      "p": [
       "Der Oxira-Assistent ist ein KI-Agent, der automatisch antwortet und Fehler machen kann. Ihre Nachrichten werden zur Generierung der Antworten an einen Anbieter von KI-Modellen übermittelt und ausschließlich dazu verwendet, Ihr Anliegen zu bearbeiten. Bitte teilen Sie im Chat keine sensiblen Daten wie Gesundheits- oder Finanzinformationen."
+     ]
+    },
+    {
+     "id": "meta-data",
+     "h": "Facebook- und Instagram-Daten (für Abonnenten)",
+     "p": [
+      "Wenn Kunden unseren Social-Media- oder Werbeanzeigen-Service abonnieren und eine Facebook-Seite, ein Instagram-Konto oder ein Werbekonto über das Meta-Login verbinden, erhalten wir nur die Berechtigungen, denen sie zustimmen. Wir nutzen sie, um freigegebene Beiträge zu veröffentlichen, in ihrem Namen auf Kommentare zu antworten, Seiten- und Beitragsstatistiken für den Monatsbericht zu lesen und freigegebene Anzeigen im festgelegten Budget zu schalten.",
+      "Seiten- und Konto-IDs sowie das Zugriffstoken speichern wir in einem System mit beschränktem Zugriff. Wir verkaufen diese Daten nicht, nutzen sie für keinen anderen Zweck und geben sie nur an den KI-Modellanbieter weiter, der beim Entwurf von Beiträgen und Antworten hilft."
+     ],
+     "list": [
+      "Auf Ihrer Oxira-Kontoseite (Tab Social) auf „Verbindung trennen“ klicken: Das Zugriffstoken wird sofort gelöscht.",
+      "Oder die Oxira-App unter Facebook-Einstellungen › Business-Integrationen entfernen.",
+      "Um alle Daten über Sie zu löschen, schreiben Sie an info@oxira.sa mit dem Betreff „Datenlöschung“. Wir löschen sie innerhalb von 30 Tagen und bestätigen per E-Mail."
      ]
     },
     {

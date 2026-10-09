@@ -352,7 +352,7 @@ const base = {
       policy: {
         title: 'سياسة الخصوصية | أوكسيرا',
         h1: 'سياسة الخصوصية',
-        updated: 'آخر تحديث: 7 أكتوبر 2026',
+        updated: 'آخر تحديث: 9 أكتوبر 2026',
         description: 'كيف تجمع أوكسيرا البيانات الشخصية عبر موقعها وتستخدمها وتحميها، وحقوقك وفق نظام حماية البيانات الشخصية في المملكة.',
         intro: 'تلتزم شركة أوكسيرا ("أوكسيرا" أو "نحن") بحماية بياناتك الشخصية ومعالجتها وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية ولوائحه. توضح هذه السياسة ما نجمعه عبر هذا الموقع، ولماذا، وكيف نحميه، وما حقوقك.',
         sections: [
@@ -360,6 +360,7 @@ const base = {
           { h: 'لماذا نستخدمها', p: [], list: ['الرد على استفسارك أو طلبك وتقديم عرض سعر أو عرض توضيحي.', 'تقديم الدعم الفني لمنتجاتنا وخدماتنا.', 'تحسين الموقع والخدمات بناءً على بيانات استخدام مجمّعة.'] },
           { h: 'الأساس النظامي', p: ['نعالج بياناتك بناءً على موافقتك عند إرسال النموذج أو بدء المحادثة، ولتنفيذ ما تطلبه منا قبل التعاقد أو أثناءه. ويمكنك سحب موافقتك في أي وقت.'] },
           { h: 'المساعد الذكي', p: ['"مساعد أوكسيرا" وكيل ذكاء اصطناعي يرد آلياً، وقد يخطئ أحياناً. تُرسل رسائلك إلى مزوّد نموذج الذكاء الاصطناعي لإنتاج الرد، ولا نستخدمها لأي غرض آخر غير خدمتك. لا تشارك في المحادثة بيانات حساسة مثل البيانات الصحية أو المالية.'] },
+          { id: "meta-data", h: "بيانات فيسبوك وإنستغرام (للمشتركين)", p: ["عند اشتراك العميل في خدمة إدارة السوشيال ميديا أو إدارة الإعلانات وربطه صفحة فيسبوك أو حساب إنستغرام أو حساب إعلانات عبر تسجيل الدخول من ميتا، نحصل فقط على الصلاحيات التي يوافق عليها. نستخدمها لنشر المنشورات التي يعتمدها، والرد على التعليقات نيابة عنه، وقراءة إحصاءات الصفحة والمنشورات لتقريره الشهري، وإنشاء الإعلانات التي يعتمدها بالميزانية التي يحددها.", "نحفظ معرّفات الصفحة والحسابات ورمز الوصول في نظام محدود الصلاحيات. لا نبيع هذه البيانات ولا نستخدمها لأي غرض آخر، ولا نشاركها إلا مع مزوّد نموذج الذكاء الاصطناعي الذي يساعد في صياغة المنشورات والردود."], list: ["من صفحة حسابك في أوكسيرا (تبويب السوشيال) اضغط \"افصل الربط\"، فيُحذف رمز الوصول فوراً.", "أو احذف تطبيق أوكسيرا من إعدادات فيسبوك ← تكاملات الأعمال.", "ولحذف كل بياناتك لدينا راسلنا على info@oxira.sa بعنوان \"حذف البيانات\"، وسنحذفها خلال 30 يوماً ونؤكد لك بالبريد."] },
           { h: 'مع من نشاركها', p: ['لا نبيع بياناتك ولا نؤجرها. نشاركها فقط مع مزودي خدمات يعملون لصالحنا وبالقدر اللازم: استضافة الموقع، ومنصة الأتمتة التي تستقبل الرسائل وتحفظها، ومزوّد البريد الإلكتروني، ومزوّد نموذج الذكاء الاصطناعي للمحادثة، وأدوات قياس الزيارات إن فُعّلت. قد تُعالج بعض هذه البيانات خارج المملكة لدى مزودين يلتزمون بضمانات حماية مناسبة. وقد نفصح عنها إذا ألزمنا بذلك نظام أو جهة مختصة.'] },
           { h: 'مدة الاحتفاظ', p: ['نحتفظ بالرسائل وطلبات الخدمة بالمدة اللازمة لخدمتك ومتابعة طلبك، ثم نحذفها أو نجعلها مجهولة الهوية، ما لم يلزمنا نظام بمدة أطول. يُحذف معرّف جلسة المحادثة من متصفحك عند إغلاقه.'] },
           { h: 'حماية البيانات', p: ['نستخدم اتصالات مشفرة (HTTPS)، ونقصر الوصول إلى البيانات على من يحتاجه من فريقنا، ونختار مزودين بمعايير أمنية معتمدة.'] },
@@ -678,7 +679,7 @@ const base = {
       policy: {
         title: 'Privacy policy | Oxira',
         h1: 'Privacy policy',
-        updated: 'Last updated: 7 October 2026',
+        updated: 'Last updated: 9 October 2026',
         description: 'How Oxira collects, uses and protects personal data on its website, and your rights under the Saudi Personal Data Protection Law.',
         intro: 'Oxira ("Oxira", "we") is committed to protecting your personal data and processing it in line with the Personal Data Protection Law of the Kingdom of Saudi Arabia and its regulations. This policy explains what we collect on this website, why, how we protect it, and your rights.',
         sections: [
@@ -686,6 +687,7 @@ const base = {
           { h: 'Why we use it', p: [], list: ['To answer your enquiry or request and prepare a quote or demo.', 'To provide technical support for our products and services.', 'To improve the website and our services based on aggregated usage data.'] },
           { h: 'Legal basis', p: ['We process your data based on your consent when you send the form or start a chat, and to take steps you request before or during a contract. You can withdraw your consent at any time.'] },
           { h: 'The AI assistant', p: ['The Oxira assistant is an AI agent that replies automatically and can make mistakes. Your messages are sent to an AI model provider to generate replies and are not used for any purpose other than serving you. Please do not share sensitive data such as health or financial information in the chat.'] },
+          { id: "meta-data", h: "Facebook and Instagram data (for subscribers)", p: ["When a customer subscribes to our social media or ads management service and connects a Facebook Page, Instagram account or ad account through Meta login, we receive only the permissions they approve. We use them to publish the posts they approve, reply to comments on their behalf, read Page and post insights for their monthly report, and create the ads they approve within the budget they set.", "We keep the Page and account IDs and the access token in a restricted-access system. We do not sell this data or use it for any other purpose, and we share it only with the AI model provider that helps draft posts and replies."], list: ["On your Oxira account page (Social tab), press \"Disconnect\": the access token is deleted immediately.", "Or remove the Oxira app in Facebook Settings › Business integrations.", "To delete all data we hold about you, email info@oxira.sa with the subject \"Data deletion\". We delete it within 30 days and confirm by email."] },
           { h: 'Who we share it with', p: ['We do not sell or rent your data. We share it only with service providers working on our behalf and only as needed: website hosting, the automation platform that receives and stores messages, our email provider, the AI model provider for the chat, and visitor analytics if enabled. Some of this data may be processed outside the Kingdom by providers bound by appropriate safeguards. We may also disclose data where required by law or a competent authority.'] },
           { h: 'Retention', p: ['We keep messages and service requests for as long as needed to serve you and follow up on your request, then delete or anonymise them, unless the law requires longer. The chat session ID is removed from your browser when you close it.'] },
           { h: 'Security', p: ['We use encrypted connections (HTTPS), limit access to data to team members who need it, and choose providers with recognised security standards.'] },

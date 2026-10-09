@@ -740,7 +740,7 @@
   "policy": {
    "title": "Politique de confidentialité | Oxira",
    "h1": "Politique de confidentialité",
-   "updated": "Dernière mise à jour : 7 octobre 2026",
+   "updated": "Dernière mise à jour : 9 octobre 2026",
    "description": "Comment Oxira collecte, utilise et protège les données personnelles sur son site, et vos droits en vertu de la loi saoudienne sur la protection des données personnelles.",
    "intro": "Oxira (« Oxira », « nous ») s'engage à protéger vos données personnelles et à les traiter conformément à la loi sur la protection des données personnelles (PDPL) du Royaume d'Arabie saoudite et à ses règlements d'application. Cette politique explique ce que nous collectons sur ce site, pourquoi, comment nous le protégeons, et quels sont vos droits.",
    "sections": [
@@ -774,6 +774,19 @@
      "h": "L'assistant IA",
      "p": [
       "L'assistant Oxira est un agent IA qui répond automatiquement et peut commettre des erreurs. Vos messages sont transmis à un fournisseur de modèles d'IA pour générer les réponses et ne sont utilisés à aucune autre fin que de vous servir. Merci de ne pas partager de données sensibles, comme des informations de santé ou financières, dans la conversation."
+     ]
+    },
+    {
+     "id": "meta-data",
+     "h": "Données Facebook et Instagram (abonnés)",
+     "p": [
+      "Lorsqu’un client souscrit à notre service de gestion des réseaux sociaux ou des publicités et connecte une Page Facebook, un compte Instagram ou un compte publicitaire via la connexion Meta, nous recevons uniquement les autorisations qu’il accepte. Nous les utilisons pour publier les posts qu’il valide, répondre aux commentaires en son nom, lire les statistiques de la Page et des posts pour son rapport mensuel et créer les publicités qu’il valide dans le budget fixé.",
+      "Nous conservons les identifiants de Page et de compte ainsi que le jeton d’accès dans un système à accès restreint. Nous ne vendons pas ces données, ne les utilisons à aucune autre fin et ne les partageons qu’avec le fournisseur du modèle d’IA qui aide à rédiger les posts et les réponses."
+     ],
+     "list": [
+      "Sur la page de votre compte Oxira (onglet Social), cliquez sur « Se déconnecter » : le jeton d’accès est supprimé immédiatement.",
+      "Ou retirez l’application Oxira dans Paramètres Facebook › Intégrations professionnelles.",
+      "Pour supprimer toutes vos données, écrivez à info@oxira.sa avec l’objet « Suppression des données ». Nous les supprimons sous 30 jours et confirmons par e-mail."
      ]
     },
     {

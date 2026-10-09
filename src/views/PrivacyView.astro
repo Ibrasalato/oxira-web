@@ -19,7 +19,7 @@ const pol = t[lang].legal.policy;
     <div class="wrap">
       <div class="doc">
         {pol.sections.map((sec, i) => (
-          <section aria-labelledby={`p-${i}`}>
+          <section id={'id' in sec && sec.id ? sec.id : undefined} aria-labelledby={`p-${i}`}>
             <h2 id={`p-${i}`}>{sec.h}</h2>
             {sec.p.map((para) => <p>{para}</p>)}
             {'list' in sec && sec.list && <ul>{sec.list.map((li) => <li>{li}</li>)}</ul>}
