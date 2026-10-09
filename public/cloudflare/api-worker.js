@@ -1,6 +1,6 @@
 // api.oxira.sa: forwards website/app requests to the automation backend (n8n webhooks).
 // Moving the backend later only needs ORIGIN changed here; the website and partners keep using api.oxira.sa.
-const ORIGIN = 'https://ibrasalato.app.n8n.cloud/webhook/';
+const ORIGIN = 'https://n8n.oxira.sa/webhook/';
 const MAX_BODY = 6 * 1024 * 1024;
 
 export default {

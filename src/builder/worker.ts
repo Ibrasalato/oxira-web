@@ -45,7 +45,7 @@ const page = (status: number, title: string, body: string) =>
     { status, headers: { 'content-type': 'text/html; charset=utf-8' } },
   );
 
-const N8N = 'https://ibrasalato.app.n8n.cloud/webhook';
+const N8N = 'https://n8n.oxira.sa/webhook';
 const FORM_ACTION = `${N8N}/oxira-site-contact`;
 const BOOKING_ACTION = `${N8N}/oxira-site-booking`;
 const TICKET_ACTION = `${N8N}/oxira-ticket-buy`;
