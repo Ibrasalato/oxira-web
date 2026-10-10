@@ -5,6 +5,8 @@ import type { Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import { bundleText, BUNDLE } from '../i18n/bundle';
 import Base from '../layouts/Base.astro';
+import Fx from '../components/Fx.astro';
+import FxNote from '../components/FxNote.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -45,8 +47,9 @@ const ld = {
     <div class="wrap bd-grid">
       <div class="bd-price">
         <p class="label">{B.priceLabel}</p>
-        <p class="bd-amount"><b>{nf.format(BUNDLE.price)}</b> {B.sar}</p>
+        <p class="bd-amount"><b>{nf.format(BUNDLE.price)}</b> {B.sar}<Fx sar={BUNDLE.price} /></p>
         <p class="bd-vat">{B.vat}</p>
+        <FxNote lang={lang} />
         <p class="bd-note">{B.priceNote}</p>
       </div>
       <form class="bd-form" id="bd-form" data-cfg={JSON.stringify(cfg)} novalidate>

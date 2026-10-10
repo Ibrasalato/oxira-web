@@ -1,6 +1,8 @@
 ---
 import { t, type Lang } from '../i18n/content';
-import { asset } from '../lib/routes';
+import { asset, link } from '../lib/routes';
+import { caseStudies } from '../data/case-studies';
+import { caseText, cpLang } from '../i18n/companyPages';
 import Base from '../layouts/Base.astro';
 import ClientStrip from '../components/ClientStrip.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -9,6 +11,9 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
 const pg = c.pages.work;
+// Case study pages exist in Arabic and English only, and only for projects listed in src/data/case-studies.ts.
+const cl = cpLang(lang);
+const caseFor = (slug: string) => (cl && caseStudies.some((cs) => cs.slug === slug) ? link(lang, `/work/${slug}/`) : null);
 ---
 <Base lang={lang} path="/work/" title={pg.title} description={pg.description}>
   <section class="page-hero">
@@ -29,6 +34,7 @@ const pg = c.pages.work;
               {p.sector && <span class="p-sector">{p.sector}</span>}
               <h2>{p.name}</h2>
               <p>{p.text}</p>
+              {caseFor(p.slug) && cl && <a class="more p-case" href={caseFor(p.slug)}>{caseText[cl].readCase}</a>}
             </div>
           </li>
         ))}
@@ -59,5 +65,6 @@ const pg = c.pages.work;
   .p-sector { color: var(--blue); font-weight: 700; }
   .p-body h2 { font-size: var(--s3); }
   .p-body p { color: var(--muted); font-size: 1.1rem; }
+  .p-case { margin-top: .4rem; }
   @media (max-width: 860px) { .project { grid-template-columns: 1fr; } .project.flip .p-shot { order: 0; } }
 </style>

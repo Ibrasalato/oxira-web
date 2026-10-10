@@ -5,6 +5,8 @@ import { link } from '../lib/routes';
 import { builderText } from '../i18n/builder';
 import { productsText, productPath } from '../i18n/products';
 import { productIds, addonPrices, addonIcons } from '../builder/addons';
+import Fx from './Fx.astro';
+import FxNote from './FxNote.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -22,12 +24,14 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang);
         <p class="pc-price">
           {addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {P.common.perMonth}</> : <b>{P.common.free}</b>}
           {addonPrices[id].feePercent ? <small> {P.common.fee}</small> : null}
+          {addonPrices[id].price ? <Fx sar={addonPrices[id].price} /> : null}
         </p>
         <span class="more">{P.common.learnMore}</span>
       </a>
     </li>
   ))}
 </ul>
+<FxNote lang={lang} />
 
 <style>
   .pc { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; padding: 0; }

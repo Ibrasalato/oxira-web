@@ -1,0 +1,239 @@
+---
+// Press & brand kit: official boilerplate (facts already on the site), logo files from public/brand,
+// brand colors (the tokens in layouts/Base.astro), fonts, usage notes and the media contact. Arabic and English only.
+import { contact } from '../i18n/content';
+import { link, asset } from '../lib/routes';
+import { company } from '../lib/company';
+import { pressText, boilerplate, cpLangs, type CpLang } from '../i18n/companyPages';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: CpLang }
+const { lang } = Astro.props;
+const P = pressText[lang];
+const other: CpLang = lang === 'ar' ? 'en' : 'ar';
+const blocks = [
+  { id: `bp-${lang}-short`, lang, label: P.short, text: boilerplate[lang].short },
+  { id: `bp-${lang}-long`, lang, label: P.long, text: boilerplate[lang].long },
+  { id: `bp-${other}-short`, lang: other, label: pressText[other].short, text: boilerplate[other].short },
+  { id: `bp-${other}-long`, lang: other, label: pressText[other].long, text: boilerplate[other].long },
+];
+const mediaMail = `mailto:${contact.email}?subject=${encodeURIComponent(P.mediaSubject)}`;
+const site = Astro.site!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'WebPage', name: P.h1, description: P.description,
+  url: new URL(link(lang, '/press/'), site).href, inLanguage: lang,
+  about: {
+    '@type': 'Organization', name: 'Oxira', alternateName: 'أوكسيرا', url: new URL(link('ar', '/'), site).href,
+    logo: new URL(asset('brand/oxira-logo-navy.svg'), site).href, email: contact.email, description: boilerplate[lang].short,
+  },
+};
+---
+<Base lang={lang} path="/press/" title={P.title} description={P.description} langs={cpLangs}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="label">{P.kicker}</p>
+      <h1>{P.h1}</h1>
+      <p class="lead">{P.lead}</p>
+      <div class="pr-ctas">
+        <a class="btn btn-amber" href="#pr-assets">{P.downloadLogo}</a>
+        <a class="btn btn-ghost" href={mediaMail}>{P.contactCta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight pr-pt0" aria-labelledby="pr-about">
+    <div class="wrap pr-about">
+      <div>
+        <div class="sh"><h2 id="pr-about">{P.aboutTitle}</h2><p>{P.aboutBody}</p></div>
+        <div class="pr-bps" data-copied={P.copied}>
+          {blocks.map((b) => (
+            <article class="pr-bp" lang={b.lang} dir={b.lang === 'ar' ? 'rtl' : 'ltr'}>
+              <header>
+                <h3>{b.label} <span>· {b.lang === 'ar' ? 'العربية' : 'English'}</span></h3>
+                <button type="button" class="pr-copy" data-copy={b.id}>{pressText[b.lang].copy}</button>
+              </header>
+              <p id={b.id}>{b.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+      <aside class="pr-facts">
+        <h2>{P.factsTitle}</h2>
+        <dl>
+          <div><dt>{P.facts.name}</dt><dd>{P.facts.nameValue}</dd></div>
+          <div><dt>{P.facts.hq}</dt><dd>{P.facts.hqValue}</dd></div>
+          <div><dt>{P.facts.web}</dt><dd><a href={link(lang, '/')} dir="ltr">oxira.sa</a></dd></div>
+          <div><dt>{P.facts.email}</dt><dd><a href={mediaMail} dir="ltr">{contact.email}</a></dd></div>
+          {company.cr && <div><dt>{P.facts.cr}</dt><dd dir="ltr">{company.cr}</dd></div>}
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section bg-paper" id="pr-assets" aria-labelledby="pr-logo">
+    <div class="wrap">
+      <div class="sh"><h2 id="pr-logo">{P.assetsTitle}</h2><p>{P.assetsBody}</p></div>
+      <ul class="pr-assets">
+        {P.assets.map((a) => (
+          <li>
+            <div class={`pr-tile is-${a.tone}`}><img src={asset(a.file)} alt={a.name} loading="lazy" class={a.file === 'favicon.svg' ? 'is-mark' : ''} /></div>
+            <div class="pr-asset-body">
+              <h3>{a.name}</h3>
+              <p>{a.use}</p>
+              <a class="more" href={asset(a.file)} download>{P.download}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pr-colors">
+    <div class="wrap pr-brand">
+      <div>
+        <h2 id="pr-colors">{P.colorsTitle}</h2>
+        <ul class="pr-colors">
+          {P.colors.map((c) => (
+            <li>
+              <span class="pr-sw" style={`background:${c.hex}`}></span>
+              <div>
+                <h3>{c.name}</h3>
+                <p class="pr-hex" dir="ltr">{c.hex}</p>
+                <p>{c.use}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>{P.fontsTitle}</h2>
+        <ul class="pr-fonts">
+          {P.fonts.map((f) => (
+            <li>
+              <p class="pr-font-sample" lang={f.name === 'Tajawal' ? 'ar' : 'en'}>{f.name === 'Tajawal' ? 'أوكسيرا' : 'Oxira Aa'}</p>
+              <div><h3 dir="ltr">{f.name}</h3><p>{f.use}</p><a class="more" href={f.href} target="_blank" rel="noopener">Google Fonts</a></div>
+            </li>
+          ))}
+        </ul>
+        <p class="pr-note">{P.fontsNote}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight pr-pt0" aria-labelledby="pr-usage">
+    <div class="wrap">
+      <div class="sh"><h2 id="pr-usage">{P.usageTitle}</h2></div>
+      <div class="pr-usage">
+        <div class="is-do"><h3>{P.doTitle}</h3><ul>{P.dos.map((d) => <li>{d}</li>)}</ul></div>
+        <div class="is-dont"><h3>{P.dont}</h3><ul>{P.donts.map((d) => <li>{d}</li>)}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="pr-media">
+    <div class="wrap">
+      <div class="pr-media">
+        <div>
+          <h2 id="pr-media">{P.mediaTitle}</h2>
+          <p>{P.mediaBody}</p>
+        </div>
+        <a class="btn btn-amber" href={mediaMail} dir="ltr">{contact.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('.pr-bps');
+  wrap?.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.pr-copy');
+    if (!btn) return;
+    const text = document.getElementById(btn.dataset.copy!)?.textContent || '';
+    try {
+      await navigator.clipboard.writeText(text);
+      const label = btn.textContent;
+      btn.textContent = wrap.dataset.copied!;
+      setTimeout(() => { btn.textContent = label; }, 1800);
+    } catch {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById(btn.dataset.copy!)!);
+      const sel = getSelection(); sel?.removeAllRanges(); sel?.addRange(r);
+    }
+  });
+</script>
+
+<style>
+  .pr-ctas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .pr-pt0 { padding-top: 0; }
+
+  .pr-about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  .pr-about .sh { margin-bottom: 2rem; }
+  .pr-bps { display: grid; gap: 1rem; }
+  .pr-bp { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.35rem 1.5rem; }
+  .pr-bp header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: .6rem; }
+  .pr-bp h3 { font-size: 1rem; }
+  .pr-bp h3 span { color: var(--muted); font-weight: 500; }
+  .pr-bp p { color: var(--muted); }
+  .pr-copy { font: 700 .88rem var(--font); color: #00699A; background: var(--blue-soft); border: 0; border-radius: 8px; padding: .4rem .8rem; cursor: pointer; flex: none; }
+  .pr-copy:hover { background: #D3E8F2; }
+  .pr-facts { padding: 1.6rem; border-radius: var(--radius); background: var(--paper); position: sticky; top: 6rem; }
+  .pr-facts h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+  .pr-facts dl { display: grid; gap: .8rem; margin: 0; }
+  .pr-facts dt { font-size: .85rem; color: var(--muted); }
+  .pr-facts dd { margin: 0; font-weight: 600; }
+  .pr-facts a { color: var(--blue); }
+
+  .pr-assets { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .pr-assets li { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
+  .pr-tile { aspect-ratio: 16 / 10; display: grid; place-items: center; padding: 2rem; }
+  .pr-tile.is-light { background: #fff; border-bottom: 1px solid var(--line); background-image: linear-gradient(45deg, #F5F7F9 25%, transparent 25%, transparent 75%, #F5F7F9 75%), linear-gradient(45deg, #F5F7F9 25%, transparent 25%, transparent 75%, #F5F7F9 75%); background-size: 20px 20px; background-position: 0 0, 10px 10px; }
+  .pr-tile.is-dark { background: var(--navy); }
+  .pr-tile img { width: 80%; max-height: 100%; height: auto; }
+  .pr-tile img.is-mark { width: 30%; }
+  .pr-asset-body { padding: 1.25rem 1.4rem 1.4rem; display: grid; gap: .35rem; align-content: start; }
+  .pr-asset-body h3 { font-size: 1.05rem; }
+  .pr-asset-body p { color: var(--muted); font-size: .95rem; }
+  .pr-asset-body .more { margin-top: .4rem; }
+
+  .pr-brand { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 5rem); }
+  .pr-brand h2 { font-size: var(--s3); margin-bottom: 1.5rem; }
+  .pr-colors { list-style: none; display: grid; gap: 1rem; }
+  .pr-colors li { display: flex; gap: 1.1rem; align-items: center; }
+  .pr-sw { width: 76px; height: 76px; border-radius: 18px; flex: none; box-shadow: inset 0 0 0 1px rgba(10, 37, 62, .1); }
+  .pr-colors h3 { font-size: 1.05rem; }
+  .pr-hex { font-weight: 700; color: var(--blue); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  html[dir='rtl'] .pr-hex { text-align: right; }
+  .pr-colors p:not(.pr-hex) { color: var(--muted); font-size: .95rem; }
+  .pr-fonts { list-style: none; display: grid; gap: 1rem; }
+  .pr-fonts li { display: flex; gap: 1.25rem; align-items: center; padding: 1.1rem 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); }
+  .pr-fonts .pr-font-sample { font-size: 2rem; font-weight: 700; line-height: 1.2; min-width: 6.5rem; color: var(--navy); }
+  .pr-fonts h3 { font-size: 1.05rem; }
+  html[dir='rtl'] .pr-fonts h3 { text-align: right; }
+  .pr-fonts p { color: var(--muted); font-size: .95rem; }
+  .pr-note { margin-top: 1rem; color: var(--muted); font-size: .95rem; }
+
+  .pr-usage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; }
+  .pr-usage > div { padding: 1.5rem 1.6rem; border-radius: var(--radius); border: 1px solid var(--line); border-top: 4px solid #2DB36A; }
+  .pr-usage > .is-dont { border-top-color: #E5484D; }
+  .pr-usage h3 { font-size: 1.15rem; margin-bottom: .8rem; }
+  .pr-usage ul { list-style: none; display: grid; gap: .55rem; }
+  .pr-usage li { position: relative; padding-inline-start: 1.6rem; }
+  .pr-usage li::before { position: absolute; inset-inline-start: 0; top: 0; font-weight: 700; }
+  .is-do li::before { content: '✓'; color: #1F9D55; }
+  .is-dont li::before { content: '✕'; color: #D92D20; }
+
+  .pr-media { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(1.75rem, 4vw, 2.75rem); border-radius: var(--radius-lg); background: var(--navy); color: #fff; }
+  .pr-media h2 { font-size: var(--s2); margin-bottom: .4rem; }
+  .pr-media p { color: var(--muted-on-navy); max-width: 40rem; }
+
+  @media (max-width: 900px) {
+    .pr-about, .pr-brand { grid-template-columns: minmax(0, 1fr); }
+    .pr-facts { position: static; }
+    .pr-assets { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .pr-assets, .pr-usage { grid-template-columns: minmax(0, 1fr); }
+    .pr-fonts .pr-font-sample { min-width: 0; font-size: 1.6rem; }
+    .pr-fonts li { flex-wrap: wrap; }
+  }
+</style>

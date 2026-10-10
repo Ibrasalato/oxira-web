@@ -1,0 +1,156 @@
+---
+// Case study page, generated only for entries in src/data/case-studies.ts. Arabic and English only.
+import { t, type Lang } from '../i18n/content';
+import { link, asset } from '../lib/routes';
+import { caseText, cpLangs, type CpLang } from '../i18n/companyPages';
+import type { CaseStudy } from '../data/case-studies';
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props { lang: CpLang; cs: CaseStudy }
+const { lang, cs } = Astro.props;
+const K = caseText[lang];
+const path = `/work/${cs.slug}/`;
+const site = Astro.site!;
+const url = new URL(link(lang, path), site).href;
+const client = cs.client[lang];
+const h1 = client;
+const title = `${client}: ${K.titleSuffix}`;
+const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s);
+const description = clip(cs.challenge[lang].replace(/\s+/g, ' '), 158);
+const paras = (s: string) => s.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+const [cover, ...gallery] = cs.images;
+const org = { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href };
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: clip(`${client}: ${K.caseLabel}`, 110),
+    description,
+    url,
+    inLanguage: lang,
+    mainEntityOfPage: url,
+    author: org,
+    publisher: org,
+    ...(cover ? { image: cs.images.map((i) => new URL(asset(i.src), site).href) } : {}),
+    about: {
+      '@type': 'CreativeWork',
+      name: client,
+      creator: org,
+      ...(cs.year ? { dateCreated: String(cs.year) } : {}),
+      ...(cs.links[0] ? { url: cs.links[0].href } : {}),
+      keywords: cs.services.map((s) => s[lang]).join(', '),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: K.home, item: new URL(link(lang, '/'), site).href },
+      { '@type': 'ListItem', position: 2, name: K.crumbsWork, item: new URL(link(lang, '/work/'), site).href },
+      { '@type': 'ListItem', position: 3, name: client, item: url },
+    ],
+  },
+];
+---
+<Base lang={lang} path={path} title={title} description={description} langs={cpLangs}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero cs-hero">
+    <div class="wrap">
+      <nav class="cs-crumbs" aria-label={K.crumbsWork}>
+        <a href={link(lang, '/')}>{K.home}</a><span aria-hidden="true">/</span>
+        <a href={link(lang, '/work/')}>{K.crumbsWork}</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{client}</span>
+      </nav>
+      <p class="label">{K.caseLabel} · {cs.sector[lang]}{cs.year ? ` · ${cs.year}` : ''}</p>
+      <h1>{h1}</h1>
+      {cs.services.length > 0 && <ul class="cs-tags" aria-label={K.services}>{cs.services.map((s) => <li>{s[lang]}</li>)}</ul>}
+    </div>
+  </section>
+
+  {cover && (
+    <div class="wrap">
+      <figure class="cs-cover"><img src={asset(cover.src)} alt={cover.alt[lang]} width="1200" height="808" /></figure>
+    </div>
+  )}
+
+  <section class="section-tight">
+    <div class="wrap cs-body">
+      <article>
+        <h2>{K.challenge}</h2>
+        {paras(cs.challenge[lang]).map((p) => <p>{p}</p>)}
+        <h2>{K.solution}</h2>
+        {paras(cs.solution[lang]).map((p) => <p>{p}</p>)}
+      </article>
+      <aside>
+        {cs.results.length > 0 && (
+          <div class="cs-results">
+            <h2>{K.results}</h2>
+            <dl>{cs.results.map((r) => <div><dd>{r.value}</dd><dt>{r.label[lang]}</dt></div>)}</dl>
+          </div>
+        )}
+        {cs.links.length > 0 && (
+          <div class="cs-links">
+            <h2>{K.links}</h2>
+            <ul>{cs.links.map((l) => <li><a class="more" href={l.href} target="_blank" rel="noopener">{l.label[lang]}</a></li>)}</ul>
+          </div>
+        )}
+      </aside>
+    </div>
+  </section>
+
+  {cs.quote && (
+    <section class="section-tight bg-paper">
+      <div class="wrap">
+        <figure class="cs-quote">
+          <blockquote><p>{cs.quote.text[lang]}</p></blockquote>
+          <figcaption><b>{cs.quote.name}</b> · {cs.quote.role[lang]}</figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+
+  {gallery.length > 0 && (
+    <section class="section-tight">
+      <div class="wrap">
+        <ul class="cs-gallery">{gallery.map((g) => <li><img src={asset(g.src)} alt={g.alt[lang]} loading="lazy" /></li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  <p class="wrap cs-back"><a class="more" href={link(lang, '/work/')}>{t[lang as Lang].home.workLink}</a></p>
+  <div style="height: var(--section)"></div>
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .cs-crumbs { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .92rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .cs-crumbs a { color: var(--muted); text-decoration: none; }
+  .cs-crumbs a:hover { color: var(--ink); }
+  .cs-hero h1 { max-width: 22ch; margin-top: .4rem; }
+  .cs-tags { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .cs-tags li { padding: .35rem .8rem; border-radius: 999px; background: var(--blue-soft); color: #00699A; font-weight: 600; font-size: .9rem; }
+  .cs-cover { margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: #EEF2F5; box-shadow: 0 0 0 1px var(--line); }
+  .cs-cover img { width: 100%; height: auto; }
+  .cs-body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  .cs-body article { display: grid; gap: 1rem; }
+  .cs-body article h2 { font-size: var(--s2); margin-top: 1rem; }
+  .cs-body article h2:first-child { margin-top: 0; }
+  .cs-body article p { color: var(--muted); font-size: 1.1rem; }
+  .cs-body aside { display: grid; gap: 1rem; }
+  .cs-results, .cs-links { padding: 1.5rem; border-radius: var(--radius); background: var(--paper); }
+  .cs-results h2, .cs-links h2 { font-size: 1.15rem; margin-bottom: 1rem; }
+  .cs-results dl { display: grid; gap: 1.1rem; margin: 0; }
+  .cs-results dd { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--navy); }
+  .cs-results dt { color: var(--muted); font-size: .95rem; }
+  .cs-links ul { list-style: none; display: grid; gap: .5rem; }
+  .cs-quote { margin: 0; max-width: 48rem; border-inline-start: 4px solid var(--amber); padding-inline-start: 1.5rem; }
+  .cs-quote blockquote { margin: 0; }
+  .cs-quote p { font-size: var(--s2); font-weight: 600; line-height: 1.5; }
+  .cs-quote figcaption { margin-top: 1rem; color: var(--muted); }
+  .cs-gallery { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .cs-gallery li { border-radius: var(--radius); overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+  .cs-gallery img { width: 100%; height: auto; }
+  .cs-back { margin-top: 1rem; }
+  @media (max-width: 860px) { .cs-body { grid-template-columns: minmax(0, 1fr); } .cs-gallery { grid-template-columns: minmax(0, 1fr); } }
+</style>

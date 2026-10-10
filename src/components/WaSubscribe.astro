@@ -3,6 +3,7 @@
 // (optional data-plan="basic|pro"). Posts to oxira-agent-subscribe; the team then calls and sends an invoice.
 import { link } from '../lib/routes';
 import { waText, WA_PRICES, type WaLang } from '../i18n/waAgent';
+import Fx from './Fx.astro';
 
 interface Props { lang: WaLang; demo?: boolean }
 const { lang, demo = false } = Astro.props;
@@ -24,7 +25,7 @@ const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-subscribe', lang, t: {
         {(['basic', 'pro'] as const).map((id) => (
           <label class="ws-plan">
             <input type="radio" name="plan" value={id} checked={id === 'pro'} />
-            <span><b>{W.plans[id].name}</b><small>{nf.format(WA_PRICES[id])} {W.sar} {W.perMonth}</small></span>
+            <span><b>{W.plans[id].name}</b><small>{nf.format(WA_PRICES[id])} {W.sar} {W.perMonth}<Fx sar={WA_PRICES[id]} inline /></small></span>
           </label>
         ))}
       </fieldset>

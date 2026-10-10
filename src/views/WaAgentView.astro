@@ -6,6 +6,8 @@ import { waText, waLangs, waPath, waDemoPath, WA_PRICES, type WaLang } from '../
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import WaSubscribe from '../components/WaSubscribe.astro';
+import Fx from '../components/Fx.astro';
+import FxNote from '../components/FxNote.astro';
 import waExamples from '../data/wa-examples.json';
 
 interface Props { lang: WaLang }
@@ -196,7 +198,7 @@ const ld = [
           <article class={`wa-plan${p.id === 'pro' ? ' is-pro' : ''}`}>
             {p.id === 'pro' && <span class="wa-tag">{W.popular}</span>}
             <h3>{p.name}</h3>
-            <p class="wa-price"><b>{nf.format(p.price)}</b> {W.sar} <span>{W.perMonth}</span></p>
+            <p class="wa-price"><b>{nf.format(p.price)}</b> {W.sar} <span>{W.perMonth}</span><Fx sar={p.price} /></p>
             {p.intro && <p class="wa-pintro">{p.intro}</p>}
             <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
             <button type="button" class={`btn ${p.id === 'pro' ? 'btn-amber' : 'btn-navy'}`} data-wa-sub data-plan={p.id}>{p.cta}</button>
@@ -204,6 +206,7 @@ const ld = [
         ))}
       </div>
       <ul class="wa-pnotes">{W.planNotes.map((n) => <li>{n}</li>)}</ul>
+      <FxNote lang={lang} />
       <a class="more wa-tryfirst" href="#wa-form">{W.tryFirst}</a>
     </div>
   </section>
