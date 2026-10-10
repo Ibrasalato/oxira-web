@@ -19,7 +19,7 @@ const rel = lp
       { href: link(lang, waPath), label: waText[lp].name },
       ...['business-automation', 'egypt', 'gulf'].map((slug) => landings.find((l) => l.slug === slug)!).map((l) => ({ href: link(lang, landingPath(l)), label: l[lp].name })),
       { href: link(lang, '/products/ai-chatbot/'), label: lp === 'ar' ? 'الشات بوت للموقع' : 'Website chatbot' },
-      ...(lp === 'ar' ? [{ href: link('ar', '/blog/whatsapp-ai-agent-benefits/'), label: 'فوائد وكيل الذكاء الاصطناعي على واتساب' }] : []),
+      { href: link(lang, '/blog/whatsapp-ai-agent-benefits/'), label: lp === 'ar' ? 'فوائد وكيل الذكاء الاصطناعي على واتساب' : 'Benefits of an AI agent on WhatsApp' },
     ]
   : [];
 const wa = isWaLang(lang) ? waText[lang] : null;

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { langCodes, type Lang } from '../i18n/content';
 import { productSlugs } from '../i18n/products';
-import { getCollection } from 'astro:content';
+import { getPosts } from '../lib/blog';
 import { landingPaths, landingLangs } from '../i18n/landing';
 import { waPath } from '../i18n/waAgent';
 
@@ -11,8 +11,12 @@ export const GET: APIRoute = async ({ site }) => {
   // Service and location pages and the AI WhatsApp employee page exist in Arabic and English only.
   // (Its demo page, /whatsapp-agent/demo/, is noindex and left out.)
   const arEn = [...landingPaths, waPath];
-  // Arabic-only pages (the blog): no language alternates.
-  const arOnly = ['/blog/', ...(await getCollection('blog')).map((p) => `/blog/${p.id}/`)];
+  // The blog: Arabic and English. Articles with an English translation (same slug) get ar/en alternates;
+  // any Arabic-only article is listed without alternates.
+  const [arPosts, enPosts] = [await getPosts('ar'), await getPosts('en')];
+  const enIds = new Set(enPosts.map((p) => p.id));
+  arEn.push('/blog/', ...arPosts.filter((p) => enIds.has(p.id)).map((p) => `/blog/${p.id}/`));
+  const arOnly = arPosts.filter((p) => !enIds.has(p.id)).map((p) => `/blog/${p.id}/`);
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const url = (lang: Lang, p: string) => new URL(`${base}${lang === 'ar' ? '' : '/' + lang}${p}`, site).href;
   const body = `<?xml version="1.0" encoding="UTF-8"?>

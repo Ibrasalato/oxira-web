@@ -1,12 +1,12 @@
 ---
-// One blog article (Arabic).
-import View from '../../views/BlogPostView.astro';
-import { getPosts, postLangs } from '../../lib/blog';
+// One blog article (English).
+import View from '../../../views/BlogPostView.astro';
+import { getPosts, postLangs } from '../../../lib/blog';
 
 export async function getStaticPaths() {
-  const posts = await getPosts('ar');
+  const posts = await getPosts('en');
   return Promise.all(posts.map(async (post) => ({ params: { slug: post.id }, props: { post, all: posts, langs: await postLangs(post.id) } })));
 }
 const { post, all, langs } = Astro.props;
 ---
-<View lang="ar" post={post} all={all} langs={langs} />
+<View lang="en" post={post} all={all} langs={langs} />

@@ -1,0 +1,128 @@
+---
+// One blog article (Arabic at /blog/<slug>/, English at /en/blog/<slug>/).
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { link } from '../lib/routes';
+import { productsText, productPath } from '../i18n/products';
+import type { AddonId } from '../builder/addons';
+import { landings, landingPath } from '../i18n/landing';
+import { t } from '../i18n/content';
+import { blogText, postHeading, type BlogLang, type Post } from '../lib/blog';
+
+interface Props { lang: BlogLang; post: Post; all: Post[]; langs: BlogLang[] }
+const { lang, post, all, langs } = Astro.props;
+const B = blogText[lang];
+const { Content, headings } = await render(post);
+const d = post.data;
+const h1 = postHeading(d.title);
+const site = Astro.site!;
+const url = new URL(link(lang, `/blog/${post.id}/`), site).href;
+const fmt = new Intl.DateTimeFormat(B.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+const P = productsText[lang];
+const prod = d.product && d.product !== 'builder' ? (d.product as AddonId) : null;
+// Call to action: a service page when the article names one, else the product, else the website builder.
+const svcPage = d.service ? landings.find((l) => landingPath(l) === d.service) : undefined;
+const svc = svcPage
+  ? { href: link(lang, d.service!), name: svcPage[lang].name, short: svcPage[lang].ctaBody }
+  : d.service === '/ai-agents/' ? { href: link(lang, '/ai-agents/'), name: t[lang].agents.title, short: t[lang].home.agentsBody } : null;
+// Newest first, so new articles show up under "other articles".
+const others = all.filter((p) => p.id !== post.id).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+const toc = headings.filter((h) => h.depth === 2);
+const ld = [
+  {
+    '@context': 'https://schema.org', '@type': 'BlogPosting', headline: h1, description: d.description, url, mainEntityOfPage: url,
+    datePublished: d.date.toISOString().slice(0, 10), inLanguage: lang, keywords: d.tags.join(', '),
+    author: { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href },
+    publisher: { '@type': 'Organization', name: 'Oxira', logo: { '@type': 'ImageObject', url: new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`, site).href } },
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: B.home, item: new URL(link(lang, '/'), site).href },
+      { '@type': 'ListItem', position: 2, name: B.blog, item: new URL(link(lang, '/blog/'), site).href },
+      { '@type': 'ListItem', position: 3, name: h1, item: url },
+    ],
+  },
+];
+---
+<Base lang={lang} path={`/blog/${post.id}/`} langs={langs} title={d.title} description={d.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <article>
+    <header class="page-hero ar-hero">
+      <div class="wrap ar-narrow">
+        <nav class="crumbs" aria-label={B.crumbs}>
+          <a href={link(lang, '/')}>{B.home}</a><span aria-hidden="true">/</span><a href={link(lang, '/blog/')}>{B.blog}</a>
+        </nav>
+        <h1>{h1}</h1>
+        <p class="lead">{d.description}</p>
+        <p class="ar-meta"><time datetime={d.date.toISOString().slice(0, 10)}>{fmt.format(d.date)}</time> · {B.team}</p>
+      </div>
+    </header>
+    <div class="wrap ar-layout">
+      <aside class="ar-toc" aria-label={B.tocLabel}>
+        <p>{B.toc}</p>
+        <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+      </aside>
+      <div class="prose"><Content /></div>
+    </div>
+  </article>
+
+  <section class="section-tight">
+    <div class="wrap ar-narrow">
+      {svc ? (
+        <a class="ar-cta" href={svc.href}>
+          <div><b>{svc.name}</b><span>{svc.short}</span></div>
+          <span class="btn btn-amber">{P.common.learnMore}</span>
+        </a>
+      ) : prod ? (
+        <a class="ar-cta" href={link(lang, productPath(prod))}>
+          <div><b>{P.items[prod].name}</b><span>{P.items[prod].short}</span></div>
+          <span class="btn btn-amber">{P.common.learnMore}</span>
+        </a>
+      ) : (
+        <a class="ar-cta" href={link(lang, '/website-builder/')}>
+          <div><b>{P.nav.websiteBuilder}</b><span>{P.nav.websiteBuilderDesc}</span></div>
+          <span class="btn btn-amber">{P.common.buildSite}</span>
+        </a>
+      )}
+      <h2 class="ar-more">{B.more}</h2>
+      <ul class="ar-others">
+        {others.map((p) => <li><a href={link(lang, `/blog/${p.id}/`)}>{postHeading(p.data.title)}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .crumbs { display: flex; gap: .5rem; font-size: .9rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .ar-hero { padding-bottom: 1.5rem; }
+  .ar-hero h1 { font-size: var(--s4); max-width: none; }
+  .ar-narrow { max-width: 52rem; }
+  .ar-meta { margin-top: 1rem; color: var(--muted); font-size: .92rem; }
+  .ar-layout { display: grid; grid-template-columns: 15rem minmax(0, 46rem); gap: clamp(2rem, 5vw, 4rem); justify-content: center; padding-bottom: 2rem; }
+  .ar-toc { position: sticky; top: 6rem; align-self: start; font-size: .92rem; border-inline-start: 2px solid var(--line); padding-inline-start: 1rem; }
+  .ar-toc p { font-weight: 700; margin-bottom: .5rem; }
+  .ar-toc ol { list-style: none; display: grid; gap: .45rem; }
+  .ar-toc a { color: var(--muted); text-decoration: none; line-height: 1.5; display: block; }
+  .ar-toc a:hover { color: var(--blue); }
+  .prose { font-size: 1.1rem; }
+  .prose :global(h2) { font-size: var(--s2); margin: 2.4rem 0 .9rem; scroll-margin-top: 6rem; }
+  .prose :global(h3) { font-size: 1.2rem; margin: 1.6rem 0 .6rem; }
+  .prose :global(p) { margin: 0 0 1rem; }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 1.1rem; padding-inline-start: 1.4rem; display: grid; gap: .4rem; }
+  .prose :global(a) { color: var(--blue); font-weight: 600; }
+  .prose :global(strong) { color: var(--ink); }
+  .prose :global(table) { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: .98rem; display: block; overflow-x: auto; }
+  .prose :global(th), .prose :global(td) { border: 1px solid var(--line); padding: .6rem .8rem; text-align: start; vertical-align: top; }
+  .prose :global(th) { background: var(--paper); }
+  .prose :global(blockquote) { margin: 1.2rem 0; padding: .8rem 1.2rem; border-inline-start: 4px solid var(--amber); background: #FFF8E6; border-radius: 8px; }
+  .ar-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; padding: 1.5rem 1.75rem; border-radius: var(--radius); background: var(--navy); color: #fff; text-decoration: none; }
+  .ar-cta div { display: grid; gap: .3rem; max-width: 32rem; }
+  .ar-cta b { font-size: 1.25rem; }
+  .ar-cta span:not(.btn) { color: var(--muted-on-navy); }
+  .ar-more { font-size: var(--s2); margin: 3rem 0 1rem; }
+  .ar-others { list-style: none; display: grid; gap: .6rem; }
+  .ar-others a { color: var(--blue); font-weight: 600; text-decoration: none; }
+  @media (max-width: 960px) { .ar-layout { grid-template-columns: minmax(0, 1fr); } .ar-toc { position: static; } }
+</style>

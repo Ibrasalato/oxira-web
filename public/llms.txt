@@ -43,7 +43,22 @@ Prices exclude 15% VAT.
 - [Gulf](https://oxira.sa/locations/gulf/): UAE, Qatar, Kuwait, Bahrain and Oman, served remotely.
 - [Egypt](https://oxira.sa/locations/egypt/): AI WhatsApp agents that reply in Egyptian Arabic, websites and automation, served remotely.
 
-Service and location pages and the AI WhatsApp employee page are in Arabic and English (/en/...). The blog (https://oxira.sa/blog/) is in Arabic.
+Service and location pages, the AI WhatsApp employee page and the blog are in Arabic and English (/en/...).
+
+## Blog
+
+Practical guides for business owners, in Arabic (https://oxira.sa/blog/) and English (https://oxira.sa/en/blog/). Each English article has the same slug as its Arabic original.
+
+- [How much does a website cost in Saudi Arabia?](https://oxira.sa/en/blog/website-cost-saudi/): what drives website costs, freelancer vs. agency vs. website builder, and how to compare quotes.
+- [How to choose a booking system for your clinic or salon](https://oxira.sa/en/blog/booking-system-guide/): what to look for in online appointment booking.
+- [QR digital menus for restaurants and cafés](https://oxira.sa/en/blog/digital-menu-qr/): benefits, what to include, QR printing tips, keeping prices current.
+- [How to get more Google reviews the right way](https://oxira.sa/en/blog/google-reviews/): Business Profile setup, asking for reviews, replying, and what Google's policies prohibit (incentives, fake reviews, review gating).
+- [AI chatbots for business](https://oxira.sa/en/blog/ai-chatbot-business/): what a website AI chatbot does, its limits and responsible use.
+- [Choosing a web design company in Saudi Arabia: 10 questions](https://oxira.sa/en/blog/choose-web-design-company/): questions to ask before signing, ownership of domain and content, red flags.
+- [Benefits of an AI agent on WhatsApp for business](https://oxira.sa/en/blog/whatsapp-ai-agent-benefits/): 24/7 replies, voice notes, order logging, and WhatsApp Business Platform policy on AI chatbots.
+- [Starting an online store in Saudi Arabia](https://oxira.sa/en/blog/start-online-store-saudi/): Saudi-specific steps: Business Platform verification, payments and shipping, ZATCA e-invoicing.
+- [Business automation for SMEs](https://oxira.sa/en/blog/business-automation-guide/): how to find tasks worth automating, examples and common mistakes.
+- [Mobile app or website?](https://oxira.sa/en/blog/app-or-website/): how to decide which one a business needs, and when to have both.
 
 ## Help
 

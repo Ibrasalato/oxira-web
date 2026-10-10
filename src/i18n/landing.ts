@@ -311,6 +311,7 @@ export const landings: Landing[] = [
         { path: '/products/ads-management/', label: 'Ads management' },
         { path: '/ai-agents/', label: 'AI agent on WhatsApp' },
         { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
+        { path: '/blog/start-online-store-saudi/', label: 'Guide to starting an online store' },
       ],
     },
   },
@@ -1212,6 +1213,7 @@ export const landings: Landing[] = [
       related: [
         { path: '/ai-agents/', label: 'AI agents' },
         { path: '/whatsapp-agent/', label: 'Try an AI WhatsApp employee free' },
+        { path: '/blog/whatsapp-ai-agent-benefits/', label: 'Benefits of an AI WhatsApp agent' },
         { path: '/locations/gulf/', label: 'Oxira in the Gulf' },
         { path: '/products/ai-chatbot/', label: 'Website chatbot' },
       ],

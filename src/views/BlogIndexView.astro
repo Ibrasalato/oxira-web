@@ -1,0 +1,55 @@
+---
+// Blog index (Arabic at /blog/, English at /en/blog/).
+import Base from '../layouts/Base.astro';
+import { link } from '../lib/routes';
+import { blogText, blogLangs, getPosts, postHeading, type BlogLang } from '../lib/blog';
+
+interface Props { lang: BlogLang }
+const { lang } = Astro.props;
+const B = blogText[lang];
+const posts = await getPosts(lang);
+const fmt = new Intl.DateTimeFormat(B.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
+const site = Astro.site!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Blog', name: B.blogName, inLanguage: lang, url: new URL(link(lang, '/blog/'), site).href,
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: postHeading(p.data.title), url: new URL(link(lang, `/blog/${p.id}/`), site).href, datePublished: p.data.date.toISOString().slice(0, 10) })),
+};
+---
+<Base lang={lang} path="/blog/" langs={blogLangs} title={B.indexTitle} description={B.indexDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="label">{B.blog}</p>
+      <h1>{B.h1}</h1>
+      <p class="lead">{B.lead}</p>
+    </div>
+  </section>
+  <section class="section-tight pt0">
+    <div class="wrap">
+      <ul class="bl">
+        {posts.map((p) => (
+          <li>
+            <a href={link(lang, `/blog/${p.id}/`)}>
+              <time datetime={p.data.date.toISOString().slice(0, 10)}>{fmt.format(p.data.date)}</time>
+              <h2>{postHeading(p.data.title)}</h2>
+              <p>{p.data.description}</p>
+              <span class="more">{B.read}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pt0 { padding-top: 0; }
+  .bl { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; padding: 0; }
+  .bl a { display: flex; flex-direction: column; gap: .6rem; height: 100%; padding: 1.6rem; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; }
+  .bl a:hover { border-color: var(--navy); }
+  .bl time { color: var(--blue); font-weight: 600; font-size: .9rem; }
+  .bl h2 { font-size: 1.25rem; }
+  .bl p { color: var(--muted); flex: 1; }
+  @media (max-width: 900px) { .bl { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  @media (max-width: 600px) { .bl { grid-template-columns: minmax(0, 1fr); } }
+</style>

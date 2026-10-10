@@ -7,6 +7,7 @@ import { builderText } from '../i18n/builder';
 import { productsText } from '../i18n/products';
 import { growthText } from '../i18n/growth';
 import { company } from '../lib/company';
+import { blogText, isBlogLang } from '../lib/blog';
 
 interface Props { lang: Lang; path: string; langs?: Lang[] }
 const { lang, path, langs } = Astro.props;
@@ -38,7 +39,7 @@ const lp = lang === 'ar' || lang === 'en' ? lang : null;
           <li><a href={link(lang, '/website-builder/')}>{builderText[lang].navLabel}</a></li>
           <li><a href={link(lang, '/products/')}>{productsText[lang].nav.products}</a></li>
           <li><a href={link(lang, '/partners/')}>{builderText[lang].account.partner}</a></li>
-          {lang === 'ar' && <li><a href={link(lang, '/blog/')}>المدونة</a></li>}
+          {isBlogLang(lang) && <li><a href={link(lang, '/blog/')}>{blogText[lang].blog}</a></li>}
           <li><a href={link(lang, '/online-in-a-day/')}>{bundleText[lang].nav}</a></li>
           <li><a href={link(lang, '/website-audit/')}>{growthText[lang].audit.nav}</a></li>
           <li><a href={link(lang, '/help/')}>{extra.help}</a></li>
