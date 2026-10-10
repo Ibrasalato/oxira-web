@@ -3,11 +3,17 @@ import { t, type Lang } from '../i18n/content';
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { team } from '../data/team';
+import { leadershipTitle } from '../i18n/companyPages';
+import { asset } from '../lib/routes';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
 const pg = c.pages.about;
+// Leadership appears only when src/data/team.ts has entries. Names, roles and bios fall back to English outside Arabic.
+const tl = lang === 'ar' ? 'ar' : 'en';
+const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('');
 ---
 <Base lang={lang} path="/about/" title={pg.title} description={pg.description}>
   <section class="page-hero">
@@ -42,6 +48,27 @@ const pg = c.pages.about;
     </div>
   </section>
 
+  {team.length > 0 && (
+    <section class="section team-sec" aria-labelledby="team-title">
+      <div class="wrap">
+        <div class="sh"><h2 id="team-title">{leadershipTitle[lang]}</h2></div>
+        <ul class="team">
+          {team.map((m) => (
+            <li>
+              {m.photo
+                ? <img class="tm-photo" src={asset(m.photo)} alt={m.name[tl]} width="400" height="400" loading="lazy" />
+                : <span class="tm-photo tm-initials" aria-hidden="true">{initials(m.name[tl])}</span>}
+              <h3 lang={tl}>{m.name[tl]}</h3>
+              <p class="tm-role" lang={tl}>{m.role[tl]}</p>
+              {m.bio && <p class="tm-bio" lang={tl}>{m.bio[tl]}</p>}
+              {m.linkedin && <a class="more" href={m.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
   <section class="section" aria-labelledby="process-title">
     <div class="wrap">
       <div class="sh"><h2 id="process-title">{c.process.title}</h2></div>
@@ -73,6 +100,17 @@ const pg = c.pages.about;
   .why p { color: var(--muted); }
   @media (max-width: 860px) { .why { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .why { grid-template-columns: 1fr; } }
+
+  .team-sec + .section { padding-top: 0; }
+  .team { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+  .team li { display: grid; gap: .4rem; align-content: start; justify-items: start; }
+  .tm-photo { width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: var(--radius); background: var(--paper); margin-bottom: .75rem; }
+  .tm-initials { display: grid; place-items: center; font-size: 3rem; font-weight: 700; color: var(--navy); background: var(--blue-soft); }
+  .team h3 { font-size: var(--s1); }
+  .tm-role { color: var(--blue); font-weight: 600; }
+  .tm-bio { color: var(--muted); }
+  @media (max-width: 860px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .team { grid-template-columns: minmax(0, 1fr); } }
 
   .process { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
   .process li { display: grid; gap: .6rem; align-content: start; }

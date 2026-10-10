@@ -1,0 +1,21 @@
+---
+// One note per price group: currency switcher + "Billed in SAR; converted amount is approximate".
+// Hidden for visitors in Saudi Arabia (see the currency check in layouts/Base.astro).
+import type { Lang } from '../i18n/content';
+import { fxText } from '../i18n/fx';
+import { FX_CURRENCIES } from '../lib/fx-currencies';
+
+interface Props { lang: Lang; tone?: 'light' | 'dark' }
+const { lang, tone = 'light' } = Astro.props;
+const T = fxText[lang];
+---
+<p class={`fx-note fx-${tone}`}>
+  <label><span>{T.label}</span>
+    <select class="fx-pick" dir="ltr">{FX_CURRENCIES.map((c) => <option value={c}>{c}</option>)}</select>
+  </label>
+  <span class="fx-billed">{T.note}</span>
+</p>
+
+<script>
+  import '../lib/fx';
+</script>

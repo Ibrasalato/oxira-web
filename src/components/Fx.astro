@@ -1,0 +1,11 @@
+---
+// Approximate local-currency line under a SAR price ("≈ 1,234 EGP"). Empty and hidden for visitors in Saudi Arabia.
+// The shared script (src/lib/fx.ts) is bundled once per page however many of these are on it.
+interface Props { sar: number; inline?: boolean }
+const { sar, inline = false } = Astro.props;
+---
+<span class={inline ? 'fx fx-inline' : 'fx'} data-fx-sar={sar}></span>
+
+<script>
+  import '../lib/fx';
+</script>

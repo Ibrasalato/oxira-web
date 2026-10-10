@@ -84,6 +84,8 @@ const org = {
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
     <link rel="sitemap" href={asset('sitemap.xml')} />
     <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    <!-- Local currency hint (see src/lib/fx.ts): pick the visitor's currency before first paint so price lines reserve their space. Saudi visitors get nothing. -->
+    <script is:inline>(function(){try{var d=document.documentElement,c=null;try{c=localStorage.getItem('oxira-cur')}catch(e){}if(c&&/^[A-Z]{3}$/.test(c)){d.setAttribute('data-fx',c);return}var z=Intl.DateTimeFormat().resolvedOptions().timeZone||'',m={'Asia/Riyadh':'SAR','Asia/Dubai':'AED','Africa/Cairo':'EGP','Asia/Qatar':'QAR','Asia/Kuwait':'KWD','Asia/Bahrain':'BHD','Asia/Muscat':'OMR','Europe/London':'GBP','Europe/Jersey':'GBP','Europe/Guernsey':'GBP','Europe/Isle_of_Man':'GBP','Europe/Moscow':'USD','Europe/Istanbul':'USD','Europe/Kyiv':'USD','Europe/Kiev':'USD','Europe/Minsk':'USD'};if(!z||/^(UTC|GMT|Etc\/)/.test(z))z=/-GB$/i.test(navigator.language||'')?'Europe/London':'';c=m[z]||(/^Europe\//.test(z)?'EUR':z?'USD':'SAR');if(c!=='SAR')d.setAttribute('data-fx',c)}catch(e){}})()</script>
     <script is:inline>try{var r=new URLSearchParams(location.search).get('ref');if(r&&/^[a-z0-9]{3,20}$/i.test(r))localStorage.setItem('oxira-ref',JSON.stringify({c:r.toLowerCase(),t:Date.now()}))}catch(e){}</script>
     {gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
     {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());var q=new URLSearchParams(location.search),k=new URLSearchParams();q.forEach(function(v,n){if(/^utm_|^gclid$/.test(n))k.set(n,v);});var s=k.toString();gtag('config',gaId,{page_location:location.origin+location.pathname+(s?'?'+s:''),allow_google_signals:false,allow_ad_personalization_signals:false});</script>}
@@ -207,6 +209,17 @@ const org = {
   .page-hero { padding-block: clamp(4rem, 9vw, 7rem) clamp(2.5rem, 5vw, 4rem); }
   .page-hero h1 { font-size: var(--s5); max-width: 18ch; text-wrap: balance; }
   .page-hero .lead { margin-top: 1.25rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--muted); max-width: 44rem; }
+
+  /* Local currency hint under SAR prices (components/Fx.astro, FxNote.astro). Hidden unless <html data-fx> is set. */
+  .fx, .fx-note { display: none; }
+  html[data-fx] .fx { display: block; min-height: 1.5em; line-height: 1.5; font-size: .85rem; font-weight: 500; opacity: .8; }
+  html[data-fx] .fx-inline { display: inline; min-height: 0; }
+  html[data-fx] .fx-inline:not(:empty)::before { content: ' · '; }
+  html[data-fx='SAR'] .fx { display: none; }
+  html[data-fx] .fx-note { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem 1rem; margin-top: 1rem; font-size: .85rem; color: var(--muted); }
+  html[data-fx] .fx-note.fx-dark { color: var(--muted-on-navy); }
+  .fx-note label { display: inline-flex; align-items: center; gap: .4rem; }
+  .fx-pick { font: 600 .85rem var(--font); color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .15rem .35rem; cursor: pointer; }
 
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

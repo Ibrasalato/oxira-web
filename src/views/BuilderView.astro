@@ -11,6 +11,8 @@ import SiteThumb from '../components/SiteThumb.astro';
 import TemplateGallery from '../components/TemplateGallery.astro';
 import Proof from '../components/Proof.astro';
 import Logo from '../components/Logo.astro';
+import Fx from '../components/Fx.astro';
+import FxNote from '../components/FxNote.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -85,12 +87,13 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
             {id === 'pro' && <span class="bd-pop">{b.plans.popular}</span>}
             <h3>{b.plans.items[id].name}</h3>
             <p class="bd-plan-desc">{b.plans.items[id].desc}</p>
-            <p class="bd-price"><b>{fmt.format(plans[id].price)}</b> {b.packages.sar} <small>/ {b.plans.firstYear}</small></p>
+            <p class="bd-price"><b>{fmt.format(plans[id].price)}</b> {b.packages.sar} <small>/ {b.plans.firstYear}</small><Fx sar={plans[id].price} /></p>
             <ul class="bd-feat">{b.plans.items[id].features.map((f) => <li>{f}</li>)}</ul>
             <a class={`btn ${id === 'pro' ? 'btn-amber' : 'btn-ghost-light'}`} href={`${studio}?plan=${id}`}>{b.plans.choose}</a>
           </li>
         ))}
       </ul>
+      <FxNote lang={lang} tone="dark" />
       <p class="bd-renew">{b.plans.renew.replace('{hosting}', fmt.format(renewals.hosting)).replace('{domain}', fmt.format(renewals.domain))} · <a href={link(lang, '/terms/')}>{p.terms}</a></p>
       <div class="bd-account">
         <h3>{p.accountTitle}</h3>
@@ -111,11 +114,12 @@ const fmt = new Intl.NumberFormat(lang === 'ar' ? 'ar-SA-u-nu-latn' : lang, { ma
             <span class="bd-addon-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={addonIcons[id]} /></span>
             <h3><a href={link(lang, productPath(productOf(id)))}>{b.addons.items[id].name}</a></h3>
             <p>{b.addons.items[id].desc}</p>
-            <p class="bd-addon-price">{addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {b.addons.perMonth}</> : <b>{b.addons.free}</b>}{addonPrices[id].feePercent ? <small> {b.addons.fee}</small> : null}</p>
+            <p class="bd-addon-price">{addonPrices[id].price ? <><b>{fmt.format(addonPrices[id].price)}</b> {b.packages.sar} {b.addons.perMonth}</> : <b>{b.addons.free}</b>}{addonPrices[id].feePercent ? <small> {b.addons.fee}</small> : null}{addonPrices[id].price ? <Fx sar={addonPrices[id].price} /> : null}</p>
             <a class="more bd-addon-more" href={link(lang, productPath(productOf(id)))}>{productsText[lang].common.learnMore}</a>
           </li>
         ))}
       </ul>
+      <FxNote lang={lang} />
       <p class="bd-addons-note">{b.addons.fromAccount} <a href={link(lang, '/account/')}>{b.account.title}</a> · <a href={link(lang, '/products/')}>{productsText[lang].nav.all}</a></p>
       <div class="bd-partner">
         <p>{productsText[lang].common.partnerStrip}</p>

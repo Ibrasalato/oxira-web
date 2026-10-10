@@ -66,5 +66,8 @@ Practical guides for business owners, in Arabic (https://oxira.sa/blog/) and Eng
 - [Trust and security](https://oxira.sa/trust/)
 - [Terms](https://oxira.sa/terms/) · [Privacy](https://oxira.sa/privacy/)
 - [Contact](https://oxira.sa/contact/)
+- [Service status](https://oxira.sa/status/): live status and 24-hour uptime of oxira.sa, Oxira Events, Oxira Design, the services API and automation.
+- [Press and brand kit](https://oxira.sa/press/): official boilerplate, logo files, brand colors and fonts, media contact.
+- [Careers](https://oxira.sa/careers/): no open positions are listed at the moment; CVs are welcome at info@oxira.sa.
 
 Languages: Arabic (default), English (https://oxira.sa/en/), German, French, Russian.

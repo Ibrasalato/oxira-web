@@ -15,14 +15,18 @@ const extra = {
   help: { ar: 'مركز المساعدة', en: 'Help center', de: 'Hilfe', fr: 'Aide', ru: 'Помощь' }[lang],
   cr: { ar: 'السجل التجاري', en: 'CR', de: 'HR-Nr.', fr: 'RC', ru: 'Рег. №' }[lang],
   vat: { ar: 'الرقم الضريبي', en: 'VAT', de: 'USt-Nr.', fr: 'TVA', ru: 'НДС' }[lang],
+  verify: { ar: 'التحقق من السجل', en: 'Verify registration', de: 'Registrierung prüfen', fr: 'Vérifier l’immatriculation', ru: 'Проверить регистрацию' }[lang],
   trust: { ar: 'الثقة والأمان', en: 'Trust & security', de: 'Vertrauen & Sicherheit', fr: 'Confiance et sécurité', ru: 'Доверие и безопасность' }[lang],
 };
 const c = t[lang];
 import { bundleText } from '../i18n/bundle';
 import { serviceLandings, locationLandings, landingPath } from '../i18n/landing';
 import { waText, waPath } from '../i18n/waAgent';
+import { footerText } from '../i18n/companyPages';
 // Service and location pages exist in Arabic and English only.
 const lp = lang === 'ar' || lang === 'en' ? lang : null;
+// Careers, press and status pages also exist in Arabic and English only.
+const fx = lp ? footerText[lp] : null;
 ---
 <footer class="ft">
   <div class="wrap">
@@ -42,6 +46,8 @@ const lp = lang === 'ar' || lang === 'en' ? lang : null;
           {isBlogLang(lang) && <li><a href={link(lang, '/blog/')}>{blogText[lang].blog}</a></li>}
           <li><a href={link(lang, '/online-in-a-day/')}>{bundleText[lang].nav}</a></li>
           <li><a href={link(lang, '/website-audit/')}>{growthText[lang].audit.nav}</a></li>
+          {fx && <li><a href={link(lang, '/careers/')}>{fx.careers}</a></li>}
+          {fx && <li><a href={link(lang, '/press/')}>{fx.press}</a></li>}
           <li><a href={link(lang, '/help/')}>{extra.help}</a></li>
           <li><a href={link(lang, '/contact/')}>{c.site.contactCta}</a></li>
         </ul>
@@ -75,12 +81,13 @@ const lp = lang === 'ar' || lang === 'en' ? lang : null;
     <div class="ft-bottom">
       <div>
         <p>© {new Date().getFullYear()} {c.footer.rights}</p>
-        {(company.cr || company.vat) && <p class="ft-reg">{company.cr && <span>{extra.cr}: <bdi dir="ltr">{company.cr}</bdi></span>}{company.vat && <span>{extra.vat}: <bdi dir="ltr">{company.vat}</bdi></span>}</p>}
+        {(company.cr || company.vat) && <p class="ft-reg">{company.cr && <span>{extra.cr}: <bdi dir="ltr">{company.cr}</bdi></span>}{company.vat && <span>{extra.vat}: <bdi dir="ltr">{company.vat}</bdi></span>}{company.verifyUrl && <a href={company.verifyUrl} target="_blank" rel="noopener">{extra.verify}</a>}</p>}
       </div>
       <div class="ft-legal">
         <a href={link(lang, '/privacy/')}>{c.legal.privacy}</a>
         <a href={link(lang, '/terms/')}>{builderText[lang].page.terms}</a>
         <a href={link(lang, '/trust/')}>{extra.trust}</a>
+        {fx && <a href={link(lang, '/status/')}>{fx.status}</a>}
         <a href={link(lang, '/account/')}>{builderText[lang].account.title}</a>
         <LangPicker lang={lang} path={path} langs={langs} tone="dark" up />
       </div>
@@ -103,4 +110,5 @@ const lp = lang === 'ar' || lang === 'en' ? lang : null;
   @media (max-width: 900px) { .ft-top { grid-template-columns: 1fr 1fr; } .ft-brand { grid-column: 1 / -1; } }
   @media (max-width: 520px) { .ft-top { grid-template-columns: 1fr; } }
   .ft-reg { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; margin-top: .35rem; font-size: .8rem; opacity: .75; }
+  .ft-reg a { text-decoration: underline; text-underline-offset: .2em; }
 </style>

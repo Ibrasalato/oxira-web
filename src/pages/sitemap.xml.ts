@@ -4,13 +4,18 @@ import { productSlugs } from '../i18n/products';
 import { getPosts } from '../lib/blog';
 import { landingPaths, landingLangs } from '../i18n/landing';
 import { waPath } from '../i18n/waAgent';
+import { cpPaths } from '../i18n/companyPages';
+import { caseStudies } from '../data/case-studies';
 
 const paths = ['/', '/website-builder/', '/studio/', '/partners/', '/products/', ...Object.values(productSlugs).map((s) => `/products/${s}/`), '/services/', '/ai-agents/', '/classti/', '/work/', '/about/', '/contact/', '/website-audit/', '/online-in-a-day/', '/help/', '/trust/', '/privacy/', '/terms/'];
 
 export const GET: APIRoute = async ({ site }) => {
   // Service and location pages and the AI WhatsApp employee page exist in Arabic and English only.
   // (Its demo page, /whatsapp-agent/demo/, is noindex and left out.)
-  const arEn = [...landingPaths, waPath];
+  // ar+en pages: landing pages, WhatsApp agent, careers, press, status and case studies (only those in src/data/case-studies.ts).
+  const arEn = [...landingPaths, waPath, ...cpPaths, ...caseStudies.map((cs) => `/work/${cs.slug}/`)];
+  // The status page changes all the time but matters little for search: low priority.
+  const prio = (p: string) => (p === '/status/' ? '\n    <priority>0.2</priority>' : '');
   // The blog: Arabic and English. Articles with an English translation (same slug) get ar/en alternates;
   // any Arabic-only article is listed without alternates.
   const [arPosts, enPosts] = [await getPosts('ar'), await getPosts('en')];
@@ -27,7 +32,7 @@ ${langCodes.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
   </url>`)).join('\n')}
 ${arEn.flatMap((p) => landingLangs.map((lang) => `  <url>
-    <loc>${url(lang, p)}</loc>
+    <loc>${url(lang, p)}</loc>${prio(p)}
 ${landingLangs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${url(l, p)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${url('ar', p)}"/>
   </url>`)).join('\n')}

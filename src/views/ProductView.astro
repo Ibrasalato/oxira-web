@@ -7,6 +7,8 @@ import { productsText, productPath, productFor } from '../i18n/products';
 import { productIds, addonPrices, addonIcons, growthPlanOf, type ProductId } from '../builder/addons';
 import Base from '../layouts/Base.astro';
 import ProductMock from '../components/ProductMock.astro';
+import Fx from '../components/Fx.astro';
+import FxNote from '../components/FxNote.astro';
 
 interface Props { lang: Lang; id: ProductId }
 const { lang, id } = Astro.props;
@@ -80,12 +82,14 @@ const ld = [
             {plans && <span>{plans.from} </span>}
             {pr.price ? <><b>{fmt.format(pr.price)}</b> {b.packages.sar} <span>{c.perMonth}</span></> : <b>{c.free}</b>}
             {pr.feePercent ? <span> {c.fee}</span> : null}
+            {pr.price ? <Fx sar={pr.price} /> : null}
           </p>
           <div class="pd-ctas">
             <a class="btn btn-amber" href={link(lang, '/website-builder/')}>{c.buildSite}</a>
             <a class="btn btn-ghost" href={link(lang, '/account/')}>{c.openAccount}</a>
           </div>
           <p class="pd-vat">{c.vat}</p>
+          {pr.price ? <FxNote lang={lang} /> : null}
         </div>
         <ProductMock id={id} lang={lang} name={it.name} />
       </div>
@@ -109,13 +113,14 @@ const ld = [
           {[{ p: plans.basic, price: pr.price, hl: false }, { p: plans.growth, price: growthPrice, hl: true }].map(({ p, price, hl }) => (
             <div class={`pd-plan${hl ? ' is-hl' : ''}`}>
               <h3>{p.name}</h3>
-              <p class="pd-plan-price"><b>{fmt.format(price)}</b> {b.packages.sar} {c.perMonth}</p>
+              <p class="pd-plan-price"><b>{fmt.format(price)}</b> {b.packages.sar} {c.perMonth}<Fx sar={price} /></p>
               <ul>{p.items.map((x) => <li>{x}</li>)}</ul>
               <a class={`btn ${hl ? 'btn-amber' : 'btn-ghost'}`} href={link(lang, '/account/')}>{c.openAccount}</a>
             </div>
           ))}
         </div>
         <p class="pd-plans-note">{plans.note} {c.vat}</p>
+        <FxNote lang={lang} />
       </div>
     </section>
   )}

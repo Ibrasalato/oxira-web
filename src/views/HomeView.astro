@@ -10,7 +10,8 @@ import AgentsDemo from '../components/AgentsDemo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import FeaturedProducts from '../components/FeaturedProducts.astro';
 import WhyOxira from '../components/WhyOxira.astro';
-import { waText, isWaLang, waPath } from '../i18n/waAgent';
+import { waText, isWaLang, waPath, WA_PRICES } from '../i18n/waAgent';
+import Fx from '../components/Fx.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -65,7 +66,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
           <ul class="wa-home-points">
             {wa.home.points.map((pt) => <li>{pt}</li>)}
           </ul>
-          <p class="wa-home-price">{wa.home.price}</p>
+          <p class="wa-home-price">{wa.home.price}<Fx sar={WA_PRICES.basic} /></p>
           <div class="wa-home-ctas">
             <a class="btn btn-amber" href={link(lang, waPath)}>{wa.home.ctaTry}</a>
             <a class="btn btn-ghost" href={link(lang, waPath) + '#examples'}>{wa.home.ctaExamples}</a>

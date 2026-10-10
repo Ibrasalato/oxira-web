@@ -1,0 +1,11 @@
+---
+// Case study pages: built only for entries in src/data/case-studies.ts (none by default).
+import View from '../../views/CaseStudyView.astro';
+import { caseStudies } from '../../data/case-studies';
+
+export function getStaticPaths() {
+  return caseStudies.map((cs) => ({ params: { slug: cs.slug }, props: { cs } }));
+}
+const { cs } = Astro.props;
+---
+<View lang="ar" cs={cs} />

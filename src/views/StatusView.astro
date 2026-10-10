@@ -1,0 +1,251 @@
+---
+// Public service status. Reads GET https://api.oxira.sa/oxira-status in the browser (CORS open) and refreshes every 60 s.
+// The cards are rendered at build time with "no data" so the page reads well before (or without) the API.
+// Arabic and English only. Copy in src/i18n/companyPages.ts.
+import { t, contact } from '../i18n/content';
+import { link } from '../lib/routes';
+import { statusText, statusKeys, cpLangs, STATUS_ENDPOINT, type CpLang } from '../i18n/companyPages';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: CpLang }
+const { lang } = Astro.props;
+const S = statusText[lang];
+const BARS = 96;
+const cfg = {
+  endpoint: STATUS_ENDPOINT,
+  locale: lang === 'ar' ? 'ar-SA-u-nu-latn' : 'en-GB',
+  t: {
+    loading: S.loading, allOk: S.allOk, someDown: S.someDown, someDownBody: S.someDownBody, errorTitle: S.errorTitle, errorBody: S.errorBody,
+    lastChecked: S.lastChecked, justNow: S.justNow, ok: S.ok, down: S.down, unknown: S.unknown, noUptime: S.noUptime, since: S.since,
+  },
+};
+const site = Astro.site!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'WebPage', name: S.h1, description: S.description,
+  url: new URL(link(lang, '/status/'), site).href, inLanguage: lang,
+  publisher: { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href },
+};
+---
+<Base lang={lang} path="/status/" title={S.title} description={S.description} langs={cpLangs}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero st-hero">
+    <div class="wrap">
+      <p class="label">{S.kicker}</p>
+      <h1>{S.h1}</h1>
+      <p class="lead">{S.lead}</p>
+    </div>
+  </section>
+
+  <section class="section-tight st-main" id="st" data-cfg={JSON.stringify(cfg)}>
+    <div class="wrap">
+      <div class="st-banner is-loading" id="st-banner" role="status" aria-live="polite">
+        <span class="st-dot" aria-hidden="true"></span>
+        <div class="st-banner-text">
+          <p class="st-banner-title" id="st-banner-title">{S.loading}</p>
+          <p class="st-banner-sub" id="st-banner-sub" hidden></p>
+        </div>
+        <button type="button" class="btn btn-ghost st-retry" id="st-retry" hidden>{S.retry}</button>
+      </div>
+      <p class="st-meta"><span id="st-updated"></span><span class="st-auto">{S.autoRefresh}</span></p>
+
+      <ul class="st-list">
+        {statusKeys.map((key) => (
+          <li class="st-svc is-unknown" data-key={key}>
+            <div class="st-head">
+              <div class="st-name">
+                <h2>{S.services[key].name}</h2>
+                {S.services[key].host && <span class="st-host" dir="ltr">{S.services[key].host}</span>}
+              </div>
+              <span class="st-pill"><span class="st-pill-dot" aria-hidden="true"></span><span class="st-pill-text">{S.unknown}</span></span>
+            </div>
+            <div class="st-strip" role="img" aria-label={S.stripLabel}>
+              {Array.from({ length: BARS }, () => <span></span>)}
+            </div>
+            <div class="st-foot">
+              <span class="st-edge">{S.stripStart}</span>
+              <span class="st-up"><span>{S.uptime}:</span> <b class="st-up-val">—</b></span>
+              <span class="st-edge">{S.stripEnd}</span>
+            </div>
+            <p class="st-since">&nbsp;</p>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="st-legend" aria-hidden="true">
+        <li><span class="is-ok"></span>{S.legendOk}</li>
+        <li><span class="is-down"></span>{S.legendDown}</li>
+        <li><span></span>{S.legendNone}</li>
+      </ul>
+
+      <div class="st-help">
+        <div>
+          <h2>{S.reportTitle}</h2>
+          <p>{S.reportBody}</p>
+        </div>
+        <div class="st-help-actions">
+          <a class="btn btn-navy" href={`${link(lang, '/contact/')}?type=support`}>{S.reportCta}</a>
+          <a class="btn btn-ghost" href={contact.whatsappHref} target="_blank" rel="noopener">{t[lang].contact.labels.whatsapp}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  type Svc = { key: string; ok: boolean | null; since?: number; checked?: number; uptime24h: number | null; checks?: number; history?: (0 | 1)[] };
+  type Data = { updated: number; interval?: number; services: Svc[] };
+  const root = document.getElementById('st')!;
+  const cfg = JSON.parse(root.dataset.cfg!);
+  const T = cfg.t;
+  const BARS = 96;
+  const banner = document.getElementById('st-banner')!;
+  const title = document.getElementById('st-banner-title')!;
+  const sub = document.getElementById('st-banner-sub')!;
+  const retry = document.getElementById('st-retry') as HTMLButtonElement;
+  const updatedEl = document.getElementById('st-updated')!;
+  const rtf = new Intl.RelativeTimeFormat(cfg.locale, { numeric: 'auto' });
+  const dtf = new Intl.DateTimeFormat(cfg.locale, { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+  const tf = new Intl.DateTimeFormat(cfg.locale, { hour: 'numeric', minute: '2-digit' });
+  const pf = new Intl.NumberFormat(cfg.locale, { maximumFractionDigits: 2 });
+  let last: Data | null = null;
+
+  const ago = (ms: number) => {
+    const s = Math.max(0, Math.round((Date.now() - ms) / 1000));
+    if (s < 45) return T.justNow;
+    const m = Math.round(s / 60);
+    if (m < 60) return rtf.format(-m, 'minute');
+    const h = Math.round(m / 60);
+    return h < 48 ? rtf.format(-h, 'hour') : rtf.format(-Math.round(h / 24), 'day');
+  };
+  const sinceText = (ms: number) => (Date.now() - ms > 20 * 3600e3 ? dtf : tf).format(new Date(ms));
+
+  function setBanner(state: 'ok' | 'down' | 'error' | 'loading', head: string, body = '') {
+    banner.className = `st-banner is-${state}`;
+    title.textContent = head;
+    sub.hidden = !body; sub.textContent = body;
+    retry.hidden = state !== 'error';
+  }
+
+  function renderUpdated() {
+    updatedEl.textContent = last ? T.lastChecked.replace('{ago}', ago(last.updated)) : '';
+    if (last) updatedEl.title = new Date(last.updated).toLocaleString(cfg.locale);
+  }
+
+  function render(d: Data) {
+    last = d;
+    const byKey = new Map(d.services.map((s) => [s.key, s]));
+    let down = 0;
+    root.querySelectorAll<HTMLElement>('.st-svc').forEach((li) => {
+      const s = byKey.get(li.dataset.key!);
+      const state = !s || s.ok == null ? 'unknown' : s.ok ? 'ok' : 'down';
+      if (state === 'down') down++;
+      li.className = `st-svc is-${state}`;
+      li.querySelector('.st-pill-text')!.textContent = T[state];
+      const up = li.querySelector('.st-up-val')!;
+      up.textContent = s && typeof s.uptime24h === 'number' ? `${pf.format(s.uptime24h)}%` : T.noUptime;
+      const hist = (s?.history || []).slice(-BARS);
+      const pad = BARS - hist.length;
+      li.querySelectorAll<HTMLElement>('.st-strip span').forEach((bar, i) => {
+        const v = i < pad ? null : hist[i - pad];
+        bar.className = v === 1 ? 'is-ok' : v === 0 ? 'is-down' : '';
+      });
+      const since = li.querySelector<HTMLElement>('.st-since')!;
+      // The line keeps its height when empty so the cards below don't move.
+      since.textContent = s && s.since && state !== 'unknown' ? `${T[state]} ${T.since.replace('{time}', sinceText(s.since))}` : '\u00a0';
+    });
+    if (!d.services.length) setBanner('error', T.errorTitle, T.errorBody);
+    else if (down) setBanner('down', T.someDown, T.someDownBody);
+    else setBanner('ok', T.allOk);
+    renderUpdated();
+  }
+
+  async function load() {
+    try {
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 15000);
+      const res = await fetch(cfg.endpoint, { cache: 'no-store', signal: ctl.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error(String(res.status));
+      const d = (await res.json()) as Data;
+      if (!d || !Array.isArray(d.services)) throw new Error('bad data');
+      render(d);
+    } catch {
+      setBanner('error', T.errorTitle, T.errorBody);
+      if (last) renderUpdated();
+    }
+  }
+
+  retry.addEventListener('click', () => { setBanner('loading', T.loading); load(); });
+  load();
+  setInterval(() => { if (!document.hidden) load(); }, 60000);
+  setInterval(renderUpdated, 20000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && last && Date.now() - last.updated > 60000) load(); });
+</script>
+
+<style>
+  .st-hero { padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .st-main { padding-top: 0; }
+  .st-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--paper); min-height: 6.25rem; }
+  .st-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; background: #A9B6C2; box-shadow: 0 0 0 5px rgba(169, 182, 194, .25); }
+  .st-banner-text { flex: 1 1 15rem; min-width: 0; }
+  .st-banner-title { font-weight: 700; font-size: 1.2rem; }
+  .st-banner-sub { color: var(--muted); font-size: .95rem; margin-top: .15rem; }
+  .st-banner.is-ok { background: #E7F6EC; border-color: #BFE5CB; }
+  .st-banner.is-ok .st-dot { background: #1F9D55; box-shadow: 0 0 0 5px rgba(31, 157, 85, .18); }
+  .st-banner.is-ok .st-banner-title { color: #17663A; }
+  .st-banner.is-down { background: #FEF3F2; border-color: #F7C9C4; }
+  .st-banner.is-down .st-dot { background: #D92D20; box-shadow: 0 0 0 5px rgba(217, 45, 32, .15); }
+  .st-banner.is-down .st-banner-title { color: #B42318; }
+  .st-banner.is-error { background: #FFF6E0; border-color: #F5D98E; }
+  .st-banner.is-error .st-dot { background: var(--amber-deep); box-shadow: 0 0 0 5px rgba(245, 168, 0, .2); }
+  .st-retry { padding: .7rem 1.1rem; flex: none; }
+  .st-retry[hidden], .st-main [hidden] { display: none; }
+
+  .st-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1.5rem; margin: .9rem .25rem 1.75rem; color: var(--muted); font-size: .92rem; }
+  .st-meta #st-updated { font-weight: 600; color: var(--ink); }
+
+  .st-list { list-style: none; display: grid; gap: 1rem; }
+  .st-svc { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.35rem 1.5rem 1.1rem; background: #fff; }
+  .st-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .st-name { min-width: 0; }
+  .st-name h2 { font-size: 1.15rem; }
+  .st-host { display: block; color: var(--muted); font-size: .88rem; }
+  html[dir='rtl'] .st-host { text-align: right; }
+  .st-pill { display: inline-flex; align-items: center; gap: .45rem; flex: none; padding: .35rem .8rem; border-radius: 999px; font-weight: 700; font-size: .88rem; background: #EEF2F5; color: var(--muted); }
+  .st-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .st-svc.is-ok .st-pill { background: #E7F6EC; color: #17663A; }
+  .st-svc.is-down .st-pill { background: #FEF3F2; color: #B42318; }
+
+  .st-strip { display: grid; grid-template-columns: repeat(96, minmax(0, 1fr)); gap: 2px; height: 34px; direction: ltr; }
+  html[dir='rtl'] .st-strip { direction: rtl; }
+  .st-strip span { border-radius: 2px; background: #E2E8EE; }
+  .st-strip span.is-ok { background: #2DB36A; }
+  .st-strip span.is-down { background: #E5484D; }
+  .st-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: .55rem; font-size: .85rem; color: var(--muted); }
+  .st-up { text-align: center; }
+  .st-up b { color: var(--ink); }
+  .st-since { margin-top: .35rem; font-size: .85rem; color: var(--muted); }
+
+  .st-legend { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; margin-top: 1.1rem; font-size: .88rem; color: var(--muted); }
+  .st-legend li { display: inline-flex; align-items: center; gap: .45rem; }
+  .st-legend span { width: 12px; height: 12px; border-radius: 3px; background: #E2E8EE; }
+  .st-legend span.is-ok { background: #2DB36A; }
+  .st-legend span.is-down { background: #E5484D; }
+
+  .st-help { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); padding: 1.6rem; border-radius: var(--radius); background: var(--paper); }
+  .st-help h2 { font-size: 1.2rem; }
+  .st-help p { color: var(--muted); }
+  .st-help-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+  @media (max-width: 640px) {
+    .st-strip { gap: 1px; height: 30px; }
+    .st-strip span { border-radius: 1px; }
+    .st-svc { padding: 1.1rem 1.1rem 1rem; }
+    .st-edge { display: none; }
+    .st-foot { justify-content: flex-start; }
+    .st-up { text-align: start; }
+    .st-banner { align-items: flex-start; }
+    .st-dot { margin-top: .5rem; }
+    .st-retry { margin-inline-start: calc(14px + 1rem); }
+  }
+</style>

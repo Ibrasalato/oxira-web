@@ -7,6 +7,7 @@ import { productsText, productPath } from '../i18n/products';
 import { addonPrices, addonIcons } from '../builder/addons';
 import { plans } from '../i18n/builder';
 import { BUNDLE } from '../i18n/bundle';
+import FxNote from './FxNote.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -68,7 +69,8 @@ const ic = {
   audit: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M8 11l2 2 4-4"/>',
   classti: '<path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/>',
 };
-const price = (n: number, per: 'month' | 'none', from = false) => `${from ? T.from + ' ' : ''}<b>${fmt.format(n)}</b> ${T.sar}${per === 'month' ? ' ' + T.month : ''}`;
+// The empty .fx span is the local-currency line (see components/Fx.astro); FxNote below loads its script.
+const price = (n: number, per: 'month' | 'none', from = false) => `${from ? T.from + ' ' : ''}<b>${fmt.format(n)}</b> ${T.sar}${per === 'month' ? ' ' + T.month : ''}<span class="fx" data-fx-sar="${n}"></span>`;
 const addon = (id: 'seo' | 'social' | 'ads' | 'chat' | 'booking', tags: Tag[], fromPlan = false) => ({
   key: id, href: link(lang, productPath(id)), name: P.items[id].name, text: P.items[id].short, icon: addonIcons[id], tags,
   price: price(addonPrices[id].price, 'month', fromPlan),
@@ -113,6 +115,7 @@ const tagIds = Object.keys(T.tags) as Tag[];
         </li>
       ))}
     </ul>
+    <FxNote lang={lang} />
   </div>
 </section>
 
