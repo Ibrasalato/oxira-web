@@ -92,6 +92,7 @@ const ld = {
 </Base>
 
 <script>
+  import { oxFetch } from '../lib/api';
   type Svc = { key: string; ok: boolean | null; since?: number; checked?: number; uptime24h: number | null; checks?: number; history?: (0 | 1)[] };
   type Data = { updated: number; interval?: number; services: Svc[] };
   const root = document.getElementById('st')!;
@@ -163,7 +164,7 @@ const ld = {
     try {
       const ctl = new AbortController();
       const timer = setTimeout(() => ctl.abort(), 15000);
-      const res = await fetch(cfg.endpoint, { cache: 'no-store', signal: ctl.signal });
+      const res = await oxFetch(cfg.endpoint, { cache: 'no-store', signal: ctl.signal });
       clearTimeout(timer);
       if (!res.ok) throw new Error(String(res.status));
       const d = (await res.json()) as Data;

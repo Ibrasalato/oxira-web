@@ -7,6 +7,7 @@ import { siteLangs, fontIds, sectionIds } from '../builder/spec';
 import { languages } from '../i18n/content';
 import { link, asset } from '../lib/routes';
 import Base from '../layouts/Base.astro';
+import { imageBase } from '../lib/api';
 import TemplateGallery from '../components/TemplateGallery.astro';
 import { catalog, categoryIds } from '../builder/catalog';
 import Logo from '../components/Logo.astro';
@@ -25,7 +26,7 @@ const config = {
   lang,
   builderEndpoint,
   uploadEndpoint: import.meta.env.PUBLIC_UPLOAD_ENDPOINT || `${n8nBase}/oxira-studio-upload`,
-  imageBase: 'https://oxira-sites.oxira-sa.workers.dev/_img/',
+  imageBase,
   orderEndpoint,
   shareEndpoint: import.meta.env.PUBLIC_SHARE_ENDPOINT || `${n8nBase}/oxira-studio-share`,
   checkoutEndpoint: import.meta.env.PUBLIC_CHECKOUT_ENDPOINT || `${n8nBase}/oxira-site-checkout`,
@@ -317,6 +318,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 </Base>
 
 <script>
+  import { oxFetch, live } from '../lib/api';
   import { renderSite } from '../builder/render';
   import { guessCategory } from '../builder/catalog';
   import { sampleSpec, mergeSpec, looks, sectionIds, type Spec, type TemplateId, type SiteLang, type SectionId } from '../builder/spec';
@@ -560,7 +562,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 120000);
     try {
-      const res = await fetch(cfg.builderEndpoint, {
+      const res = await oxFetch(cfg.builderEndpoint, {
         method: 'POST',
         body: new URLSearchParams({ sessionId: state.sessionId, action, message: text, spec: JSON.stringify(state.spec), lang: cfg.lang }),
         signal: ctrl.signal,
@@ -641,7 +643,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     const fd = new FormData();
     fd.append('file', blob, blob.type === 'image/png' ? 'image.png' : 'image.jpg');
     fd.append('sessionId', state.sessionId);
-    const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+    const res = await oxFetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
     const data = await res.json().catch(() => ({}));
     return data?.success && typeof data.id === 'string' ? data.id : null;
   }
@@ -817,7 +819,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     const label = shareBtn.querySelector('span')!;
     shareBtn.disabled = true; label.textContent = T.sharing;
     try {
-      const res = await fetch(cfg.shareEndpoint, { method: 'POST', body: new URLSearchParams({ spec: JSON.stringify(state.spec), draftId: state.draftId || '' }) });
+      const res = await oxFetch(cfg.shareEndpoint, { method: 'POST', body: new URLSearchParams({ spec: JSON.stringify(state.spec), draftId: state.draftId || '' }) });
       const data = await res.json().catch(() => ({}));
       if (!data?.success || typeof data.url !== 'string') throw new Error('share');
       state.draftId = data.draftId; save();
@@ -884,7 +886,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
     btn.disabled = true; btn.textContent = T.submitting;
     status.hidden = true;
     try {
-      const res = await fetch(cfg.orderEndpoint, {
+      const res = await oxFetch(cfg.orderEndpoint, {
         method: 'POST',
         body: new URLSearchParams({
           name: d.name, phone: d.phone, email: d.email || '', notes: d.notes || '',
@@ -914,7 +916,7 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
   /** Ask n8n for a Moyasar payment page; returns true when the browser is being sent there. */
   async function checkout(orderId: number | string) {
     try {
-      const res = await fetch(cfg.checkoutEndpoint, {
+      const res = await oxFetch(cfg.checkoutEndpoint, {
         method: 'POST',
         body: new URLSearchParams({ orderId: String(orderId), returnUrl: location.origin + location.pathname }),
       });
@@ -961,18 +963,29 @@ const langName = (code: string) => languages.find((l) => l.code === code)?.name 
 
   async function confirmPayment(id: string) {
     showDone('confirming', id);
+    // with the API the payment confirmation is pushed (SignalR); polling stays as the fallback
+    let pushed = false;
+    const stopLive = live('orders', { payment: (p: any) => { if (String(p?.orderId) === id && p?.status === 'paid') pushed = true; } }, [['WatchOrder', Number(id)]]);
     for (let i = 0; i < 6; i++) {
+      if (pushed) {
+        stopLive();
+        showDone('paid', id);
+        try { localStorage.removeItem(`${KEY}-last`); } catch { /* ignore */ }
+        return;
+      }
       try {
-        const res = await fetch(cfg.statusEndpoint, { method: 'POST', body: new URLSearchParams({ orderId: id }) });
+        const res = await oxFetch(cfg.statusEndpoint, { method: 'POST', body: new URLSearchParams({ orderId: id }) });
         const data = await res.json().catch(() => ({}));
         if (data?.status === 'paid') {
+          stopLive();
           showDone('paid', id);
           try { localStorage.removeItem(`${KEY}-last`); } catch { /* ignore */ }
           return;
         }
       } catch { /* retry */ }
-      await new Promise((r) => setTimeout(r, 3000));
+      for (let t = 0; t < 10 && !pushed; t++) await new Promise((r) => setTimeout(r, 300));
     }
+    stopLive();
   }
 
   // Start

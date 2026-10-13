@@ -5,6 +5,7 @@ import { builderText } from '../i18n/builder';
 import { link } from '../lib/routes';
 import { addonIds, addonPrices, addonIcons } from '../builder/addons';
 import Base from '../layouts/Base.astro';
+import { imageBase } from '../lib/api';
 import { company } from '../lib/company';
 
 interface Props { lang: Lang }
@@ -22,7 +23,7 @@ const config = {
   seoSettingsEndpoint: `${n8n}/oxira-seo-settings`,
   socialEndpoint: `${n8n}/oxira-social`,
   uploadEndpoint: `${n8n}/oxira-studio-upload`,
-  imageBase: 'https://oxira-sites.oxira-sa.workers.dev/_img/',
+  imageBase,
   extEndpoint: `${n8n}/oxira-site-ext`,
   gscEmail: 'ibrasalato@gmail.com',
   builderUrl: link(lang, '/website-builder/'),
@@ -164,6 +165,7 @@ const ic = {
 </Base>
 
 <script>
+  import { oxFetch, live, hasSession } from '../lib/api';
   import qrcode from 'qrcode-generator';
 
   type Sub = { id: number; order_id: number; product: string; price: number; period: string; status: string; next_due: string; invoice_url: string };
@@ -218,7 +220,7 @@ const ic = {
   }
   async function auth(action: string, data: Record<string, string> = {}): Promise<any> {
     try {
-      const res = await fetch(cfg.authEndpoint, { method: 'POST', body: new URLSearchParams({ action, lang: cfg.lang, ...data }) });
+      const res = await oxFetch(cfg.authEndpoint, { method: 'POST', body: new URLSearchParams({ action, lang: cfg.lang, ...data }) });
       return await res.json();
     } catch { return { success: false, reason: 'network' }; }
   }
@@ -338,7 +340,7 @@ const ic = {
   if (location.hash === '#signup') step('signup');
 
   async function api(action: string, data: Record<string, unknown> = {}): Promise<any> {
-    const res = await fetch(cfg.apiEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, data: JSON.stringify(data) }) });
+    const res = await oxFetch(cfg.apiEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, data: JSON.stringify(data) }) });
     const json = await res.json().catch(() => ({ success: false }));
     if (json?.reason === 'session') { signOut(T.expired); throw new Error('session'); }
     return json;
@@ -365,6 +367,7 @@ const ic = {
   const has = (product: string) => subsOf(site()!.order_id).some((s) => s.product === product && (s.status === 'active' || s.status === 'cancelling'));
   const isLive = (s: Site) => s.status === 'paid' || s.status === 'published';
 
+  let stopLive: (() => void) | null = null;
   async function load() {
     if (!token) { show('signin'); return; }
     show('loading');
@@ -385,6 +388,8 @@ const ic = {
       show('app');
       draw();
       if (justPaid) { flash(T.paidNote); }
+      // with the API: payments and support replies arrive live (no reload needed)
+      if (hasSession() && !stopLive) stopLive = live('account', { payment: () => { reload(); }, ticket: () => { if (sec === 'support') loadTickets(true); } });
       if (socialBack) flash(socialBack === 'connected' ? T.socConnectedOk : T.socConnectErr);
     } catch (e) {
       if ((e as Error).message !== 'session') { show('signin'); flash(''); const s = $<HTMLElement>('#ac-login-status'); s.textContent = T.failed; s.className = 'ac-status is-error'; s.hidden = false; }
@@ -585,7 +590,7 @@ const ic = {
       const fd = new FormData();
       fd.append('file', await squareJpeg(inp.files[0]), 'avatar.jpg');
       fd.append('sessionId', 'avatar');
-      const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+      const res = await oxFetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
       const data = await res.json().catch(() => ({}));
       if (!data?.success || typeof data.id !== 'string') { flash(T.avatarErr); return; }
       await saveAvatar(data.id);
@@ -617,7 +622,7 @@ const ic = {
   // ---- Account extras (Oxira 27 API: oxira-account) ----
   async function xapi(action: string, data: Record<string, unknown> = {}): Promise<any> {
     try {
-      const res = await fetch(cfg.accountEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, lang: cfg.lang, data: JSON.stringify(data) }) });
+      const res = await oxFetch(cfg.accountEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, lang: cfg.lang, data: JSON.stringify(data) }) });
       const r = await res.json();
       if (r?.reason === 'session') { signOut(T.expired); return { success: false, reason: 'session' }; }
       return r;
@@ -742,7 +747,7 @@ const ic = {
       const fd = new FormData();
       fd.append('file', await shrinkFile(f, 1600), 'ticket.jpg');
       fd.append('sessionId', 'support');
-      const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+      const res = await oxFetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
       const d = await res.json().catch(() => ({}));
       if (d?.success && typeof d.id === 'string') sup.files.push(d.id);
     }
@@ -873,8 +878,8 @@ const ic = {
     const subsOn = (id: number, p: string[]) => subsOf(id).some((x) => p.includes(x.product) && (x.status === 'active' || x.status === 'cancelling'));
     const jobs: Promise<void>[] = [];
     for (const s of sites) {
-      if (subsOn(s.order_id, ['social', 'socialpro', 'ads'])) jobs.push(fetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id), data: '{}' }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.soc[s.order_id] = v; }).catch(() => undefined));
-      if (subsOn(s.order_id, ['seo', 'seogrowth'])) jobs.push(fetch(cfg.seoEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id) }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.seo[s.order_id] = v; }).catch(() => undefined));
+      if (subsOn(s.order_id, ['social', 'socialpro', 'ads'])) jobs.push(oxFetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id), data: '{}' }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.soc[s.order_id] = v; }).catch(() => undefined));
+      if (subsOn(s.order_id, ['seo', 'seogrowth'])) jobs.push(oxFetch(cfg.seoEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'list', order_id: String(s.order_id) }) }).then((r) => r.json()).then((v) => { if (v?.success) extra.seo[s.order_id] = v; }).catch(() => undefined));
     }
     jobs.push(xapi('partner').then((r) => { extra.partner = r?.success ? r.partner : null; }));
     await Promise.all(jobs);
@@ -967,7 +972,7 @@ const ic = {
   const extCheck: Record<number, { email?: string; txt?: string; tried?: boolean }> = {};
   async function checkExternal(s: Site, btn?: HTMLButtonElement) {
     const run = async () => {
-      const res = await fetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'check', order_id: String(s.order_id) }) });
+      const res = await oxFetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'check', order_id: String(s.order_id) }) });
       const r = await res.json().catch(() => ({}));
       if (r?.reason === 'expired') { signOut(T.expired); return; }
       extCheck[s.order_id] = { email: r?.email, txt: r?.txt, tried: true };
@@ -1188,7 +1193,7 @@ const ic = {
   // ---- SEO add-on (Oxira 18 API): suggestions waiting for approval, Google report, weekly health ----
   const seoCache: Record<number, any> = {};
   async function seoApi(data: Record<string, string>) {
-    const res = await fetch(cfg.seoEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, ...data }) });
+    const res = await oxFetch(cfg.seoEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, ...data }) });
     return res.json().catch(() => ({ success: false }));
   }
   async function loadSeo(orderId: number, force = false) {
@@ -1288,7 +1293,7 @@ const ic = {
   }
 
   async function seoSettings(action: string, data: Record<string, unknown>) {
-    const res = await fetch(cfg.seoSettingsEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
+    const res = await oxFetch(cfg.seoSettingsEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
     return res.json().catch(() => ({ success: false }));
   }
 
@@ -1297,7 +1302,7 @@ const ic = {
   const socCache: Record<number, any> = {};
   const bgOverride: Record<number, string> = {};
   async function socApi(action: string, data: Record<string, unknown> = {}) {
-    const res = await fetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
+    const res = await oxFetch(cfg.socialEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action, order_id: String(site()!.order_id), data: JSON.stringify(data) }) });
     return res.json().catch(() => ({ success: false }));
   }
   async function loadSocial(orderId: number, force = false) {
@@ -1506,7 +1511,7 @@ const ic = {
     const fd = new FormData();
     fd.append('file', blob, name);
     fd.append('sessionId', 'social-' + site()!.order_id);
-    const res = await fetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
+    const res = await oxFetch(cfg.uploadEndpoint, { method: 'POST', body: fd });
     const data = await res.json().catch(() => ({}));
     return data?.success && typeof data.id === 'string' ? data.id : null;
   }
@@ -1733,7 +1738,7 @@ const ic = {
     }
     if (form.id === 'ac-ext-add') {
       await busy(btn, async () => {
-        const res = await fetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'add', domain: String(fd.get('domain') || ''), name: String(fd.get('name') || ''), lang: cfg.lang }) });
+        const res = await oxFetch(cfg.extEndpoint, { method: 'POST', body: new URLSearchParams({ k: token, action: 'add', domain: String(fd.get('domain') || ''), name: String(fd.get('name') || ''), lang: cfg.lang }) });
         const r = await res.json().catch(() => ({}));
         if (r?.reason === 'expired') { signOut(T.expired); return; }
         if (!r?.success) { flash(r?.reason === 'domain' ? T.extErrDomain : T.failed); return; }

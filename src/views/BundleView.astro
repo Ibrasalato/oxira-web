@@ -83,6 +83,7 @@ const ld = {
 </Base>
 
 <script>
+  import { oxFetch } from '../lib/api';
   const form = document.getElementById('bd-form') as HTMLFormElement;
   const c = JSON.parse(form.dataset.cfg!);
   const status = form.querySelector<HTMLElement>('.bd-status')!;
@@ -96,7 +97,7 @@ const ld = {
     btn.disabled = true; btn.textContent = c.t.sending;
     try {
       const body = { name: v('name'), business: v('business'), activity: v('activity'), city: v('city'), phone: v('phone'), email: v('email'), whatsapp: v('whatsapp'), notes: v('notes'), company_website: v('company_website'), lang: c.lang, returnUrl: location.origin + location.pathname };
-      const r = await (await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
+      const r = await (await oxFetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
       if (r.success && r.payUrl) { location.href = r.payUrl; return; }
       if (r.success) { say(c.t.ok.replace('{id}', String(r.id)) + ' ' + c.t.payDown); form.reset(); }
       else say(r.reason === 'invalid' ? c.t.missing : c.t.err, true);

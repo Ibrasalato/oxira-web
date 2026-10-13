@@ -42,6 +42,27 @@ npm run build    # ينتج مجلد dist/
    وسجل CNAME لـ `www` إلى `<الحساب>.github.io`
 3. في **Settings → Pages** فعّل **Enforce HTTPS** بعد أن يتعرّف GitHub على الدومين.
 
+## الخادم الخلفي: Oxira API أو n8n
+
+يعمل الموقع مع خادمين، ويُختار أحدهما وقت البناء:
+
+- **Oxira API** (ASP.NET Core على IIS، المستودع [oxira-web-api](https://github.com/Ibrasalato/oxira-web-api)): يحل محل n8n بالكامل، وهو مزوّد حساب أوكسيرا الموحّد (JWT).
+- **n8n** (الوضع الحالي): الطلبات تذهب إلى `https://api.oxira.sa/<slug>`.
+
+**التبديل:** أضف متغير `PUBLIC_API_URL` (مثل `https://api.oxira.sa`) في **Settings → Secrets and variables → Actions → Variables**، ثم أعد النشر. بدونه يبقى الموقع على n8n كما هو.
+
+كيف يعمل (`src/lib/api.ts`):
+
+- **`oxFetch()`:** بديل `fetch()` في كل الصفحات. يستقبل نفس رابط n8n ونفس البيانات (`URLSearchParams` أو JSON أو `FormData`)، ويحوّلها إلى مسار REST في الـ API، مثل `oxira-portal` + `subscribe` → `POST /api/portal/subscribe`. الـ API يرد بنفس الشكل الذي تقرؤه الصفحات (`success` و`reason` …).
+- **الجلسة:** رمز دخول (15 دقيقة) ورمز تجديد يتغيّر مع كل تجديد (30 يومًا) في `localStorage` (`oxira-session`)، ويُجدَّد تلقائيًا قبل انتهائه. إذا انتهت الجلسة ترجع الصفحة لتسجيل الدخول كالعادة.
+- **رابط الدخول السحري:** `?k=<40 hex>` في صفحة الحساب يتحوّل إلى جلسة تلقائيًا.
+- **التحديث اللحظي (SignalR):** جرس الإشعارات وردود الدعم وتأكيد الدفع تصل فورًا، والاستعلام الدوري يبقى احتياطًا.
+- **الصور:** من `https://api.oxira.sa/api/images/<id>`.
+
+مواقع العملاء (`src/builder/worker.ts`): عند ضبط متغير الـ Worker `OXIRA_API` (مثل `https://api.oxira.sa`) تذهب نماذج التواصل والحجز والتذاكر والتقييم والمحادثة إلى الـ API، وبدونه إلى n8n. بعد أي تعديل: `npm run build:worker`.
+
+`api.oxira.sa` (`public/cloudflare/api-worker.js`): ضع عنوان سيرفر IIS في `API_ORIGIN`، فتذهب المسارات `/api/*` و`/hubs/*` و`/swagger` إلى الـ API، وتبقى روابط n8n القديمة تعمل خلال الانتقال.
+
 ## نموذج التواصل والدعم الفني
 
 رسائل النموذج (طلبات المشاريع وطلبات الدعم الفني) تُرسل إلى workflow في n8n اسمه **Oxira 2 — Website contact form**:

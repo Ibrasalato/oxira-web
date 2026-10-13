@@ -14,6 +14,8 @@ interface Env {
     get(key: string, type: 'arrayBuffer'): Promise<ArrayBuffer | null>;
     put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
   };
+  /** Worker variable: the Oxira API (e.g. https://api.oxira.sa). Set → forms and chat go to the API; unset → n8n as before. */
+  OXIRA_API?: string;
 }
 
 /** Leads counter for the SEO report: "hits:o<order>:<yyyy-mm>" = { tel, wa, mail, form }. Riyadh time. */
@@ -52,7 +54,14 @@ const TICKET_ACTION = `${N8N}/oxira-ticket-buy`;
 const REVIEW_ACTION = `${N8N}/oxira-site-review`;
 const CHAT_API = `${N8N}/oxira-site-chat`;
 
-/** Paid add-ons for a site, written by n8n to "feat:o<order id>" whenever a subscription or setting changes. */
+/** Where the client sites' forms and chat go: the Oxira API when OXIRA_API is set, otherwise the n8n webhooks. */
+function backend(env: Env) {
+  const api = String(env.OXIRA_API || '').replace(/\/$/, '');
+  if (!api) return { form: FORM_ACTION, booking: BOOKING_ACTION, ticket: TICKET_ACTION, review: REVIEW_ACTION, chat: CHAT_API, origin: N8N };
+  return { form: `${api}/api/sites/contact`, booking: `${api}/api/sites/booking`, ticket: `${api}/api/sites/ticket`, review: `${api}/api/sites/review`, chat: `${api}/api/sites/chat`, origin: api };
+}
+
+/** Paid add-ons for a site, written to "feat:o<order id>" (by n8n or the Oxira API) whenever a subscription or setting changes. */
 interface Features { suspended?: boolean; features?: string[]; settings?: AddonSettings }
 
 function parseSpec(raw: string): Spec | null {
@@ -97,17 +106,19 @@ function applySeo(html: string, seo: SeoData, lang: SiteLang, base: string): str
   return html;
 }
 
-const securityHeaders = {
+const headersFor = (formOrigin: string) => ({
   'content-type': 'text/html; charset=utf-8',
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin-when-cross-origin',
-  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self' ${N8N}/; frame-ancestors 'self' https://oxira.sa https://www.oxira.sa https://ibrasalato.github.io`,
-};
+  'content-security-policy': `default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self' ${formOrigin}/; frame-ancestors 'self' https://oxira.sa https://www.oxira.sa https://ibrasalato.github.io`,
+});
 
 export default {
   async fetch(request: Request, env: Env, ctx: { waitUntil(p: Promise<unknown>): void }) {
     const url = new URL(request.url);
     const isPost = request.method === 'POST';
+    const be = backend(env);
+    const securityHeaders = headersFor(be.origin);
     if (request.method !== 'GET' && request.method !== 'HEAD' && !isPost) return new Response('Method not allowed', { status: 405 });
 
     if (url.pathname.startsWith('/_fonts/')) {
@@ -128,7 +139,12 @@ export default {
     if (url.pathname.startsWith('/_img/')) {
       const id = url.pathname.slice(6);
       if (!imageIdPattern.test(id)) return new Response('Not found', { status: 404 });
-      const data = await env.SITES.get(`img:${id}`, 'arrayBuffer');
+      let data = await env.SITES.get(`img:${id}`, 'arrayBuffer');
+      // images uploaded to the Oxira API are also served by it (when the KV copy is missing)
+      if (!data && be.origin !== N8N) {
+        const up = await fetch(`${be.origin}/api/images/${id}`);
+        if (up.ok) data = await up.arrayBuffer();
+      }
       if (!data) return new Response('Not found', { status: 404 });
       return new Response(data, {
         headers: {
@@ -202,7 +218,7 @@ export default {
     }
     if (rest === '/api/contact' && isPost) {
       try {
-        const res = await fetch(FORM_ACTION, {
+        const res = await fetch(be.form, {
           method: 'POST',
           body: await request.arrayBuffer(),
           headers: { 'content-type': request.headers.get('content-type') || 'application/x-www-form-urlencoded', 'x-forwarded-for': request.headers.get('cf-connecting-ip') || '' },
@@ -239,7 +255,7 @@ export default {
       return new Response(xml, { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
     }
     if (rest === '/menu' && has('menu')) return html(renderMenuPage(spec, pageOpts));
-    if (rest === '/review' && has('reviews')) return html(renderReviewPage(spec, pageOpts, REVIEW_ACTION, String(order)));
+    if (rest === '/review' && has('reviews')) return html(renderReviewPage(spec, pageOpts, be.review, String(order)));
     if (rest === '/chat' && has('chat')) {
       const nonce = crypto.randomUUID().replace(/-/g, '');
       return html(renderChatPage(spec, { ...pageOpts, nonce }), {
@@ -253,7 +269,7 @@ export default {
       const message = String(body.message || '').slice(0, 1000);
       if (!message.trim()) return Response.json({ reply: '' }, { status: 400 });
       try {
-        const res = await fetch(CHAT_API, {
+        const res = await fetch(be.chat, {
           method: 'POST',
           body: new URLSearchParams({ site: String(order), sessionId: String(body.sessionId || '').slice(0, 64), message, lang: spec.lang }),
         });
@@ -276,8 +292,8 @@ export default {
       features: feat.features ?? [],
       settings,
       base,
-      bookingAction: BOOKING_ACTION,
-      ticketAction: TICKET_ACTION,
+      bookingAction: be.booking,
+      ticketAction: be.ticket,
     }, `${base}/api/contact`);
     if (!out) return page(500, 'حدث خطأ', 'Something went wrong');
     return html(trackLinks(applySeo(out, seo, spec.lang, base), base));

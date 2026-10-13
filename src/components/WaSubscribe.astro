@@ -53,6 +53,7 @@ const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-subscribe', lang, t: {
 </section>
 
 <script>
+  import { oxFetch } from '../lib/api';
   const sec = document.getElementById('wa-sub') as HTMLElement;
   const form = document.getElementById('ws-form') as HTMLFormElement;
   const c = JSON.parse(form.dataset.cfg!);
@@ -90,7 +91,7 @@ const cfg = { endpoint: 'https://api.oxira.sa/oxira-agent-subscribe', lang, t: {
     btn.disabled = true; btn.textContent = c.t.sending; status.hidden = true;
     try {
       const body = { demoId: v('demoId'), plan: v('plan') === 'basic' ? 'basic' : 'pro', name: v('name'), business: v('business'), email: v('email'), phone: v('phone'), whatsapp: v('whatsapp'), city: v('city'), notes: v('notes'), lang: c.lang, company_website: v('company_website') };
-      const r = await (await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
+      const r = await (await oxFetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json();
       if (r && r.success) {
         say(c.t.ok.replace('{id}', String(r.id ?? '')));
         form.querySelectorAll<HTMLElement>('fieldset, .ws-row, label, .ws-notes, button[type=submit]').forEach((el) => { el.hidden = true; });

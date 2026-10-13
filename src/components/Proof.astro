@@ -19,9 +19,10 @@ const P = growthText[lang].proof;
 </section>
 
 <script>
+  import { oxFetch } from '../lib/api';
   const root = document.querySelector<HTMLElement>('[data-proof]');
   if (root) {
-    fetch('https://api.oxira.sa/oxira-proof').then((r) => r.json()).then((d) => {
+    oxFetch('https://api.oxira.sa/oxira-proof').then((r) => r.json()).then((d) => {
       const lang = root.dataset.lang!;
       const esc = (s: string) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
       let any = false;

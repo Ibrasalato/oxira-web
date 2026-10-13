@@ -70,6 +70,7 @@ const formEndpoint = 'https://api.oxira.sa/oxira-website-contact';
 </form>
 
 <script>
+  import { oxFetch } from '../lib/api';
   const form = document.getElementById('lead-form') as HTMLFormElement | null;
   if (form) {
     const status = form.querySelector('.form-status') as HTMLElement;
@@ -147,7 +148,7 @@ const formEndpoint = 'https://api.oxira.sa/oxira-website-contact';
         wa: `${d.whatsapp}?text=${encodeURIComponent(subject + '\n\n' + text)}`,
       };
       try {
-        const res = await fetch(d.endpoint!, {
+        const res = await oxFetch(d.endpoint!, {
           method: 'POST',
           // Form-encoded body keeps this a "simple" cross-origin request (no CORS preflight)
           body: new URLSearchParams({ ...data, lang: document.documentElement.lang, page: location.href }),

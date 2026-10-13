@@ -107,6 +107,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
 </header>
 
 <script>
+  import { oxFetch, live, hasSession } from '../lib/api';
   const hd = document.getElementById('hd')!;
   const btn = document.getElementById('hd-menu') as HTMLButtonElement;
   btn.addEventListener('click', () => {
@@ -160,7 +161,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
   userBox.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setUser(false)));
   userBox.querySelector('[data-hd-out]')!.addEventListener('click', () => {
     const k = read(KEY);
-    if (k) fetch('https://api.oxira.sa/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
+    if (k) oxFetch('https://api.oxira.sa/oxira-auth', { method: 'POST', body: new URLSearchParams({ action: 'logout', k }), keepalive: true }).catch(() => undefined);
     try { localStorage.removeItem(KEY); localStorage.removeItem(ME); sessionStorage.removeItem('oxira-notif'); } catch { /* ignore */ }
     setUser(false);
     paintUser();
@@ -187,7 +188,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
     if (!k) { paintBell([]); return; }
     try { const c = JSON.parse(sessionStorage.getItem('oxira-notif') || 'null'); if (!force && c && c.k === k && Date.now() - c.at < 300000) { paintBell(c.items); return; } } catch { /* ignore */ }
     try {
-      const res = await fetch('https://api.oxira.sa/oxira-account', { method: 'POST', body: new URLSearchParams({ k, action: 'notifications', lang: document.documentElement.lang || 'ar' }) });
+      const res = await oxFetch('https://api.oxira.sa/oxira-account', { method: 'POST', body: new URLSearchParams({ k, action: 'notifications', lang: document.documentElement.lang || 'ar' }) });
       const r = await res.json();
       const items = r?.success ? r.items : [];
       try { sessionStorage.setItem('oxira-notif', JSON.stringify({ k, at: Date.now(), items })); } catch { /* ignore */ }
@@ -195,6 +196,8 @@ const wa = isWaLang(lang) ? waText[lang] : null;
     } catch { paintBell([]); }
   }
   loadBell();
+  // with the API: new notifications and support replies are pushed live
+  if (hasSession()) live('account', { notification: () => loadBell(true), ticket: () => loadBell(true) });
   window.addEventListener('ox-notif-refresh', () => loadBell(true));
   window.addEventListener('ox-me', () => loadBell());
   const setBell = (open: boolean) => { bell.classList.toggle('is-open', open); bellBtn.setAttribute('aria-expanded', String(open)); };

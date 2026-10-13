@@ -56,6 +56,7 @@ const endpoint = 'https://api.oxira.sa/oxira-website-chat';
 </div>
 
 <script>
+  import { oxFetch } from '../lib/api';
   const root = document.getElementById('oxchat') as HTMLElement | null;
   if (root) {
     const d = root.dataset;
@@ -151,7 +152,7 @@ const endpoint = 'https://api.oxira.sa/oxira-website-chat';
       box.style.height = '';
       const dots = typing();
       try {
-        const res = await fetch(d.endpoint!, {
+        const res = await oxFetch(d.endpoint!, {
           method: 'POST',
           // Form-encoded keeps this a simple cross-origin request (no CORS preflight)
           body: new URLSearchParams({ sessionId, message: text, lang: d.lang!, page: location.href }),

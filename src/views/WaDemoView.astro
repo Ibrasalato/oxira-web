@@ -78,6 +78,7 @@ const cfg = {
 </Base>
 
 <script>
+  import { oxFetch } from '../lib/api';
   type Turn = { role: 'user' | 'assistant'; content: string };
   const root = document.getElementById('wd')!;
   const c = JSON.parse(root.dataset.cfg!);
@@ -145,7 +146,7 @@ const cfg = {
     typing(true);
     let r: any = null;
     try {
-      const res = await fetch(c.chatEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ demoId, message: text, history: past }) });
+      const res = await oxFetch(c.chatEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ demoId, message: text, history: past }) });
       r = await res.json();
     } catch { r = null; }
     typing(false);
@@ -181,7 +182,7 @@ const cfg = {
     if (!demoId) { show('missing'); return; }
     let r: any = null; let net = false;
     try {
-      const res = await fetch(`${c.demoEndpoint}?d=${encodeURIComponent(demoId)}`);
+      const res = await oxFetch(`${c.demoEndpoint}?d=${encodeURIComponent(demoId)}`);
       r = await res.json();
     } catch { net = true; }
     if (!r || !r.success) {

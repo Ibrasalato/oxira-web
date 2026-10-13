@@ -231,6 +231,7 @@ const ld = [
 </Base>
 
 <script>
+  import { oxFetch } from '../lib/api';
   // Hero: replays the example conversations (typing, user, typing, agent). Static when reduced motion is on.
   const live = document.getElementById('wa-live');
   if (live && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -325,7 +326,7 @@ const ld = [
     let r: any = null; let code = 'server';
     try {
       const body = { url, business: v('business'), notes: v('notes').slice(0, 1500), email: v('email'), phone: v('phone'), lang: c.lang, company_website: v('company_website') };
-      const res = await fetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac.signal });
+      const res = await oxFetch(c.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ac.signal });
       r = await res.json();
     } catch (err) { if ((err as Error)?.name === 'AbortError') code = 'timeout'; }
     clearTimeout(to);
