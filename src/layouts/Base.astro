@@ -89,6 +89,7 @@ const org = {
     <script is:inline>try{var r=new URLSearchParams(location.search).get('ref');if(r&&/^[a-z0-9]{3,20}$/i.test(r))localStorage.setItem('oxira-ref',JSON.stringify({c:r.toLowerCase(),t:Date.now()}))}catch(e){}</script>
     {gaId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
     {gaId && <script is:inline define:vars={{ gaId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());var q=new URLSearchParams(location.search),k=new URLSearchParams();q.forEach(function(v,n){if(/^utm_|^gclid$/.test(n))k.set(n,v);});var s=k.toString();gtag('config',gaId,{page_location:location.origin+location.pathname+(s?'?'+s:''),allow_google_signals:false,allow_ad_personalization_signals:false});</script>}
+    {gaId && <script is:inline>document.addEventListener('click',function(e){try{var a=e.target.closest&&e.target.closest('a[href]');if(!a||typeof gtag!=='function')return;var h=a.getAttribute('href')||'',n=null,p={link_url:a.href,link_text:(a.textContent||'').trim().slice(0,80),page_path:location.pathname};if(/^tel:/.test(h))n='contact_call';else if(/^mailto:/.test(h))n='contact_email';else if(/wa\.me|whatsapp\.com/.test(h))n='contact_whatsapp';else if(/classti\.com/.test(a.hostname)){n='classti_click';p.classti_target=/school\./.test(a.hostname)?'login':/demo/.test(a.pathname)?'demo':/trial=|register/.test(a.href)?'trial':/pricing/.test(a.pathname)?'pricing':'site'}else if(/play\.google|apps\.apple/.test(a.hostname))n='app_store_click';else if(/\/book\/?$/.test(a.pathname)&&a.hostname===location.hostname)n='cta_book';else if(/\/contact\/?$/.test(a.pathname)&&a.hostname===location.hostname)n='cta_contact';if(n)gtag('event',n,p)}catch(x){}},{capture:true});</script>}
   </head>
   <body>
     <a class="skip" href="#main">{c.site.skip}</a>
@@ -180,7 +181,7 @@ const org = {
   .bg-navy .sh p { color: var(--muted-on-navy); }
   .sh-row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .sh-row .sh { margin-bottom: 0; }
-  .label { color: var(--blue); font-weight: 700; font-size: 1rem; }
+  .label { color: #006A99; font-weight: 700; font-size: 1rem; }
   .bg-navy .label { color: var(--amber); }
 
   /* Buttons and links */

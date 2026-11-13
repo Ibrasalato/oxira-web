@@ -39,7 +39,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
       <div class="hero-visual" aria-hidden="true">
         <div class="hv-glow"></div>
         <figure class="hv-card hv-site">
-          <img src={asset('work/perfect-choice.webp')} alt="" width="1200" height="808" />
+          <img src={asset('work/perfect-choice.webp')} srcset={`${asset('work/perfect-choice-680.webp')} 680w, ${asset('work/perfect-choice.webp')} 1200w`} sizes="(max-width: 900px) 90vw, 560px" alt="" width="1200" height="715" fetchpriority="high" />
           <figcaption class="hv-tag">{h.heroTags.site}</figcaption>
         </figure>
         <figure class="hv-card hv-product">
@@ -218,7 +218,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
   .hv-tag { position: absolute; top: -14px; padding: .3rem .75rem; border-radius: 999px; background: var(--amber); color: var(--navy); font-size: .78rem; font-weight: 700; white-space: nowrap; box-shadow: 0 8px 20px -10px rgba(10,37,62,.5); }
   .hv-site .hv-tag { right: 1rem; }
   .hv-product .hv-tag { top: auto; bottom: .75rem; left: .75rem; }
-  .hv-tag-green { background: #2EB24B; color: #fff; }
+  .hv-tag-green { background: #1A7F35; color: #fff; }
   .hv-chat .hv-tag { left: 1rem; }
   html[lang='ar'] .hv-chat .hv-tag { left: auto; right: 1rem; }
   .hv-tag-navy { background: var(--blue); color: #fff; }

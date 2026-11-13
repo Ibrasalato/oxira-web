@@ -46,7 +46,7 @@ const shotSize: Record<string, [number, number]> = {
     <div id="ct-platform" class="ct-block">
       <div class="ct-text">
         <p class="ct-en" lang="en">{p.platform.en}</p>
-        <h3>{p.platform.title}</h3>
+        <h2>{p.platform.title}</h2>
         <p class="ct-blead">{p.platform.lead}</p>
       </div>
 
@@ -59,10 +59,10 @@ const shotSize: Record<string, [number, number]> = {
         <div class="browser">
           <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span dir="ltr">school.classti.com</span></div>
           {p.platform.shots.map((sh, i) => (
-            <figure class="shot" role="tabpanel" id={`shot-${i}`} aria-labelledby={`shot-tab-${i}`} hidden={i !== 0}>
+            <div class="shot" role="tabpanel" id={`shot-${i}`} aria-labelledby={`shot-tab-${i}`} hidden={i !== 0}>
               <img src={shot(sh.file)} alt={sh.caption} width={(shotSize[sh.file] || [960, 600])[0]} height={(shotSize[sh.file] || [960, 600])[1]} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
-              <figcaption>{sh.caption}</figcaption>
-            </figure>
+              <p class="shot-cap">{sh.caption}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -70,7 +70,7 @@ const shotSize: Record<string, [number, number]> = {
       <ul class="modules">
         {p.platform.modules.map((m) => (
           <li>
-            <h4>{m.name}</h4>
+            <h3>{m.name}</h3>
             <ul>{m.items.map((it) => <li>{it}</li>)}</ul>
           </li>
         ))}
@@ -79,7 +79,7 @@ const shotSize: Record<string, [number, number]> = {
 
     <!-- Features (mirrors classti.com) -->
     <div class="ct-block">
-      <h3>{x.featuresTitle}</h3>
+      <h2>{x.featuresTitle}</h2>
       <p class="ct-blead">{x.featuresLead}</p>
       <ul class="feats">{x.features.map((f) => <li><strong>{f.name}</strong><span>{f.text}</span></li>)}</ul>
     </div>
@@ -93,7 +93,7 @@ const shotSize: Record<string, [number, number]> = {
         </div>
         <div class="app-text">
           <p class="ct-en" lang="en">{p.student.en}</p>
-          <h3>{p.student.title}</h3>
+          <h2>{p.student.title}</h2>
           <p class="ct-blead">{p.student.lead}</p>
           <ul class="checks">{p.student.features.map((f) => <li>{f}</li>)}</ul>
           <div class="stores" aria-label={x.download}>
@@ -110,7 +110,7 @@ const shotSize: Record<string, [number, number]> = {
         </div>
         <div class="app-text">
           <p class="ct-en" lang="en">{p.teacher.en}</p>
-          <h3>{p.teacher.title}</h3>
+          <h2>{p.teacher.title}</h2>
           <p class="ct-blead">{p.teacher.lead}</p>
           <ul class="checks">{p.teacher.features.map((f) => <li>{f}</li>)}</ul>
           <div class="stores" aria-label={x.download}>
@@ -127,7 +127,7 @@ const shotSize: Record<string, [number, number]> = {
         </div>
         <div class="app-text">
           <p class="ct-en" lang="en">{x.nursery.en}</p>
-          <h3>{x.nursery.title}</h3>
+          <h2>{x.nursery.title}</h2>
           <p class="ct-blead">{x.nursery.lead}</p>
           <ul class="checks">{x.nursery.features.map((f) => <li>{f}</li>)}</ul>
           <div class="stores" aria-label={x.download}>
@@ -139,18 +139,18 @@ const shotSize: Record<string, [number, number]> = {
 
     <!-- Solutions -->
     <div class="ct-block">
-      <h3>{x.solutionsTitle}</h3>
-      <ul class="sols">{x.solutions.map((s2) => <li><h4>{s2.name}</h4><p>{s2.text}</p></li>)}</ul>
+      <h2>{x.solutionsTitle}</h2>
+      <ul class="sols">{x.solutions.map((s2) => <li><h3>{s2.name}</h3><p>{s2.text}</p></li>)}</ul>
     </div>
 
     <!-- Integrations & security -->
     <div class="ct-block ct-two">
-      <div><h4>{x.integrationsTitle}</h4><ul class="chips">{x.integrations.map((i) => <li>{i}</li>)}</ul></div>
-      <div><h4>{x.securityTitle}</h4><ul class="chips">{x.security.map((i) => <li>{i}</li>)}</ul></div>
+      <div><h3>{x.integrationsTitle}</h3><ul class="chips">{x.integrations.map((i) => <li>{i}</li>)}</ul></div>
+      <div><h3>{x.securityTitle}</h3><ul class="chips">{x.security.map((i) => <li>{i}</li>)}</ul></div>
     </div>
 
     <div class="ct-final">
-      <h3>{x.ctaTitle}</h3>
+      <h2>{x.ctaTitle}</h2>
       <p>{x.ctaBody}</p>
       <div class="ct-access">
         <a class="btn ct-acc-main" href={L.demo} {...ext}>{x.access.demo}</a>
@@ -226,8 +226,8 @@ const shotSize: Record<string, [number, number]> = {
   .ct-badges li { font-size: .85rem; font-weight: 700; color: #DDEDE3; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: .3rem .8rem; }
   .ct-badges li::before { content: '✓ '; color: var(--ct-bright); }
   .ct-access { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-top: 1.5rem; }
-  .ct-acc-main { background: var(--ct-bright); color: #fff; }
-  .ct-acc-main:hover { background: #26993F; }
+  .ct-acc-main { background: #1A7F35; color: #fff; }
+  .ct-acc-main:hover { background: #146A2B; }
   .ct-acc-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
   .ct-acc-ghost:hover { background: rgba(255,255,255,.1); }
   .ct-acc-link { color: inherit; font-weight: 700; text-underline-offset: 4px; }
@@ -247,22 +247,22 @@ const shotSize: Record<string, [number, number]> = {
   .nursery { background: var(--ct-mint); border-radius: 28px; padding: clamp(1.5rem, 4vw, 3rem); }
   .sols { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .sols li { background: linear-gradient(160deg, #12442B, #0F1F17); color: #fff; border-radius: 20px; padding: 1.5rem; }
-  .sols h4 { margin: 0 0 .6rem; font-size: 1.2rem; color: #B9F0C8; }
+  .sols h3 { margin: 0 0 .6rem; font-size: 1.2rem; color: #B9F0C8; }
   .sols p { color: #D3E6DA; line-height: 1.7; font-size: .98rem; }
   @media (max-width: 900px) { .sols { grid-template-columns: 1fr; } }
   .ct-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .ct-two h4 { font-size: 1.2rem; color: var(--ct); margin: 0 0 .8rem; }
+  .ct-two h3 { font-size: 1.2rem; color: var(--ct); margin: 0 0 .8rem; }
   .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
   .chips li { background: var(--ct-mint); color: #1D3A2A; border-radius: 999px; padding: .4rem .9rem; font-weight: 600; font-size: .92rem; }
   @media (max-width: 760px) { .ct-two { grid-template-columns: 1fr; } }
   .ct-final { margin-top: clamp(3.5rem, 7vw, 5rem); text-align: center; border-radius: 24px; padding: clamp(2rem, 5vw, 3rem); color: #fff; background: radial-gradient(90% 120% at 50% 0%, #1E6B43 0%, var(--ct-dark) 45%, var(--ct-deep) 100%); }
-  .ct-final h3 { font-size: var(--s3); }
+  .ct-final h2 { font-size: var(--s3); }
   .ct-final p { color: #D3E6DA; margin-top: .6rem; }
   .ct-final .ct-access { justify-content: center; }
 
   .ct-block { margin-top: clamp(3.5rem, 7vw, 5rem); scroll-margin-top: 6rem; }
-  .ct-en { color: var(--ct-soft); font-weight: 700; font-size: .95rem; }
-  .ct-block h3, .app h3 { font-size: var(--s3); margin-top: .2rem; }
+  .ct-en { color: var(--ct); font-weight: 700; font-size: .95rem; }
+  .ct-block h2, .app h2 { font-size: var(--s3); margin-top: .2rem; }
   .ct-blead { color: var(--muted); font-size: 1.12rem; margin-top: .75rem; max-width: 40rem; }
 
   .shots { margin-top: 1.75rem; }
@@ -273,14 +273,14 @@ const shotSize: Record<string, [number, number]> = {
   .browser { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 40px 70px -40px rgba(15,31,23,.55); }
   .browser-bar { display: flex; align-items: center; gap: .4rem; padding: .7rem 1rem; background: #EEF2EF; border-bottom: 1px solid var(--line); direction: ltr; }
   .browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: #C9D3CD; }
-  .browser-bar span { margin-inline-start: 1rem; flex: 1; max-width: 22rem; background: #fff; border-radius: 6px; padding: .2rem .8rem; font-size: .8rem; color: #6B7B72; }
+  .browser-bar span { margin-inline-start: 1rem; flex: 1; max-width: 22rem; background: #fff; border-radius: 6px; padding: .2rem .8rem; font-size: .8rem; color: #4A5A51; }
   .shot { margin: 0; }
   .shot img { width: 100%; height: auto; }
-  .shot figcaption { padding: 1rem 1.25rem 1.2rem; color: var(--muted); font-size: 1rem; border-top: 1px solid var(--line); }
+  .shot-cap { padding: 1rem 1.25rem 1.2rem; color: var(--muted); font-size: 1rem; border-top: 1px solid var(--line); }
 
   .modules { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
   .modules > li { background: var(--ct-mint); border-radius: 16px; padding: 1.25rem 1.25rem 1.35rem; }
-  .modules h4 { margin: 0 0 .6rem; font-size: 1.12rem; font-weight: 700; color: var(--ct); }
+  .modules h3 { margin: 0 0 .6rem; font-size: 1.12rem; font-weight: 700; color: var(--ct); }
   .modules ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
   .modules ul li { position: relative; padding-inline-start: 1rem; font-size: .97rem; line-height: 1.6; color: #24372D; }
   .modules ul li::before { content: ''; position: absolute; inset-inline-start: 0; top: .62em; width: 6px; height: 6px; border-radius: 2px; background: var(--ct-bright); }

@@ -27,19 +27,19 @@ export const contact = {
 
 // Client logos in /public/clients, in the order shown in the profile.
 export const clientLogos = [
-  { file: 'aramco.png', ar: 'أرامكو السعودية', en: 'Saudi Aramco' },
-  { file: 'gea.png', ar: 'الهيئة العامة للترفيه', en: 'General Entertainment Authority' },
-  { file: 'riyadh-season.png', ar: 'موسم الرياض', en: 'Riyadh Season' },
-  { file: 'stc.png', ar: 'stc', en: 'stc' },
-  { file: 'rcrc.png', ar: 'الهيئة الملكية لمدينة الرياض', en: 'Royal Commission for Riyadh City' },
-  { file: 'blvd-world.png', ar: 'بوليفارد وورلد', en: 'BLVD World' },
-  { file: 'jockey-club.png', ar: 'نادي سباقات الخيل', en: 'Jockey Club of Saudi Arabia' },
-  { file: 'kafd.png', ar: 'مركز الملك عبدالله المالي', en: 'KAFD' },
-  { file: 'holiday-inn.png', ar: 'هوليداي إن', en: 'Holiday Inn' },
-  { file: 'red-sea.png', ar: 'البحر الأحمر', en: 'The Red Sea' },
-  { file: 'alhokair.png', ar: 'مجموعة الحكير', en: 'Al Hokair Group' },
-  { file: 'roshn.png', ar: 'مجموعة روشن', en: 'Roshn Group' },
-  { file: 'almajdiah.png', ar: 'المجدية ريزدنس', en: 'Almajdiah Residence' },
+  { file: 'aramco.webp', w: 247, h: 200, ar: 'أرامكو السعودية', en: 'Saudi Aramco' },
+  { file: 'gea.webp', w: 300, h: 163, ar: 'الهيئة العامة للترفيه', en: 'General Entertainment Authority' },
+  { file: 'riyadh-season.webp', w: 153, h: 200, ar: 'موسم الرياض', en: 'Riyadh Season' },
+  { file: 'stc.webp', w: 193, h: 98, ar: 'stc', en: 'stc' },
+  { file: 'rcrc.webp', w: 249, h: 200, ar: 'الهيئة الملكية لمدينة الرياض', en: 'Royal Commission for Riyadh City' },
+  { file: 'blvd-world.webp', w: 164, h: 200, ar: 'بوليفارد وورلد', en: 'BLVD World' },
+  { file: 'jockey-club.webp', w: 225, h: 200, ar: 'نادي سباقات الخيل', en: 'Jockey Club of Saudi Arabia' },
+  { file: 'kafd.webp', w: 114, h: 200, ar: 'مركز الملك عبدالله المالي', en: 'KAFD' },
+  { file: 'holiday-inn.webp', w: 244, h: 200, ar: 'هوليداي إن', en: 'Holiday Inn' },
+  { file: 'red-sea.webp', w: 190, h: 200, ar: 'البحر الأحمر', en: 'The Red Sea' },
+  { file: 'alhokair.webp', w: 309, h: 198, ar: 'مجموعة الحكير', en: 'Al Hokair Group' },
+  { file: 'roshn.webp', w: 228, h: 200, ar: 'مجموعة روشن', en: 'Roshn Group' },
+  { file: 'almajdiah.webp', w: 286, h: 200, ar: 'المجدية ريزدنس', en: 'Almajdiah Residence' },
 ];
 
 export type ServiceIcon = 'transform' | 'software' | 'infra' | 'home' | 'ai' | 'agent';

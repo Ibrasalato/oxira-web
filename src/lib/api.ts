@@ -163,6 +163,41 @@ async function completeMagicLink(code: string): Promise<boolean> {
  * fetch() for Oxira backend calls. Pass the same URL and body the page always used (https://api.oxira.sa/<slug>, URLSearchParams, JSON or FormData).
  */
 export async function oxFetch(input: string, init: RequestInit = {}): Promise<Response> {
+  const res = await oxFetchRaw(input, init);
+  trackResult(input, init, res);
+  return res;
+}
+
+// ───── analytics: successful lead/sign-up calls become GA4 events (window.gtag from the layout) ─────
+const TRACK: Record<string, [string, string]> = {
+  'oxira-website-contact': ['generate_lead', 'contact_form'],
+  'oxira-book': ['generate_lead', 'booking'],
+  'oxira-agent-subscribe': ['generate_lead', 'whatsapp_agent'],
+  'oxira-agent-try': ['agent_demo_start', 'whatsapp_agent'],
+  'oxira-site-audit': ['site_audit', 'website_audit'],
+  'oxira-partner-signup': ['partner_signup', 'partners'],
+  'oxira-site-order': ['begin_checkout', 'website_builder'],
+  'oxira-bundle-order': ['begin_checkout', 'online_in_a_day'],
+};
+function trackResult(input: string, init: RequestInit, res: Response) {
+  try {
+    const g = (globalThis as any).gtag;
+    if (typeof g !== 'function' || !res.ok || !input.startsWith(N8N + '/')) return;
+    const slug = new URL(input).pathname.replace(/^\/+|\/+$/g, '');
+    let ev = TRACK[slug];
+    if (!ev && slug === 'oxira-auth') {
+      const b = init.body;
+      const action = b instanceof URLSearchParams ? b.get('action') : typeof b === 'string' && b.includes('"signup"') ? 'signup' : '';
+      if (action === 'signup') ev = ['sign_up', 'account'];
+    }
+    if (!ev) return;
+    res.clone().json().then((out: any) => {
+      if (out && (out.success === true || String(out.success) === 'true')) g('event', ev![0], { lead_source: ev![1] });
+    }).catch(() => undefined);
+  } catch { /* analytics must never break the page */ }
+}
+
+async function oxFetchRaw(input: string, init: RequestInit = {}): Promise<Response> {
   if (!useApi || !input.startsWith(N8N + '/')) return fetch(input, init);
   const url = new URL(input);
   const slug = url.pathname.replace(/^\/+|\/+$/g, '');

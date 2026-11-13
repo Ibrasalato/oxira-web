@@ -6,7 +6,27 @@ import Products from '../components/Products.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
+const app = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Classti',
+  alternateName: 'Classti Smart School Network',
+  applicationCategory: 'EducationalApplication',
+  operatingSystem: 'Web, Android, iOS',
+  description: c.pages.classti.description,
+  url: 'https://classti.com/',
+  inLanguage: ['ar', 'en'],
+  publisher: { '@type': 'Organization', name: 'Oxira', url: 'https://oxira.sa/' },
+  sameAs: [
+    'https://play.google.com/store/apps/details?id=com.classti.student',
+    'https://play.google.com/store/apps/details?id=com.classti.teacher',
+    'https://play.google.com/store/apps/details?id=com.classti.nursery',
+    'https://apps.apple.com/app/id6783915697',
+    'https://apps.apple.com/app/id6781750858',
+  ],
+};
 ---
 <Base lang={lang} path="/classti/" title={c.pages.classti.title} description={c.pages.classti.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(app)} />
   <Products lang={lang} />
 </Base>
