@@ -157,6 +157,7 @@ const shotSize: Record<string, [number, number]> = {
         <a class="btn ct-acc-ghost" href={L.trial} {...ext}>{x.access.trial}</a>
         <a class="btn ct-acc-ghost" href={L.pricing} {...ext}>{x.access.pricing}</a>
         <a class="ct-acc-link" href={`${link(lang, '/contact/')}?service=${encodeURIComponent(p.ctaValue)}`}>{x.contact}</a>
+        <a class="ct-acc-link" href={link(lang === 'ar' ? 'ar' : 'en', '/work/classti/')}>{x.caseLink}</a>
       </div>
     </div>
   </div>

@@ -37,6 +37,7 @@ type Dict = {
   ctaBody: string;
   contact: string;
   homeVisit: string;
+  caseLink: string;
 };
 
 export const classtiText: Record<Lang, Dict> = {
@@ -80,6 +81,7 @@ export const classtiText: Record<Lang, Dict> = {
     ctaBody: 'احجز عرضاً مجانياً أو جرّب المنصة الآن على موقع Classti، أو تواصل مع فريق أوكسيرا.',
     contact: 'تواصل مع أوكسيرا',
     homeVisit: 'زيارة classti.com',
+    caseLink: 'قصة بناء Classti',
   },
   en: {
     access: { visit: 'Visit', demo: 'Book a free demo', trial: 'Try Classti now', login: 'School login', pricing: 'Pricing' },
@@ -121,6 +123,7 @@ export const classtiText: Record<Lang, Dict> = {
     ctaBody: 'Book a free demo or try the platform now on the Classti website, or talk to the Oxira team.',
     contact: 'Contact Oxira',
     homeVisit: 'Visit classti.com',
+    caseLink: 'How we built Classti',
   },
   de: {
     access: { visit: 'Website:', demo: 'Kostenlose Demo buchen', trial: 'Classti jetzt testen', login: 'Schul-Login', pricing: 'Preise' },
@@ -162,6 +165,7 @@ export const classtiText: Record<Lang, Dict> = {
     ctaBody: 'Buchen Sie eine kostenlose Demo oder testen Sie die Plattform auf der Classti-Website – oder sprechen Sie mit dem Oxira-Team.',
     contact: 'Oxira kontaktieren',
     homeVisit: 'classti.com besuchen',
+    caseLink: 'Fallstudie (Englisch)',
   },
   fr: {
     access: { visit: 'Visiter', demo: 'Réserver une démo gratuite', trial: 'Essayer Classti', login: 'Connexion école', pricing: 'Tarifs' },
@@ -203,6 +207,7 @@ export const classtiText: Record<Lang, Dict> = {
     ctaBody: "Réservez une démo gratuite ou essayez la plateforme sur le site Classti, ou parlez à l'équipe Oxira.",
     contact: 'Contacter Oxira',
     homeVisit: 'Visiter classti.com',
+    caseLink: 'Étude de cas (en anglais)',
   },
   ru: {
     access: { visit: 'Сайт:', demo: 'Бесплатная демонстрация', trial: 'Попробовать Classti', login: 'Вход для школ', pricing: 'Цены' },
@@ -244,5 +249,6 @@ export const classtiText: Record<Lang, Dict> = {
     ctaBody: 'Запишитесь на бесплатную демонстрацию или попробуйте платформу на сайте Classti — или свяжитесь с командой Oxira.',
     contact: 'Связаться с Oxira',
     homeVisit: 'Открыть classti.com',
+    caseLink: 'Кейс (на английском)',
   },
 };
