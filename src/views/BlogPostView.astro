@@ -24,7 +24,8 @@ const prod = d.product && d.product !== 'builder' ? (d.product as AddonId) : nul
 const svcPage = d.service ? landings.find((l) => landingPath(l) === d.service) : undefined;
 const svc = svcPage
   ? { href: link(lang, d.service!), name: svcPage[lang].name, short: svcPage[lang].ctaBody }
-  : d.service === '/ai-agents/' ? { href: link(lang, '/ai-agents/'), name: t[lang].agents.title, short: t[lang].home.agentsBody } : null;
+  : d.service === '/ai-agents/' ? { href: link(lang, '/ai-agents/'), name: t[lang].agents.title, short: t[lang].home.agentsBody }
+  : d.service === '/classti/' ? { href: link(lang, '/classti/'), name: 'Classti', short: t[lang].pages.classti.description } : null;
 // Newest first, so new articles show up under "other articles".
 const others = all.filter((p) => p.id !== post.id).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 const toc = headings.filter((h) => h.depth === 2);
