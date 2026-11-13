@@ -351,19 +351,34 @@
    "shotsLabel": "Screens der Plattform",
    "shots": [
     {
-     "file": "classti-dashboard.webp",
+     "file": "dashboard",
      "tab": "Dashboard",
-     "caption": "Tagesüberblick: Schüler- und Lehrerzahlen, Anwesenheit nach Stufe, Busrouten live und Aufnahmen im Überblick."
+     "caption": "Was heute Ihre Aufmerksamkeit braucht: Anwesenheit, Inkasso und Tagesplan."
     },
     {
-     "file": "classti-exams.webp",
-     "tab": "Prüfungsergebnisse",
-     "caption": "Durchschnitt und Bestehensquoten, noch zu korrigierende Prüfungen, Bestleistungen sowie Durchschnittswerte nach Stufe und Fach."
+     "file": "owner",
+     "tab": "Eigentümer",
+     "caption": "Kennzahlen aller Standorte: Schüler, Einnahmen, Ausgaben, offene Gebühren und Warnungen."
     },
     {
-     "file": "classti-buses.webp",
-     "tab": "Schülertransport",
-     "caption": "Live-Busverfolgung auf der Karte: Fahrer, Route, Anzahl der Schüler und voraussichtliche Ankunft."
+     "file": "lead-tasks",
+     "tab": "Aufgaben",
+     "caption": "Aufgaben des Personals nach Status mit Anhängen und Fristen."
+    },
+    {
+     "file": "timetable",
+     "tab": "Stundenpläne",
+     "caption": "Automatische Stundenplanerstellung mit Prüfung, Veröffentlichung und Vertretungen."
+    },
+    {
+     "file": "radar",
+     "tab": "Schüler-Radar",
+     "caption": "Schüler mit Förderbedarf, Risikostufen und Trend je Klasse."
+    },
+    {
+     "file": "live",
+     "tab": "Live-Unterricht",
+     "caption": "Live-Unterricht und Meetings mit Audio, Video und Whiteboard, inklusive Anwesenheit."
     }
    ],
    "modules": [

@@ -169,9 +169,12 @@ const base = {
         lead: "لوحة تحكم واحدة لقيادة المدرسة: المهام ومسارات الاعتماد والجداول والمالية والقبول وتقييم المعلمين، بالعربية والإنجليزية.",
         shotsLabel: 'لقطات من المنصة',
         shots: [
-          { file: 'classti-dashboard.webp', tab: 'لوحة التحكم', caption: 'ملخص اليوم: أعداد الطلاب والمعلمين، نسبة الحضور حسب المرحلة، خط سير الحافلات، وملخص طلبات التقديم.' },
-          { file: 'classti-exams.webp', tab: 'نتائج الاختبارات', caption: 'متوسط الدرجات والنجاح، والاختبارات بانتظار التصحيح، وأعلى الدرجات، ومتوسط كل مرحلة ومادة.' },
-          { file: 'classti-buses.webp', tab: 'النقل المدرسي', caption: 'تتبع الحافلات على الخريطة لحظياً: السائق، خط السير، عدد الطلاب، ووقت الوصول المتوقع.' },
+          { file: "dashboard", tab: "لوحة التحكم", caption: "ما يحتاج انتباهك اليوم: الحضور والغياب والتحصيل وجدول اليوم." },
+          { file: "owner", tab: "لوحة المالك", caption: "مؤشرات كل الفروع: الطلاب والإيرادات والمصروفات والرسوم المتأخرة والتنبيهات." },
+          { file: "lead-tasks", tab: "المهام الإدارية", caption: "مهام الكادر حسب الحالة: قيد التنفيذ، بانتظار المراجعة، مكتملة، مع المرفقات والمواعيد." },
+          { file: "timetable", tab: "الجداول", caption: "توليد الجدول تلقائياً لكل خطة مع المراجعة والنشر وتوزيع حصص الانتظار." },
+          { file: "radar", tab: "رادار الطلاب", caption: "الطلاب الذين يحتاجون متابعة، ومستويات الخطر، واتجاه كل فصل." },
+          { file: "live", tab: "الحصص المباشرة", caption: "الحصص والاجتماعات المباشرة بالصوت والصورة والسبورة، مع نسبة الحضور." },
         ],
         modules: [
           { name: "القيادة والتشغيل", items: ["المهام الإدارية ومسارات الاعتماد", "تغطية تحضير الدروس", "الجداول والتقويم الأكاديمي", "تقييم المعلمين وزيارات الفصول", "الأدوار والصلاحيات"] },
@@ -497,9 +500,12 @@ const base = {
         lead: "One dashboard to lead the school: tasks, approval paths, timetables, finance, admissions and teacher evaluation, in Arabic and English.",
         shotsLabel: 'Platform screens',
         shots: [
-          { file: 'classti-dashboard.webp', tab: 'Dashboard', caption: "Today's summary: student and teacher counts, attendance by stage, live bus routes and admissions overview." },
-          { file: 'classti-exams.webp', tab: 'Exam results', caption: 'Average and pass rates, exams awaiting marking, top scores, and averages by stage and subject.' },
-          { file: 'classti-buses.webp', tab: 'School transport', caption: 'Live bus tracking on the map: driver, route, number of students and expected arrival.' },
+          { file: "dashboard", tab: "Dashboard", caption: "What needs your attention today: attendance, collections and today's schedule." },
+          { file: "owner", tab: "Owner view", caption: "KPIs of every branch: students, revenue, expenses, overdue fees and alerts." },
+          { file: "lead-tasks", tab: "Admin tasks", caption: "Staff tasks by status (in progress, in review, done) with attachments and due dates." },
+          { file: "timetable", tab: "Timetables", caption: "Automatic timetable generation per plan, with review, publishing and cover lessons." },
+          { file: "radar", tab: "Student radar", caption: "Students who need follow-up, risk levels and the trend of each class." },
+          { file: "live", tab: "Live classes", caption: "Live classes and meetings with audio, video and whiteboard, plus attendance rate." },
         ],
         modules: [
           { name: "Leadership & operations", items: ["Admin tasks and approval paths", "Lesson plan coverage", "Timetables and academic calendar", "Teacher evaluation and class visits", "Roles and permissions"] },

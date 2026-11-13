@@ -8,10 +8,14 @@ const { lang } = Astro.props;
 const p = t[lang].products;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const other = lang === 'ar' ? 'en' : 'ar';
-const s = p.student.mock;
-const tm = p.teacher.mock;
 const x = classtiText[lang];
 const ext = { target: '_blank', rel: 'noopener' };
+// Screens copied from classti.com (public/products/classti/), Arabic or English UI.
+const sl = lang === 'ar' ? 'ar' : 'en';
+const shot = (name: string) => `${base}/products/classti/${name}-${sl}.webp`;
+const shotSize: Record<string, [number, number]> = {
+  dashboard: [960, 600], owner: [800, 500], 'lead-tasks': [720, 675], timetable: [720, 498], radar: [720, 498], live: [720, 498],
+};
 ---
 <section id="products" class="products" aria-labelledby="products-title">
   <div class="wrap">
@@ -53,10 +57,10 @@ const ext = { target: '_blank', rel: 'noopener' };
           ))}
         </div>
         <div class="browser">
-          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span dir="ltr">Classti · Smart School Network</span></div>
+          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span dir="ltr">school.classti.com</span></div>
           {p.platform.shots.map((sh, i) => (
             <figure class="shot" role="tabpanel" id={`shot-${i}`} aria-labelledby={`shot-tab-${i}`} hidden={i !== 0}>
-              <img src={`${base}/products/${sh.file}`} alt={sh.caption} width="1440" height="1024" loading="lazy" decoding="async" />
+              <img src={shot(sh.file)} alt={sh.caption} width={(shotSize[sh.file] || [960, 600])[0]} height={(shotSize[sh.file] || [960, 600])[1]} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
               <figcaption>{sh.caption}</figcaption>
             </figure>
           ))}
@@ -84,29 +88,8 @@ const ext = { target: '_blank', rel: 'noopener' };
     <div class="apps">
       <!-- Student app -->
       <article id="ct-student" class="app">
-        <div class="phone-ct" aria-hidden="true">
-          <div class="pc-screen">
-            <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
-            <div class="pc-top">
-              <div class="pc-avatar">{lang === 'ar' ? 'أ' : lang === 'ru' ? 'А' : 'A'}</div>
-              <div><strong>{s.hello}</strong><small>{s.sub}</small></div>
-            </div>
-            <div class="pc-bus">
-              <span class="pc-bus-ico">🚌</span>
-              <div><strong>{s.bus}</strong><small>{s.busSub}</small></div>
-            </div>
-            <p class="pc-label">{s.today}</p>
-            <ul class="pc-list">
-              {s.classes.map(([time, subj, who], i) => (
-                <li class={i === 0 ? 'now' : ''}><span class="pc-time">{time}</span><span><strong>{subj}</strong><small>{who}</small></span></li>
-              ))}
-            </ul>
-            <div class="pc-cards">
-              <div class="pc-card amber"><strong>{s.hw}</strong><small>{s.hwSub}</small></div>
-              <div class="pc-card mint"><strong>{s.grade}</strong></div>
-            </div>
-            <nav class="pc-nav">{s.nav.map((n, i) => <span class={i === 0 ? 'on' : ''}>{n}</span>)}</nav>
-          </div>
+        <div class="phone-ct phone-sm">
+          <div class="pc-screen"><img src={`${base}/products/classti/family-home-${sl}.webp`} alt={p.student.lead} width="240" height="520" loading="lazy" decoding="async" /></div>
         </div>
         <div class="app-text">
           <p class="ct-en" lang="en">{p.student.en}</p>
@@ -122,26 +105,8 @@ const ext = { target: '_blank', rel: 'noopener' };
 
       <!-- Teacher app -->
       <article id="ct-teacher" class="app app-rev">
-        <div class="phone-ct" aria-hidden="true">
-          <div class="pc-screen">
-            <div class="pc-status"><span>9:41</span><span>●●● ▮</span></div>
-            <div class="pc-top">
-              <div class="pc-avatar">{lang === 'ar' ? 'س' : lang === 'ru' ? 'С' : 'S'}</div>
-              <div><strong>{tm.hello}</strong><small>{tm.sub}</small></div>
-            </div>
-            <div class="pc-now">
-              <small>{tm.now}</small>
-              <strong>{tm.nowClass}</strong>
-            </div>
-            <p class="pc-label">{tm.attend}</p>
-            <ul class="pc-att">
-              {tm.students.map(([name, here]) => (
-                <li><span class="pc-st">{String(name).slice(0, 1)}</span><span class="pc-name">{name}</span><span class={here ? 'pill ok' : 'pill no'}>{here ? tm.present : tm.absent}</span></li>
-              ))}
-            </ul>
-            <span class="pc-save">{tm.save}</span>
-            <nav class="pc-nav">{tm.nav.map((n, i) => <span class={i === 0 ? 'on' : ''}>{n}</span>)}</nav>
-          </div>
+        <div class="phone-ct">
+          <div class="pc-screen"><img src={`${base}/products/classti/t-home-${sl}.webp`} alt={p.teacher.lead} width="560" height="1214" loading="lazy" decoding="async" /></div>
         </div>
         <div class="app-text">
           <p class="ct-en" lang="en">{p.teacher.en}</p>
@@ -156,9 +121,11 @@ const ext = { target: '_blank', rel: 'noopener' };
       </article>
 
       <!-- Nursery app -->
-      <article id="ct-nursery" class="nursery">
-        <img src={`${base}/products/classti-icon.png`} alt="" width="72" height="72" loading="lazy" />
-        <div>
+      <article id="ct-nursery" class="app nursery">
+        <div class="phone-ct">
+          <div class="pc-screen"><img src={`${base}/products/classti/nu-timeline-${sl}.webp`} alt={x.nursery.lead} width="560" height="1214" loading="lazy" decoding="async" /></div>
+        </div>
+        <div class="app-text">
           <p class="ct-en" lang="en">{x.nursery.en}</p>
           <h3>{x.nursery.title}</h3>
           <p class="ct-blead">{x.nursery.lead}</p>
@@ -277,10 +244,7 @@ const ext = { target: '_blank', rel: 'noopener' };
   .store svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
   .store span { display: grid; font-weight: 700; font-size: 1rem; direction: ltr; text-align: start; }
   .store small { font-weight: 500; font-size: .7rem; opacity: .8; }
-  .nursery { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start; background: var(--ct-mint); border-radius: 24px; padding: clamp(1.5rem, 4vw, 2.5rem); scroll-margin-top: 6rem; }
-  .nursery img { border-radius: 18px; }
-  .nursery h3 { font-size: var(--s3); margin-top: .2rem; }
-  @media (max-width: 560px) { .nursery { grid-template-columns: 1fr; } }
+  .nursery { background: var(--ct-mint); border-radius: 28px; padding: clamp(1.5rem, 4vw, 3rem); }
   .sols { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .sols li { background: linear-gradient(160deg, #12442B, #0F1F17); color: #fff; border-radius: 20px; padding: 1.5rem; }
   .sols h4 { margin: 0 0 .6rem; font-size: 1.2rem; color: #B9F0C8; }
@@ -336,41 +300,10 @@ const ext = { target: '_blank', rel: 'noopener' };
   }
   @media (max-width: 520px) { .checks { grid-template-columns: 1fr; } }
 
-  /* Phone mockups of the Classti apps */
-  .phone-ct { width: 300px; border-radius: 42px; padding: 11px; background: #0E1A14; box-shadow: 0 40px 70px -35px rgba(15,31,23,.65), inset 0 0 0 2px #253A2E; }
-  .pc-screen { position: relative; border-radius: 32px; overflow: hidden; background: #F5F8F6; height: 590px; display: flex; flex-direction: column; font-size: .88rem; }
-  .pc-status { display: flex; justify-content: space-between; padding: .7rem 1.4rem .2rem; font-weight: 700; font-size: .75rem; background: var(--ct); color: #fff; direction: ltr; }
-  .pc-top { display: flex; align-items: center; gap: .7rem; background: var(--ct); color: #fff; padding: .7rem 1.1rem 1.6rem; }
-  .pc-top strong { display: block; font-size: 1rem; line-height: 1.35; }
-  .pc-top small { display: block; opacity: .8; font-size: .78rem; line-height: 1.35; }
-  .pc-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--ct-bright); display: grid; place-items: center; font-weight: 700; flex: none; }
-  .pc-bus, .pc-now { margin: -1rem .9rem 0; background: #fff; border-radius: 14px; padding: .75rem .9rem; box-shadow: 0 8px 20px -12px rgba(0,0,0,.35); display: flex; gap: .7rem; align-items: center; }
-  .pc-now { display: grid; gap: 0; border-inline-start: 4px solid var(--ct-bright); }
-  .pc-bus strong, .pc-now strong { display: block; font-size: .9rem; line-height: 1.4; }
-  .pc-bus small, .pc-now small { display: block; color: #6B7B72; font-size: .75rem; line-height: 1.4; }
-  .pc-bus-ico { width: 38px; height: 38px; border-radius: 10px; background: #FFF4D6; display: grid; place-items: center; font-size: 1.1rem; flex: none; }
-  .pc-label { font-weight: 700; padding: 1rem 1.1rem .4rem; font-size: .9rem; }
-  .pc-list { list-style: none; margin: 0 .9rem; padding: 0; display: grid; gap: .45rem; }
-  .pc-list li { display: flex; align-items: center; gap: .7rem; background: #fff; border-radius: 12px; padding: .5rem .7rem; }
-  .pc-list li.now { box-shadow: inset 0 0 0 1.5px var(--ct-bright); }
-  .pc-list strong { display: block; font-size: .86rem; line-height: 1.35; }
-  .pc-list small { display: block; color: #6B7B72; font-size: .72rem; line-height: 1.35; }
-  .pc-time { font-weight: 700; color: var(--ct); font-size: .8rem; min-width: 2.6rem; direction: ltr; }
-  .pc-cards { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin: .7rem .9rem 0; }
-  .pc-card { border-radius: 12px; padding: .6rem .7rem; line-height: 1.4; }
-  .pc-card strong { display: block; font-size: .8rem; }
-  .pc-card small { display: block; font-size: .72rem; color: #6B7B72; }
-  .pc-card.amber { background: #FFF4D6; }
-  .pc-card.mint { background: var(--ct-mint); color: var(--ct); }
-  .pc-att { list-style: none; margin: 0 .9rem; padding: 0; display: grid; gap: .4rem; }
-  .pc-att li { display: flex; align-items: center; gap: .6rem; background: #fff; border-radius: 12px; padding: .45rem .6rem; }
-  .pc-st { width: 30px; height: 30px; border-radius: 50%; background: var(--ct-mint); color: var(--ct); display: grid; place-items: center; font-weight: 700; font-size: .8rem; flex: none; }
-  .pc-name { flex: 1; font-weight: 600; font-size: .84rem; }
-  .pill { font-size: .72rem; font-weight: 700; border-radius: 999px; padding: .15rem .6rem; }
-  .pill.ok { background: var(--ct-mint); color: var(--ct); }
-  .pill.no { background: #FDE8E8; color: #B42318; }
-  .pc-save { margin: .8rem .9rem 0; background: var(--ct); color: #fff; border-radius: 12px; text-align: center; padding: .6rem; font-weight: 700; }
-  .pc-nav { margin-top: auto; display: flex; justify-content: space-around; background: #fff; border-top: 1px solid #E3EAE6; padding: .65rem .4rem .95rem; font-size: .72rem; color: #8A9A91; font-weight: 600; }
-  .pc-nav .on { color: var(--ct); font-weight: 700; }
+  /* Phone frames around real app screens */
+  .phone-ct { width: 290px; border-radius: 42px; padding: 10px; background: #0E1A14; box-shadow: 0 40px 70px -35px rgba(15,31,23,.65), inset 0 0 0 2px #253A2E; }
+  .pc-screen { border-radius: 32px; overflow: hidden; background: #F5F8F6; line-height: 0; }
+  .pc-screen img { width: 100%; height: auto; }
+  .phone-sm { width: 262px; }
 
 </style>

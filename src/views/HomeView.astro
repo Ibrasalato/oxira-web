@@ -44,7 +44,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
         </figure>
         <figure class="hv-card hv-product">
           <div class="hv-bar"><i></i><i></i><i></i></div>
-          <img src={asset('products/classti-dashboard.webp')} alt="" width="1440" height="1024" />
+          <img src={asset(`products/classti/dashboard-${lang === 'ar' ? 'ar' : 'en'}.webp`)} alt="" width="960" height="600" />
           <figcaption class="hv-tag hv-tag-green">{h.heroTags.product}</figcaption>
         </figure>
         <div class="hv-card hv-chat">
@@ -156,7 +156,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
         </div>
       </div>
       <div class="ct-visual" aria-hidden="true">
-        <img src={asset('products/classti-exams.webp')} alt="" width="1440" height="1025" loading="lazy" />
+        <img src={asset(`products/classti/dashboard-${lang === 'ar' ? 'ar' : 'en'}.webp`)} alt="" width="960" height="600" loading="lazy" />
       </div>
     </div>
   </section>

@@ -351,19 +351,34 @@
    "shotsLabel": "Écrans de la plateforme",
    "shots": [
     {
-     "file": "classti-dashboard.webp",
+     "file": "dashboard",
      "tab": "Tableau de bord",
-     "caption": "Le résumé du jour : effectifs élèves et enseignants, présences par cycle, trajets de bus en direct et aperçu des admissions."
+     "caption": "Ce qui demande votre attention aujourd'hui : présence, recouvrement et planning du jour."
     },
     {
-     "file": "classti-exams.webp",
-     "tab": "Résultats d'examens",
-     "caption": "Moyennes et taux de réussite, examens à corriger, meilleures notes, et moyennes par cycle et par matière."
+     "file": "owner",
+     "tab": "Vue propriétaire",
+     "caption": "Indicateurs de chaque campus : élèves, revenus, dépenses, impayés et alertes."
     },
     {
-     "file": "classti-buses.webp",
-     "tab": "Transport scolaire",
-     "caption": "Suivi des bus en direct sur la carte : chauffeur, itinéraire, nombre d'élèves et heure d'arrivée prévue."
+     "file": "lead-tasks",
+     "tab": "Tâches",
+     "caption": "Tâches du personnel par statut, avec pièces jointes et échéances."
+    },
+    {
+     "file": "timetable",
+     "tab": "Emplois du temps",
+     "caption": "Génération automatique, révision, publication et remplacements."
+    },
+    {
+     "file": "radar",
+     "tab": "Radar élève",
+     "caption": "Élèves à suivre, niveaux de risque et tendance de chaque classe."
+    },
+    {
+     "file": "live",
+     "tab": "Cours en direct",
+     "caption": "Cours et réunions en direct avec audio, vidéo et tableau, et taux de présence."
     }
    ],
    "modules": [
