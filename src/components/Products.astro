@@ -1,6 +1,7 @@
 ---
 import { t, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
+import { classtiText, classtiLinks as L } from '../i18n/classti';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -9,6 +10,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const other = lang === 'ar' ? 'en' : 'ar';
 const s = p.student.mock;
 const tm = p.teacher.mock;
+const x = classtiText[lang];
+const ext = { target: '_blank', rel: 'noopener' };
 ---
 <section id="products" class="products" aria-labelledby="products-title">
   <div class="wrap">
@@ -21,12 +24,18 @@ const tm = p.teacher.mock;
         </h1>
       </div>
       <p class="ct-lead">{p.lead}</p>
+      <ul class="ct-badges" aria-label={p.alsoLabel}>{x.badges.map((b) => <li>{b}</li>)}</ul>
+      <div class="ct-access">
+        <a class="btn ct-acc-main" href={L.demo} {...ext}>{x.access.demo}</a>
+        <a class="btn ct-acc-ghost" href={L.trial} {...ext}>{x.access.trial}</a>
+        <a class="btn ct-acc-ghost" href={L.login} {...ext}>{x.access.login}</a>
+        <a class="ct-acc-link" href={L.site(lang)} {...ext}>{x.access.visit} <span dir="ltr">classti.com</span> ↗</a>
+      </div>
       <ul class="ct-suite" aria-label={p.suiteLabel}>
         {p.suite.map((it) => (
           <li><a href={`#ct-${it.key}`}><strong>{it.name}</strong><span dir="ltr">{it.en}</span><small>{it.text}</small></a></li>
         ))}
       </ul>
-      <p class="ct-also">{p.alsoLabel}</p>
     </div>
 
     <!-- School platform -->
@@ -64,6 +73,13 @@ const tm = p.teacher.mock;
       </ul>
     </div>
 
+    <!-- Features (mirrors classti.com) -->
+    <div class="ct-block">
+      <h3>{x.featuresTitle}</h3>
+      <p class="ct-blead">{x.featuresLead}</p>
+      <ul class="feats">{x.features.map((f) => <li><strong>{f.name}</strong><span>{f.text}</span></li>)}</ul>
+    </div>
+
     <!-- Apps -->
     <div class="apps">
       <!-- Student app -->
@@ -97,6 +113,10 @@ const tm = p.teacher.mock;
           <h3>{p.student.title}</h3>
           <p class="ct-blead">{p.student.lead}</p>
           <ul class="checks">{p.student.features.map((f) => <li>{f}</li>)}</ul>
+          <div class="stores" aria-label={x.download}>
+            <a class="store" href={L.apps.student.play} {...ext}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.5v19l10-9.5L4 2.5Zm11.3 8.3 2.6-2.5L6.6 1.9l8.7 8.9Zm0 2.4-8.7 8.9 11.3-6.4-2.6-2.5Zm5.2-2.9L18.4 9l-2.7 3 2.7 3 2.1-1.2c.9-.5.9-1.9 0-2.5Z"/></svg><span><small>{x.download}</small>Google Play</span></a>
+            <a class="store" href={L.apps.student.apple} {...ext}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.7.9-.8 0-2-.9-3.2-.9-1.7 0-3.2 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8c1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.7ZM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4Z"/></svg><span><small>{x.download}</small>App Store</span></a>
+          </div>
         </div>
       </article>
 
@@ -128,12 +148,49 @@ const tm = p.teacher.mock;
           <h3>{p.teacher.title}</h3>
           <p class="ct-blead">{p.teacher.lead}</p>
           <ul class="checks">{p.teacher.features.map((f) => <li>{f}</li>)}</ul>
+          <div class="stores" aria-label={x.download}>
+            <a class="store" href={L.apps.teacher.play} {...ext}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.5v19l10-9.5L4 2.5Zm11.3 8.3 2.6-2.5L6.6 1.9l8.7 8.9Zm0 2.4-8.7 8.9 11.3-6.4-2.6-2.5Zm5.2-2.9L18.4 9l-2.7 3 2.7 3 2.1-1.2c.9-.5.9-1.9 0-2.5Z"/></svg><span><small>{x.download}</small>Google Play</span></a>
+            <a class="store" href={L.apps.teacher.apple} {...ext}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.7.9-.8 0-2-.9-3.2-.9-1.7 0-3.2 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8c1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.7ZM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4Z"/></svg><span><small>{x.download}</small>App Store</span></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Nursery app -->
+      <article id="ct-nursery" class="nursery">
+        <img src={`${base}/products/classti-icon.png`} alt="" width="72" height="72" loading="lazy" />
+        <div>
+          <p class="ct-en" lang="en">{x.nursery.en}</p>
+          <h3>{x.nursery.title}</h3>
+          <p class="ct-blead">{x.nursery.lead}</p>
+          <ul class="checks">{x.nursery.features.map((f) => <li>{f}</li>)}</ul>
+          <div class="stores" aria-label={x.download}>
+            <a class="store" href={L.apps.nursery.play} {...ext}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.5v19l10-9.5L4 2.5Zm11.3 8.3 2.6-2.5L6.6 1.9l8.7 8.9Zm0 2.4-8.7 8.9 11.3-6.4-2.6-2.5Zm5.2-2.9L18.4 9l-2.7 3 2.7 3 2.1-1.2c.9-.5.9-1.9 0-2.5Z"/></svg><span><small>{x.download}</small>Google Play</span></a>
+          </div>
         </div>
       </article>
     </div>
 
-    <div class="ct-cta">
-      <a class="btn ct-btn" href={`${link(lang, '/contact/')}?service=${encodeURIComponent(p.ctaValue)}`}>{p.cta}</a>
+    <!-- Solutions -->
+    <div class="ct-block">
+      <h3>{x.solutionsTitle}</h3>
+      <ul class="sols">{x.solutions.map((s2) => <li><h4>{s2.name}</h4><p>{s2.text}</p></li>)}</ul>
+    </div>
+
+    <!-- Integrations & security -->
+    <div class="ct-block ct-two">
+      <div><h4>{x.integrationsTitle}</h4><ul class="chips">{x.integrations.map((i) => <li>{i}</li>)}</ul></div>
+      <div><h4>{x.securityTitle}</h4><ul class="chips">{x.security.map((i) => <li>{i}</li>)}</ul></div>
+    </div>
+
+    <div class="ct-final">
+      <h3>{x.ctaTitle}</h3>
+      <p>{x.ctaBody}</p>
+      <div class="ct-access">
+        <a class="btn ct-acc-main" href={L.demo} {...ext}>{x.access.demo}</a>
+        <a class="btn ct-acc-ghost" href={L.trial} {...ext}>{x.access.trial}</a>
+        <a class="btn ct-acc-ghost" href={L.pricing} {...ext}>{x.access.pricing}</a>
+        <a class="ct-acc-link" href={`${link(lang, '/contact/')}?service=${encodeURIComponent(p.ctaValue)}`}>{x.contact}</a>
+      </div>
     </div>
   </div>
 </section>
@@ -189,14 +246,55 @@ const tm = p.teacher.mock;
   .ct-h1 img { width: clamp(220px, 28vw, 320px); height: auto; }
   .ct-tag { color: #B9D9C7; font-weight: 600; letter-spacing: .02em; }
   .ct-lead { margin-top: 1.25rem; font-size: 1.2rem; color: #DDEDE3; max-width: 46rem; }
-  .ct-suite { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .ct-suite { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
   .ct-suite a { display: grid; gap: .15rem; height: 100%; text-decoration: none; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 1.1rem 1.2rem; }
   .ct-suite a:hover { background: rgba(255,255,255,.12); border-color: var(--ct-bright); }
   .ct-suite strong { font-size: 1.2rem; }
   .ct-suite span { color: var(--ct-bright); font-weight: 700; font-size: .92rem; }
   .ct-suite small { color: #C8DED1; font-size: .95rem; margin-top: .3rem; }
   .ct-also { margin-top: 1.25rem; color: #B9D9C7; font-size: .98rem; }
-  @media (max-width: 760px) { .ct-suite { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .ct-suite { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .ct-suite { grid-template-columns: 1fr; } }
+  .ct-badges { list-style: none; margin: 1.1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .ct-badges li { font-size: .85rem; font-weight: 700; color: #DDEDE3; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: .3rem .8rem; }
+  .ct-badges li::before { content: '✓ '; color: var(--ct-bright); }
+  .ct-access { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-top: 1.5rem; }
+  .ct-acc-main { background: var(--ct-bright); color: #fff; }
+  .ct-acc-main:hover { background: #26993F; }
+  .ct-acc-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
+  .ct-acc-ghost:hover { background: rgba(255,255,255,.1); }
+  .ct-acc-link { color: inherit; font-weight: 700; text-underline-offset: 4px; }
+  .classti-hero .ct-acc-link { color: #B9F0C8; }
+  .feats { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .feats li { display: grid; gap: .3rem; border: 1px solid var(--line); border-radius: 16px; padding: 1.1rem 1.2rem; border-inline-start: 4px solid var(--ct-bright); }
+  .feats strong { font-size: 1.05rem; color: var(--ct); }
+  .feats span { color: var(--muted); font-size: .96rem; line-height: 1.6; }
+  @media (max-width: 900px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .feats { grid-template-columns: 1fr; } }
+  .stores { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
+  .store { display: inline-flex; align-items: center; gap: .55rem; background: #0F1F17; color: #fff; text-decoration: none; border-radius: 12px; padding: .5rem 1rem .5rem .8rem; line-height: 1.15; }
+  .store:hover { background: var(--ct); }
+  .store svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
+  .store span { display: grid; font-weight: 700; font-size: 1rem; direction: ltr; text-align: start; }
+  .store small { font-weight: 500; font-size: .7rem; opacity: .8; }
+  .nursery { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start; background: var(--ct-mint); border-radius: 24px; padding: clamp(1.5rem, 4vw, 2.5rem); scroll-margin-top: 6rem; }
+  .nursery img { border-radius: 18px; }
+  .nursery h3 { font-size: var(--s3); margin-top: .2rem; }
+  @media (max-width: 560px) { .nursery { grid-template-columns: 1fr; } }
+  .sols { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .sols li { background: linear-gradient(160deg, #12442B, #0F1F17); color: #fff; border-radius: 20px; padding: 1.5rem; }
+  .sols h4 { margin: 0 0 .6rem; font-size: 1.2rem; color: #B9F0C8; }
+  .sols p { color: #D3E6DA; line-height: 1.7; font-size: .98rem; }
+  @media (max-width: 900px) { .sols { grid-template-columns: 1fr; } }
+  .ct-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .ct-two h4 { font-size: 1.2rem; color: var(--ct); margin: 0 0 .8rem; }
+  .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chips li { background: var(--ct-mint); color: #1D3A2A; border-radius: 999px; padding: .4rem .9rem; font-weight: 600; font-size: .92rem; }
+  @media (max-width: 760px) { .ct-two { grid-template-columns: 1fr; } }
+  .ct-final { margin-top: clamp(3.5rem, 7vw, 5rem); text-align: center; border-radius: 24px; padding: clamp(2rem, 5vw, 3rem); color: #fff; background: radial-gradient(90% 120% at 50% 0%, #1E6B43 0%, var(--ct-dark) 45%, var(--ct-deep) 100%); }
+  .ct-final h3 { font-size: var(--s3); }
+  .ct-final p { color: #D3E6DA; margin-top: .6rem; }
+  .ct-final .ct-access { justify-content: center; }
 
   .ct-block { margin-top: clamp(3.5rem, 7vw, 5rem); scroll-margin-top: 6rem; }
   .ct-en { color: var(--ct-soft); font-weight: 700; font-size: .95rem; }
@@ -275,7 +373,4 @@ const tm = p.teacher.mock;
   .pc-nav { margin-top: auto; display: flex; justify-content: space-around; background: #fff; border-top: 1px solid #E3EAE6; padding: .65rem .4rem .95rem; font-size: .72rem; color: #8A9A91; font-weight: 600; }
   .pc-nav .on { color: var(--ct); font-weight: 700; }
 
-  .ct-cta { margin-top: clamp(3rem, 6vw, 4rem); display: flex; justify-content: center; }
-  .ct-btn { background: var(--ct); color: #fff; }
-  .ct-btn:hover { background: var(--ct-dark); }
 </style>

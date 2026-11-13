@@ -2,7 +2,6 @@
 import { t, type Lang } from '../i18n/content';
 import Base from '../layouts/Base.astro';
 import Products from '../components/Products.astro';
-import CtaBand from '../components/CtaBand.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -10,5 +9,4 @@ const c = t[lang];
 ---
 <Base lang={lang} path="/classti/" title={c.pages.classti.title} description={c.pages.classti.description}>
   <Products lang={lang} />
-  <CtaBand lang={lang} />
 </Base>

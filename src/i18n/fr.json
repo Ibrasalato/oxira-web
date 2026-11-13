@@ -315,33 +315,39 @@
   "body": "Des produits digitaux que nous concevons et exploitons nous-mêmes, à commencer par Classti, notre suite de gestion scolaire.",
   "tagline": "Le réseau scolaire intelligent",
   "name": "Classti",
-  "lead": "Une suite saoudienne tout-en-un pour gérer les écoles privées et internationales, de la maternelle au lycée. Elle relie l'administration, les enseignants, les élèves, les parents et les chauffeurs de bus dans un système unique, intelligent et sécurisé.",
+  "lead": "Le système de gestion scolaire nouvelle génération : tout ce dont votre école a besoin sur une seule plateforme, des admissions à la classe, au bus, à la cantine et aux frais. Il relie direction, enseignants, parents et élèves dans une expérience intelligente.",
   "suiteLabel": "La suite",
   "suite": [
    {
     "key": "platform",
-    "name": "Plateforme scolaire",
+    "name": "Plateforme école",
     "en": "Classti School",
-    "text": "Le tableau de bord d'administration de toute l'école."
+    "text": "Direction, finances, admissions et emplois du temps pour chaque campus."
    },
    {
     "key": "student",
-    "name": "Application élève",
-    "en": "Classti Student",
-    "text": "Cours, emploi du temps, résultats et bus pour les élèves."
+    "name": "App Classti",
+    "en": "Classti",
+    "text": "Pour parents et élèves : emploi du temps, présence, devoirs et frais."
    },
    {
     "key": "teacher",
-    "name": "Application enseignant",
-    "en": "Classti Teacher",
-    "text": "Classes, présences et notation pour les enseignants."
+    "name": "App enseignant",
+    "en": "Classti for Teachers",
+    "text": "Planning du jour, présence, notes et remplacements."
+   },
+   {
+    "key": "nursery",
+    "name": "App crèche",
+    "en": "Classti Nursery",
+    "text": "La journée de l'enfant pour éducateurs et parents."
    }
   ],
-  "alsoLabel": "Également dans la suite : l'application Parent et l'application Chauffeur.",
+  "alsoLabel": "Conforme à la facturation électronique ZATCA, à Nafath et à la loi PDPL sur les données personnelles.",
   "platform": {
    "title": "Plateforme scolaire",
    "en": "Classti School",
-   "lead": "Un tableau de bord unique où l'école gère la pédagogie, la vie scolaire, les RH et les finances, entièrement en arabe avec une interface de droite à gauche.",
+   "lead": "Un tableau de bord pour diriger l'école : tâches, circuits d'approbation, emplois du temps, finances, admissions et évaluation des enseignants, en arabe et en anglais.",
    "shotsLabel": "Écrans de la plateforme",
    "shots": [
     {
@@ -362,54 +368,58 @@
    ],
    "modules": [
     {
-     "name": "Pédagogie",
+     "name": "Direction & opérations",
      "items": [
-      "Cycles et classes",
-      "E-learning (LMS)",
-      "Calendrier scolaire",
-      "Examens et résultats"
+      "Tâches et circuits d'approbation",
+      "Couverture des préparations",
+      "Emplois du temps et calendrier",
+      "Évaluation et visites de classe",
+      "Rôles et permissions"
      ]
     },
     {
-     "name": "Vie scolaire",
+     "name": "Finances & recouvrement",
      "items": [
-      "Dossiers des élèves",
-      "Candidatures, admissions et contrats",
+      "Frais, échéances et remises",
+      "Écritures comptables automatiques",
+      "Recouvrement intelligent",
+      "Factures ZATCA phase 2",
+      "Rapports financiers par campus"
+     ]
+    },
+    {
+     "name": "Élèves & admissions",
+     "items": [
+      "Candidatures en ligne jusqu'à l'inscription",
+      "Plans d'accompagnement",
+      "Présence et comportement",
       "Transport et suivi des bus",
-      "Présences"
+      "Infirmerie et sorties enregistrées"
      ]
     },
     {
-     "name": "Ressources humaines",
+     "name": "Apprentissage & intégrations",
      "items": [
-      "Personnel enseignant et administratif",
-      "Recrutement et candidats",
-      "Présence du personnel",
-      "Demandes administratives"
-     ]
-    },
-    {
-     "name": "Finances",
-     "items": [
-      "Frais de scolarité et encaissements",
-      "Achats, fournisseurs et remboursements",
-      "Paie, avances et grilles salariales",
-      "Déclarations fiscales"
+      "Cours en direct avec tableau",
+      "Google Classroom et Microsoft Teams",
+      "Formations",
+      "Certificats et signature électronique",
+      "Dossier d'accréditation"
      ]
     }
    ]
   },
   "student": {
-   "title": "Application élève",
-   "en": "Classti Student",
-   "lead": "La journée scolaire de l'élève dans sa poche : cours du jour, devoirs, notes et heure d'arrivée du bus.",
+   "title": "App Classti pour parents et élèves",
+   "en": "Classti",
+   "lead": "Toute la journée de l'élève sur le téléphone : emploi du temps, présence, devoirs, frais, portefeuille, sorties et messages.",
    "features": [
-    "Emploi du temps et cours du jour",
-    "Leçons et devoirs depuis le LMS",
-    "Résultats d'examens et notes",
-    "Historique des présences",
-    "Suivi du bus et heure d'arrivée",
-    "Notifications et calendrier de l'école"
+    "Emploi du temps du jour",
+    "Présence",
+    "Devoirs et notes",
+    "Frais et paiements",
+    "Portefeuille cantine",
+    "Sorties et messages"
    ],
    "mock": {
     "hello": "Bonjour, Ahmed 👋",
@@ -446,16 +456,16 @@
    }
   },
   "teacher": {
-   "title": "Application enseignant",
-   "en": "Classti Teacher",
-   "lead": "Les outils quotidiens de l'enseignant dans une seule application : faire l'appel en quelques secondes, saisir les notes, publier leçons et devoirs, et échanger avec les parents.",
+   "title": "Classti for Teachers",
+   "en": "Classti for Teachers",
+   "lead": "Les outils quotidiens de l'enseignant dans une app, aussi utilisée par les coachs d'académie.",
    "features": [
-    "Emploi du temps des classes",
-    "Appel des élèves en un geste",
-    "Notes et examens",
-    "Leçons et devoirs",
-    "Messagerie avec les parents",
-    "Présence des enseignants et demandes administratives"
+    "Planning du jour",
+    "Appel en classe",
+    "Devoirs et notation",
+    "Remplacements",
+    "Formations",
+    "Messages aux parents"
    ],
    "mock": {
     "hello": "Bonjour, Mme Sarah",
@@ -688,7 +698,7 @@
   },
   "classti": {
    "title": "Classti | Suite de gestion scolaire par Oxira",
-   "description": "Classti est une suite saoudienne de gestion scolaire pour les écoles privées et internationales : plateforme scolaire, application élève, application enseignant, ainsi que les applications Parent et Chauffeur."
+   "description": "Classti, le système de gestion scolaire nouvelle génération d'Oxira : admissions, emplois du temps, finances, facturation ZATCA et Nafath, et apps pour parents, élèves, enseignants et crèches."
   },
   "work": {
    "title": "Réalisations | Oxira",

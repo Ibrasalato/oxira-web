@@ -1,4 +1,5 @@
 ---
+import { classtiText, classtiLinks } from '../i18n/classti';
 import { t, type Lang } from '../i18n/content';
 import { link, asset } from '../lib/routes';
 import Base from '../layouts/Base.astro';
@@ -149,7 +150,10 @@ const wa = isWaLang(lang) ? waText[lang] : null;
         <ul class="ct-list">
           {c.products.suite.map((it) => <li><strong>{it.name}</strong><span>{it.text}</span></li>)}
         </ul>
-        <a class="more" href={link(lang, '/classti/')}>{h.classtiLink}</a>
+        <div class="ct-links">
+          <a class="more" href={link(lang, '/classti/')}>{h.classtiLink}</a>
+          <a class="more" href={classtiLinks.site(lang)} target="_blank" rel="noopener">{classtiText[lang].homeVisit}</a>
+        </div>
       </div>
       <div class="ct-visual" aria-hidden="true">
         <img src={asset('products/classti-exams.webp')} alt="" width="1440" height="1025" loading="lazy" />
@@ -279,6 +283,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
   /* Classti */
   .ct-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
   .ct-text h2 { font-size: var(--s4); margin-top: .75rem; }
+  .ct-links { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
   .ct-logo { width: 190px; height: auto; margin-bottom: .5rem; }
   .ct-body { color: var(--muted); font-size: 1.12rem; margin-top: 1.25rem; }
   .ct-list { list-style: none; display: grid; gap: 1rem; margin: 2rem 0; }

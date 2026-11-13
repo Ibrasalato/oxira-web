@@ -315,33 +315,39 @@
   "body": "Digitale Produkte, die wir selbst entwickeln und betreiben – allen voran Classti, unsere Schulverwaltungs-Suite.",
   "tagline": "Smart School Network",
   "name": "Classti",
-  "lead": "Eine saudische Komplettlösung für die Verwaltung privater und internationaler Schulen vom Kindergarten bis zum Abitur. Sie verbindet Schulleitung, Lehrkräfte, Schüler, Eltern und Busfahrer in einem intelligenten, sicheren System.",
+  "lead": "Das Schulverwaltungssystem der neuen Generation: alles, was Ihre Schule braucht, auf einer Plattform – von der Aufnahme über Unterricht, Bus und Kantine bis zu den Gebühren. Es verbindet Leitung, Lehrkräfte, Eltern und Schüler in einem smarten Erlebnis.",
   "suiteLabel": "Die Suite",
   "suite": [
    {
     "key": "platform",
     "name": "Schulplattform",
     "en": "Classti School",
-    "text": "Das Admin-Dashboard für alles rund um die Schule."
+    "text": "Leitung, Finanzen, Aufnahme und Stundenpläne für alle Standorte."
    },
    {
     "key": "student",
-    "name": "Schüler-App",
-    "en": "Classti Student",
-    "text": "Unterricht, Stundenplan, Noten und Bus für Schüler."
+    "name": "Classti-App",
+    "en": "Classti",
+    "text": "Für Eltern und Schüler: Stundenplan, Anwesenheit, Hausaufgaben, Gebühren."
    },
    {
     "key": "teacher",
     "name": "Lehrer-App",
-    "en": "Classti Teacher",
-    "text": "Klassen, Anwesenheit und Benotung für Lehrkräfte."
+    "en": "Classti for Teachers",
+    "text": "Tagesplan, Anwesenheit, Benotung und Vertretungen."
+   },
+   {
+    "key": "nursery",
+    "name": "Kita-App",
+    "en": "Classti Nursery",
+    "text": "Der Tag des Kindes für Betreuer und Eltern."
    }
   ],
-  "alsoLabel": "Ebenfalls Teil der Suite: die Eltern-App und die Fahrer-App.",
+  "alsoLabel": "Konform mit ZATCA-E-Rechnung, Nafath und dem Datenschutzgesetz PDPL.",
   "platform": {
    "title": "Schulplattform",
    "en": "Classti School",
-   "lead": "Ein Dashboard, über das die Schule Unterricht, Schülerangelegenheiten, Personal und Finanzen steuert – vollständig auf Arabisch mit Rechts-nach-links-Design.",
+   "lead": "Ein Dashboard für die Schulleitung: Aufgaben, Genehmigungswege, Stundenpläne, Finanzen, Aufnahme und Lehrerbewertung – auf Arabisch und Englisch.",
    "shotsLabel": "Screens der Plattform",
    "shots": [
     {
@@ -362,54 +368,58 @@
    ],
    "modules": [
     {
-     "name": "Unterricht",
+     "name": "Leitung & Betrieb",
      "items": [
-      "Stufen und Klassen",
-      "E-Learning-LMS",
-      "Schuljahreskalender",
-      "Prüfungen und Ergebnisse"
+      "Aufgaben und Genehmigungswege",
+      "Abdeckung der Unterrichtsplanung",
+      "Stundenpläne und Schulkalender",
+      "Lehrerbewertung und Hospitationen",
+      "Rollen und Rechte"
      ]
     },
     {
-     "name": "Schülerangelegenheiten",
+     "name": "Finanzen & Inkasso",
      "items": [
-      "Schülerakten",
-      "Bewerbungen, Aufnahmen und Verträge",
-      "Transport und Busverfolgung",
-      "Anwesenheit"
+      "Gebühren, Raten und Rabatte",
+      "Automatische Buchungssätze",
+      "Intelligentes Inkasso",
+      "ZATCA-Rechnungen Phase 2",
+      "Finanzberichte je Standort"
      ]
     },
     {
-     "name": "Personal",
+     "name": "Schüler & Aufnahme",
      "items": [
-      "Lehr- und Verwaltungspersonal",
-      "Recruiting und Bewerber",
-      "Anwesenheit der Mitarbeiter",
-      "Verwaltungsanträge"
+      "Online-Bewerbung bis Einschreibung",
+      "Förderpläne",
+      "Anwesenheit und Verhalten",
+      "Schulbus und Busverfolgung",
+      "Klinik und dokumentierte Abholung"
      ]
     },
     {
-     "name": "Finanzen",
+     "name": "Lernen & Integrationen",
      "items": [
-      "Schulgebühren und Inkasso",
-      "Einkauf, Lieferanten und Erstattungen",
-      "Gehaltsabrechnung, Vorschüsse und Gehaltsstufen",
-      "Steuererklärungen"
+      "Live-Unterricht mit Whiteboard",
+      "Google Classroom und Microsoft Teams",
+      "Schulungen",
+      "Zeugnisse und E-Signatur",
+      "Akkreditierungsmappe"
      ]
     }
    ]
   },
   "student": {
-   "title": "Schüler-App",
-   "en": "Classti Student",
-   "lead": "Der Schultag für die Hosentasche: heutiger Unterricht, Hausaufgaben, Noten und wann der Bus kommt.",
+   "title": "Classti-App für Eltern und Schüler",
+   "en": "Classti",
+   "lead": "Der ganze Schultag auf dem Handy: Stundenplan, Anwesenheit, Hausaufgaben, Gebühren, Wallet, Abholung und Nachrichten.",
    "features": [
     "Stundenplan und heutiger Unterricht",
-    "Unterrichtsinhalte und Hausaufgaben aus dem LMS",
-    "Prüfungsergebnisse und Noten",
-    "Anwesenheitsübersicht",
-    "Busverfolgung und Ankunftszeit",
-    "Schulmitteilungen und Kalender"
+    "Anwesenheit",
+    "Hausaufgaben und Noten",
+    "Gebühren und Zahlungen",
+    "Kantinen-Wallet",
+    "Abholung und Nachrichten"
    ],
    "mock": {
     "hello": "Guten Morgen, Ahmed 👋",
@@ -446,16 +456,16 @@
    }
   },
   "teacher": {
-   "title": "Lehrer-App",
-   "en": "Classti Teacher",
-   "lead": "Alle täglichen Werkzeuge einer Lehrkraft in einer App: Anwesenheit in Sekunden erfassen, Noten eintragen, Unterrichtsinhalte und Hausaufgaben veröffentlichen und mit Eltern kommunizieren.",
+   "title": "Classti for Teachers",
+   "en": "Classti for Teachers",
+   "lead": "Die täglichen Werkzeuge der Lehrkraft in einer App – auch für Akademie-Trainer.",
    "features": [
-    "Stundenplan",
-    "Anwesenheit per Fingertipp",
-    "Noten und Prüfungen",
-    "Unterrichtsinhalte und Hausaufgaben",
-    "Nachrichten an Eltern",
-    "Anwesenheit der Lehrkräfte und Verwaltungsanträge"
+    "Tagesplan",
+    "Anwesenheit im Unterricht",
+    "Aufgaben und Benotung",
+    "Vertretungsstunden",
+    "Schulungen",
+    "Nachrichten an Eltern"
    ],
    "mock": {
     "hello": "Hallo, Frau Sarah",
@@ -688,7 +698,7 @@
   },
   "classti": {
    "title": "Classti | Schulverwaltungs-Suite von Oxira",
-   "description": "Classti ist eine saudische Schulverwaltungs-Suite für private und internationale Schulen: Schulplattform, Schüler-App, Lehrer-App sowie Eltern- und Fahrer-App."
+   "description": "Classti ist das Schulverwaltungssystem der neuen Generation von Oxira: Aufnahme, Stundenpläne, Finanzen, ZATCA-Rechnungen und Nafath sowie Apps für Eltern, Schüler, Lehrkräfte und Kitas."
   },
   "work": {
    "title": "Referenzen | Oxira",
