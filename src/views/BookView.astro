@@ -1,0 +1,252 @@
+---
+// Online consultation booking (Arabic and English). Free 30-minute slots come from n8n
+// ("Oxira 31 — Consultation booking": GET oxira-book-slots, POST oxira-book), which saves the
+// booking, emails info@oxira.sa and sends the visitor a confirmation with a calendar file.
+import { contact } from '../i18n/content';
+import { link } from '../lib/routes';
+import { bookText, cpLangs, BOOK_SLOTS, BOOK_ENDPOINT, type CpLang } from '../i18n/companyPages';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: CpLang }
+const { lang } = Astro.props;
+const B = bookText[lang];
+const wa = `${contact.whatsappHref}?text=${encodeURIComponent(B.whatsappText)}`;
+const site = Astro.site!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'WebPage', name: B.h1, description: B.description,
+  url: new URL(link(lang, '/book/'), site).href, inLanguage: lang,
+  potentialAction: { '@type': 'ReserveAction', target: new URL(link(lang, '/book/'), site).href, name: B.h1 },
+};
+const cfg = {
+  slots: BOOK_SLOTS, endpoint: BOOK_ENDPOINT, lang,
+  t: {
+    loading: B.loading, loadError: B.loadError, retry: B.retry, noSlots: B.noSlots, pickDay: B.pickDay, needSlot: B.needSlot,
+    sending: B.sending, submit: B.submit, okBody: B.okBody, okRef: B.okRef,
+    errTaken: B.errTaken, errSlot: B.errSlot, errLimit: B.errLimit, errInvalid: B.errInvalid, errNetwork: B.errNetwork,
+  },
+};
+---
+<Base lang={lang} path="/book/" title={B.title} description={B.description} langs={cpLangs}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-hero">
+    <div class="wrap bk-hero">
+      <div>
+        <p class="label">{B.kicker}</p>
+        <h1>{B.h1}</h1>
+        <p class="lead">{B.lead}</p>
+        <ul class="bk-points">{B.points.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="bk" id="bk" data-cfg={JSON.stringify(cfg)}>
+        <div class="bk-pick">
+          <h2>{B.step1}</h2>
+          <p class="bk-tz">{B.tz}</p>
+          <p class="bk-msg" id="bk-status" role="status">{B.loading}</p>
+          <div class="bk-days" id="bk-days" role="group" aria-label={B.step1}></div>
+          <h2>{B.step2}</h2>
+          <div class="bk-times" id="bk-times" role="group" aria-label={B.step2}><p class="bk-msg">{B.pickDay}</p></div>
+        </div>
+
+        <form class="bk-form" id="bk-form" novalidate>
+          <h2>{B.step3}</h2>
+          <p class="bk-sel" id="bk-sel" hidden><span>{B.selected}</span> <b id="bk-sel-label"></b></p>
+          <label>{B.name}<input name="name" required autocomplete="name" maxlength="80" /></label>
+          <label>{B.phone}<input name="phone" required type="tel" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" placeholder="+966 5x xxx xxxx" /></label>
+          <label>{B.email}<input name="email" type="email" autocomplete="email" dir="ltr" maxlength="120" /></label>
+          <label>{B.company}<input name="company" autocomplete="organization" maxlength="120" /></label>
+          <label>{B.service}
+            <select name="service">{B.services.map((s) => <option value={s}>{s}</option>)}</select>
+          </label>
+          <fieldset>
+            <legend>{B.meeting}</legend>
+            <div class="bk-meet">
+              {Object.entries(B.meetings).map(([k, v], i) => (
+                <label><input type="radio" name="meeting" value={k} checked={i === 0} /> <span>{v}</span></label>
+              ))}
+            </div>
+          </fieldset>
+          <label>{B.notes}<textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+          <label class="bk-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+          <button class="btn btn-amber bk-submit" type="submit" id="bk-submit">{B.submit}</button>
+          <p class="bk-err" id="bk-err" role="alert" hidden></p>
+          <p class="bk-alt">{B.or} <a href={wa} target="_blank" rel="noopener">{B.whatsapp}</a> · <a href={link(lang, '/contact/')}>{B.contactForm}</a></p>
+        </form>
+
+        <div class="bk-ok" id="bk-ok" hidden tabindex="-1">
+          <h2>{B.okTitle}</h2>
+          <p id="bk-ok-body"></p>
+          <p class="bk-ref" id="bk-ok-ref"></p>
+          <button class="btn btn-ghost" type="button" id="bk-again">{B.another}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { oxFetch } from '../lib/api';
+
+  const root = document.getElementById('bk')!;
+  const cfg = JSON.parse(root.dataset.cfg!);
+  const T = cfg.t;
+  const $ = (id: string) => document.getElementById(id)!;
+  const status = $('bk-status'), daysEl = $('bk-days'), timesEl = $('bk-times'), form = $('bk-form') as HTMLFormElement;
+  const err = $('bk-err'), sel = $('bk-sel'), selLabel = $('bk-sel-label'), submit = $('bk-submit') as HTMLButtonElement;
+  const locale = cfg.lang === 'ar' ? 'ar-SA-u-ca-gregory-nu-latn' : 'en-GB';
+  let data: { date: string; slots: string[] }[] = [];
+  let day = '', time = '';
+
+  const dateOf = (d: string) => new Date(`${d}T12:00:00+03:00`);
+  const fmtDay = (d: string) => ({
+    wd: dateOf(d).toLocaleDateString(locale, { weekday: 'short', timeZone: 'Asia/Riyadh' }),
+    dm: dateOf(d).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'Asia/Riyadh' }),
+  });
+  const fmtTime = (hm: string) => new Date(`2000-01-01T${hm}:00+03:00`).toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Riyadh' });
+  const fmtFull = () => `${dateOf(day).toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Asia/Riyadh' })} · ${fmtTime(time)}`;
+
+  function showErr(msg: string) { err.textContent = msg; err.hidden = !msg; }
+
+  function renderDays() {
+    daysEl.innerHTML = '';
+    data.forEach((d) => {
+      const f = fmtDay(d.date);
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'bk-day';
+      b.setAttribute('aria-pressed', String(d.date === day));
+      b.innerHTML = `<small></small><b></b>`;
+      (b.querySelector('small') as HTMLElement).textContent = f.wd;
+      (b.querySelector('b') as HTMLElement).textContent = f.dm;
+      b.addEventListener('click', () => { day = d.date; time = ''; renderDays(); renderTimes(); updateSel(); });
+      daysEl.appendChild(b);
+    });
+  }
+
+  function renderTimes() {
+    timesEl.innerHTML = '';
+    const d = data.find((x) => x.date === day);
+    if (!d) { const p = document.createElement('p'); p.className = 'bk-msg'; p.textContent = T.pickDay; timesEl.appendChild(p); return; }
+    d.slots.forEach((hm) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'bk-time';
+      b.setAttribute('aria-pressed', String(hm === time));
+      b.textContent = fmtTime(hm);
+      b.addEventListener('click', () => { time = hm; renderTimes(); updateSel(); showErr(''); });
+      timesEl.appendChild(b);
+    });
+  }
+
+  function updateSel() {
+    sel.hidden = !(day && time);
+    if (day && time) selLabel.textContent = fmtFull();
+  }
+
+  async function load() {
+    status.textContent = T.loading; status.hidden = false;
+    try {
+      const res = await oxFetch(cfg.slots);
+      const out = await res.json();
+      data = Array.isArray(out.days) ? out.days : [];
+      if (!data.length) { status.textContent = T.noSlots; daysEl.innerHTML = ''; timesEl.innerHTML = ''; return; }
+      status.hidden = true;
+      if (!data.some((d) => d.date === day)) { day = data[0].date; time = ''; }
+      else if (!data.find((d) => d.date === day)!.slots.includes(time)) time = '';
+      renderDays(); renderTimes(); updateSel();
+    } catch {
+      status.innerHTML = '';
+      status.append(T.loadError + ' ');
+      const r = document.createElement('button'); r.type = 'button'; r.className = 'bk-link'; r.textContent = T.retry; r.addEventListener('click', load);
+      status.appendChild(r);
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showErr('');
+    if (!day || !time) { showErr(T.needSlot); daysEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    if (!form.reportValidity()) return;
+    const fd = new FormData(form);
+    const body = new URLSearchParams();
+    fd.forEach((v, k) => body.set(k, String(v)));
+    body.set('slot', `${day}T${time}:00+03:00`);
+    body.set('lang', cfg.lang);
+    submit.disabled = true; submit.textContent = T.sending;
+    try {
+      const res = await oxFetch(cfg.endpoint, { method: 'POST', body });
+      const out = await res.json().catch(() => ({}));
+      if (out && (out.success === true || String(out.success) === 'true')) {
+        form.hidden = true; root.querySelector<HTMLElement>('.bk-pick')!.hidden = true;
+        $('bk-ok-body').textContent = T.okBody.replace('{label}', out.label || fmtFull());
+        $('bk-ok-ref').textContent = out.id ? T.okRef.replace('{id}', String(out.id)) : '';
+        const ok = $('bk-ok'); ok.hidden = false; ok.focus({ preventScroll: true }); ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      const reason = out && out.reason;
+      if (reason === 'taken' || reason === 'slot') { showErr(reason === 'taken' ? T.errTaken : T.errSlot); time = ''; await load(); }
+      else showErr(reason === 'limit' ? T.errLimit : reason === 'invalid' ? T.errInvalid : T.errNetwork);
+    } catch {
+      showErr(T.errNetwork);
+    } finally {
+      submit.disabled = false; submit.textContent = T.submit;
+    }
+  });
+
+  $('bk-again').addEventListener('click', () => {
+    $('bk-ok').hidden = true; form.hidden = false; root.querySelector<HTMLElement>('.bk-pick')!.hidden = false;
+    form.reset(); time = ''; load();
+  });
+
+  load();
+</script>
+
+<style>
+  .bk-hero { max-width: 48rem; }
+  .bk-points { list-style: none; margin: 1.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .bk-points li { background: var(--paper, #F5F7F9); border: 1px solid var(--line); border-radius: 999px; padding: .35rem .9rem; font-weight: 600; font-size: .95rem; }
+
+  .bk { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .bk h2 { font-size: 1.25rem; margin: 0 0 .6rem; }
+  .bk-pick h2:not(:first-child) { margin-top: 1.75rem; }
+  .bk-tz { color: var(--muted); font-size: .95rem; margin: -.2rem 0 1rem; }
+  .bk-msg { color: var(--muted); }
+  :global(.bk-link) { background: none; border: 0; padding: 0; color: #006A99; font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
+
+  .bk-days { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: thin; }
+  :global(.bk-day) { flex: none; display: grid; gap: .1rem; justify-items: center; min-width: 4.6rem; padding: .7rem .6rem; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font: inherit; cursor: pointer; }
+  :global(.bk-day) small { color: var(--muted); font-size: .8rem; }
+  :global(.bk-day) b { font-size: .98rem; white-space: nowrap; }
+  :global(.bk-day):hover { border-color: var(--navy); }
+  :global(.bk-day)[aria-pressed='true'] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  :global(.bk-day)[aria-pressed='true'] small { color: #C9D6E2; }
+
+  .bk-times { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.2rem, 1fr)); gap: .5rem; }
+  :global(.bk-time) { padding: .65rem .4rem; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font: 700 .95rem/1.2 var(--font); cursor: pointer; }
+  :global(.bk-time):hover { border-color: var(--navy); }
+  :global(.bk-time)[aria-pressed='true'] { background: var(--amber, #F5A800); border-color: var(--amber, #F5A800); color: #0A253E; }
+
+  .bk-form, .bk-ok { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg, 20px); padding: clamp(1.25rem, 3vw, 2rem); box-shadow: 0 30px 60px -45px rgba(10,37,62,.45); display: grid; gap: .9rem; }
+  .bk-form label { display: grid; gap: .35rem; font-weight: 600; font-size: .95rem; }
+  .bk-form input:not([type='radio']), .bk-form select, .bk-form textarea { font: inherit; font-weight: 400; padding: .7rem .85rem; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); width: 100%; }
+  .bk-form input:focus, .bk-form select:focus, .bk-form textarea:focus { outline: 2px solid #007DB4; outline-offset: 1px; border-color: transparent; }
+  .bk-form fieldset { border: 0; padding: 0; margin: 0; }
+  .bk-form legend { font-weight: 600; font-size: .95rem; margin-bottom: .4rem; }
+  .bk-meet { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .bk-meet label { display: inline-flex; align-items: center; gap: .4rem; border: 1.5px solid var(--line); border-radius: 999px; padding: .45rem .9rem; font-weight: 600; cursor: pointer; }
+  .bk-meet label:has(input:checked) { border-color: var(--navy); background: #EEF3F8; }
+  .bk-sel { background: #FFF6DC; border-radius: 12px; padding: .6rem .9rem; margin: 0; }
+  .bk-sel span { color: #5A4A10; }
+  .bk-hp { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .bk-submit { justify-self: start; min-width: 12rem; }
+  .bk-err { margin: 0; color: #B42318; font-weight: 600; }
+  .bk-alt { margin: 0; color: var(--muted); font-size: .92rem; }
+  .bk-alt a { color: #006A99; font-weight: 700; }
+  .bk [hidden] { display: none !important; }
+  .bk-ok { grid-column: 1 / -1; max-width: 40rem; justify-self: center; text-align: center; }
+  .bk-ok h2 { font-size: 1.6rem; }
+  .bk-ref { color: var(--muted); }
+  .bk-ok .btn { justify-self: center; }
+  @media (max-width: 900px) { .bk { grid-template-columns: minmax(0, 1fr); } }
+</style>

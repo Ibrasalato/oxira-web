@@ -31,7 +31,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
         <h1 id="hero-title">{h.title}</h1>
         <p class="hero-body">{h.body}</p>
         <div class="hero-actions">
-          <a class="btn btn-amber" href={link(lang, '/contact/')}>{h.cta}</a>
+          <a class="btn btn-amber" href={link(lang, lang === 'ar' || lang === 'en' ? '/book/' : '/contact/')}>{h.cta}</a>
           <a class="btn btn-ghost" href={link(lang, '/services/')}>{h.secondary}</a>
         </div>
       </div>

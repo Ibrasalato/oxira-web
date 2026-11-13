@@ -5,7 +5,7 @@ import type { Lang } from './content';
 
 export type CpLang = 'ar' | 'en';
 export const cpLangs: Lang[] = ['ar', 'en'];
-export const cpPaths = ['/status/', '/careers/', '/press/'] as const;
+export const cpPaths = ['/status/', '/careers/', '/press/', '/book/'] as const;
 /** For links from pages in any language: these pages exist only in Arabic and English. */
 export const cpLang = (lang: Lang): CpLang | null => (lang === 'ar' || lang === 'en' ? lang : null);
 
@@ -307,3 +307,95 @@ export const caseText = {
 
 /** "Leadership" heading on the About page (all languages; names and roles fall back to English outside Arabic). */
 export const leadershipTitle: Record<Lang, string> = { ar: 'القيادة', en: 'Leadership', de: 'Geschäftsleitung', fr: 'Direction', ru: 'Руководство' };
+
+export const BOOK_SLOTS = 'https://api.oxira.sa/oxira-book-slots';
+export const BOOK_ENDPOINT = 'https://api.oxira.sa/oxira-book';
+
+export const bookText = {
+  ar: {
+    title: 'احجز استشارة مجانية | أوكسيرا',
+    description: 'احجز موعد استشارة مجانية مع فريق أوكسيرا خلال دقيقة: اختر اليوم والوقت المناسب، مكالمة أو اجتماع مرئي أو واتساب، 30 دقيقة بتوقيت الرياض.',
+    kicker: 'استشارة مجانية · 30 دقيقة',
+    h1: 'احجز استشارتك المجانية',
+    lead: 'اختر اليوم والوقت المناسبين لك، وسيتواصل معك أحد فريق أوكسيرا في الموعد لفهم احتياجك واقتراح الحل المناسب. بدون أي التزام.',
+    points: ['مواقع ومتاجر وتطبيقات', 'وكلاء الذكاء الاصطناعي والأتمتة', 'منظومة Classti للمدارس', 'البنية التحتية والتحول الرقمي'],
+    step1: '1. اختر اليوم',
+    step2: '2. اختر الوقت',
+    step3: '3. بياناتك',
+    tz: 'الأوقات بتوقيت الرياض (GMT+3) · من الأحد إلى الخميس',
+    loading: 'جارٍ تحميل المواعيد المتاحة…',
+    loadError: 'تعذّر تحميل المواعيد الآن.',
+    retry: 'إعادة المحاولة',
+    noSlots: 'لا توجد مواعيد متاحة حالياً. تواصل معنا على واتساب وسنرتب موعداً.',
+    pickDay: 'اختر يوماً لعرض الأوقات المتاحة.',
+    selected: 'الموعد المختار:',
+    name: 'الاسم',
+    phone: 'رقم الجوال (واتساب إن أمكن)',
+    email: 'البريد الإلكتروني (اختياري، لإرسال تأكيد وملف التقويم)',
+    company: 'اسم الجهة (اختياري)',
+    service: 'الخدمة المطلوبة',
+    services: ['موقع أو متجر إلكتروني', 'تطبيق جوال', 'برمجيات وأنظمة مخصصة', 'وكيل ذكاء اصطناعي / موظف واتساب', 'Classti لإدارة المدارس', 'البنية التحتية وأمن المعلومات', 'التحول الرقمي', 'أخرى'],
+    meeting: 'طريقة الاجتماع',
+    meetings: { phone: 'مكالمة هاتفية', video: 'اجتماع مرئي', whatsapp: 'مكالمة واتساب' },
+    notes: 'نبذة عن احتياجك (اختياري)',
+    submit: 'تأكيد الحجز',
+    sending: 'جارٍ الحجز…',
+    needSlot: 'اختر يوماً ووقتاً أولاً.',
+    okTitle: 'تم حجز موعدك ✅',
+    okBody: 'موعدك: {label}. سيتواصل معك فريق أوكسيرا على رقمك في الموعد. وإذا أدخلت بريدك فقد أرسلنا لك التأكيد وملف التقويم.',
+    okRef: 'رقم الحجز: {id}',
+    another: 'حجز موعد آخر',
+    errTaken: 'هذا الموعد حُجز للتو. اختر وقتاً آخر من فضلك.',
+    errSlot: 'هذا الموعد لم يعد متاحاً. اختر وقتاً آخر من فضلك.',
+    errLimit: 'وصلت للحد اليومي للحجوزات. تواصل معنا على واتساب وسنرتب موعدك.',
+    errInvalid: 'تأكد من الاسم ورقم الجوال والبريد.',
+    errNetwork: 'تعذّر الحجز الآن. حاول مرة أخرى أو تواصل معنا على واتساب.',
+    whatsapp: 'تواصل على واتساب',
+    whatsappText: 'السلام عليكم، أرغب في حجز استشارة مع أوكسيرا.',
+    or: 'تفضّل التواصل مباشرة؟',
+    contactForm: 'أرسل طلباً مكتوباً',
+  },
+  en: {
+    title: 'Book a free consultation | Oxira',
+    description: 'Book a free consultation with the Oxira team in a minute: pick a day and time, phone, video or WhatsApp, 30 minutes, Riyadh time.',
+    kicker: 'Free consultation · 30 minutes',
+    h1: 'Book your free consultation',
+    lead: 'Pick a day and time that suit you, and someone from the Oxira team will contact you at that time to understand what you need and suggest the right solution. No commitment.',
+    points: ['Websites, stores and apps', 'AI agents and automation', 'Classti for schools', 'Infrastructure and digital transformation'],
+    step1: '1. Pick a day',
+    step2: '2. Pick a time',
+    step3: '3. Your details',
+    tz: 'Times are Riyadh time (GMT+3) · Sunday to Thursday',
+    loading: 'Loading available times…',
+    loadError: "Couldn't load the available times right now.",
+    retry: 'Try again',
+    noSlots: 'No times are available right now. Message us on WhatsApp and we will arrange one.',
+    pickDay: 'Pick a day to see the available times.',
+    selected: 'Selected time:',
+    name: 'Name',
+    phone: 'Mobile number (WhatsApp if possible)',
+    email: 'Email (optional, for the confirmation and calendar file)',
+    company: 'Company (optional)',
+    service: 'What do you need?',
+    services: ['Website or online store', 'Mobile app', 'Custom software', 'AI agent / WhatsApp employee', 'Classti school management', 'Infrastructure and security', 'Digital transformation', 'Other'],
+    meeting: 'Meeting type',
+    meetings: { phone: 'Phone call', video: 'Video meeting', whatsapp: 'WhatsApp call' },
+    notes: 'A few words about your needs (optional)',
+    submit: 'Confirm booking',
+    sending: 'Booking…',
+    needSlot: 'Pick a day and time first.',
+    okTitle: 'Your consultation is booked ✅',
+    okBody: 'Your time: {label}. The Oxira team will contact you on your number at that time. If you added your email, the confirmation and calendar file are on their way.',
+    okRef: 'Booking number: {id}',
+    another: 'Book another time',
+    errTaken: 'That time was just booked. Please pick another.',
+    errSlot: 'That time is no longer available. Please pick another.',
+    errLimit: "You've reached today's booking limit. Message us on WhatsApp and we will arrange a time.",
+    errInvalid: 'Please check your name, mobile number and email.',
+    errNetwork: "Couldn't book right now. Try again or message us on WhatsApp.",
+    whatsapp: 'Message us on WhatsApp',
+    whatsappText: "Hello, I'd like to book a consultation with Oxira.",
+    or: 'Prefer to reach us directly?',
+    contactForm: 'Send a written request',
+  },
+};

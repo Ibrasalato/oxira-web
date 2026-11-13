@@ -16,7 +16,7 @@ const c = t[lang];
         <p>{c.cta.body}</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-amber" href={link(lang, '/contact/')}>{c.cta.button}</a>
+        <a class="btn btn-amber" href={link(lang, lang === 'ar' || lang === 'en' ? '/book/' : '/contact/')}>{c.cta.button}</a>
         <a class="btn btn-ghost-light" href={`${link(lang, '/contact/')}?type=support`}>{c.contact.labels.support}</a>
       </div>
     </div>
