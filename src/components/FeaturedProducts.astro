@@ -68,7 +68,14 @@ const ic = {
   bundle: '<path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.4 7.2 17.9l.9-5.4L4.2 8.7l5.4-.8z"/>',
   audit: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M8 11l2 2 4-4"/>',
   classti: '<path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/>',
+  kpi: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
 };
+// Oxira KPI has pages in Arabic and English only.
+const kpiCard = lang === 'ar'
+  ? ['Oxira KPI لقياس أداء الموظفين', 'مؤشرات أداء لكل وظيفة، وتقييم شهري أو ربع سنوي، ولوحة نتائج للإدارة والمديرين والموظفين. تجربة مجانية 14 يوماً.']
+  : lang === 'en'
+    ? ['Oxira KPI employee performance', 'KPIs for every role, monthly or quarterly reviews, and scorecards for management, managers and staff. 14-day free trial.']
+    : null;
 // The empty .fx span is the local-currency line (see components/Fx.astro); FxNote below loads its script.
 const price = (n: number, per: 'month' | 'none', from = false) => `${from ? T.from + ' ' : ''}<b>${fmt.format(n)}</b> ${T.sar}${per === 'month' ? ' ' + T.month : ''}<span class="fx" data-fx-sar="${n}"></span>`;
 const addon = (id: 'seo' | 'social' | 'ads' | 'chat' | 'booking', tags: Tag[], fromPlan = false) => ({
@@ -85,6 +92,7 @@ const cards = [
   addon('booking', ['sales']),
   { key: 'audit', href: link(lang, '/website-audit/'), name: T.audit[0], text: T.audit[1], icon: ic.audit, tags: ['sites', 'google'] as Tag[], price: `<b>${T.free}</b>` },
   { key: 'classti', href: link(lang, '/classti/'), name: T.classti[0], text: T.classti[1], icon: ic.classti, tags: ['edu', 'ai'] as Tag[], price: T.quote },
+  ...(kpiCard ? [{ key: 'kpi', href: link(lang, '/kpi/'), name: kpiCard[0], text: kpiCard[1], icon: ic.kpi, tags: [] as Tag[], price: T.quote }] : []),
 ];
 const tagIds = Object.keys(T.tags) as Tag[];
 ---

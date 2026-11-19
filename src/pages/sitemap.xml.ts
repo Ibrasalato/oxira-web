@@ -13,7 +13,7 @@ export const GET: APIRoute = async ({ site }) => {
   // Service and location pages and the AI WhatsApp employee page exist in Arabic and English only.
   // (Its demo page, /whatsapp-agent/demo/, is noindex and left out.)
   // ar+en pages: landing pages, WhatsApp agent, careers, press, status and case studies (only those in src/data/case-studies.ts).
-  const arEn = [...landingPaths, waPath, ...cpPaths, ...caseStudies.map((cs) => `/work/${cs.slug}/`)];
+  const arEn = [...landingPaths, waPath, '/kpi/', ...cpPaths, ...caseStudies.map((cs) => `/work/${cs.slug}/`)];
   // The status page changes all the time but matters little for search: low priority.
   const prio = (p: string) => (p === '/status/' ? '\n    <priority>0.2</priority>' : '');
   // The blog: Arabic and English. Articles with an English translation (same slug) get ar/en alternates;

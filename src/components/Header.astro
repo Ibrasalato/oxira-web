@@ -1,4 +1,5 @@
 ---
+import { kpiPage } from '../i18n/kpi';
 import { t, type Lang } from '../i18n/content';
 import { link } from '../lib/routes';
 import Logo from './Logo.astro';
@@ -56,6 +57,7 @@ const wa = isWaLang(lang) ? waText[lang] : null;
               <p class="hd-h">{P.nav.otherTitle}</p>
               <ul class="hd-other">
                 <li><a href={link(lang, '/classti/')}><b>Classti</b><small>{P.nav.classtiDesc}</small></a></li>
+                <li><a href={link(lang === 'ar' ? 'ar' : 'en', '/kpi/')} aria-current={path === '/kpi/' ? 'page' : undefined}><b>Oxira KPI <span class="hd-new">{b.badge}</span></b><small>{kpiPage[lang === 'ar' ? 'ar' : 'en'].navDesc}</small></a></li>
                 {wa && <li><a href={link(lang, waPath)} aria-current={path === waPath ? 'page' : undefined}><b>{wa.name} <span class="hd-new">{wa.home.badge}</span></b><small>{wa.navDesc}</small></a></li>}
                 <li><a href={link(lang, '/ai-agents/')}><b>{agentsLabel}</b><small>{P.nav.agentsDesc}</small></a></li>
                 <li><a href={link(lang, '/online-in-a-day/')}><b>{bundleText[lang].nav}</b><small>{bundleText[lang].navDesc}</small></a></li>

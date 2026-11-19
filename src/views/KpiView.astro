@@ -1,0 +1,166 @@
+---
+// Oxira KPI product / service page (/kpi/), Arabic and English.
+import { kpiPage, type KpiLang } from '../i18n/kpi';
+import { link, asset } from '../lib/routes';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: KpiLang }
+const { lang } = Astro.props;
+const P = kpiPage[lang];
+const ar = lang === 'ar';
+const app = link(lang, '/kpi/app/');
+const trial = `${app}?signup=1`;
+const book = link(lang, '/book/');
+const custom = `${link(lang, '/contact/')}?service=${encodeURIComponent(ar ? 'نظام قياس أداء الموظفين مخصص' : 'Custom employee performance system')}`;
+const site = Astro.site!;
+const url = new URL(link(lang, '/kpi/'), site).href;
+const img = (n: string) => asset(`products/kpi/${n}-${lang}.webp`);
+const ld = [
+  {
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Oxira KPI', applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web', description: P.description, url, inLanguage: ['ar', 'en'],
+    publisher: { '@type': 'Organization', name: 'Oxira', url: new URL(link(lang, '/'), site).href },
+    image: new URL(img('dash'), site).href,
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: P.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base lang={lang} path="/kpi/" title={P.title} description={P.description} langs={['ar', 'en']}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="kp-hero">
+    <div class="wrap kp-hero-grid">
+      <div>
+        <p class="label kp-kicker">{P.kicker}</p>
+        <h1>{P.h1}</h1>
+        <p class="lead">{P.lead}</p>
+        <div class="kp-ctas">
+          <a class="btn btn-amber" href={trial}>{P.ctaTrial}</a>
+          <a class="btn btn-ghost-light" href={book}>{P.ctaDemo}</a>
+        </div>
+        <p class="kp-note">{P.trialNote} · <a href={app}>{P.ctaLogin}</a></p>
+      </div>
+      <figure class="kp-shot">
+        <img src={img('dash')} alt={P.shotAlt} width="1600" height={ar ? 1361 : 1331} fetchpriority="high" />
+        <figcaption>{P.sampleNote}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="kp-h2">{P.howTitle}</h2>
+      <ol class="kp-steps">{P.how.map((s, i) => <li><span>{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section bg-paper">
+    <div class="wrap">
+      <h2 class="kp-h2">{P.featTitle}</h2>
+      <ul class="kp-feats">{P.feats.map((f) => <li><h3>{f.t}</h3><p>{f.d}</p></li>)}</ul>
+      <div class="kp-duo">
+        <figure><img src={img('review')} alt={P.featTitle} width="1600" height="975" loading="lazy" /></figure>
+        <figure><img src={img('entry')} alt={P.scoreTitle} width="1600" height="1238" loading="lazy" /></figure>
+      </div>
+      <p class="kp-sample">{P.sampleNote}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap kp-two">
+      <div>
+        <h2 class="kp-h2">{P.scoreTitle}</h2>
+        <ol class="kp-score">{P.score.map((s) => <li>{s}</li>)}</ol>
+      </div>
+      <div>
+        <h2 class="kp-h2">{P.rolesTitle}</h2>
+        <ul class="kp-roles">{P.roles.map((r) => <li><h3>{r.t}</h3><p>{r.d}</p></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-paper" id="ways">
+    <div class="wrap">
+      <h2 class="kp-h2">{P.waysTitle}</h2>
+      <div class="kp-ways">
+        {P.ways.map((w, i) => (
+          <article class={i === 0 ? 'kp-way is-main' : 'kp-way'}>
+            <h3>{w.t}</h3>
+            <p>{w.d}</p>
+            <ul>{w.list.map((x) => <li>{x}</li>)}</ul>
+            <a class={i === 0 ? 'btn btn-amber' : 'btn btn-navy'} href={w.href === 'trial' ? trial : custom}>{w.cta}</a>
+          </article>
+        ))}
+      </div>
+      <div class="kp-price"><h3>{P.priceTitle}</h3><p>{P.priceBody}</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap kp-faq">
+      <h2 class="kp-h2">{P.faqTitle}</h2>
+      {P.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="kp-final">
+        <h2>{P.ctaTitle}</h2>
+        <p>{P.ctaBody}</p>
+        <div class="kp-ctas"><a class="btn btn-amber" href={trial}>{P.ctaTrial}</a><a class="btn btn-ghost-light" href={book}>{P.ctaDemo}</a></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .kp-hero { background: radial-gradient(80% 120% at 85% 0%, #10375A 0%, var(--navy) 45%, var(--navy-deep) 100%); color: #fff; padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5rem); overflow: hidden; }
+  .kp-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .kp-kicker { color: var(--amber) !important; }
+  .kp-hero h1 { font-size: var(--s4, clamp(2rem, 4.2vw, 3.2rem)); line-height: 1.2; margin: .4rem 0 1rem; }
+  .kp-hero .lead { color: #D3DEE8; font-size: 1.12rem; }
+  .kp-ctas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+  .kp-note { margin-top: 1rem; color: #A7B8C8; font-size: .93rem; }
+  .kp-note a { color: #9FD6F2; font-weight: 700; }
+  .kp-shot { margin: 0; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.12); background: #fff; }
+  .kp-shot img, .kp-duo img { display: block; width: 100%; height: auto; }
+  .kp-shot figcaption { font-size: .78rem; color: var(--muted); padding: .4rem .8rem; background: #fff; }
+  .kp-h2 { font-size: var(--s3); margin: 0 0 1.5rem; }
+  .kp-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+  .kp-steps li { border: 1px solid var(--line); border-radius: 18px; padding: 1.25rem; }
+  .kp-steps span { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--amber); color: var(--navy); font-weight: 800; margin-bottom: .8rem; }
+  .kp-steps h3, .kp-feats h3, .kp-roles h3 { font-size: 1.12rem; margin: 0 0 .4rem; }
+  .kp-steps p, .kp-feats p, .kp-roles p { color: var(--muted); line-height: 1.7; margin: 0; }
+  .kp-feats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .kp-feats li { background: #fff; border-radius: 18px; padding: 1.25rem; border: 1px solid var(--line); border-top: 3px solid var(--blue); }
+  .kp-duo { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; margin-top: 2rem; align-items: start; }
+  .kp-duo figure { margin: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -40px rgba(10,37,62,.5); }
+  .kp-sample { color: var(--muted); font-size: .85rem; margin-top: .6rem; }
+  .kp-two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  .kp-score { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: .8rem; line-height: 1.8; }
+  .kp-roles { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .kp-roles li { border-inline-start: 4px solid var(--amber); padding: .3rem 1rem; }
+  .kp-ways { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .kp-way { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: clamp(1.25rem, 3vw, 2rem); display: grid; gap: .9rem; align-content: start; }
+  .kp-way.is-main { border: 2px solid var(--amber); }
+  .kp-way h3 { font-size: 1.35rem; margin: 0; }
+  .kp-way p { color: var(--muted); line-height: 1.8; margin: 0; }
+  .kp-way ul { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: .4rem; }
+  .kp-way .btn { justify-self: start; margin-top: .4rem; }
+  .kp-price { margin-top: 1.25rem; background: var(--navy); color: #fff; border-radius: 18px; padding: 1.25rem 1.5rem; }
+  .kp-price h3 { margin: 0 0 .4rem; }
+  .kp-price p { color: #D3DEE8; margin: 0; }
+  .kp-faq { max-width: 52rem; }
+  .kp-faq details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+  .kp-faq summary { font-weight: 700; cursor: pointer; font-size: 1.05rem; }
+  .kp-faq details p { color: var(--muted); line-height: 1.8; margin: .6rem 0 0; }
+  .kp-final { background: radial-gradient(90% 130% at 50% 0%, #10375A 0%, var(--navy) 55%, var(--navy-deep) 100%); color: #fff; border-radius: 24px; padding: clamp(2rem, 5vw, 3.5rem); text-align: center; }
+  .kp-final p { color: #D3DEE8; max-width: 40rem; margin: .6rem auto 0; }
+  .kp-final .kp-ctas { justify-content: center; }
+  @media (max-width: 980px) {
+    .kp-hero-grid, .kp-two, .kp-ways, .kp-duo { grid-template-columns: minmax(0, 1fr); }
+    .kp-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kp-feats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) { .kp-steps, .kp-feats { grid-template-columns: minmax(0, 1fr); } }
+</style>
